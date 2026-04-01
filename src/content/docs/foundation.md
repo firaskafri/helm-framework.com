@@ -100,18 +100,18 @@ Adoption is a team sport. Training, templates, shared rules files, and standardi
 
 These principles draw on observed patterns and published research. For readers who want to go deeper:
 
-- *Building Effective Agents* — Anthropic
-- *A Practical Guide to Building Agents* — OpenAI
-- *Scaling AI Requires New Processes* — BCG
-- *Seizing the Agentic AI Advantage* — McKinsey
-- *The Agentic Organization* — McKinsey
-- *Agentic AI Strategy* — Deloitte
-- *State of AI in the Enterprise 2026* — Deloitte
-- *Top Strategic Technology Trends 2026* — Gartner
-- *Cloud Adoption Framework* — Microsoft
-- *Building AI Agents Without Organizational Chaos* — Chrono Innovation
-- *The 8 Levels of Agentic Engineering* — Eledath
-- *Agentic Engineering for Software Teams* — vibecoding.app
+- [*Building Effective Agents*](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic
+- [*A Practical Guide to Building Agents*](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents) — OpenAI
+- [*Scaling AI Requires New Processes*](https://www.bcg.com/publications/2026/scaling-ai-requires-new-processes-not-just-new-tools) — BCG
+- [*Seizing the Agentic AI Advantage*](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage) — McKinsey
+- [*The Agentic Organization*](https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era) — McKinsey
+- [*Agentic AI Strategy*](https://www.deloitte.com/us/en/insights/topics/technology-management/tech-trends/2026/agentic-ai-strategy.html) — Deloitte
+- [*State of AI in the Enterprise 2026*](https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html) — Deloitte
+- [*Top Strategic Technology Trends 2026*](https://www.gartner.com/en/articles/top-technology-trends-2026) — Gartner
+- [*Cloud Adoption Framework*](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/) — Microsoft
+- [*Building AI Agents Without Organizational Chaos*](https://www.chronoinnovation.com/resources/ai-agents-team-structure) — Chrono Innovation
+- [*The 8 Levels of Agentic Engineering*](https://www.bassimeledath.com/blog/levels-of-agentic-engineering) — Eledath
+- [*Agentic Engineering for Software Teams*](https://vibecoding.app/blog/agentic-engineering-for-software-teams) — vibecoding.app
 
 ---
 
