@@ -1,0 +1,378 @@
+---
+import { TASK_MATRIX } from '../data/practitioners';
+import type { TaskMatrixCell } from '../data/practitioners';
+
+interface Props {}
+
+type Boundedness = TaskMatrixCell['boundedness'];
+type Risk = TaskMatrixCell['risk'];
+
+const boundednessLabels: Boundedness[] = ['well-bounded', 'semi-bounded', 'open-ended'];
+const riskLabels: Risk[] = ['low', 'medium', 'high'];
+const boundednessDisplay: Record<Boundedness, string> = {
+  'well-bounded': 'Well-bounded',
+  'semi-bounded': 'Semi-bounded',
+  'open-ended': 'Open-ended',
+};
+const riskDisplay: Record<Risk, string> = { low: 'Low', medium: 'Medium', high: 'High' };
+
+function cellColor(b: Boundedness, r: Risk): string {
+  const bIdx = boundednessLabels.indexOf(b);
+  const rIdx = riskLabels.indexOf(r);
+  const intensity = (bIdx + rIdx) / 4;
+  if (intensity <= 0.25) return 'tm-cell-green';
+  if (intensity <= 0.5) return 'tm-cell-teal';
+  if (intensity <= 0.75) return 'tm-cell-amber';
+  return 'tm-cell-red';
+}
+
+function getCell(b: string, r: string) {
+  const cell = TASK_MATRIX.find((c) => c.boundedness === b && c.risk === r);
+  if (!cell) throw new Error(`Missing TaskMatrix cell: ${b}/${r}`);
+  return cell;
+}
+---
+
+<div class="tm-wrap" id="task-matrix">
+  <div class="tm-grid-container">
+    <div class="tm-axis-y" aria-hidden="true">
+      <span class="tm-axis-title">Boundedness</span>
+    </div>
+    <div class="tm-grid" role="grid" aria-label="Task classification matrix">
+      <div class="tm-corner" aria-hidden="true" />
+      {riskLabels.map((r) => (
+        <div class="tm-col-header" role="columnheader">{riskDisplay[r]} Risk</div>
+      ))}
+      {boundednessLabels.map((b, bIdx) => (
+        <>
+          <div class="tm-row-header" role="rowheader">{boundednessDisplay[b]}</div>
+          {riskLabels.map((r, rIdx) => {
+            const cell = getCell(b, r);
+            const isDefault = bIdx === 0 && rIdx === 0;
+            return (
+              <button
+                class:list={['tm-cell', cellColor(b, r), isDefault && 'tm-cell-active']}
+                type="button"
+                role="gridcell"
+                data-b={b}
+                data-r={r}
+                aria-label={`${boundednessDisplay[b]}, ${riskDisplay[r]} risk: ${cell.agentRole}`}
+                tabindex={isDefault ? 0 : -1}
+              >
+                <span class="tm-cell-role">{cell.agentRole}</span>
+              </button>
+            );
+          })}
+        </>
+      ))}
+    </div>
+    <div class="tm-axis-x" aria-hidden="true">
+      <span class="tm-axis-title">Risk</span>
+    </div>
+  </div>
+
+  {TASK_MATRIX.map((cell) => {
+    const isDefault = cell.boundedness === 'well-bounded' && cell.risk === 'low';
+    return (
+      <div
+        class="tm-detail"
+        data-b={cell.boundedness}
+        data-r={cell.risk}
+        aria-live="polite"
+        hidden={!isDefault}
+      >
+        <div class="tm-detail-header">
+          <span class="helm-badge">{cell.agentRole}</span>
+          <span class="tm-detail-coords">
+            {boundednessDisplay[cell.boundedness]} / {riskDisplay[cell.risk]} Risk
+          </span>
+        </div>
+        <p class="tm-detail-desc">{cell.description}</p>
+        <div class="tm-detail-examples">
+          <div class="tm-example-col">
+            <h5 class="helm-label tm-example-title">Engineering</h5>
+            <ul>
+              {cell.engineeringExamples.map((ex) => <li>{ex}</li>)}
+            </ul>
+          </div>
+          <div class="tm-example-col">
+            <h5 class="helm-label tm-example-title">Product</h5>
+            <ul>
+              {cell.productExamples.map((ex) => <li>{ex}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<script>
+  const wrap = document.getElementById('task-matrix');
+  if (wrap) {
+    const cells = wrap.querySelectorAll<HTMLButtonElement>('.tm-cell');
+    const details = wrap.querySelectorAll<HTMLElement>('.tm-detail');
+    const cols = 3;
+    let activeIdx = 0;
+
+    function activate(idx: number) {
+      activeIdx = idx;
+      const btn = cells[idx];
+      const b = btn.dataset.b!;
+      const r = btn.dataset.r!;
+      cells.forEach((c, i) => {
+        c.classList.toggle('tm-cell-active', i === idx);
+        c.tabIndex = i === idx ? 0 : -1;
+      });
+      details.forEach((d) => {
+        d.hidden = !(d.dataset.b === b && d.dataset.r === r);
+      });
+    }
+
+    cells.forEach((c, i) => {
+      c.addEventListener('click', () => {
+        activate(i);
+        c.focus();
+      });
+      c.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next = activeIdx;
+        if (e.key === 'ArrowRight') next = activeIdx + 1 < cells.length ? activeIdx + 1 : activeIdx;
+        else if (e.key === 'ArrowLeft') next = activeIdx - 1 >= 0 ? activeIdx - 1 : activeIdx;
+        else if (e.key === 'ArrowDown') next = activeIdx + cols < cells.length ? activeIdx + cols : activeIdx;
+        else if (e.key === 'ArrowUp') next = activeIdx - cols >= 0 ? activeIdx - cols : activeIdx;
+        else return;
+        e.preventDefault();
+        activate(next);
+        cells[next].focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .tm-wrap {
+    margin: 2rem 0;
+  }
+
+  .tm-grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .tm-axis-y {
+    align-self: flex-start;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    margin-left: 0.25rem;
+    display: none;
+  }
+
+  .tm-axis-x {
+    margin-top: 0.5rem;
+  }
+
+  .tm-axis-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+  }
+
+  .tm-grid {
+    display: grid;
+    grid-template-columns: auto repeat(3, 1fr);
+    gap: 0;
+    width: 100%;
+    max-width: 640px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .tm-corner {
+    background: var(--color-ink);
+    padding: 0.6rem;
+  }
+
+  .tm-col-header {
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.6rem 0.5rem;
+    text-align: center;
+  }
+
+  .tm-row-header {
+    background: var(--color-cream-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    padding: 0.75rem 0.85rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tm-row-header:last-of-type {
+    border-bottom: none;
+  }
+
+  .tm-cell {
+    padding: 0.75rem 0.6rem;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
+    cursor: pointer;
+    text-align: center;
+    font-family: var(--font-sans);
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .tm-cell:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: -2px;
+    z-index: 1;
+  }
+
+  .tm-cell:hover {
+    filter: brightness(0.95);
+  }
+
+  .tm-cell-active {
+    box-shadow: inset 0 0 0 2.5px var(--color-ink);
+    z-index: 1;
+  }
+
+  .tm-cell-role {
+    font-size: 0.78rem;
+    font-weight: 600;
+    display: block;
+    line-height: 1.3;
+  }
+
+  .tm-cell-green  { background: color-mix(in srgb, var(--color-steel) 10%, white); }
+  .tm-cell-green .tm-cell-role { color: var(--color-steel); }
+
+  .tm-cell-teal   { background: color-mix(in srgb, var(--color-steel) 18%, white); }
+  .tm-cell-teal .tm-cell-role { color: var(--color-steel); }
+
+  .tm-cell-amber  { background: color-mix(in srgb, var(--color-terracotta) 10%, white); }
+  .tm-cell-amber .tm-cell-role { color: var(--color-terracotta); }
+
+  .tm-cell-red    { background: color-mix(in srgb, var(--color-terracotta) 18%, white); }
+  .tm-cell-red .tm-cell-role { color: var(--color-terracotta); }
+
+  /* Detail panel */
+  .tm-detail {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    animation: helm-panelIn 0.25s ease both;
+  }
+
+  .tm-detail[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tm-detail { animation: none; }
+  }
+
+  .tm-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* .tm-detail-badge uses .helm-badge from global.css */
+
+  .tm-detail-coords {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  .tm-detail-desc {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--color-ink-light);
+    margin: 0 0 1.25rem;
+    line-height: 1.55;
+  }
+
+  .tm-detail-examples {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .tm-example-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .tm-example-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .tm-example-col li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 0.88rem;
+    color: var(--color-ink);
+    line-height: 1.5;
+  }
+
+  .tm-example-col li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    opacity: 0.4;
+  }
+
+  @media (max-width: 640px) {
+    .tm-col-header {
+      font-size: 0.65rem;
+      padding: 0.5rem 0.35rem;
+    }
+
+    .tm-row-header {
+      font-size: 0.68rem;
+      padding: 0.6rem 0.5rem;
+    }
+
+    .tm-cell-role {
+      font-size: 0.68rem;
+    }
+
+    .tm-detail {
+      padding: 1.25rem;
+    }
+
+    .tm-detail-examples {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,357 @@
+---
+import { LOOP_PHASES } from '../data/practitioners';
+
+interface Props {}
+
+const phases = LOOP_PHASES;
+
+const nodePositions = [
+  { cx: 220, cy: 52 },
+  { cx: 388, cy: 168 },
+  { cx: 324, cy: 340 },
+  { cx: 116, cy: 340 },
+  { cx: 52, cy: 168 },
+];
+
+const arrowPaths = [
+  'M 248,62 Q 320,80 370,148',
+  'M 386,198 Q 380,270 338,322',
+  'M 296,348 Q 230,368 140,348',
+  'M 96,322 Q 56,270 50,198',
+  'M 62,148 Q 100,80 192,56',
+];
+---
+
+<div class="ol-wrap" id="operating-loop">
+  <div class="ol-ring-container">
+    <svg
+      class="ol-ring"
+      viewBox="0 0 440 400"
+      fill="none"
+      role="tablist"
+      aria-label="Operating loop phases"
+    >
+      {arrowPaths.map((d, i) => (
+        <path
+          class="ol-arrow"
+          d={d}
+          stroke="var(--color-border)"
+          stroke-width="1.5"
+          stroke-dasharray="6 4"
+          marker-end="url(#ol-arrowhead)"
+          style={`--i:${i}`}
+        />
+      ))}
+
+      <defs>
+        <marker
+          id="ol-arrowhead"
+          markerWidth="8"
+          markerHeight="6"
+          refX="7"
+          refY="3"
+          orient="auto"
+        >
+          <path d="M0,0 L8,3 L0,6" fill="var(--color-muted-light)" />
+        </marker>
+        <marker
+          id="ol-arrowhead-active"
+          markerWidth="8"
+          markerHeight="6"
+          refX="7"
+          refY="3"
+          orient="auto"
+        >
+          <path d="M0,0 L8,3 L0,6" fill="var(--color-terracotta)" />
+        </marker>
+      </defs>
+
+      {phases.map((phase, i) => (
+        <g
+          class="ol-node"
+          data-phase={phase.id}
+          role="tab"
+          id={`ol-tab-${phase.id}`}
+          aria-controls={`ol-panel-${phase.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          style={`--i:${i}`}
+        >
+          <circle
+            class="ol-node-bg"
+            cx={nodePositions[i].cx}
+            cy={nodePositions[i].cy}
+            r="36"
+          />
+          <text
+            class="ol-node-label"
+            x={nodePositions[i].cx}
+            y={nodePositions[i].cy + 1}
+            text-anchor="middle"
+            dominant-baseline="central"
+          >
+            {phase.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  </div>
+
+  {phases.map((phase, i) => (
+    <div
+      class="ol-panel"
+      id={`ol-panel-${phase.id}`}
+      role="tabpanel"
+      aria-labelledby={`ol-tab-${phase.id}`}
+      data-phase={phase.id}
+      hidden={i !== 0}
+    >
+      <div class="ol-panel-header">
+        <span class="helm-badge">{phase.label}</span>
+        <span class="ol-panel-owner">{phase.ownerLabel}</span>
+      </div>
+      <p class="ol-panel-summary">{phase.summary}</p>
+      <ul class="ol-panel-details">
+        {phase.details.map((d) => (
+          <li>{d}</li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<script>
+  const wrap = document.getElementById('operating-loop');
+  if (wrap) {
+    const nodes = wrap.querySelectorAll<SVGGElement>('.ol-node');
+    const panels = wrap.querySelectorAll<HTMLElement>('.ol-panel');
+    const arrows = wrap.querySelectorAll<SVGPathElement>('.ol-arrow');
+    const phaseIds = Array.from(nodes).map((n) => n.dataset.phase!);
+    let activeIdx = 0;
+
+    function activate(idx: number) {
+      activeIdx = idx;
+      nodes.forEach((n, i) => {
+        const on = i === idx;
+        n.classList.toggle('ol-node-active', on);
+        n.setAttribute('aria-selected', String(on));
+        n.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        p.hidden = p.dataset.phase !== phaseIds[idx];
+      });
+      arrows.forEach((a, i) => {
+        const isActive = i === idx;
+        a.classList.toggle('ol-arrow-active', isActive);
+        a.setAttribute(
+          'marker-end',
+          isActive ? 'url(#ol-arrowhead-active)' : 'url(#ol-arrowhead)',
+        );
+      });
+    }
+
+    nodes.forEach((n, i) => {
+      n.addEventListener('click', () => activate(i));
+      n.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next = activeIdx;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          next = (activeIdx + 1) % phaseIds.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          next = (activeIdx - 1 + phaseIds.length) % phaseIds.length;
+        } else {
+          return;
+        }
+        e.preventDefault();
+        activate(next);
+        nodes[next].focus();
+      });
+    });
+
+  }
+
+  import { observeEntrance } from '../lib/observeEntrance';
+  observeEntrance('operating-loop', 'ol-visible', 0.2);
+</script>
+
+<style>
+  .ol-wrap {
+    margin: 2rem 0;
+  }
+
+  .ol-ring-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .ol-ring {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+  }
+
+  .ol-arrow {
+    transition: stroke 0.3s ease;
+  }
+
+  .ol-arrow-active {
+    stroke: var(--color-terracotta);
+    stroke-dasharray: none;
+  }
+
+  .ol-node {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .ol-node-bg {
+    fill: white;
+    stroke: var(--color-border);
+    stroke-width: 2;
+    transition: fill 0.25s ease, stroke 0.25s ease, r 0.25s ease;
+  }
+
+  .ol-node:hover .ol-node-bg,
+  .ol-node:focus-visible .ol-node-bg {
+    stroke: var(--color-terracotta-light);
+  }
+
+  .ol-node:focus-visible .ol-node-bg {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 4px;
+    stroke: var(--color-terracotta);
+  }
+
+  .ol-node-active .ol-node-bg {
+    fill: var(--color-terracotta);
+    stroke: var(--color-terracotta);
+  }
+
+  .ol-node-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--color-ink);
+    pointer-events: none;
+    transition: fill 0.25s ease;
+  }
+
+  .ol-node-active .ol-node-label {
+    fill: white;
+  }
+
+  /* Entrance animation */
+  .ol-node {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .ol-visible .ol-node {
+    animation: helm-slideUp 0.4s var(--ease-out-quart) both;
+    animation-delay: calc(var(--i) * 80ms);
+  }
+
+  .ol-arrow {
+    opacity: 0;
+  }
+
+  .ol-visible .ol-arrow {
+    animation: helm-fadeIn 0.5s ease both;
+    animation-delay: calc(var(--i) * 80ms + 200ms);
+  }
+
+  @keyframes helm-fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ol-node,
+    .ol-arrow {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+  }
+
+  /* Detail panel */
+  .ol-panel {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    animation: helm-panelIn 0.3s ease both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ol-panel {
+      animation: none;
+    }
+  }
+
+  .ol-panel[hidden] {
+    display: none;
+  }
+
+  .ol-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .ol-panel-owner {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+
+  .ol-panel-summary {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--color-ink-light);
+    line-height: 1.55;
+    margin: 0 0 1rem;
+  }
+
+  .ol-panel-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .ol-panel-details li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+    color: var(--color-ink);
+    line-height: 1.55;
+  }
+
+  .ol-panel-details li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 640px) {
+    .ol-ring {
+      max-width: 320px;
+    }
+
+    .ol-panel {
+      padding: 1.25rem;
+    }
+  }
+</style>

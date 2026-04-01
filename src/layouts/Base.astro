@@ -1,0 +1,88 @@
+---
+import { SITE_NAME, SITE_AUTHOR } from '../data/site';
+import { resolveSiteOrigin, resolveOgImage } from '../lib/resolveSiteOrigin';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Override the computed `<title>`. Falls back to `${title} — ${SITE_NAME}`. */
+  fullTitle?: string;
+  /** Absolute URL or path under `public/` (e.g. `/og-default.png`). */
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = 'A framework for tech teams operating with AI agents.',
+  fullTitle = `${title} — ${SITE_NAME}`,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+
+const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
+const ogImageAbsolute = resolveOgImage(ogImage, siteOrigin);
+
+const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
+const ldJsonBlocks = jsonLd.map((obj) => JSON.stringify(obj));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE_AUTHOR} />
+    <meta name="robots" content={robotsContent} />
+    <!-- Matches @theme --color-cream in global.css (meta theme-color cannot use CSS variables) -->
+    <meta name="theme-color" content="#FDFBF7" />
+    <title>{fullTitle}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE_NAME} — guides and roles`}
+      href="/rss.xml"
+    />
+
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300..800&display=swap"
+      rel="stylesheet"
+    />
+
+    {ldJsonBlocks.map((raw) => (
+      <script type="application/ld+json" set:html={raw} />
+    ))}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main-content" class="helm-skip-link">Skip to content</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

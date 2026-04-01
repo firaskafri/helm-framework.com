@@ -1,0 +1,163 @@
+---
+import { getCollection } from 'astro:content';
+import { SITE_FULL_NAME, SITE_NAME } from '../data/site';
+import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import PrincipleCard from '../components/PrincipleCard.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import Footer from '../components/Footer.astro';
+
+const docs = await getCollection('docs');
+const foundation = docs.find((d) => d.id === 'foundation');
+const principles = foundation?.data.principles ?? [];
+
+const roles = await getCollection('roles');
+const sortedRoles = [...roles].sort((a, b) => a.data.order - b.data.order);
+
+const homeDescription =
+  'HELM (Human-first Execution and Leadership Model): principles, practitioner and leadership guides, and AI-era role definitions for product development teams.';
+
+const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
+const homeUrl = new URL('/', siteOrigin).href;
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  alternateName: SITE_FULL_NAME,
+  url: homeUrl,
+  description: `${SITE_FULL_NAME} — a framework for tech teams operating with AI agents.`,
+};
+---
+
+<Base
+  title="Home"
+  fullTitle={`${SITE_NAME} — ${SITE_FULL_NAME}`}
+  description={homeDescription}
+  jsonLd={[websiteJsonLd]}
+>
+  <Nav />
+
+  <main id="main-content">
+  <Hero
+    title={SITE_NAME}
+    subtitle="An operating framework for product development teams building with AI agents. Principles, patterns, guardrails, and a roadmap for adoption."
+  />
+
+  <section class="px-6 pb-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-baseline justify-between mb-10">
+        <div>
+          <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
+            Principles
+          </p>
+          <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
+            Six non-negotiable foundations
+          </h2>
+        </div>
+        <a href="/foundation" class="hidden md:inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-light)] no-underline transition-colors">
+          Read all
+          <ArrowIcon class="ml-1 w-4 h-4" />
+        </a>
+      </div>
+      <div class="flex flex-wrap -m-4">
+        {principles.map((p) => (
+          <div class="p-4 w-full md:w-1/3 flex">
+            <PrincipleCard {...p} />
+          </div>
+        ))}
+      </div>
+      <div class="mt-6 md:hidden">
+        <a href="/foundation" class="inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] no-underline">
+          Read all principles
+          <ArrowIcon class="ml-1 w-4 h-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <a href="/practitioners" class="group block no-underline">
+          <article class="h-full p-8 md:p-10 border border-[var(--color-border)] rounded-xl hover:border-[var(--color-terracotta)] transition-all bg-white/50">
+            <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
+              For Practitioners
+            </p>
+            <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-4 group-hover:text-[var(--color-terracotta)] transition-colors">
+              How we build and operate with agents
+            </h3>
+            <ul class="text-[var(--color-ink-light)] text-sm space-y-2 mb-6 list-none p-0">
+              <li>Agent architecture patterns and composition</li>
+              <li>The 5-layer guardrail stack</li>
+              <li>Plan-Execute-Verify-Ship-Learn loop with product and engineering ownership</li>
+              <li>Task classification for engineering and product tasks</li>
+              <li>Maturity model with product dimensions</li>
+            </ul>
+            <span class="inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] group-hover:text-[var(--color-terracotta-light)] transition-colors">
+              Read the guide
+              <ArrowIcon class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </span>
+          </article>
+        </a>
+
+        <a href="/leadership" class="group block no-underline">
+          <article class="h-full p-8 md:p-10 border border-[var(--color-border)] rounded-xl hover:border-[var(--color-steel)] transition-all bg-white/50">
+            <p class="text-[var(--color-steel)] font-medium text-sm tracking-widest uppercase mb-4">
+              For Leaders
+            </p>
+            <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-4 group-hover:text-[var(--color-steel)] transition-colors">
+              How we structure, adopt, and measure
+            </h3>
+            <ul class="text-[var(--color-ink-light)] text-sm space-y-2 mb-6 list-none p-0">
+              <li>Team structure: engineering and product roles with authority</li>
+              <li>Decision rights matrix across product and engineering</li>
+              <li>180-day adoption roadmap with exit criteria</li>
+              <li>Delivery and product outcome KPIs</li>
+              <li>Six failure modes and mitigations</li>
+            </ul>
+            <span class="inline-flex items-center text-sm font-medium text-[var(--color-steel)] group-hover:text-[var(--color-steel-light)] transition-colors">
+              Read the guide
+              <ArrowIcon class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </span>
+          </article>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-20">
+    <div class="max-w-6xl mx-auto">
+      <a href="/roles" class="group block no-underline">
+        <article class="p-8 md:p-10 border border-[var(--color-border)] rounded-xl hover:border-[var(--color-terracotta)] transition-all bg-white/50">
+          <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
+            Roles &amp; Job Descriptions
+          </p>
+          <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-4 group-hover:text-[var(--color-terracotta)] transition-colors">
+            How every role transforms in the AI era
+          </h3>
+          <p class="text-[var(--color-ink-light)] text-sm leading-relaxed mb-6 max-w-2xl">
+            From Software Engineer to Product Designer — how traditional roles fundamentally change when AI agents become part of the team. Includes transformed job descriptions, interview approaches, and the competencies that matter now.
+          </p>
+          <div class="flex flex-wrap items-center gap-1.5 mb-6">
+            {sortedRoles.map((role) => (
+              <span class="px-2.5 py-1 rounded text-xs bg-[var(--color-cream-dark)] text-[var(--color-ink-light)] border border-[var(--color-border)]">{role.data.title}</span>
+            ))}
+            <span class="text-xs font-medium text-[var(--color-muted)] uppercase tracking-wider ml-2">{sortedRoles.length} roles</span>
+          </div>
+          <span class="inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] group-hover:text-[var(--color-terracotta-light)] transition-colors">
+            Explore roles
+            <ArrowIcon class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </span>
+        </article>
+      </a>
+    </div>
+  </section>
+  </main>
+
+  <Footer />
+</Base>

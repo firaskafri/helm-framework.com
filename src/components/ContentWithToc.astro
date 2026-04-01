@@ -1,0 +1,32 @@
+---
+import TableOfContents from './TableOfContents.astro';
+
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+---
+
+<div class="lg:hidden mb-8 border border-[var(--color-border)] rounded-lg p-5">
+  <details>
+    <summary class="text-sm font-semibold text-[var(--color-ink)] cursor-pointer">
+      Table of contents
+    </summary>
+    <div class="mt-4">
+      <TableOfContents headings={headings} />
+    </div>
+  </details>
+</div>
+
+<div class="flex gap-16">
+  <article class="prose guide-content min-w-0 max-w-3xl flex-1">
+    <slot />
+  </article>
+
+  <aside class="hidden lg:block w-64 flex-shrink-0">
+    <div class="sticky top-24">
+      <TableOfContents headings={headings} />
+    </div>
+  </aside>
+</div>

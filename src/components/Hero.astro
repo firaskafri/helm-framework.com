@@ -1,0 +1,44 @@
+---
+import ArrowIcon from './ArrowIcon.astro';
+import { SITE_FULL_NAME } from '../data/site';
+
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<section class="pt-32 pb-20 md:pt-40 md:pb-28 px-6">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-6">
+      Framework
+    </p>
+    <h1 class="font-[var(--font-serif)] text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-3">
+      {title}
+    </h1>
+    <p class="text-sm md:text-base text-[var(--color-muted)] tracking-wide uppercase mb-6">
+      {SITE_FULL_NAME}
+    </p>
+    <p class="text-xl md:text-2xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
+      {subtitle}
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 mt-10">
+      <a
+        href="/practitioners"
+        class="inline-flex items-center justify-center px-7 py-3.5 bg-[var(--color-ink)] text-[var(--color-cream)] font-medium text-sm rounded-lg hover:bg-[var(--color-ink-light)] transition-colors no-underline"
+      >
+        Practitioner Guide
+        <ArrowIcon class="ml-2 w-4 h-4" />
+      </a>
+      <a
+        href="/leadership"
+        class="inline-flex items-center justify-center px-7 py-3.5 border border-[var(--color-ink)] text-[var(--color-ink)] font-medium text-sm rounded-lg hover:bg-[var(--color-ink)] hover:text-[var(--color-cream)] transition-colors no-underline"
+      >
+        Leadership Guide
+        <ArrowIcon class="ml-2 w-4 h-4" />
+      </a>
+    </div>
+  </div>
+</section>

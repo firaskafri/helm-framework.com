@@ -1,0 +1,140 @@
+---
+import type { RoleView } from '../lib/competencyMap';
+import { gapPercent } from '../lib/competencyMap';
+
+interface Props {
+  role: RoleView;
+  index: number;
+}
+
+const { role, index } = Astro.props;
+const gap = gapPercent(role);
+const foundation = 100 - gap;
+const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--color-steel';
+---
+
+<div
+  class="ce-role"
+  role="tabpanel"
+  id={`ce-panel-${role.id}`}
+  aria-labelledby={`ce-tab-${role.id}`}
+  data-role={role.id}
+  hidden={index > 0}
+>
+  <div class="ce-header">
+    <h2 class="ce-header-top">
+      <div class="ce-header-from">
+        <span class="ce-label">Traditional Role</span>
+        <span class="ce-header-title">{role.fromTitle}</span>
+        <span class="ce-header-aliases">{role.aliases.join(' \u00B7 ')}</span>
+      </div>
+      <div class="ce-header-arrow" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="20" cy="20" r="19" stroke={`var(${accentVar})`} stroke-width="1.5" stroke-dasharray="3 3" opacity="0.4" />
+          <path d="M15 20H25M25 20L21 16M25 20L21 24" stroke={`var(${accentVar})`} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div class="ce-header-to">
+        <span class="ce-label">AI-Era Role</span>
+        <span class="ce-header-title" style={`color:var(${accentVar})`}>{role.toTitle}</span>
+      </div>
+    </h2>
+    <p class="ce-header-subtitle">{role.subtitle}</p>
+
+    <div class="ce-stats">
+      <div class="ce-stat">
+        <span class="ce-stat-num ce-stat-evolved">{role.evolved.length}</span>
+        <span class="ce-stat-label">Evolved</span>
+      </div>
+      <div class="ce-stat">
+        <span class="ce-stat-num ce-stat-gap">{role.gaps.length}</span>
+        <span class="ce-stat-label">New Gaps</span>
+      </div>
+      <div class="ce-stat">
+        <span class="ce-stat-num ce-stat-dep">{role.deprecated.length}</span>
+        <span class="ce-stat-label">Sunset</span>
+      </div>
+    </div>
+
+    <div class="ce-gap-wrap">
+      <div class="ce-gap-labels">
+        <span>Foundation you build on</span>
+        <span>New areas to develop</span>
+      </div>
+      <div class="ce-gap-bar">
+        <div class="ce-gap-bar-fill ce-gap-bar-evolved" style={`width:${foundation}%`}></div>
+        <div class="ce-gap-bar-fill ce-gap-bar-new" style={`width:${gap}%`}></div>
+      </div>
+      <div class="ce-gap-labels ce-gap-labels-pct">
+        <span>{foundation}% existing foundation</span>
+        <span>{gap}% new competencies</span>
+      </div>
+    </div>
+
+    <a href={`/roles/${role.slug}`} class="ce-jd-link">
+      Read full job description
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+    </a>
+  </div>
+
+  <div class="ce-section">
+    <div class="ce-section-head">
+      <span class="ce-section-badge ce-badge-evolved">Evolved</span>
+      <h3 class="ce-section-title">Competencies that carry over &mdash; transformed</h3>
+      <p class="ce-section-desc">These build on your existing foundation. The core skill survives but the application, scope, and context change fundamentally.</p>
+    </div>
+    <div class="ce-cards">
+      {role.evolved.map((c, i) => (
+        <article class="ce-card ce-card-evolved" style={`animation-delay:${i * 60}ms`}>
+          <div class="ce-card-was">
+            <span class="ce-card-was-label">Was</span>
+            <span class="ce-card-was-text">{c.was}</span>
+          </div>
+          <div class="ce-card-arrow-down" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracotta)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+          </div>
+          <div>
+            <span class="ce-card-now-label">Now</span>
+            <span class="ce-card-now-title">{c.now}</span>
+            <p class="ce-card-now-desc">{c.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div class="ce-section">
+    <div class="ce-section-head">
+      <span class="ce-section-badge ce-badge-gap">New Gaps</span>
+      <h3 class="ce-section-title">Entirely new competencies to develop</h3>
+      <p class="ce-section-desc">No traditional equivalent exists. These represent genuine skill gaps that require deliberate investment to close.</p>
+    </div>
+    <div class="ce-cards">
+      {role.gaps.map((c, i) => (
+        <article class="ce-card ce-card-gap" style={`animation-delay:${(role.evolved.length + i) * 60}ms`}>
+          <div class="ce-card-gap-head">
+            <span class="ce-card-gap-badge">NEW</span>
+            <span class="ce-card-now-title">{c.title}</span>
+          </div>
+          <p class="ce-card-now-desc">{c.desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div class="ce-section">
+    <div class="ce-section-head">
+      <span class="ce-section-badge ce-badge-dep">Sunset</span>
+      <h3 class="ce-section-title">What we no longer screen for</h3>
+      <p class="ce-section-desc">These were reasonable signals in the pre-AI era. They are no longer reliable predictors of contribution in agent-augmented teams.</p>
+    </div>
+    <div class="ce-dep-list">
+      {role.deprecated.map((d, i) => (
+        <div class="ce-dep-item" style={`animation-delay:${(role.evolved.length + role.gaps.length + i) * 40}ms`}>
+          <svg class="ce-dep-x" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          <span>{d}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,423 @@
+---
+import { ADOPTION_PHASES } from '../data/leadership';
+
+interface Props {}
+
+const phases = ADOPTION_PHASES;
+---
+
+<div class="at-wrap" id="adoption-timeline">
+  <div class="at-timeline" role="tablist" aria-label="Adoption roadmap phases">
+    <div class="at-track" aria-hidden="true">
+      <div class="at-track-fill" />
+    </div>
+    {phases.map((phase, i) => (
+      <button
+        class:list={['at-node', i === 0 && 'at-node-active']}
+        type="button"
+        role="tab"
+        id={`at-tab-${phase.number}`}
+        aria-controls={`at-panel-${phase.number}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        data-phase={phase.number}
+        style={`--i:${i}`}
+      >
+        <span class="at-node-days">{phase.days}</span>
+        <span class="at-node-circle">{phase.number}</span>
+        <span class="at-node-name">{phase.name}</span>
+      </button>
+    ))}
+  </div>
+
+  {phases.map((phase, i) => (
+    <div
+      class="at-panel"
+      id={`at-panel-${phase.number}`}
+      role="tabpanel"
+      aria-labelledby={`at-tab-${phase.number}`}
+      data-phase={phase.number}
+      hidden={i !== 0}
+    >
+      <div class="at-goal">
+        <svg class="at-goal-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="6" />
+          <circle cx="12" cy="12" r="2" />
+        </svg>
+        <span>{phase.goal}</span>
+      </div>
+
+      <div class="at-sections">
+        <div class="at-section">
+          <h5 class="helm-label at-section-title">Activities</h5>
+          <ul class="at-list">
+            {phase.activities.map((a) => <li>{a}</li>)}
+          </ul>
+          <p class="at-product-note">
+            <span class="at-product-badge">Product</span>
+            {phase.productNote}
+          </p>
+        </div>
+
+        <div class="at-section">
+          <h5 class="helm-label at-section-title">Exit Criteria</h5>
+          <ul class="at-checklist">
+            {phase.exitCriteria.map((c) => (
+              <li>
+                <svg class="at-check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>{c}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="at-section at-risks">
+          <h5 class="helm-label at-section-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            Risk Mitigations
+          </h5>
+          <ul class="at-list">
+            {phase.riskMitigations.map((r) => <li>{r}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  const wrap = document.getElementById('adoption-timeline');
+  if (wrap) {
+    const nodes = wrap.querySelectorAll<HTMLButtonElement>('.at-node');
+    const panels = wrap.querySelectorAll<HTMLElement>('.at-panel');
+    const trackFill = wrap.querySelector<HTMLElement>('.at-track-fill');
+    let activeIdx = 0;
+
+    function activate(idx: number) {
+      activeIdx = idx;
+      nodes.forEach((n, i) => {
+        const on = i === idx;
+        n.classList.toggle('at-node-active', on);
+        n.classList.toggle('at-node-past', i < idx);
+        n.setAttribute('aria-selected', String(on));
+        n.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        p.hidden = Number(p.dataset.phase) !== idx + 1;
+      });
+      if (trackFill) {
+        const progress = nodes.length > 1 ? (idx / (nodes.length - 1)) * 100 : 0;
+        trackFill.style.width = `${progress}%`;
+      }
+    }
+
+    nodes.forEach((n, i) => {
+      n.addEventListener('click', () => activate(i));
+      n.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next = activeIdx;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          next = Math.min(activeIdx + 1, nodes.length - 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          next = Math.max(activeIdx - 1, 0);
+        } else return;
+        e.preventDefault();
+        activate(next);
+        nodes[next].focus();
+      });
+    });
+
+  }
+
+  import { observeEntrance } from '../lib/observeEntrance';
+  observeEntrance('adoption-timeline', 'at-visible');
+</script>
+
+<style>
+  .at-wrap {
+    margin: 2rem 0;
+  }
+
+  .at-timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 0.5rem 0;
+  }
+
+  .at-track {
+    position: absolute;
+    top: calc(1.5rem + 14px + 16px);
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background: var(--color-border);
+    border-radius: 2px;
+  }
+
+  .at-track-fill {
+    height: 100%;
+    background: var(--color-terracotta);
+    border-radius: 2px;
+    width: 0;
+    transition: width 0.4s ease;
+  }
+
+  .at-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1;
+    outline: none;
+    opacity: 0;
+  }
+
+  .at-visible .at-node {
+    animation: helm-slideUp 0.35s var(--ease-out-quart) both;
+    animation-delay: calc(var(--i) * 100ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .at-node {
+      opacity: 1;
+      animation: none !important;
+    }
+    .at-track-fill { transition: none; }
+  }
+
+  .at-node-days {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .at-node-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2.5px solid var(--color-border);
+    background: white;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-muted);
+    transition: all 0.25s ease;
+  }
+
+  .at-node:hover .at-node-circle {
+    border-color: var(--color-terracotta-light);
+  }
+
+  .at-node:focus-visible .at-node-circle {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 3px;
+  }
+
+  .at-node-past .at-node-circle {
+    border-color: var(--color-terracotta);
+    background: color-mix(in srgb, var(--color-terracotta) 10%, white);
+    color: var(--color-terracotta);
+  }
+
+  .at-node-active .at-node-circle {
+    border-color: var(--color-terracotta);
+    background: var(--color-terracotta);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .at-node-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-align: center;
+    max-width: 90px;
+    transition: color 0.2s ease;
+  }
+
+  .at-node-active .at-node-name {
+    color: var(--color-terracotta);
+  }
+
+  /* Panel */
+  .at-panel {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    animation: helm-panelIn 0.3s ease both;
+  }
+
+  .at-panel[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .at-panel { animation: none; }
+  }
+
+  .at-goal {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: var(--color-cream);
+    border-radius: 8px;
+    border-left: 3px solid var(--color-terracotta);
+    margin-bottom: 1.5rem;
+  }
+
+  .at-goal-icon {
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    color: var(--color-terracotta);
+  }
+
+  .at-goal span {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--color-ink-light);
+    line-height: 1.55;
+  }
+
+  .at-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .at-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .at-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .at-list li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.88rem;
+    color: var(--color-ink);
+    line-height: 1.55;
+  }
+
+  .at-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    opacity: 0.4;
+  }
+
+  .at-product-note {
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+    color: var(--color-ink-light);
+    line-height: 1.55;
+    padding: 0.6rem 0.85rem;
+    background: color-mix(in srgb, var(--color-steel) 6%, white);
+    border-radius: 6px;
+  }
+
+  .at-product-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: var(--color-steel);
+    color: white;
+    margin-right: 0.4rem;
+    vertical-align: 0.1em;
+  }
+
+  .at-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .at-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--color-ink);
+    line-height: 1.5;
+  }
+
+  .at-check-icon {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--color-terracotta);
+  }
+
+  .at-risks {
+    padding: 1rem;
+    background: color-mix(in srgb, var(--color-terracotta) 4%, white);
+    border: 1px solid color-mix(in srgb, var(--color-terracotta) 15%, var(--color-border));
+    border-radius: 8px;
+  }
+
+  .at-risks .at-section-title {
+    color: var(--color-terracotta);
+  }
+
+  @media (max-width: 640px) {
+    .at-timeline {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 0.5rem;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .at-timeline::-webkit-scrollbar { display: none; }
+
+    .at-node-name {
+      font-size: 0.62rem;
+      max-width: 70px;
+    }
+
+    .at-panel {
+      padding: 1.25rem;
+    }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+import { SITE_NAME, SITE_AUTHOR, SITE_AUTHOR_URL, NAV_LINKS } from '../data/site';
+import HelmMark from './HelmMark.astro';
+
+const footerLinks = NAV_LINKS;
+---
+
+<footer class="mt-auto border-t border-[var(--color-border)] py-12 px-6">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div>
+      <p class="flex items-center gap-2 font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mb-1">
+        <HelmMark class="w-6 h-6 shrink-0" />
+        {SITE_NAME}
+      </p>
+      <p class="text-sm text-[var(--color-muted)]">
+        &copy; {new Date().getFullYear()} <a href={SITE_AUTHOR_URL} target="_blank" rel="noopener noreferrer" class="text-[var(--color-muted)] hover:text-[var(--color-terracotta)] transition-colors">{SITE_AUTHOR}</a>
+      </p>
+    </div>
+    <nav class="flex flex-wrap gap-6">
+      {footerLinks.map((link) => (
+        <a href={link.href} class="text-sm text-[var(--color-muted)] hover:text-[var(--color-terracotta)] no-underline transition-colors">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</footer>

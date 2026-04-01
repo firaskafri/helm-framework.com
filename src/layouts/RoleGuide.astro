@@ -1,0 +1,174 @@
+---
+import { marked } from 'marked';
+import Base from './Base.astro';
+import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
+import { buildBreadcrumbList, buildWebPageJsonLd } from '../lib/jsonLd';
+import Nav from '../components/Nav.astro';
+import ContentWithToc from '../components/ContentWithToc.astro';
+import Footer from '../components/Footer.astro';
+
+interface Competency {
+  title: string;
+  description: string;
+  evolved_from?: string;
+}
+
+interface InterviewMethod {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  category: 'engineering' | 'product';
+  evolved_from: string[];
+  maps_to: string;
+  core_mission: string;
+  key_responsibilities: string[];
+  competencies: Competency[];
+  no_longer_screen_for: string[];
+  interview_methods: InterviewMethod[];
+  day_in_life: string;
+  helm_connection: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const {
+  title, subtitle, description, category, evolved_from, maps_to,
+  core_mission, key_responsibilities, competencies,
+  no_longer_screen_for, interview_methods,
+  day_in_life, helm_connection, headings,
+} = Astro.props;
+
+const colorClasses = {
+  engineering: {
+    badge: 'text-[var(--color-terracotta)] bg-[var(--color-terracotta)]/8',
+    helmTag: 'bg-[var(--color-terracotta)]/10 text-[var(--color-terracotta)]',
+  },
+  product: {
+    badge: 'text-[var(--color-steel)] bg-[var(--color-steel)]/8',
+    helmTag: 'bg-[var(--color-steel)]/10 text-[var(--color-steel)]',
+  },
+} as const;
+
+const colors = colorClasses[category];
+
+const allHeadings = [
+  ...headings,
+  { depth: 2, slug: 'the-transformed-role', text: 'The Transformed Role' },
+  { depth: 3, slug: 'core-mission', text: 'Core Mission' },
+  { depth: 3, slug: 'key-responsibilities', text: 'Key Responsibilities' },
+  { depth: 3, slug: 'required-competencies', text: 'Required Competencies' },
+  { depth: 3, slug: 'what-we-no-longer-screen-for', text: 'What We No Longer Screen For' },
+  { depth: 3, slug: 'how-we-interview', text: 'How We Interview' },
+  { depth: 2, slug: 'day-in-the-life', text: 'Day in the Life' },
+  { depth: 2, slug: 'connection-to-helm', text: 'Connection to HELM' },
+];
+
+const dayInLifeHtml = await marked.parse(day_in_life);
+const helmConnectionHtml = await marked.parse(helm_connection);
+
+const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
+const pageUrl = new URL(Astro.url.pathname, siteOrigin).href;
+const homeUrl = new URL('/', siteOrigin).href;
+const rolesIndexUrl = new URL('/roles', siteOrigin).href;
+
+const jsonLd = [
+  buildBreadcrumbList([
+    { name: 'Home', url: homeUrl },
+    { name: 'Roles', url: rolesIndexUrl },
+    { name: subtitle, url: pageUrl },
+  ]),
+  buildWebPageJsonLd({ headline: subtitle, description, url: pageUrl, homeUrl }),
+];
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <Nav />
+
+  <main id="main-content" class="pt-24 md:pt-28 pb-16 px-6">
+    <div class="max-w-7xl mx-auto">
+
+      <header class="max-w-3xl mb-12 md:mb-16">
+        <div class="flex items-center gap-3 mb-5">
+          <a href="/roles" class="text-sm text-[var(--color-muted)] hover:text-[var(--color-terracotta)] no-underline transition-colors">Roles</a>
+          <span class="text-[var(--color-muted-light)]">/</span>
+          <span class:list={['inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider', colors.badge]}>
+            {category}
+          </span>
+        </div>
+
+        <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-4">
+          {subtitle}
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6 pt-6 border-t border-[var(--color-border)]">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)]">Evolved from</span>
+            <div class="flex flex-wrap gap-1.5">
+              {evolved_from.map((role) => (
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[var(--color-cream-dark)] text-[var(--color-ink-light)] border border-[var(--color-border)]">
+                  {role}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)]">HELM role</span>
+            <span class:list={['inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold', colors.helmTag]}>
+              {maps_to}
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <ContentWithToc headings={allHeadings}>
+        <slot />
+
+        <h2 id="the-transformed-role">The Transformed Role</h2>
+
+        <h3 id="core-mission">Core Mission</h3>
+        <p>{core_mission}</p>
+
+        <h3 id="key-responsibilities">Key Responsibilities</h3>
+        <ul>
+          {key_responsibilities.map((r) => (
+            <li>{r}</li>
+          ))}
+        </ul>
+
+        <h3 id="required-competencies">Required Competencies</h3>
+        <ul>
+          {competencies.map((c) => (
+            <li><strong>{c.title}</strong> — {c.description}</li>
+          ))}
+        </ul>
+
+        <h3 id="what-we-no-longer-screen-for">What We No Longer Screen For</h3>
+        <ul>
+          {no_longer_screen_for.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+
+        <h3 id="how-we-interview">How We Interview</h3>
+        <ul>
+          {interview_methods.map((m) => (
+            <li><strong>{m.title}</strong> — {m.description}</li>
+          ))}
+        </ul>
+
+        <h2 id="day-in-the-life">Day in the Life</h2>
+        <Fragment set:html={dayInLifeHtml} />
+
+        <h2 id="connection-to-helm">Connection to HELM</h2>
+        <Fragment set:html={helmConnectionHtml} />
+      </ContentWithToc>
+
+    </div>
+  </main>
+
+  <Footer />
+</Base>

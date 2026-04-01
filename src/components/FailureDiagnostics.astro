@@ -1,0 +1,355 @@
+---
+import { FAILURE_MODES } from '../data/leadership';
+
+interface Props {}
+
+const modes = FAILURE_MODES;
+---
+
+<div class="fd-wrap" id="failure-diagnostics">
+  <div class="fd-scan-bar" aria-label="Quick navigation to failure modes">
+    {modes.map((m) => (
+      <button
+        class="fd-pill"
+        type="button"
+        data-target={`fd-card-${m.number}`}
+      >
+        <span class="fd-pill-num">{m.number}</span>
+        {m.name}
+      </button>
+    ))}
+  </div>
+
+  <div class="fd-cards">
+    {modes.map((m, i) => (
+      <div class="fd-card" id={`fd-card-${m.number}`} style={`--i:${i}`}>
+        <button
+          class="fd-card-header"
+          type="button"
+          aria-expanded="false"
+          aria-controls={`fd-content-${m.number}`}
+        >
+          <span class="fd-card-num">{m.number}</span>
+          <div class="fd-card-title-area">
+            <span class="fd-card-name">{m.name}</span>
+            <p class="fd-card-symptom">{m.symptom}</p>
+          </div>
+          <svg class="fd-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="fd-content-wrap" id={`fd-content-${m.number}`}>
+          <div class="fd-content">
+            <div class="fd-cause">
+              <h5 class="helm-label fd-content-label">Root Cause</h5>
+              <p>{m.rootCause}</p>
+            </div>
+            <div class="fd-mitigations">
+              <h5 class="helm-label fd-content-label">Mitigation</h5>
+              <ul>
+                {m.mitigations.map((mit) => <li>{mit}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  const wrap = document.getElementById('failure-diagnostics');
+  if (wrap) {
+    const headers = wrap.querySelectorAll<HTMLButtonElement>('.fd-card-header');
+    const pills = wrap.querySelectorAll<HTMLButtonElement>('.fd-pill');
+
+    function toggleCard(header: HTMLButtonElement) {
+      const isOpen = header.getAttribute('aria-expanded') === 'true';
+      headers.forEach((h) => {
+        h.setAttribute('aria-expanded', 'false');
+        h.closest('.fd-card')?.classList.remove('fd-card-open');
+      });
+      if (!isOpen) {
+        header.setAttribute('aria-expanded', 'true');
+        header.closest('.fd-card')?.classList.add('fd-card-open');
+      }
+    }
+
+    headers.forEach((h, idx) => {
+      h.addEventListener('click', () => toggleCard(h));
+      h.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next = idx;
+        if (e.key === 'ArrowDown') next = Math.min(idx + 1, headers.length - 1);
+        else if (e.key === 'ArrowUp') next = Math.max(idx - 1, 0);
+        else return;
+        e.preventDefault();
+        headers[next].focus();
+      });
+    });
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const targetId = pill.dataset.target!;
+        const card = document.getElementById(targetId);
+        if (!card) return;
+        const header = card.querySelector<HTMLButtonElement>('.fd-card-header');
+        if (!header) return;
+        if (header.getAttribute('aria-expanded') !== 'true') {
+          toggleCard(header);
+        }
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        header.focus({ preventScroll: true });
+      });
+    });
+
+  }
+
+  import { observeEntrance } from '../lib/observeEntrance';
+  observeEntrance('failure-diagnostics', 'fd-visible', 0.1);
+</script>
+
+<style>
+  .fd-wrap {
+    margin: 2rem 0;
+  }
+
+  .fd-scan-bar {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-bottom: 1.25rem;
+    padding-bottom: 2px;
+  }
+
+  .fd-scan-bar::-webkit-scrollbar { display: none; }
+
+  .fd-pill {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-border);
+    background: white;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--color-ink-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .fd-pill:hover {
+    border-color: var(--color-terracotta-light);
+    color: var(--color-terracotta);
+  }
+
+  .fd-pill:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 2px;
+  }
+
+  .fd-pill-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 700;
+  }
+
+  .fd-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .fd-card {
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-terracotta);
+    border-radius: 10px;
+    background: white;
+    transition: box-shadow 0.2s ease;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .fd-visible .fd-card {
+    animation: helm-slideUp 0.35s var(--ease-out-quart) both;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fd-card {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+  }
+
+  .fd-card-open {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    background: color-mix(in srgb, var(--color-terracotta) 2%, white);
+  }
+
+  .fd-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+  }
+
+  .fd-card-header:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: -2px;
+    border-radius: 8px;
+  }
+
+  .fd-card-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--color-terracotta) 10%, transparent);
+    color: var(--color-terracotta);
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .fd-card-title-area {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .fd-card-name {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+  }
+
+  .fd-card-symptom {
+    font-size: 0.88rem;
+    color: var(--color-ink-light);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .fd-chevron {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    transition: transform 0.25s ease;
+    margin-top: 0.15rem;
+  }
+
+  .fd-card-open .fd-chevron {
+    transform: rotate(180deg);
+  }
+
+  .fd-content-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .fd-card-open .fd-content-wrap {
+    grid-template-rows: 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fd-content-wrap { transition: none; }
+  }
+
+  .fd-content {
+    overflow: hidden;
+  }
+
+  .fd-content > :first-child {
+    padding-top: 0;
+  }
+
+  .fd-cause {
+    padding: 0 1.25rem 1rem;
+    padding-left: calc(1.25rem + 28px + 0.85rem);
+  }
+
+  .fd-mitigations {
+    padding: 0 1.25rem 1.25rem;
+    padding-left: calc(1.25rem + 28px + 0.85rem);
+  }
+
+  .fd-content-label {
+    margin-bottom: 0.35rem;
+  }
+
+  .fd-cause p {
+    font-size: 0.88rem;
+    color: var(--color-ink);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .fd-mitigations ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .fd-mitigations li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.88rem;
+    color: var(--color-ink);
+    line-height: 1.55;
+  }
+
+  .fd-mitigations li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    opacity: 0.4;
+  }
+
+  @media (max-width: 640px) {
+    .fd-card-header {
+      padding: 0.85rem 1rem;
+      gap: 0.65rem;
+    }
+
+    .fd-cause,
+    .fd-mitigations {
+      padding-left: 1rem;
+    }
+  }
+</style>

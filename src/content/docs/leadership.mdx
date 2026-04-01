@@ -1,0 +1,254 @@
+---
+title: "Leadership Guide"
+subtitle: "How we structure, adopt, govern, and measure agentic operations."
+description: "Organizational model, adoption roadmap, maturity model, and measurement for engineering leaders."
+order: 3
+audience: "leadership"
+---
+
+import OrgShift from '../../components/OrgShift.astro';
+import AdoptionTimeline from '../../components/AdoptionTimeline.astro';
+import KpiDashboard from '../../components/KpiDashboard.astro';
+import FailureDiagnostics from '../../components/FailureDiagnostics.astro';
+import MaturityStepper from '../../components/MaturityStepper.astro';
+
+## Organizational Model
+
+### The Structural Shift
+
+Traditional software teams organize in horizontal layers: frontend team, backend team, QA team, DevOps team. Work moves laterally through handoffs. This model breaks under agentic workflows because a single agent action can span all layers simultaneously — modifying frontend components, backend APIs, database schemas, and infrastructure configs in one task.
+
+What works instead: **vertical cross-functional pods** where small teams own features end-to-end, with AI agents acting as connective tissue between layers.
+
+<OrgShift />
+
+Senior leads oversee pods delivering complete product slices. Agents handle bounded implementation within each pod. Handoffs between teams are replaced by direct ownership.
+
+### Roles with Explicit Authority
+
+Nine roles that must carry real authority, not secondary responsibilities stacked on existing jobs. The distinction matters: when evaluation quality is "someone's side project," it doesn't get done until an incident forces it.
+
+### Engineering Roles
+
+#### AI Architect
+
+**Owns:** End-to-end orchestration and structural decisions.
+
+Responsibilities:
+- Selects models and defines which model handles which task
+- Designs data flow from input to output
+- Decides orchestration pattern (single agent, multi-agent, workflow)
+- Defines failure modes and recovery paths
+- Makes the structural decisions the rest of the team builds on
+
+For the full transformation story, see [Staff / Principal Engineer: Roles in the AI Era](/roles/staff-engineer).
+
+#### AI Reliability Engineer
+
+**Owns:** Observability, cost measurement, and failure recovery. The SRE equivalent for AI systems.
+
+Responsibilities:
+- Defines what to measure to know the system works
+- Monitors cost per execution and flags unsustainable patterns
+- Manages failure detection and recovery mechanisms
+- Owns the guardrail stack implementation and enforcement
+- Runs incident response for agent-related failures
+
+For the full transformation story, see [SRE / DevOps Engineer: Roles in the AI Era](/roles/sre-devops-engineer).
+
+#### Evaluation Lead
+
+**Owns:** Test coverage and evaluation strategy. Not unit tests for code — evaluation coverage for agent outputs.
+
+Responsibilities:
+- Defines "how do we know this is good enough to ship?"
+- Designs eval suites for agent behavior (beyond standard test suites)
+- Sets passing thresholds and quality bars
+- Ensures evaluation runs before every ship decision
+- Tracks quality metrics over time to detect drift
+
+The Evaluation Lead emerges from the traditional QA role splitting in two. For the full transformation story, see [QA Engineer / SDET: Roles in the AI Era](/roles/qa-engineer).
+
+#### Product Engineer
+
+**Owns:** Feature velocity and integration.
+
+Responsibilities:
+- Runs the agent execution loop for scoped delivery tasks
+- Creates and maintains task templates and agent instructions
+- Integrates agent-generated output into the product
+- Ensures agent output meets product requirements and UX standards
+- Manages the Plan-Execute-Verify-Ship-Learn loop (see [Practitioner Guide](/practitioners))
+
+For the full transformation story, see [Software Engineer: Roles in the AI Era](/roles/software-engineer).
+
+#### Platform Engineer
+
+**Owns:** Infrastructure, model hosting, and inference serving. Optional early, required at scale.
+
+Responsibilities:
+- Manages compute infrastructure for agent execution
+- Optimizes cost-efficiency at the infrastructure layer
+- Handles latency and reliability of model inference
+- Implements the governance layer (registry, access control, observability)
+- Manages secrets, API keys, and secure agent-to-system connectivity
+
+For the full transformation story, see [Platform Engineer: Roles in the AI Era](/roles/platform-engineer).
+
+#### Engineering Manager
+
+**Owns:** Team capability, adoption equity, and outcome-based measurement. The person who executes the Six Organizational Shifts day-to-day.
+
+Responsibilities:
+- Assesses and advances the team's maturity level using the Maturity Model (Levels 1-5)
+- Ensures adoption equity: the team's effective level equals the least-adopted member in a critical-path role
+- Defines and enforces the team's operating rhythm around the Plan-Execute-Verify-Ship-Learn loop
+- Restructures team workflows from horizontal silos to vertical cross-functional pods
+- Establishes KPIs that measure product impact, not output volume
+- Coaches engineers on judgment, review quality, and context engineering
+- Manages the human side of AI adoption: resistance, identity shifts, and role redefinition
+
+For the full transformation story, see [Engineering Manager: Roles in the AI Era](/roles/engineering-manager).
+
+### Product Roles
+
+#### Product Manager
+
+**Owns:** Problem definition, acceptance criteria, and product quality.
+
+Responsibilities:
+- Defines what to build and why (the "Plan" phase of the operating loop)
+- Writes acceptance criteria that agents can execute against
+- Reviews agent output for product correctness (does it solve the user's problem?)
+- Defines constraints and quality bars instead of writing detailed specifications
+- Tracks product outcome metrics alongside delivery metrics
+
+For the full transformation story, see [Product Manager: Roles in the AI Era](/roles/product-manager).
+
+#### Product Designer
+
+**Owns:** UX quality, design system, and interaction patterns.
+
+Responsibilities:
+- Maintains the design system that agents generate from (tokens, components, patterns)
+- Reviews agent-generated UI for UX quality and design consistency
+- Defines design tokens and component specifications as agent instructions
+- Focuses on design governance and quality auditing rather than pixel-level execution
+- Addresses the emerging discipline sometimes called Agent Experience (AX): designing for both human and agent actors
+
+For the full transformation story, see [Product Designer: Roles in the AI Era](/roles/product-designer).
+
+#### QA Engineer
+
+**Owns:** Product-level quality from the user's perspective. Distinct from the Evaluation Lead.
+
+Responsibilities:
+- Translates acceptance criteria into testable assertions
+- Builds evaluation suites that validate product behavior, not just code correctness
+- Monitors quality drift from a user-facing perspective (UX regressions, accessibility, copy errors)
+- Works with the Evaluation Lead on comprehensive quality coverage
+
+**Boundary with Evaluation Lead:** The Evaluation Lead owns agent output correctness (did the agent follow instructions? is the code well-structured? does it pass technical evaluation?). The QA Engineer owns product correctness (does the shipped feature meet the user's need? does it work as specified? does it meet accessibility and UX standards?). One judges the agent. The other judges the product.
+
+> For the full transformation story — how each of these roles evolved from traditional job descriptions and what to screen for when hiring — see [Roles in the AI Era](/roles).
+
+### Scaling Path
+
+**Start (7-8 people):**
+- 1 AI Architect (leads)
+- 2-3 Product Engineers
+- 1 AI Reliability Engineer (may share duties with the Architect early on)
+- 1 Engineering Manager
+- 1 Product Manager (may be part-time)
+- 1 Product Designer (may be shared across pods early on)
+
+**Scale (12-16 people):**
+- 1 AI Architect
+- 3-4 Product Engineers (some specializing in different surfaces)
+- 1-2 AI Reliability Engineers
+- 1-2 Evaluation Leads
+- 1 Platform Engineer
+- 1-2 Engineering Managers (one per pod at scale)
+- 1 Product Manager
+- 1-2 Product Designers
+- 1 QA Engineer
+
+The key: roles exist with authority, not as hats stacked on other jobs. This applies equally to product roles. A PM who owns acceptance criteria must have the authority to reject agent output that doesn't meet the bar.
+
+### Decision Rights Matrix
+
+Ownership clarity alone isn't enough. You also need clear decision rights: every critical decision has a single owner, not a consensus process.
+
+| Decision | Owner | Consulted | Rationale |
+|---|---|---|---|
+| Model selection | AI Architect + Evaluation Lead | Product Engineer | Technical fit + eval data must align |
+| Orchestration pattern | AI Architect (single owner) | Team | Architecture cascades into everything; needs one voice |
+| Cost control | AI Reliability Engineer | AI Architect | Token spend, compute budgets, cost alerts |
+| Eval thresholds ("can we ship?") | Evaluation Lead | Product, Architect | Must be decided before emotional attachment to shipping |
+| Feature prioritization | Product Manager + AI Architect | Team | Architect says what's feasible, PM decides what matters |
+| What to build (problem selection) | Product Manager | Architect, Team | PM owns problem definition; engineering owns solution |
+| Acceptance criteria | Product Manager | Engineering, Design | Criteria must be agent-executable; PM defines, engineering validates feasibility |
+| UX quality standards | Product Designer | PM, Engineering | Design system compliance, accessibility, interaction quality |
+| Design system changes | Product Designer | PM, AI Architect | Components and tokens agents generate from |
+| Product-level quality thresholds | QA Engineer | PM, Evaluation Lead | User-facing quality distinct from agent output correctness |
+| Architecture decisions | AI Architect | Team | No agent makes architecture decisions |
+| Security decisions | AI Architect + Reliability Eng | Team | Humans only, never delegated to agents |
+| Release decisions | Product Manager + AI Architect | Reliability Eng | Human judgment on production readiness |
+
+**The single mistake most teams make:** involving too many people in every decision, hoping consensus catches problems. Instead, they get slow, uncertain decision-making where nobody feels accountable when things go wrong.
+
+---
+
+## Maturity Model
+
+The full five-level maturity model (dimension tables, assessment criteria, prerequisites, and failure modes for each level) lives in the [Practitioner Guide](/practitioners#maturity-model). Both guides share this model so practitioners and leaders use a common vocabulary.
+
+<MaturityStepper variant="compact" />
+
+**Critical reminder:** A team's effective level is set by its least-adopted member in a critical-path role — see the [Maturity Assessment](/practitioners#maturity-assessment-quick-reference) in the Practitioner Guide for the full rationale.
+
+Use the maturity level to calibrate the [Adoption Roadmap](#adoption-roadmap) phases and to set KPI targets in the [Measurement](#measurement-and-failure-modes) section below.
+
+---
+
+## Adoption Roadmap
+
+A four-phase rollout over 180 days. Each phase has defined goals, activities, exit criteria, and risk mitigations. The principle: staged adoption gives you speed without blind trust.
+
+<AdoptionTimeline />
+
+---
+
+## Measurement and Failure Modes
+
+### KPI Dashboard
+
+Track these metrics weekly. The goal isn't to maximize agent usage. It's to deliver faster without quality regression.
+
+<KpiDashboard />
+
+### Six Failure Modes
+
+Each failure mode includes the symptom (how you detect it), the root cause (why it happens), and the mitigation (how to fix it).
+
+<FailureDiagnostics />
+
+---
+
+## Further Reading
+
+- *Building AI Agents Without Organizational Chaos* — Chrono Innovation
+- *The Agentic Organization* — McKinsey
+- *Seizing the Agentic AI Advantage* — McKinsey
+- *The State of AI in 2025* — McKinsey
+- *Agentic AI Strategy* — Deloitte
+- *Human-Agentic Workforce* — Deloitte
+- *State of AI in the Enterprise 2026* — Deloitte
+- *Agentic AI Enterprise Adoption* — Deloitte
+- *Top Strategic Technology Trends 2026* — Gartner
+- *Five Stages of Agentic Evolution* — Gartner
+- *The 8 Levels of Agentic Engineering* — Eledath
+- *Agentic Engineering for Software Teams* — vibecoding.app
+- *Agentic AI for PMs* — IdeaPlan
+- *From UX to AX* — The Atlantic
+- *Five Product Shifts* — cases.media

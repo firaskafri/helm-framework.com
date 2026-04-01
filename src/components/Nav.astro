@@ -1,0 +1,130 @@
+---
+import { SITE_NAME, NAV_LINKS } from '../data/site';
+import HelmMark from './HelmMark.astro';
+
+const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const links = NAV_LINKS.map((link) => ({
+  ...link,
+  isActive:
+    link.href === '/'
+      ? normalizedPath === '/'
+      : normalizedPath === link.href || normalizedPath.startsWith(`${link.href}/`),
+}));
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-cream)]/95 backdrop-blur-sm border-b border-[var(--color-border)]">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a
+      href="/"
+      class="flex items-center gap-2 font-[var(--font-serif)] text-lg font-semibold tracking-tight text-[var(--color-ink)] hover:text-[var(--color-terracotta)] transition-colors no-underline"
+    >
+      <HelmMark class="w-6 h-6 shrink-0" />
+      {SITE_NAME}
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
+      {links.map((link) => (
+        <li class="m-0 p-0">
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm font-medium no-underline transition-colors',
+              link.isActive
+                ? 'text-[var(--color-terracotta)]'
+                : 'text-[var(--color-muted)] hover:text-[var(--color-ink)]',
+            ]}
+            aria-current={link.isActive ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer bg-transparent border-none"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center" id="bar1"></span>
+      <span class="block w-5 h-0.5 bg-[var(--color-ink)] transition-opacity" id="bar2"></span>
+      <span class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center" id="bar3"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden border-t border-[var(--color-border)] bg-[var(--color-cream)]">
+    <ul class="list-none m-0 p-4 flex flex-col gap-1">
+      {links.map((link) => (
+        <li class="m-0 p-0">
+          <a
+            href={link.href}
+            class:list={[
+              'block py-3 px-4 rounded-lg text-sm font-medium no-underline transition-colors',
+              link.isActive
+                ? 'text-[var(--color-terracotta)] bg-[var(--color-cream-dark)]'
+                : 'text-[var(--color-ink)] hover:bg-[var(--color-cream-dark)]',
+            ]}
+            aria-current={link.isActive ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+
+  function setMenuOpen(open: boolean) {
+    if (!menu || !btn) return;
+    menu.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', String(open));
+    bar1?.style.setProperty('transform', open ? 'rotate(45deg) translate(2px, 4px)' : '');
+    bar2?.style.setProperty('opacity', open ? '0' : '1');
+    bar3?.style.setProperty('transform', open ? 'rotate(-45deg) translate(2px, -4px)' : '');
+
+    if (open) {
+      const firstLink = menu.querySelector<HTMLAnchorElement>('a');
+      firstLink?.focus();
+    } else {
+      btn.focus();
+    }
+  }
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('hidden') !== false;
+    setMenuOpen(isOpen);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (menu?.classList.contains('hidden') !== false) {
+      setMenuOpen(false);
+    }
+  });
+
+  menu?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const focusable = menu.querySelectorAll<HTMLElement>('a, button');
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+</script>

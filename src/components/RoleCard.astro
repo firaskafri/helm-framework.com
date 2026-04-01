@@ -1,0 +1,72 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  subtitle: string;
+  maps_to: string;
+  accent: 'terracotta' | 'steel';
+}
+
+const { id, title, subtitle, maps_to, accent } = Astro.props;
+const isTransformed = title === maps_to;
+---
+
+<a href={`/roles/${id}`} class="group block no-underline">
+  <article
+    class:list={[
+      'h-full p-5 md:p-6 rounded-xl border bg-white/50 transition-all',
+      'hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
+      'border-[var(--color-border)]',
+      accent === 'terracotta'
+        ? 'hover:border-[var(--color-terracotta)]'
+        : 'hover:border-[var(--color-steel)]',
+    ]}
+  >
+    <div class="flex items-center justify-between mb-3">
+      <h3
+        class:list={[
+          'font-[var(--font-serif)] text-base md:text-lg font-semibold text-[var(--color-ink)] transition-colors',
+          accent === 'terracotta'
+            ? 'group-hover:text-[var(--color-terracotta)]'
+            : 'group-hover:text-[var(--color-steel)]',
+        ]}
+      >
+        {title}
+      </h3>
+      <svg
+        class:list={[
+          'w-4 h-4 flex-shrink-0 transition-colors text-[var(--color-muted-light)]',
+          accent === 'terracotta'
+            ? 'group-hover:text-[var(--color-terracotta)]'
+            : 'group-hover:text-[var(--color-steel)]',
+        ]}
+        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+    {isTransformed ? (
+      <p class="text-xs text-[var(--color-muted)] mb-3">
+        <span
+          class:list={[
+            'font-semibold',
+            accent === 'terracotta' ? 'text-[var(--color-terracotta)]' : 'text-[var(--color-steel)]',
+          ]}
+        >Transformed role</span> in HELM
+      </p>
+    ) : (
+      <p class="text-xs text-[var(--color-muted)] mb-3">
+        Becomes <span
+          class:list={[
+            'font-semibold',
+            accent === 'terracotta' ? 'text-[var(--color-terracotta)]' : 'text-[var(--color-steel)]',
+          ]}
+        >{maps_to}</span> in HELM
+      </p>
+    )}
+    <p class="text-sm text-[var(--color-ink-light)] leading-relaxed">
+      {subtitle}
+    </p>
+  </article>
+</a>

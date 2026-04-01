@@ -1,0 +1,127 @@
+---
+title: "Practitioner Guide"
+subtitle: "How we build and operate with AI agents day-to-day."
+description: "Architecture patterns, guardrails, operating loop, and maturity model for engineers, tech leads, PMs, and designers."
+order: 2
+audience: "practitioners"
+---
+
+import PatternSelector from '../../components/PatternSelector.astro';
+import GuardrailStack from '../../components/GuardrailStack.astro';
+import OperatingLoop from '../../components/OperatingLoop.astro';
+import TaskMatrix from '../../components/TaskMatrix.astro';
+import MaturityStepper from '../../components/MaturityStepper.astro';
+
+## Agent Architecture Patterns
+
+### Agent Anatomy
+
+Every agent, regardless of framework or vendor, is composed of five core components.
+
+| Component | What It Does | Example |
+|---|---|---|
+| **Model** | The reasoning engine. Makes decisions, generates outputs, selects tools. | GPT-5.4, Claude Opus 4.6, Gemini 3 Pro |
+| **Tools** | External functions, APIs, or systems the agent can invoke. | Database queries, web search, code execution, file I/O |
+| **Instructions** | Explicit guidelines, scope constraints, and behavioral rules. | System prompts, AGENTS.md, rules files, policy documents |
+| **Memory** | Context that persists across interactions -- short-term (conversation) and long-term (vector stores, key-value). | Conversation history, session state, project context |
+| **Retrieval** | Mechanisms to access external knowledge not in the model's training data. | RAG pipelines, document search, knowledge bases |
+
+These five components are the atoms. Everything else -- workflows, agents, multi-agent systems -- is a molecule built from them.
+
+### Workflows vs. Agents
+
+A critical architectural distinction, first articulated by Anthropic, governs every design decision downstream:
+
+| Dimension | Workflows | Agents |
+|---|---|---|
+| **Control** | Predefined code paths orchestrate the LLM | LLM dynamically directs its own processes |
+| **Predictability** | High -- you know the execution path | Lower -- the model decides what to do next |
+| **Flexibility** | Low -- changes require code changes | High -- adapts to novel inputs |
+| **Best for** | Well-defined, repeatable tasks | Open-ended problems with unpredictable steps |
+| **Cost/latency** | Lower -- fewer LLM calls, fixed paths | Higher -- more calls, dynamic routing |
+| **Error handling** | Programmatic gates and checks | Agent must self-correct or escalate |
+
+The decision rule: **use workflows when you can define the task decomposition in advance; use agents when the decomposition depends on the input.**
+
+### Tool Types
+
+Tools fall into three types. This classification determines how you design, test, and permission agent capabilities:
+
+**Data tools** -- Retrieve context and information. Read-only, low-risk.
+Examples: Query databases, read documents, search the web, pull CRM records.
+
+**Action tools** -- Interact with systems to change state. Write operations, higher risk.
+Examples: Send emails, update records, create tickets, issue refunds, deploy code.
+
+**Orchestration tools** -- Other agents exposed as tools. Meta-level coordination.
+Examples: A "research agent" callable by a "manager agent," a specialist agent invoked by a triage agent.
+
+Risk rating should be assigned per tool: low (read-only), medium (reversible writes), high (irreversible writes, financial impact, external-facing). These ratings feed directly into the Guardrail Stack.
+
+### Composition Patterns
+
+Eight patterns, ordered from simplest to most complex. The rule: always start at the top and move down only when the simpler pattern demonstrably fails.
+
+<PatternSelector />
+
+---
+
+## The Guardrail Stack
+
+Five layers of defense, grounded in [Principle 4: Guardrails Are Non-Negotiable](/foundation#principle-4-guardrails-are-non-negotiable). Each layer addresses a different failure mode. All five must be in place before scaling agent operations.
+
+<GuardrailStack />
+
+---
+
+## The Operating Loop
+
+### The Plan-Execute-Verify-Ship-Learn Cycle
+
+This is the day-to-day execution model. It replaces ad-hoc prompting with a loop you can actually repeat and improve.
+
+<OperatingLoop />
+
+### Task Classification Matrix
+
+Not every task is equally suited for agent execution. Classify tasks along two dimensions: **boundedness** (how well-defined is the scope?) and **risk** (what is the blast radius if the agent gets it wrong?).
+
+<TaskMatrix />
+
+### The Human-Agent Boundary
+
+The boundary is defined by a simple question: **"If the agent gets this wrong, what happens?"**
+
+- If the answer is "CI catches it and the PR is rejected" -> agent can execute autonomously
+- If the answer is "a customer sees wrong data" -> agent drafts, human verifies
+- If the answer is "we have a security breach" -> human leads, agent assists at most
+- If the answer is "we don't know" -> human leads until we do know
+
+The boundary moves over time. As guardrails improve, evaluation coverage increases, and confidence grows, tasks shift from human-led to agent-assisted to agent-driven. But you earn that movement through demonstrated reliability. You don't assume it.
+
+For how each traditional role transforms under these boundaries — from Software Engineer to Product Designer — see [Roles in the AI Era](/roles). The [Competency Evolution Explorer](/roles/competency-map) maps which competencies carry over, which are new, and which to sunset per role.
+
+---
+
+## Maturity Model
+
+A five-level maturity model, drawing on Eledath's "Levels of Agentic Engineering" framework and extending it with team-level dimensions, product integration, and failure modes. Each level says where a team is, what it can do, what it needs to move up, and what risks come with the territory.
+
+> This is the canonical maturity model for the entire HELM framework. The [Leadership Guide](/leadership#maturity-model) references this model and provides a quick-reference table for leadership conversations.
+
+<MaturityStepper />
+
+**Critical reminder:** The team's effective level equals the level of the lowest-capability person in a critical-path role, not the highest-capability individual. A team with one Level 4 engineer and a Level 1 gatekeeper operates at Level 1.
+
+---
+
+## Further Reading
+
+- *Building Effective Agents* — Anthropic
+- *A Practical Guide to Building Agents* — OpenAI
+- *AI Agents Whitepaper* — Google
+- *Cloud Adoption Framework* — Microsoft
+- *Agentic Engineering for Software Teams* — vibecoding.app
+- *The 8 Levels of Agentic Engineering* — Eledath
+- *Top Strategic Technology Trends 2026* — Gartner
+- *Five Stages of Agentic Evolution* — Gartner

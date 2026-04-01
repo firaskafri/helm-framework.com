@@ -1,0 +1,54 @@
+---
+import Base from './Base.astro';
+import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
+import { buildBreadcrumbList, buildWebPageJsonLd } from '../lib/jsonLd';
+import Nav from '../components/Nav.astro';
+import ContentWithToc from '../components/ContentWithToc.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, subtitle, description, headings } = Astro.props;
+
+const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
+const pageUrl = new URL(Astro.url.pathname, siteOrigin).href;
+const homeUrl = new URL('/', siteOrigin).href;
+
+const jsonLd = [
+  buildBreadcrumbList([
+    { name: 'Home', url: homeUrl },
+    { name: title, url: pageUrl },
+  ]),
+  buildWebPageJsonLd({ headline: subtitle, description, url: pageUrl, homeUrl }),
+];
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <Nav />
+
+  <main id="main-content" class="pt-24 md:pt-28 pb-16 px-6">
+    <div class="max-w-7xl mx-auto">
+
+      <header class="max-w-3xl mb-12 md:mb-16">
+        <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
+          {title}
+        </p>
+        <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-4">
+          {subtitle}
+        </h1>
+      </header>
+
+      <ContentWithToc headings={headings}>
+        <slot />
+      </ContentWithToc>
+
+    </div>
+  </main>
+
+  <Footer />
+</Base>

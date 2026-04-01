@@ -1,0 +1,315 @@
+---
+import { KPI_CATEGORIES } from '../data/leadership';
+import type { KpiMetric } from '../data/leadership';
+
+interface Props {}
+
+const categories = KPI_CATEGORIES;
+
+const directionIcons: Record<KpiMetric['direction'], { label: string; color: string }> = {
+  increase: { label: 'Increase', color: 'var(--color-steel)' },
+  decrease: { label: 'Decrease', color: 'var(--color-terracotta)' },
+  stable:   { label: 'Stable or decrease', color: 'var(--color-muted)' },
+  monitor:  { label: 'Monitor', color: 'var(--color-muted)' },
+};
+---
+
+<div class="kd-wrap" id="kd-interactive">
+  <div class="kd-tabs" role="tablist" aria-label="KPI categories">
+    {categories.map((cat, i) => (
+      <button
+        class:list={['kd-tab', i === 0 && 'kd-tab-active']}
+        type="button"
+        role="tab"
+        id={`kd-tab-${cat.id}`}
+        aria-controls={`kd-panel-${cat.id}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        data-id={cat.id}
+      >
+        {cat.name}
+      </button>
+    ))}
+  </div>
+
+  {categories.map((cat, i) => (
+    <div
+      class="kd-panel"
+      id={`kd-panel-${cat.id}`}
+      role="tabpanel"
+      aria-labelledby={`kd-tab-${cat.id}`}
+      data-id={cat.id}
+      hidden={i !== 0}
+    >
+      <div class="kd-cards">
+        {cat.metrics.map((metric, mi) => {
+          const dir = directionIcons[metric.direction];
+          return (
+            <article class="kd-card" style={`--i:${mi}`}>
+              <div class="kd-card-head">
+                <h4 class="kd-metric-name">{metric.name}</h4>
+                <span class="kd-direction" style={`color:${dir.color}`}>
+                  {metric.direction === 'increase' && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 19V5M5 12l7-7 7 7" />
+                    </svg>
+                  )}
+                  {metric.direction === 'decrease' && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 5v14M5 12l7 7 7-7" />
+                    </svg>
+                  )}
+                  {(metric.direction === 'stable' || metric.direction === 'monitor') && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14" />
+                    </svg>
+                  )}
+                  <span class="kd-direction-label">{dir.label}</span>
+                </span>
+              </div>
+              <p class="kd-metric-desc">{metric.measures}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+
+  <div class="kd-formula">
+    <div class="kd-formula-label">The Success Formula</div>
+    <div class="kd-formula-content">
+      <span class="kd-formula-item kd-formula-down">Lead time <span class="kd-arrow">&#8595;</span></span>
+      <span class="kd-formula-and">AND</span>
+      <span class="kd-formula-item kd-formula-up">Deploy frequency <span class="kd-arrow">&#8593;</span></span>
+      <span class="kd-formula-and">AND</span>
+      <span class="kd-formula-item kd-formula-stable">Change failure rate <span class="kd-arrow">&#8596;</span></span>
+      <span class="kd-formula-and">AND</span>
+      <span class="kd-formula-item kd-formula-stable">Escaped defects <span class="kd-arrow">&#8596;</span></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const wrap = document.getElementById('kd-interactive');
+  if (wrap) {
+    const tabs = wrap.querySelectorAll<HTMLButtonElement>('.kd-tab');
+    const panels = wrap.querySelectorAll<HTMLElement>('.kd-panel');
+    let activeId = tabs[0]?.dataset.id ?? '';
+
+    function activate(id: string) {
+      activeId = id;
+      tabs.forEach((t) => {
+        const on = t.dataset.id === id;
+        t.classList.toggle('kd-tab-active', on);
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        p.hidden = p.dataset.id !== id;
+      });
+    }
+
+    tabs.forEach((t, idx) => {
+      t.addEventListener('click', () => activate(t.dataset.id!));
+      t.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next = idx;
+        if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+        else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+        else return;
+        e.preventDefault();
+        activate(tabs[next].dataset.id!);
+        tabs[next].focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .kd-wrap {
+    margin: 2rem 0;
+  }
+
+  .kd-tabs {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-bottom: 1.25rem;
+    padding-bottom: 2px;
+  }
+
+  .kd-tabs::-webkit-scrollbar { display: none; }
+
+  .kd-tab {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-border);
+    background: white;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-ink-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .kd-tab:hover {
+    border-color: var(--color-muted);
+    color: var(--color-ink);
+  }
+
+  .kd-tab:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 2px;
+  }
+
+  .kd-tab-active {
+    background: var(--color-terracotta);
+    border-color: var(--color-terracotta);
+    color: white;
+  }
+
+  .kd-panel[hidden] { display: none; }
+
+  .kd-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .kd-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.15rem;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+
+  .kd-card:hover {
+    border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-terracotta));
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kd-card { transition: none; }
+  }
+
+  .kd-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .kd-metric-name {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .kd-direction {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .kd-direction-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .kd-metric-desc {
+    font-size: 0.85rem;
+    color: var(--color-ink-light);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Formula */
+  .kd-formula {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: var(--color-ink);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .kd-formula-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .kd-formula-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .kd-formula-item {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .kd-formula-down {
+    background: color-mix(in srgb, var(--color-terracotta) 20%, var(--color-ink));
+    color: var(--color-cream);
+  }
+
+  .kd-formula-up {
+    background: color-mix(in srgb, var(--color-steel) 25%, var(--color-ink));
+    color: var(--color-cream);
+  }
+
+  .kd-formula-stable {
+    background: color-mix(in srgb, var(--color-muted) 20%, var(--color-ink));
+    color: var(--color-cream);
+  }
+
+  .kd-formula-and {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-muted-light);
+    letter-spacing: 0.06em;
+  }
+
+  .kd-arrow {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 640px) {
+    .kd-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .kd-formula-content {
+      gap: 0.35rem;
+    }
+
+    .kd-formula-item {
+      font-size: 0.72rem;
+      padding: 0.3rem 0.5rem;
+    }
+  }
+</style>

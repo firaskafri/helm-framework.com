@@ -1,0 +1,299 @@
+---
+import { getCollection } from 'astro:content';
+import { SITE_NAME } from '../../data/site';
+import { resolveSiteOrigin } from '../../lib/resolveSiteOrigin';
+import { buildBreadcrumbList, buildWebPageJsonLd } from '../../lib/jsonLd';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import ArrowIcon from '../../components/ArrowIcon.astro';
+import RoleCard from '../../components/RoleCard.astro';
+import Footer from '../../components/Footer.astro';
+import { UNIVERSAL_COMPETENCIES } from '../../data/universal-competencies';
+
+const roles = await getCollection('roles');
+const allSorted = [...roles].sort((a, b) => a.data.order - b.data.order);
+const engineering = allSorted.filter(r => r.data.category === 'engineering');
+const product = allSorted.filter(r => r.data.category === 'product');
+
+const mappings = allSorted.map((r) => ({
+  from: r.data.title,
+  fromAlt: r.data.evolved_from.length > 1 ? r.data.evolved_from.slice(1).join(', ') : '',
+  to: r.data.maps_to,
+  shift: r.data.subtitle,
+  slug: r.id,
+}));
+
+const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
+const homeUrl = new URL('/', siteOrigin).href;
+const rolesPageUrl = new URL(Astro.url.pathname, siteOrigin).href;
+
+const rolesPageTitle = 'Roles in the AI Era';
+const rolesPageDescription =
+  'How every role in your product development team transforms when AI agents become part of the workflow.';
+
+const roleItemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${SITE_NAME} role guides`,
+  numberOfItems: allSorted.length,
+  itemListElement: allSorted.map((r, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: r.data.title,
+    url: new URL(`/roles/${r.id}`, siteOrigin).href,
+  })),
+};
+
+const jsonLd = [
+  buildBreadcrumbList([
+    { name: 'Home', url: homeUrl },
+    { name: 'Roles', url: rolesPageUrl },
+  ]),
+  buildWebPageJsonLd({
+    headline: rolesPageTitle,
+    description: rolesPageDescription,
+    url: rolesPageUrl,
+    homeUrl,
+    type: 'CollectionPage',
+  }),
+  roleItemList,
+];
+---
+
+<Base
+  title={rolesPageTitle}
+  description={rolesPageDescription}
+  jsonLd={jsonLd}
+>
+  <Nav />
+
+  <main id="main-content">
+  <section class="pt-32 pb-16 md:pt-40 md:pb-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-6">
+        Roles &amp; Job Descriptions
+      </p>
+      <h1 class="font-[var(--font-serif)] text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-6">
+        Roles in the AI Era
+      </h1>
+      <p class="text-xl md:text-2xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
+        How every role in your product development team transforms when AI agents become part of the workflow. These aren't marginal adjustments. They're fundamental redefinitions.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 md:pb-20">
+    <div class="max-w-3xl mx-auto">
+      <div class="prose">
+        <h2>The Problem with Today's Job Descriptions</h2>
+        <p>
+          Most job descriptions are artifacts of a world where humans did all the work. They screen for production speed, framework familiarity, and years of experience. <strong>"5+ years of React." "Strong problem-solving skills." "Experience with Agile/Scrum."</strong>
+        </p>
+        <p>
+          In the agentic era, these criteria are at best incomplete and at worst counterproductive. Agents write code, generate designs, draft PRDs, and run tests. The human's value is no longer in <em>production</em>. It's in <em>judgment</em> — deciding what to build, evaluating what came back, and owning what ships.
+        </p>
+        <p>
+          That's a fundamental redefinition of what each role contributes to the team. These shifts are grounded in the <a href="/foundation">six foundational principles</a> and operationalized through the <a href="/practitioners">Practitioner Guide</a> and <a href="/leadership">Leadership Guide</a>.
+        </p>
+
+        <h2>Three Shifts in Every Role</h2>
+        <p>
+          Regardless of function — engineering, product, or design — every role undergoes the same three transformations:
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-12 md:pb-14">
+    <div class="max-w-4xl mx-auto">
+      <a href="/roles/competency-map" class="group block no-underline">
+        <div class="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white p-8 md:p-10 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all hover:border-[var(--color-terracotta)]/40">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <span class="inline-block text-xs font-semibold uppercase tracking-widest text-[var(--color-terracotta)] mb-2">Interactive Tool</span>
+              <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-2 group-hover:text-[var(--color-terracotta)] transition-colors">
+                Competency Evolution Explorer
+              </h3>
+              <p class="text-[var(--color-ink-light)] text-sm md:text-base leading-relaxed max-w-lg">
+                See how each role's competencies transform — what carries over, what's entirely new, and what's no longer relevant. Per-role gap analysis included.
+              </p>
+            </div>
+            <div class="flex-shrink-0">
+              <span class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--color-terracotta)] text-white text-sm font-semibold group-hover:bg-[var(--color-terracotta-light)] transition-colors">
+                Explore
+                <ArrowIcon class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </div>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-[var(--color-terracotta)]/[0.04] group-hover:bg-[var(--color-terracotta)]/[0.07] transition-colors"></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 md:pb-20">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <article class="p-8 rounded-xl bg-white border border-[var(--color-border)] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+          <span class="font-[var(--font-serif)] text-5xl font-light text-[var(--color-muted-light)] leading-none">01</span>
+          <h3 class="font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mt-4 mb-3">
+            From Production to Judgment
+          </h3>
+          <p class="text-[var(--color-ink-light)] text-sm leading-relaxed">
+            Every role used to be valued for what it produced. Now? What you evaluate, catch, and decide matters more. The engineer who reviews ten agent-generated PRs and catches a critical bug is more valuable than one who personally writes ten PRs.
+          </p>
+        </article>
+
+        <article class="p-8 rounded-xl bg-white border border-[var(--color-border)] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+          <span class="font-[var(--font-serif)] text-5xl font-light text-[var(--color-muted-light)] leading-none">02</span>
+          <h3 class="font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mt-4 mb-3">
+            From Depth to Breadth
+          </h3>
+          <p class="text-[var(--color-ink-light)] text-sm leading-relaxed">
+            Specialists who could only operate in one layer become bottlenecks when agents blur all layers. A backend engineer who cannot review agent-generated frontend code slows the entire pod. T-shaped competency replaces narrow expertise.
+          </p>
+        </article>
+
+        <article class="p-8 rounded-xl bg-white border border-[var(--color-border)] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+          <span class="font-[var(--font-serif)] text-5xl font-light text-[var(--color-muted-light)] leading-none">03</span>
+          <h3 class="font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mt-4 mb-3">
+            From Output to Outcome
+          </h3>
+          <p class="text-[var(--color-ink-light)] text-sm leading-relaxed">
+            Measuring PRs written, screens designed, or stories completed becomes meaningless when agents multiply volume. Impact on the product and the user is what matters. Velocity without direction is just noise.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 md:pb-20">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-8">
+        <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
+          The Mapping
+        </p>
+        <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
+          From traditional roles to the HELM model
+        </h2>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="table-editorial">
+          <thead>
+            <tr>
+              <th>Traditional Role</th>
+              <th></th>
+              <th>HELM Role</th>
+              <th>Key Shift</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mappings.map((m) => (
+              <tr>
+                <td>
+                  <a href={`/roles/${m.slug}`} class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-terracotta)] no-underline transition-colors">
+                    {m.from}
+                  </a>
+                  {m.fromAlt && (
+                    <span class="block text-xs text-[var(--color-muted)] mt-0.5">{m.fromAlt}</span>
+                  )}
+                </td>
+                <td class="text-center">
+                  <ArrowIcon class="inline-block w-5 h-5 text-[var(--color-terracotta)]" />
+                </td>
+                <td>
+                  <span class="font-semibold text-[var(--color-terracotta)]">{m.to}</span>
+                </td>
+                <td class="text-sm text-[var(--color-ink-light)]">
+                  {m.shift}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 md:pb-20">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-8">
+        <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
+          Universal Competencies
+        </p>
+        <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
+          What every role needs now
+        </h2>
+        <p class="text-[var(--color-ink-light)] mt-3 max-w-2xl">
+          Regardless of function, every person on an AI-augmented product team shares these foundational competencies. They are the baseline, not the ceiling.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {UNIVERSAL_COMPETENCIES.map((c) => (
+          <article class="p-6 rounded-lg bg-white/60 border border-[var(--color-border)] hover:border-[var(--color-terracotta)]/30 transition-colors">
+            <h3 class="font-[var(--font-serif)] text-base font-semibold text-[var(--color-ink)] mb-2">
+              {c.title}
+            </h3>
+            <p class="text-sm text-[var(--color-ink-light)] leading-relaxed">
+              {c.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-20">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-10">
+        <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
+          Job Descriptions
+        </p>
+        <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
+          Explore each role
+        </h2>
+      </div>
+
+      <div class="mb-12">
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-[var(--color-terracotta)] mb-5">Engineering</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {engineering.map((role) => (
+            <RoleCard
+              id={role.id}
+              title={role.data.title}
+              subtitle={role.data.subtitle}
+              maps_to={role.data.maps_to}
+              accent="terracotta"
+            />
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-[var(--color-steel)] mb-5">Product</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {product.map((role) => (
+            <RoleCard
+              id={role.id}
+              title={role.data.title}
+              subtitle={role.data.subtitle}
+              maps_to={role.data.maps_to}
+              accent="steel"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  table :global(td) {
+    vertical-align: middle;
+  }
+</style>

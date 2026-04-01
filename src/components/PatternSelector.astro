@@ -1,0 +1,409 @@
+---
+import { COMPOSITION_PATTERNS, PATTERN_DECISION_TREE } from '../data/practitioners';
+
+interface Props {}
+
+const patterns = COMPOSITION_PATTERNS;
+const decisionTree = PATTERN_DECISION_TREE;
+---
+
+<div class="ps-wrap" id="pattern-selector">
+  <div class="ps-tabs-rail">
+    <div class="ps-tabs" role="tablist" aria-label="Composition patterns">
+      {patterns.map((p, i) => (
+        <button
+          class:list={['ps-tab', i === 0 && 'ps-tab-active']}
+          type="button"
+          role="tab"
+          id={`ps-tab-${p.number}`}
+          aria-controls={`ps-panel-${p.number}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          data-num={p.number}
+        >
+          <span class="ps-tab-num">{p.number}</span>
+          {p.name}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {patterns.map((p, i) => (
+    <div
+      class="ps-panel"
+      id={`ps-panel-${p.number}`}
+      role="tabpanel"
+      aria-labelledby={`ps-tab-${p.number}`}
+      data-num={p.number}
+      hidden={i !== 0}
+    >
+      <div class="ps-panel-head">
+        <span class="helm-badge">Pattern {p.number}</span>
+        <h4 class="ps-panel-name">{p.name}</h4>
+      </div>
+      <p class="ps-panel-desc">{p.description}</p>
+      <div class="ps-panel-details">
+        <div class="ps-detail-block">
+          <h5 class="helm-label ps-detail-label">When to use</h5>
+          <p>{p.whenToUse}</p>
+        </div>
+        <div class="ps-detail-block">
+          <h5 class="helm-label ps-detail-label">Example</h5>
+          <p>{p.example}</p>
+        </div>
+      </div>
+    </div>
+  ))}
+
+  <div class="ps-decision">
+    <h4 class="ps-decision-title">Pattern Selection Guide</h4>
+    <p class="ps-decision-subtitle">Always start at the top. Move down only when the simpler pattern demonstrably fails.</p>
+    <div class="ps-flow">
+      {decisionTree.map((node, i) => (
+        <div class="ps-flow-row" style={`--i:${i}`}>
+          <div class="ps-flow-node ps-flow-start">
+            <span class="ps-flow-label">Start</span>
+            <span class="ps-flow-text">{node.start}</span>
+          </div>
+          <div class="ps-flow-connector">
+            <span class="ps-flow-condition">{node.ifFails}</span>
+            <svg class="ps-flow-arrow" width="32" height="16" viewBox="0 0 32 16" aria-hidden="true">
+              <path d="M0,8 L28,8 M24,3 L29,8 L24,13" fill="none" stroke="var(--color-terracotta)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="ps-flow-node ps-flow-end">
+            <span class="ps-flow-label">Consider</span>
+            <span class="ps-flow-text">{node.thenConsider}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p class="ps-universal-rule">
+      <strong>Universal rule:</strong> Maximize a single agent's capabilities before splitting into multiple agents.
+    </p>
+  </div>
+</div>
+
+<script>
+  const wrap = document.getElementById('pattern-selector');
+  if (wrap) {
+    const tabs = wrap.querySelectorAll<HTMLButtonElement>('.ps-tab');
+    const panels = wrap.querySelectorAll<HTMLElement>('.ps-panel');
+    let activeNum = '1';
+
+    function activate(num: string) {
+      activeNum = num;
+      tabs.forEach((t) => {
+        const on = t.dataset.num === num;
+        t.classList.toggle('ps-tab-active', on);
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        p.hidden = p.dataset.num !== num;
+      });
+    }
+
+    tabs.forEach((t, idx) => {
+      t.addEventListener('click', () => {
+        activate(t.dataset.num!);
+        t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+      t.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next = idx;
+        if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+        else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+        else return;
+        e.preventDefault();
+        activate(tabs[next].dataset.num!);
+        tabs[next].focus();
+        tabs[next].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+    });
+  }
+</script>
+
+<style>
+  .ps-wrap {
+    margin: 2rem 0;
+  }
+
+  .ps-tabs-rail {
+    margin-bottom: 1.25rem;
+  }
+
+  .ps-tabs {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 2px;
+  }
+
+  .ps-tabs::-webkit-scrollbar { display: none; }
+
+  .ps-tab {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-border);
+    background: white;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-ink-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .ps-tab:hover {
+    border-color: var(--color-muted);
+    color: var(--color-ink);
+  }
+
+  .ps-tab:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 2px;
+  }
+
+  .ps-tab-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-cream-dark);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--color-muted);
+    transition: all 0.2s ease;
+  }
+
+  .ps-tab-active {
+    background: var(--color-terracotta);
+    border-color: var(--color-terracotta);
+    color: white;
+  }
+
+  .ps-tab-active .ps-tab-num {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+  }
+
+  /* Panel */
+  .ps-panel {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    animation: helm-panelIn 0.25s ease both;
+    margin-bottom: 2rem;
+  }
+
+  .ps-panel[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ps-panel { animation: none; }
+  }
+
+  .ps-panel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* .ps-panel-badge uses .helm-badge from global.css */
+
+  .ps-panel-name {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin: 0;
+  }
+
+  .ps-panel-desc {
+    font-size: 0.95rem;
+    color: var(--color-ink-light);
+    line-height: 1.6;
+    margin: 0 0 1.25rem;
+  }
+
+  .ps-panel-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .ps-detail-block {
+    padding: 1rem;
+    background: var(--color-cream);
+    border-radius: 8px;
+  }
+
+  .ps-detail-label {
+    margin-bottom: 0.4rem;
+  }
+
+  .ps-detail-block p {
+    font-size: 0.88rem;
+    color: var(--color-ink);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Decision guide */
+  .ps-decision {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .ps-decision-title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin: 0 0 0.35rem;
+  }
+
+  .ps-decision-subtitle {
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+    line-height: 1.5;
+  }
+
+  .ps-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .ps-flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ps-flow-node {
+    flex: 1;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--color-border);
+    background: white;
+    min-width: 0;
+  }
+
+  .ps-flow-start {
+    border-color: var(--color-border);
+  }
+
+  .ps-flow-end {
+    border-color: var(--color-terracotta);
+    border-style: dashed;
+    background: color-mix(in srgb, var(--color-terracotta) 3%, white);
+  }
+
+  .ps-flow-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .ps-flow-end .ps-flow-label {
+    color: var(--color-terracotta);
+  }
+
+  .ps-flow-text {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    line-height: 1.4;
+  }
+
+  .ps-flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    flex-shrink: 0;
+    min-width: 100px;
+  }
+
+  .ps-flow-condition {
+    font-size: 0.68rem;
+    color: var(--color-muted);
+    text-align: center;
+    line-height: 1.3;
+    font-style: italic;
+  }
+
+  .ps-flow-arrow {
+    flex-shrink: 0;
+  }
+
+  .ps-universal-rule {
+    font-size: 0.88rem;
+    color: var(--color-ink-light);
+    line-height: 1.55;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    background: var(--color-cream);
+    border-radius: 8px;
+    border-left: 3px solid var(--color-terracotta);
+  }
+
+  .ps-universal-rule strong {
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 640px) {
+    .ps-panel-details {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .ps-panel {
+      padding: 1.25rem;
+    }
+
+    .ps-flow-row {
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 0.85rem;
+      background: var(--color-cream);
+      border-radius: 8px;
+    }
+
+    .ps-flow-connector {
+      flex-direction: row;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+
+    .ps-flow-arrow {
+      transform: rotate(90deg);
+    }
+
+    .ps-flow-node {
+      width: 100%;
+    }
+  }
+</style>

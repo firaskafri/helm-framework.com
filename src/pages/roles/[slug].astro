@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import RoleGuide from '../../layouts/RoleGuide.astro';
+
+export async function getStaticPaths() {
+  const roles = await getCollection('roles');
+  return roles.map((role) => ({
+    params: { slug: role.id },
+    props: { role },
+  }));
+}
+
+const { role } = Astro.props;
+const { Content, headings } = await render(role);
+---
+
+<RoleGuide {...role.data} headings={headings}>
+  <Content />
+</RoleGuide>
