@@ -83,21 +83,23 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
       <h3 class="ce-section-title">Competencies that carry over &mdash; transformed</h3>
       <p class="ce-section-desc">These build on your existing foundation. The core skill survives but the application, scope, and context change fundamentally.</p>
     </div>
-    <div class="ce-cards">
+    <div class="ce-evo-list">
       {role.evolved.map((c, i) => (
-        <article class="ce-card ce-card-evolved" style={`animation-delay:${i * 60}ms`}>
-          <div class="ce-card-was">
-            <span class="ce-card-was-label">Was</span>
-            <span class="ce-card-was-text">{c.was}</span>
+        <article class="ce-evo-item" style={`animation-delay:${i * 60}ms`}>
+          <div class="ce-evo-comparison">
+            <div class="ce-evo-was">
+              <span class="ce-evo-tag">Was</span>
+              <span class="ce-evo-was-text">{c.was}</span>
+            </div>
+            <div class="ce-evo-arrow" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </div>
+            <div class="ce-evo-now">
+              <span class="ce-evo-tag ce-evo-tag-now">Now</span>
+              <span class="ce-evo-now-title">{c.now}</span>
+            </div>
           </div>
-          <div class="ce-card-arrow-down" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracotta)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
-          </div>
-          <div>
-            <span class="ce-card-now-label">Now</span>
-            <span class="ce-card-now-title">{c.now}</span>
-            <p class="ce-card-now-desc">{c.desc}</p>
-          </div>
+          <p class="ce-evo-desc">{c.desc}</p>
         </article>
       ))}
     </div>

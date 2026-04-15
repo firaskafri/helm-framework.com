@@ -5,6 +5,7 @@ import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
 import { buildBreadcrumbList, buildWebPageJsonLd } from '../lib/jsonLd';
 import Nav from '../components/Nav.astro';
 import ContentWithToc from '../components/ContentWithToc.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
 import Footer from '../components/Footer.astro';
 
 interface Competency {
@@ -19,6 +20,7 @@ interface InterviewMethod {
 }
 
 interface Props {
+  slug: string;
   title: string;
   subtitle: string;
   description: string;
@@ -36,11 +38,13 @@ interface Props {
 }
 
 const {
-  title, subtitle, description, category, evolved_from, maps_to,
+  slug, title, subtitle, description, category, evolved_from, maps_to,
   core_mission, key_responsibilities, competencies,
   no_longer_screen_for, interview_methods,
   day_in_life, helm_connection, headings,
 } = Astro.props;
+
+const competencyMapUrl = `/roles/competency-map#${slug}`;
 
 const colorClasses = {
   engineering: {
@@ -146,6 +150,19 @@ const jsonLd = [
           ))}
         </ul>
 
+        <a href={competencyMapUrl} class="competency-cta group">
+          <div class="competency-cta-body">
+            <span class="competency-cta-label">Competency Evolution Explorer</span>
+            <p class="competency-cta-desc">
+              See which of these competencies evolved from traditional skills, which are entirely new, and where the gap is largest.
+            </p>
+          </div>
+          <span class="competency-cta-action">
+            Explore
+            <ArrowIcon class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </a>
+
         <h3 id="what-we-no-longer-screen-for">What We No Longer Screen For</h3>
         <ul>
           {no_longer_screen_for.map((item) => (
@@ -172,3 +189,60 @@ const jsonLd = [
 
   <Footer />
 </Base>
+
+<style>
+  .competency-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0 0;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-terracotta);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--color-terracotta) 3%, white);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .competency-cta:hover {
+    border-color: color-mix(in srgb, var(--color-terracotta) 40%, var(--color-border));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  .competency-cta-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .competency-cta-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-terracotta);
+    margin-bottom: 0.2rem;
+  }
+  .competency-cta-desc {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-ink-light);
+  }
+  .competency-cta-action {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-terracotta);
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .competency-cta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+</style>

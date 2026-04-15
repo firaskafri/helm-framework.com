@@ -14,6 +14,6 @@ const { role } = Astro.props;
 const { Content, headings } = await render(role);
 ---
 
-<RoleGuide {...role.data} headings={headings}>
+<RoleGuide slug={role.id} {...role.data} headings={headings}>
   <Content />
 </RoleGuide>
