@@ -110,6 +110,8 @@ function getCell(b: string, r: string) {
 </div>
 
 <script>
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('task-matrix');
   if (wrap) {
     const cells = wrap.querySelectorAll<HTMLButtonElement>('.tm-cell');
@@ -148,6 +150,8 @@ function getCell(b: string, r: string) {
         cells[next].focus();
       });
     });
+
+    syncFragmentSelection(details, activate);
   }
 </script>
 

@@ -91,6 +91,8 @@ const jsonLd = [
 </Base>
 
 <script>
+  import { syncFragmentSelection } from '../../lib/syncFragmentSelection';
+
   const tabs = document.getElementById('ce-tabs');
   const content = document.getElementById('ce-content');
   if (tabs && content) {
@@ -98,10 +100,9 @@ const jsonLd = [
     const buttons = [...tabs.querySelectorAll<HTMLButtonElement>('.ce-tab')];
 
     let activeId = panels[0]?.dataset.role ?? '';
-    const hash = window.location.hash.replace('#', '');
-    if (hash && content.querySelector(`[data-role="${hash}"]`)) activeId = hash;
 
     function activate(id: string) {
+      activeId = id;
       panels.forEach((p) => {
         p.hidden = p.dataset.role !== id;
       });
@@ -114,13 +115,18 @@ const jsonLd = [
     }
 
     activate(activeId);
+    syncFragmentSelection(panels, (index) => {
+      const id = panels[index].dataset.role;
+      if (id) activate(id);
+    });
 
     tabs.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.ce-tab');
       if (!btn || btn.dataset.id === activeId) return;
-      activeId = btn.dataset.id!;
-      window.location.hash = activeId;
-      activate(activeId);
+      const id = btn.dataset.id;
+      if (!id) return;
+      activate(id);
+      window.location.hash = id;
       btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
 
@@ -137,9 +143,10 @@ const jsonLd = [
 
       e.preventDefault();
       const btn = buttons[next];
-      activeId = btn.dataset.id!;
-      window.location.hash = activeId;
-      activate(activeId);
+      const id = btn.dataset.id;
+      if (!id) return;
+      activate(id);
+      window.location.hash = id;
       btn.focus();
       btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });

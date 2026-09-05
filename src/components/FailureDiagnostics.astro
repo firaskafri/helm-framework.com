@@ -58,21 +58,32 @@ const modes = FAILURE_MODES;
 </div>
 
 <script>
+  import { observeEntrance } from '../lib/observeEntrance';
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('failure-diagnostics');
   if (wrap) {
     const headers = wrap.querySelectorAll<HTMLButtonElement>('.fd-card-header');
     const pills = wrap.querySelectorAll<HTMLButtonElement>('.fd-pill');
+    const cards = wrap.querySelectorAll<HTMLElement>('.fd-card');
 
-    function toggleCard(header: HTMLButtonElement) {
-      const isOpen = header.getAttribute('aria-expanded') === 'true';
+    function closeAll() {
       headers.forEach((h) => {
         h.setAttribute('aria-expanded', 'false');
         h.closest('.fd-card')?.classList.remove('fd-card-open');
       });
-      if (!isOpen) {
-        header.setAttribute('aria-expanded', 'true');
-        header.closest('.fd-card')?.classList.add('fd-card-open');
-      }
+    }
+
+    function openCard(header: HTMLButtonElement) {
+      closeAll();
+      header.setAttribute('aria-expanded', 'true');
+      header.closest('.fd-card')?.classList.add('fd-card-open');
+    }
+
+    function toggleCard(header: HTMLButtonElement) {
+      const isOpen = header.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeAll();
+      else openCard(header);
     }
 
     headers.forEach((h, idx) => {
@@ -89,22 +100,23 @@ const modes = FAILURE_MODES;
 
     pills.forEach((pill) => {
       pill.addEventListener('click', () => {
-        const targetId = pill.dataset.target!;
+        const targetId = pill.dataset.target;
+        if (!targetId) return;
         const card = document.getElementById(targetId);
         if (!card) return;
         const header = card.querySelector<HTMLButtonElement>('.fd-card-header');
         if (!header) return;
         if (header.getAttribute('aria-expanded') !== 'true') {
-          toggleCard(header);
+          openCard(header);
         }
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         header.focus({ preventScroll: true });
       });
     });
 
+    syncFragmentSelection(cards, (index) => openCard(headers[index]));
   }
 
-  import { observeEntrance } from '../lib/observeEntrance';
   observeEntrance('failure-diagnostics', 'fd-visible', 0.1);
 </script>
 

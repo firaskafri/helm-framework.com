@@ -121,6 +121,8 @@ const arrowPaths = [
 </div>
 
 <script>
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('operating-loop');
   if (wrap) {
     const nodes = wrap.querySelectorAll<SVGGElement>('.ol-node');
@@ -167,6 +169,7 @@ const arrowPaths = [
       });
     });
 
+    syncFragmentSelection(panels, activate);
   }
 
   import { observeEntrance } from '../lib/observeEntrance';

@@ -3,7 +3,6 @@ import path from 'node:path';
 import * as cheerio from 'cheerio';
 
 const DIST_DIR = path.resolve('dist/client');
-const SITE_ORIGIN = 'https://helmframework.com';
 
 async function listFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -32,13 +31,13 @@ function formatFailures(failures) {
 }
 
 const files = await listFiles(DIST_DIR);
-const filesByPublicPath = new Map();
+const publicPaths = new Set();
 const pagesByPublicPath = new Map();
 const pageRecords = [];
 
 for (const filePath of files) {
-  const publicPaths = outputPaths(filePath);
-  for (const publicPath of publicPaths) filesByPublicPath.set(publicPath, filePath);
+  const filePublicPaths = outputPaths(filePath);
+  for (const publicPath of filePublicPaths) publicPaths.add(publicPath);
 
   if (!filePath.endsWith('.html')) continue;
 
@@ -54,12 +53,17 @@ for (const filePath of files) {
     ids.add(id);
   });
 
-  const pageRecord = { filePath, publicPath: publicPaths[0], $, ids, duplicateIds };
+  const pageRecord = { publicPath: filePublicPaths[0], $, ids, duplicateIds };
   pageRecords.push(pageRecord);
-  for (const publicPath of publicPaths) pagesByPublicPath.set(publicPath, pageRecord);
+  for (const publicPath of filePublicPaths) pagesByPublicPath.set(publicPath, pageRecord);
 }
 
 const failures = [];
+const rootCanonicalUrl = pagesByPublicPath.get('/')?.$('link[rel="canonical"]').attr('href');
+if (!rootCanonicalUrl) {
+  throw new Error('Built home page must declare a canonical URL');
+}
+const siteOrigin = new URL(rootCanonicalUrl).origin;
 
 for (const page of pageRecords) {
   for (const duplicateId of page.duplicateIds) {
@@ -72,24 +76,26 @@ for (const page of pageRecords) {
 
     let url;
     try {
-      url = new URL(href, new URL(page.publicPath, SITE_ORIGIN));
+      const canonicalUrl =
+        page.$('link[rel="canonical"]').attr('href') ?? new URL(page.publicPath, siteOrigin).href;
+      url = new URL(href, canonicalUrl);
     } catch {
       failures.push(`${page.publicPath} contains malformed link "${href}"`);
       return;
     }
 
-    if (url.origin !== SITE_ORIGIN) return;
+    if (url.origin !== siteOrigin) return;
 
+    const isSameDocumentFragment = href.startsWith('#');
     const targetPath = url.pathname;
-    const targetFile = filesByPublicPath.get(targetPath);
-    if (!targetFile) {
+    if (!isSameDocumentFragment && !publicPaths.has(targetPath)) {
       failures.push(`${page.publicPath} links to missing route "${targetPath}"`);
       return;
     }
 
     if (!url.hash) return;
 
-    const targetPage = pagesByPublicPath.get(targetPath);
+    const targetPage = isSameDocumentFragment ? page : pagesByPublicPath.get(targetPath);
     const fragment = decodeURIComponent(url.hash.slice(1));
     if (!targetPage) {
       failures.push(`${page.publicPath} links to fragment on non-HTML route "${href}"`);

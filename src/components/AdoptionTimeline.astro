@@ -93,6 +93,9 @@ const phases = ADOPTION_PHASES;
 </div>
 
 <script>
+  import { observeEntrance } from '../lib/observeEntrance';
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('adoption-timeline');
   if (wrap) {
     const nodes = wrap.querySelectorAll<HTMLButtonElement>('.at-node');
@@ -133,9 +136,9 @@ const phases = ADOPTION_PHASES;
       });
     });
 
+    syncFragmentSelection(panels, activate);
   }
 
-  import { observeEntrance } from '../lib/observeEntrance';
   observeEntrance('adoption-timeline', 'at-visible');
 </script>
 

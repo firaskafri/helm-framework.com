@@ -89,6 +89,8 @@ const decisionTree = PATTERN_DECISION_TREE;
 </div>
 
 <script>
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('pattern-selector');
   if (wrap) {
     const tabs = wrap.querySelectorAll<HTMLButtonElement>('.ps-tab');
@@ -110,7 +112,9 @@ const decisionTree = PATTERN_DECISION_TREE;
 
     tabs.forEach((t, idx) => {
       t.addEventListener('click', () => {
-        activate(t.dataset.num!);
+        const number = t.dataset.num;
+        if (!number) return;
+        activate(number);
         t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       });
       t.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -119,10 +123,17 @@ const decisionTree = PATTERN_DECISION_TREE;
         else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
         else return;
         e.preventDefault();
-        activate(tabs[next].dataset.num!);
+        const number = tabs[next].dataset.num;
+        if (!number) return;
+        activate(number);
         tabs[next].focus();
         tabs[next].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       });
+    });
+
+    syncFragmentSelection(panels, (index) => {
+      const number = panels[index].dataset.num;
+      if (number) activate(number);
     });
   }
 </script>

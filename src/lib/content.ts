@@ -7,6 +7,14 @@ import {
 } from './contentIntegrity';
 
 const REQUIRED_DOC_IDS = ['foundation', 'practitioners', 'leadership'] as const;
+const REQUIRED_PRINCIPLE_IDS = [
+  'principle-1-simplicity-first',
+  'principle-2-redesign-dont-automate',
+  'principle-3-agents-execute-humans-are-accountable',
+  'principle-4-guardrails-are-non-negotiable',
+  'principle-5-structure-over-tooling',
+  'principle-6-team-wide-adoption-over-individual-mastery',
+] as const;
 const REQUIRED_ROLE_IDS = [
   'software-engineer',
   'staff-engineer',
@@ -73,6 +81,20 @@ function validateEntries(
 export async function loadDocs(): Promise<CollectionEntry<'docs'>[]> {
   const docs = await getCollection('docs');
   validateEntries('docs collection', docs, REQUIRED_DOC_IDS);
+
+  const foundation = docs.find(({ id }) => id === 'foundation');
+  const principles = foundation?.data.principles;
+  if (!principles || principles.length !== REQUIRED_PRINCIPLE_IDS.length) {
+    throw new Error(`Foundation must define exactly ${REQUIRED_PRINCIPLE_IDS.length} principles`);
+  }
+  assertUniqueIds('Foundation principles', principles);
+  assertRequiredIds(
+    'Foundation principles',
+    principles.map(({ id }) => id),
+    REQUIRED_PRINCIPLE_IDS,
+  );
+  assertConsecutiveOrder('Foundation principles', principles.map(({ number }) => number));
+
   return docs;
 }
 

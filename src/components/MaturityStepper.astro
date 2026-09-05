@@ -112,6 +112,7 @@ const levels = MATURITY_LEVELS;
 
 <script>
   import { observeEntrance } from '../lib/observeEntrance';
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
 
   document.querySelectorAll<HTMLElement>('.ms-wrap').forEach((wrap) => {
     const nodes = wrap.querySelectorAll<HTMLButtonElement>('.ms-node');
@@ -153,6 +154,7 @@ const levels = MATURITY_LEVELS;
     });
 
     activate(0);
+    syncFragmentSelection(panels, activate);
     observeEntrance(wrap.id, 'ms-visible');
   });
 </script>

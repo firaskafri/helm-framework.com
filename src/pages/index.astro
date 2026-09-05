@@ -11,7 +11,10 @@ import Footer from '../components/Footer.astro';
 
 const docs = await loadDocs();
 const foundation = docs.find((d) => d.id === 'foundation');
-const principles = foundation?.data.principles ?? [];
+if (!foundation?.data.principles) {
+  throw new Error('Foundation principles are required');
+}
+const principles = foundation.data.principles;
 
 const roles = await loadRoles();
 const sortedRoles = [...roles].sort((a, b) => a.data.order - b.data.order);

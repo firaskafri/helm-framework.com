@@ -4,7 +4,7 @@ import { FRAMEWORK_VERSION, PUBLICATION_STATUSES } from './data/framework';
 
 const principle = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  number: z.number(),
+  number: z.number().int().positive(),
   title: z.string().min(1),
   quote: z.string().min(1),
 });

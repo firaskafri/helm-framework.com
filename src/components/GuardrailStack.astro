@@ -63,20 +63,30 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
 </div>
 
 <script>
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('guardrail-stack');
   if (wrap) {
     const buttons = wrap.querySelectorAll<HTMLButtonElement>('.gs-layer-header');
+    const details = wrap.querySelectorAll<HTMLElement>('.gs-detail-wrap');
 
-    function toggle(btn: HTMLButtonElement) {
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    function closeAll() {
       buttons.forEach((b) => {
         b.setAttribute('aria-expanded', 'false');
         b.closest('.gs-layer')?.classList.remove('gs-layer-open');
       });
-      if (!isOpen) {
-        btn.setAttribute('aria-expanded', 'true');
-        btn.closest('.gs-layer')?.classList.add('gs-layer-open');
-      }
+    }
+
+    function open(btn: HTMLButtonElement) {
+      closeAll();
+      btn.setAttribute('aria-expanded', 'true');
+      btn.closest('.gs-layer')?.classList.add('gs-layer-open');
+    }
+
+    function toggle(btn: HTMLButtonElement) {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeAll();
+      else open(btn);
     }
 
     buttons.forEach((btn, idx) => {
@@ -91,6 +101,7 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
       });
     });
 
+    syncFragmentSelection(details, (index) => open(buttons[index]));
   }
 
   import { observeEntrance } from '../lib/observeEntrance';

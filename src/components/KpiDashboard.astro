@@ -111,14 +111,14 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
 </div>
 
 <script>
+  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
+
   const wrap = document.getElementById('kd-interactive');
   if (wrap) {
     const tabs = wrap.querySelectorAll<HTMLButtonElement>('.kd-tab');
     const panels = wrap.querySelectorAll<HTMLElement>('.kd-panel');
-    let activeId = tabs[0]?.dataset.id ?? '';
 
     function activate(id: string) {
-      activeId = id;
       tabs.forEach((t) => {
         const on = t.dataset.id === id;
         t.classList.toggle('kd-tab-active', on);
@@ -131,16 +131,26 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
     }
 
     tabs.forEach((t, idx) => {
-      t.addEventListener('click', () => activate(t.dataset.id!));
+      t.addEventListener('click', () => {
+        const id = t.dataset.id;
+        if (id) activate(id);
+      });
       t.addEventListener('keydown', (e: KeyboardEvent) => {
         let next = idx;
         if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
         else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
         else return;
         e.preventDefault();
-        activate(tabs[next].dataset.id!);
+        const id = tabs[next].dataset.id;
+        if (!id) return;
+        activate(id);
         tabs[next].focus();
       });
+    });
+
+    syncFragmentSelection(panels, (index) => {
+      const id = panels[index].dataset.id;
+      if (id) activate(id);
     });
   }
 </script>
