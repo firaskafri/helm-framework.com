@@ -17,7 +17,7 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
             class="gs-layer-header"
             type="button"
             aria-expanded="false"
-            aria-controls={`gs-detail-${layer.number}`}
+            aria-controls={layer.id}
             id={`gs-btn-${layer.number}`}
           >
             <span class="gs-layer-num">{layer.number}</span>
@@ -29,7 +29,7 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
               <path d="M6 9l6 6 6-6" />
             </svg>
           </button>
-          <div class="gs-detail-wrap" id={`gs-detail-${layer.number}`} role="region" aria-labelledby={`gs-btn-${layer.number}`}>
+          <div class="gs-detail-wrap" id={layer.id} role="region" aria-labelledby={`gs-btn-${layer.number}`}>
             <div class="gs-detail">
               <p class="gs-purpose">{layer.purpose}</p>
               <div class="gs-table-wrap">

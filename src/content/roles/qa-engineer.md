@@ -1,8 +1,14 @@
 ---
+id: "qa-engineer"
 title: "QA Engineer / SDET"
 subtitle: "The role that splits in two — one judges the agent, the other judges the product"
 description: "Traditional QA owned all quality. In the AI era, there are two distinct quality surfaces: agent output correctness and product correctness. These require different skills, tools, and perspectives."
 order: 5
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "product"
 evolved_from: ["QA Engineer", "SDET", "QA Lead", "Test Engineer"]
 maps_to: "QA Engineer + Evaluation Lead"

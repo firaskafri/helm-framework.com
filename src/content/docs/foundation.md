@@ -1,26 +1,50 @@
 ---
+id: "foundation"
 title: "Foundation"
 subtitle: "Six principles that underpin every successful agentic implementation."
 description: "The non-negotiable principles for product development teams operating with AI agents."
 order: 1
 audience: "everyone"
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences:
+  - "https://www.anthropic.com/engineering/building-effective-agents"
+  - "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents"
+  - "https://www.bcg.com/publications/2026/scaling-ai-requires-new-processes-not-just-new-tools"
+  - "https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage"
+  - "https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era"
+  - "https://www.deloitte.com/us/en/insights/topics/technology-management/tech-trends/2026/agentic-ai-strategy.html"
+  - "https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html"
+  - "https://www.gartner.com/en/articles/top-technology-trends-2026"
+  - "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/"
+  - "https://www.chronoinnovation.com/resources/ai-agents-team-structure"
+  - "https://www.bassimeledath.com/blog/levels-of-agentic-engineering"
+  - "https://vibecoding.app/blog/agentic-engineering-for-software-teams"
 principles:
-  - number: 1
+  - id: "principle-1-simplicity-first"
+    number: 1
     title: "Simplicity First"
     quote: "Start with the simplest solution possible. Only increase complexity when it demonstrably improves outcomes."
-  - number: 2
+  - id: "principle-2-redesign-dont-automate"
+    number: 2
     title: "Redesign, Don't Automate"
     quote: "Most fail because they automate existing processes instead of reimagining workflows from scratch."
-  - number: 3
+  - id: "principle-3-agents-execute-humans-are-accountable"
+    number: 3
     title: "Agents Execute, Humans Are Accountable"
     quote: "Agents are a structured execution layer, not a replacement for human judgment on architecture, risk, and release."
-  - number: 4
+  - id: "principle-4-guardrails-are-non-negotiable"
+    number: 4
     title: "Guardrails Are Non-Negotiable"
     quote: "Speed without guardrails is not velocity — it is accelerated debt. Build guardrails before scaling, not after."
-  - number: 5
+  - id: "principle-5-structure-over-tooling"
+    number: 5
     title: "Structure Over Tooling"
     quote: "Most AI product teams fail for structural reasons, not technical ones. Clear roles matter more than model choice."
-  - number: 6
+  - id: "principle-6-team-wide-adoption-over-individual-mastery"
+    number: 6
     title: "Team-Wide Adoption Over Individual Mastery"
     quote: "The team's agentic capacity is constrained by its least-adopted member in a critical-path role."
 ---

@@ -1,8 +1,14 @@
 ---
+id: "sre-devops-engineer"
 title: "SRE / DevOps Engineer"
 subtitle: "From monitoring infrastructure to monitoring the machines that monitor the machines"
 description: "SREs monitored uptime, managed infrastructure, and responded to incidents. These responsibilities remain, but expand to an entirely new failure surface: agent operations — hallucinations, cost spirals, scope drift, and silent quality degradation."
 order: 4
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "engineering"
 evolved_from: ["Site Reliability Engineer", "DevOps Engineer", "Infrastructure Engineer"]
 maps_to: "AI Reliability Engineer"

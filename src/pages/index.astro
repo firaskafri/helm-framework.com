@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import { SITE_FULL_NAME, SITE_NAME } from '../data/site';
+import { loadDocs, loadRoles } from '../lib/content';
 import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
@@ -9,11 +9,11 @@ import PrincipleCard from '../components/PrincipleCard.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
 import Footer from '../components/Footer.astro';
 
-const docs = await getCollection('docs');
+const docs = await loadDocs();
 const foundation = docs.find((d) => d.id === 'foundation');
 const principles = foundation?.data.principles ?? [];
 
-const roles = await getCollection('roles');
+const roles = await loadRoles();
 const sortedRoles = [...roles].sort((a, b) => a.data.order - b.data.order);
 
 const homeDescription =

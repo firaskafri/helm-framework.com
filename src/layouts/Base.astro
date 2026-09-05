@@ -1,5 +1,6 @@
 ---
 import { SITE_NAME, SITE_AUTHOR } from '../data/site';
+import type { PublicationStatus } from '../data/framework';
 import { resolveSiteOrigin, resolveOgImage } from '../lib/resolveSiteOrigin';
 
 interface Props {
@@ -12,6 +13,10 @@ interface Props {
   ogType?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
+  frameworkVersion?: string;
+  publicationStatus?: PublicationStatus;
+  createdAt?: Date;
+  lastModified?: Date;
 }
 
 const {
@@ -22,6 +27,10 @@ const {
   ogType = 'website',
   noindex = false,
   jsonLd = [],
+  frameworkVersion,
+  publicationStatus,
+  createdAt,
+  lastModified,
 } = Astro.props;
 
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
@@ -40,6 +49,10 @@ const ldJsonBlocks = jsonLd.map((obj) => JSON.stringify(obj));
     <meta name="description" content={description} />
     <meta name="author" content={SITE_AUTHOR} />
     <meta name="robots" content={robotsContent} />
+    {frameworkVersion && <meta name="helm:framework-version" content={frameworkVersion} />}
+    {publicationStatus && <meta name="helm:publication-status" content={publicationStatus} />}
+    {createdAt && <meta property="article:published_time" content={createdAt.toISOString()} />}
+    {lastModified && <meta property="article:modified_time" content={lastModified.toISOString()} />}
     <!-- Matches @theme --color-cream in global.css (meta theme-color cannot use CSS variables) -->
     <meta name="theme-color" content="#FDFBF7" />
     <title>{fullTitle}</title>

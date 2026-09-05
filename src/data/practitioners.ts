@@ -1,5 +1,12 @@
+import {
+  assertConsecutiveOrder,
+  assertNonEmpty,
+  assertUniqueIds,
+} from '../lib/contentIntegrity';
+
 export interface LoopPhase {
   id: string;
+  order: number;
   label: string;
   ownerLabel: string;
   summary: string;
@@ -9,6 +16,7 @@ export interface LoopPhase {
 export const LOOP_PHASES: LoopPhase[] = [
   {
     id: 'plan',
+    order: 1,
     label: 'Plan',
     ownerLabel: 'Product + Engineering',
     summary:
@@ -22,6 +30,7 @@ export const LOOP_PHASES: LoopPhase[] = [
   },
   {
     id: 'execute',
+    order: 2,
     label: 'Execute',
     ownerLabel: 'Agents (monitored)',
     summary:
@@ -36,6 +45,7 @@ export const LOOP_PHASES: LoopPhase[] = [
   },
   {
     id: 'verify',
+    order: 3,
     label: 'Verify',
     ownerLabel: 'Automated + Human',
     summary:
@@ -49,6 +59,7 @@ export const LOOP_PHASES: LoopPhase[] = [
   },
   {
     id: 'ship',
+    order: 4,
     label: 'Ship',
     ownerLabel: 'Human decision',
     summary: 'Merge and deploy with full auditability and rollback capability.',
@@ -61,6 +72,7 @@ export const LOOP_PHASES: LoopPhase[] = [
   },
   {
     id: 'learn',
+    order: 5,
     label: 'Learn',
     ownerLabel: 'Whole team',
     summary:
@@ -76,6 +88,7 @@ export const LOOP_PHASES: LoopPhase[] = [
 ];
 
 export interface GuardrailLayer {
+  id: string;
   number: number;
   name: string;
   parenthetical: string;
@@ -85,6 +98,7 @@ export interface GuardrailLayer {
 
 export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
   {
+    id: 'layer-1-scope',
     number: 1,
     name: 'Scope',
     parenthetical: 'task boundary enforcement',
@@ -99,6 +113,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     ],
   },
   {
+    id: 'layer-2-quality-guardrails',
     number: 2,
     name: 'Quality',
     parenthetical: 'code and output correctness',
@@ -115,6 +130,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     ],
   },
   {
+    id: 'layer-3-policy',
     number: 3,
     name: 'Policy',
     parenthetical: 'safety and compliance',
@@ -131,6 +147,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     ],
   },
   {
+    id: 'layer-4-human-decision',
     number: 4,
     name: 'Human Decision',
     parenthetical: 'judgment and accountability',
@@ -146,6 +163,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     ],
   },
   {
+    id: 'layer-5-governance',
     number: 5,
     name: 'Governance',
     parenthetical: 'fleet-level controls',
@@ -163,6 +181,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
 ];
 
 export interface CompositionPattern {
+  id: string;
   number: number;
   name: string;
   description: string;
@@ -172,6 +191,7 @@ export interface CompositionPattern {
 
 export const COMPOSITION_PATTERNS: CompositionPattern[] = [
   {
+    id: 'prompt-chaining',
     number: 1,
     name: 'Prompt Chaining',
     description: 'Decompose a task into a fixed sequence of steps. Each LLM call processes the output of the previous one. Programmatic gates between steps validate intermediate results.',
@@ -179,6 +199,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'Generate marketing copy, then translate it. Write an outline, validate it against criteria, then write the full document.',
   },
   {
+    id: 'routing',
     number: 2,
     name: 'Routing',
     description: 'Classify the input and direct it to a specialized handler. Each route has its own optimized prompt and tools.',
@@ -186,6 +207,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'Customer service — route general questions, refund requests, and technical support to different downstream processes.',
   },
   {
+    id: 'parallelization',
     number: 3,
     name: 'Parallelization',
     description: 'Run subtasks simultaneously and aggregate results. Two variants: Sectioning (independent subtasks) and Voting (same task, multiple perspectives).',
@@ -193,6 +215,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'One model processes the user query while another screens for safety. Multiple prompts review code for vulnerabilities; flag if any finds a problem.',
   },
   {
+    id: 'evaluator-optimizer',
     number: 4,
     name: 'Evaluator-Optimizer',
     description: 'One LLM generates a response. Another evaluates it and provides feedback. Loop until quality criteria are met.',
@@ -200,6 +223,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'Literary translation with a critic loop. Complex search tasks requiring multiple rounds of analysis.',
   },
   {
+    id: 'single-agent-loop',
     number: 5,
     name: 'Single Agent Loop',
     description: 'A single LLM with tools operates in a loop until an exit condition is met (final output, no tool calls, error, or max iterations). The fundamental agent pattern.',
@@ -207,6 +231,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'A coding agent that reads files, writes code, runs tests, and iterates until tests pass.',
   },
   {
+    id: 'orchestrator-workers',
     number: 6,
     name: 'Orchestrator-Workers',
     description: 'A central LLM dynamically breaks down tasks, delegates to worker LLMs, and synthesizes results. Unlike parallelization, subtasks are not pre-defined.',
@@ -214,6 +239,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'A coding product that determines which files need changing and dispatches changes to workers.',
   },
   {
+    id: 'manager-agents-as-tools',
     number: 7,
     name: 'Manager (Agents-as-Tools)',
     description: 'A central "manager" agent calls specialized agents as tools. The manager retains control and context, synthesizing outputs into a unified interaction.',
@@ -221,6 +247,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     example: 'A manager agent that calls translator agents for Spanish, French, and Italian, synthesizing all results for the user.',
   },
   {
+    id: 'decentralized-handoff',
     number: 8,
     name: 'Decentralized Handoff',
     description: 'Agents operate as peers, handing off full execution control to one another based on specialization. No central coordinator.',
@@ -229,21 +256,28 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
   },
 ];
 
+export const COMPOSITION_RULE =
+  "Maximize a single agent's capabilities before splitting into multiple agents.";
+
 export interface PatternDecisionNode {
+  id: string;
+  order: number;
   start: string;
   ifFails: string;
   thenConsider: string;
 }
 
 export const PATTERN_DECISION_TREE: PatternDecisionNode[] = [
-  { start: 'Single LLM call with good prompting', ifFails: 'Output quality insufficient', thenConsider: 'Prompt Chaining or Evaluator-Optimizer' },
-  { start: 'Prompt Chaining', ifFails: 'Task decomposition isn\'t fixed', thenConsider: 'Single Agent Loop' },
-  { start: 'Single Agent Loop', ifFails: 'Too many tools (>15) or overlapping concerns', thenConsider: 'Manager or Orchestrator-Workers' },
-  { start: 'Single Agent Loop', ifFails: 'Distinct categories with different handling', thenConsider: 'Routing + specialized agents' },
-  { start: 'Manager pattern', ifFails: 'Central agent bottlenecks; specialists need full autonomy', thenConsider: 'Decentralized Handoff' },
+  { id: 'single-call-quality', order: 1, start: 'Single LLM call with good prompting', ifFails: 'Output quality insufficient', thenConsider: 'Prompt Chaining or Evaluator-Optimizer' },
+  { id: 'prompt-chaining-flexibility', order: 2, start: 'Prompt Chaining', ifFails: 'Task decomposition isn\'t fixed', thenConsider: 'Single Agent Loop' },
+  { id: 'single-agent-complexity', order: 3, start: 'Single Agent Loop', ifFails: 'Too many tools (>15) or overlapping concerns', thenConsider: 'Manager or Orchestrator-Workers' },
+  { id: 'single-agent-routing', order: 4, start: 'Single Agent Loop', ifFails: 'Distinct categories with different handling', thenConsider: 'Routing + specialized agents' },
+  { id: 'manager-bottleneck', order: 5, start: 'Manager pattern', ifFails: 'Central agent bottlenecks; specialists need full autonomy', thenConsider: 'Decentralized Handoff' },
 ];
 
 export interface TaskMatrixCell {
+  id: string;
+  order: number;
   boundedness: 'well-bounded' | 'semi-bounded' | 'open-ended';
   risk: 'low' | 'medium' | 'high';
   agentRole: string;
@@ -254,6 +288,7 @@ export interface TaskMatrixCell {
 
 export const TASK_MATRIX: TaskMatrixCell[] = [
   {
+    id: 'well-bounded-low-risk', order: 1,
     boundedness: 'well-bounded', risk: 'low',
     agentRole: 'Agent-driven',
     description: 'Automated verification. Sampling review.',
@@ -261,6 +296,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['Copy and microcopy generation within brand guidelines', 'Test case generation from acceptance criteria', 'Competitive analysis summaries from public data'],
   },
   {
+    id: 'well-bounded-medium-risk', order: 2,
     boundedness: 'well-bounded', risk: 'medium',
     agentRole: 'Agent-driven',
     description: 'Automated + human verification.',
@@ -268,6 +304,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['PRD drafts from user research notes', 'User story decomposition from high-level requirements', 'Design-to-code translation using design system components'],
   },
   {
+    id: 'well-bounded-high-risk', order: 3,
     boundedness: 'well-bounded', risk: 'high',
     agentRole: 'Agent-assisted',
     description: 'Human-led with agent drafts. Full review.',
@@ -275,6 +312,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['User-facing copy with legal/compliance implications', 'Onboarding flow changes affecting activation metrics'],
   },
   {
+    id: 'semi-bounded-low-risk', order: 4,
     boundedness: 'semi-bounded', risk: 'low',
     agentRole: 'Agent-driven',
     description: 'With human plan review.',
@@ -282,6 +320,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['Feature spec elaboration from brief outline', 'Design exploration within existing system'],
   },
   {
+    id: 'semi-bounded-medium-risk', order: 5,
     boundedness: 'semi-bounded', risk: 'medium',
     agentRole: 'Agent-assisted',
     description: 'Human review mandatory.',
@@ -289,6 +328,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['Multi-step workflow redesign', 'New feature prototyping within constraints'],
   },
   {
+    id: 'semi-bounded-high-risk', order: 6,
     boundedness: 'semi-bounded', risk: 'high',
     agentRole: 'Human-led',
     description: 'Agent may draft, human designs and reviews.',
@@ -296,6 +336,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['Pricing model implementation', 'Compliance-critical workflow changes'],
   },
   {
+    id: 'open-ended-low-risk', order: 7,
     boundedness: 'open-ended', risk: 'low',
     agentRole: 'Human-led',
     description: 'With agent support for research/exploration.',
@@ -303,6 +344,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['Market research synthesis', 'Competitive landscape analysis'],
   },
   {
+    id: 'open-ended-medium-risk', order: 8,
     boundedness: 'open-ended', risk: 'medium',
     agentRole: 'Human-led',
     description: 'Agent provides options, human decides.',
@@ -310,6 +352,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     productExamples: ['Product strategy options analysis', 'User research synthesis and insight generation'],
   },
   {
+    id: 'open-ended-high-risk', order: 9,
     boundedness: 'open-ended', risk: 'high',
     agentRole: 'Human only',
     description: 'Agent excluded.',
@@ -324,6 +367,7 @@ export interface MaturityDimension {
 }
 
 export interface MaturityLevel {
+  id: string;
   level: number;
   name: string;
   description: string;
@@ -335,6 +379,7 @@ export interface MaturityLevel {
 
 export const MATURITY_LEVELS: MaturityLevel[] = [
   {
+    id: 'level-1-assisted',
     level: 1,
     name: 'Assisted',
     description: 'AI provides suggestions that developers accept, modify, or reject. The developer drives all decisions and execution.',
@@ -356,6 +401,7 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
     failureMode: 'Over-trust of suggestions without review; cargo-cult coding.',
   },
   {
+    id: 'level-2-structured',
     level: 2,
     name: 'Structured',
     description: 'AI operates within structured contexts. Teams use dedicated AI IDEs, maintain rules files, and follow defined prompting patterns.',
@@ -377,6 +423,7 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
     failureMode: 'Prompt tribal knowledge (only some team members know effective patterns).',
   },
   {
+    id: 'level-3-integrated',
     level: 3,
     name: 'Integrated',
     description: 'AI agents are integrated into the development lifecycle through automated feedback loops. CI serves as the verification layer.',
@@ -399,6 +446,7 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
     failureMode: 'Silent quality drift if eval coverage is incomplete. Over-reliance on passing CI without understanding what\'s tested.',
   },
   {
+    id: 'level-4-autonomous',
     level: 4,
     name: 'Autonomous',
     description: 'Agents operate in the background, working on tasks asynchronously. Humans define tasks and review results.',
@@ -421,6 +469,7 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
     failureMode: '"Confident mistakes" — agents follow stale rules without understanding original tradeoffs. Cost overruns from uncapped execution.',
   },
   {
+    id: 'level-5-orchestrated',
     level: 5,
     name: 'Orchestrated',
     description: 'Multiple agents coordinate in parallel, managed by orchestration systems.',
@@ -443,3 +492,24 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
     failureMode: 'Coordination failures between agents. Emergent behaviors not covered by individual agent guardrails.',
   },
 ];
+
+const practitionerCollections = [
+  ['Operating loop', LOOP_PHASES],
+  ['Guardrail Stack', GUARDRAIL_LAYERS],
+  ['Composition patterns', COMPOSITION_PATTERNS],
+  ['Pattern decision tree', PATTERN_DECISION_TREE],
+  ['Task matrix', TASK_MATRIX],
+  ['Maturity levels', MATURITY_LEVELS],
+] as const;
+
+for (const [label, records] of practitionerCollections) {
+  assertNonEmpty(label, records);
+  assertUniqueIds(label, records);
+}
+
+assertConsecutiveOrder('Operating loop', LOOP_PHASES.map(({ order }) => order));
+assertConsecutiveOrder('Guardrail Stack', GUARDRAIL_LAYERS.map(({ number }) => number));
+assertConsecutiveOrder('Composition patterns', COMPOSITION_PATTERNS.map(({ number }) => number));
+assertConsecutiveOrder('Pattern decision tree', PATTERN_DECISION_TREE.map(({ order }) => order));
+assertConsecutiveOrder('Task matrix', TASK_MATRIX.map(({ order }) => order));
+assertConsecutiveOrder('Maturity levels', MATURITY_LEVELS.map(({ level }) => level));

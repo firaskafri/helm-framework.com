@@ -16,7 +16,7 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
 <div
   class="ce-role"
   role="tabpanel"
-  id={`ce-panel-${role.id}`}
+  id={role.id}
   aria-labelledby={`ce-tab-${role.id}`}
   data-role={role.id}
   hidden={index > 0}

@@ -6,7 +6,7 @@ interface Props {}
 const shifts = ORG_SHIFTS;
 ---
 
-<div class="os-wrap" id="org-shift">
+<div class="os-wrap" id="six-organizational-shifts">
   <div class="os-diagram">
     <div class="os-panel os-panel-before">
       <span class="os-panel-label">Before <span class="os-panel-sublabel">(Horizontal Silos)</span></span>
@@ -64,7 +64,7 @@ const shifts = ORG_SHIFTS;
 
   <div class="os-shifts">
     {shifts.map((shift, i) => (
-      <article class="os-shift-card" style={`--i:${i}`}>
+      <article class="os-shift-card" id={shift.id} style={`--i:${i}`}>
         <span class="os-shift-num">{String(shift.number).padStart(2, '0')}</span>
         <div>
           <h4 class="os-shift-title">{shift.title}</h4>

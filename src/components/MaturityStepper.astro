@@ -20,7 +20,7 @@ const levels = MATURITY_LEVELS;
         type="button"
         role="tab"
         id={`ms-tab-${variant}-${lvl.level}`}
-        aria-controls={`ms-panel-${variant}-${lvl.level}`}
+        aria-controls={lvl.id}
         aria-selected={i === 0 ? 'true' : 'false'}
         tabindex={i === 0 ? 0 : -1}
         data-level={lvl.level}
@@ -35,7 +35,7 @@ const levels = MATURITY_LEVELS;
   {levels.map((lvl, i) => (
     <div
       class="ms-panel"
-      id={`ms-panel-${variant}-${lvl.level}`}
+      id={lvl.id}
       role="tabpanel"
       aria-labelledby={`ms-tab-${variant}-${lvl.level}`}
       data-level={lvl.level}

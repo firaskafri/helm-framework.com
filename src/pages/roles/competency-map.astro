@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import { resolveSiteOrigin } from '../../lib/resolveSiteOrigin';
+import { loadRoles } from '../../lib/content';
 import { buildBreadcrumbList, buildWebPageJsonLd } from '../../lib/jsonLd';
 import { toRoleView } from '../../lib/competencyMap';
 import Base from '../../layouts/Base.astro';
@@ -8,7 +8,7 @@ import Nav from '../../components/Nav.astro';
 import CompetencyRolePanel from '../../components/CompetencyRolePanel.astro';
 import Footer from '../../components/Footer.astro';
 
-const allRoles = await getCollection('roles');
+const allRoles = await loadRoles();
 const roles = [...allRoles].sort((a, b) => a.data.order - b.data.order);
 const rolesView = roles.map(toRoleView);
 
@@ -61,7 +61,7 @@ const jsonLd = [
             type="button"
             role="tab"
             id={`ce-tab-${r.id}`}
-            aria-controls={`ce-panel-${r.id}`}
+            aria-controls={r.id}
             aria-selected={i === 0 ? 'true' : 'false'}
             tabindex={i === 0 ? 0 : -1}
             class:list={[

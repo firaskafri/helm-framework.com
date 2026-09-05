@@ -12,7 +12,7 @@ const modes = FAILURE_MODES;
       <button
         class="fd-pill"
         type="button"
-        data-target={`fd-card-${m.number}`}
+        data-target={m.id}
       >
         <span class="fd-pill-num">{m.number}</span>
         {m.name}
@@ -22,7 +22,7 @@ const modes = FAILURE_MODES;
 
   <div class="fd-cards">
     {modes.map((m, i) => (
-      <div class="fd-card" id={`fd-card-${m.number}`} style={`--i:${i}`}>
+      <div class="fd-card" id={m.id} style={`--i:${i}`}>
         <button
           class="fd-card-header"
           type="button"

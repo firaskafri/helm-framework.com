@@ -27,6 +27,9 @@ export interface WebPageOptions {
   homeUrl: string;
   /** Defaults to `'WebPage'`. */
   type?: string;
+  version?: string;
+  datePublished?: Date;
+  dateModified?: Date;
 }
 
 export function buildWebPageJsonLd({
@@ -35,6 +38,9 @@ export function buildWebPageJsonLd({
   url,
   homeUrl,
   type = 'WebPage',
+  version,
+  datePublished,
+  dateModified,
 }: WebPageOptions): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
@@ -44,5 +50,8 @@ export function buildWebPageJsonLd({
     description,
     url,
     isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: homeUrl },
+    ...(version && { version }),
+    ...(datePublished && { datePublished: datePublished.toISOString() }),
+    ...(dateModified && { dateModified: dateModified.toISOString() }),
   };
 }

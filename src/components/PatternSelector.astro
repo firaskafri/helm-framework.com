@@ -1,5 +1,9 @@
 ---
-import { COMPOSITION_PATTERNS, PATTERN_DECISION_TREE } from '../data/practitioners';
+import {
+  COMPOSITION_PATTERNS,
+  COMPOSITION_RULE,
+  PATTERN_DECISION_TREE,
+} from '../data/practitioners';
 
 interface Props {}
 
@@ -16,7 +20,7 @@ const decisionTree = PATTERN_DECISION_TREE;
           type="button"
           role="tab"
           id={`ps-tab-${p.number}`}
-          aria-controls={`ps-panel-${p.number}`}
+          aria-controls={p.id}
           aria-selected={i === 0 ? 'true' : 'false'}
           tabindex={i === 0 ? 0 : -1}
           data-num={p.number}
@@ -31,7 +35,7 @@ const decisionTree = PATTERN_DECISION_TREE;
   {patterns.map((p, i) => (
     <div
       class="ps-panel"
-      id={`ps-panel-${p.number}`}
+      id={p.id}
       role="tabpanel"
       aria-labelledby={`ps-tab-${p.number}`}
       data-num={p.number}
@@ -79,7 +83,7 @@ const decisionTree = PATTERN_DECISION_TREE;
       ))}
     </div>
     <p class="ps-universal-rule">
-      <strong>Universal rule:</strong> Maximize a single agent's capabilities before splitting into multiple agents.
+      <strong>Universal rule:</strong> {COMPOSITION_RULE}
     </p>
   </div>
 </div>

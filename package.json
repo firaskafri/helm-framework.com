@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "check:content": "npm run build && node scripts/check-built-content.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -21,5 +22,8 @@
     "marked": "^17.0.5",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0"
   }
 }

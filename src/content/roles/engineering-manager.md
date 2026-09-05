@@ -1,8 +1,14 @@
 ---
+id: "engineering-manager"
 title: "Engineering Manager"
 subtitle: "From tracking velocity to building capability and measuring what matters"
 description: "Engineering managers measured velocity, ran standups, and unblocked developers. When agents multiply output by 3-10x, velocity metrics become meaningless. The EM's real job becomes building capability, managing adoption equity, and measuring impact."
 order: 3
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "engineering"
 evolved_from: ["Engineering Manager", "Development Manager", "Team Lead"]
 maps_to: "Engineering Manager"

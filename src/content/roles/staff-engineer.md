@@ -1,8 +1,14 @@
 ---
+id: "staff-engineer"
 title: "Staff / Principal Engineer"
 subtitle: "From the best individual coder to the architect of systems agents build within"
 description: "Staff engineers solved the hardest implementation problems. In the AI era, the hardest problems are structural: system design, model selection, orchestration patterns, and failure modes that agents cannot reason about."
 order: 2
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "engineering"
 evolved_from: ["Staff Engineer", "Principal Engineer", "Solutions Architect"]
 maps_to: "AI Architect"

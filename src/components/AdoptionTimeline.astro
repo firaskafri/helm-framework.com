@@ -17,7 +17,7 @@ const phases = ADOPTION_PHASES;
         type="button"
         role="tab"
         id={`at-tab-${phase.number}`}
-        aria-controls={`at-panel-${phase.number}`}
+        aria-controls={phase.id}
         aria-selected={i === 0 ? 'true' : 'false'}
         tabindex={i === 0 ? 0 : -1}
         data-phase={phase.number}
@@ -33,7 +33,7 @@ const phases = ADOPTION_PHASES;
   {phases.map((phase, i) => (
     <div
       class="at-panel"
-      id={`at-panel-${phase.number}`}
+      id={phase.id}
       role="tabpanel"
       aria-labelledby={`at-tab-${phase.number}`}
       data-phase={phase.number}

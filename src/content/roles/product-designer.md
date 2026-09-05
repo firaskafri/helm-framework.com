@@ -1,8 +1,14 @@
 ---
+id: "product-designer"
 title: "Product Designer"
 subtitle: "From producing screens to governing the system agents generate from"
 description: "Designers produced wireframes, mockups, and polished visuals. When agents can generate UI components from design systems, the production bottleneck evaporates. But agents cannot judge whether the result feels right to a user."
 order: 8
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "product"
 evolved_from: ["UX Designer", "UI Designer", "Product Designer", "Interaction Designer"]
 maps_to: "Product Designer"

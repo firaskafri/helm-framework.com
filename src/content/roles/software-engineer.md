@@ -1,8 +1,14 @@
 ---
+id: "software-engineer"
 title: "Software Engineer"
 subtitle: "From code producer to agent orchestrator and quality judge"
 description: "The software engineer's identity was built around writing code. In the AI era, agents write code faster than any human. The engineer's value is no longer in production — it's in orchestration, review, and judgment."
 order: 1
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "engineering"
 evolved_from: ["Frontend Engineer", "Backend Engineer", "Full-Stack Engineer"]
 maps_to: "Product Engineer"

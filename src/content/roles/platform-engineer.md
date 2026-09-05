@@ -1,8 +1,14 @@
 ---
+id: "platform-engineer"
 title: "Platform / Infrastructure Engineer"
 subtitle: "From CI/CD pipelines to agent infrastructure and governance at scale"
 description: "Platform engineers managed CI/CD, container orchestration, and developer experience. A new layer now appears: model hosting, inference serving, agent registries, token budgets, and governance infrastructure."
 order: 6
+publicationStatus: "published"
+frameworkVersion: "1.0.0"
+createdAt: "2026-04-01"
+lastModified: "2026-04-01"
+evidenceReferences: []
 category: "engineering"
 evolved_from: ["Platform Engineer", "Infrastructure Engineer", "DevOps Engineer"]
 maps_to: "Platform Engineer"

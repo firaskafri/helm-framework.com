@@ -72,7 +72,7 @@ const arrowPaths = [
           data-phase={phase.id}
           role="tab"
           id={`ol-tab-${phase.id}`}
-          aria-controls={`ol-panel-${phase.id}`}
+          aria-controls={phase.id}
           aria-selected={i === 0 ? 'true' : 'false'}
           tabindex={i === 0 ? 0 : -1}
           style={`--i:${i}`}
@@ -100,7 +100,7 @@ const arrowPaths = [
   {phases.map((phase, i) => (
     <div
       class="ol-panel"
-      id={`ol-panel-${phase.id}`}
+      id={phase.id}
       role="tabpanel"
       aria-labelledby={`ol-tab-${phase.id}`}
       data-phase={phase.id}

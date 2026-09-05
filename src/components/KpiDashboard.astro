@@ -1,5 +1,5 @@
 ---
-import { KPI_CATEGORIES } from '../data/leadership';
+import { KPI_CATEGORIES, KPI_SUCCESS_FORMULA } from '../data/leadership';
 import type { KpiMetric } from '../data/leadership';
 
 interface Props {}
@@ -12,6 +12,23 @@ const directionIcons: Record<KpiMetric['direction'], { label: string; color: str
   stable:   { label: 'Stable or decrease', color: 'var(--color-muted)' },
   monitor:  { label: 'Monitor', color: 'var(--color-muted)' },
 };
+
+const metricsById = new Map(
+  categories.flatMap((category) => category.metrics.map((metric) => [metric.id, metric])),
+);
+
+const formulaMetrics = KPI_SUCCESS_FORMULA.map((metricId) => {
+  const metric = metricsById.get(metricId);
+  if (!metric) throw new Error(`Unknown KPI success-formula metric: ${metricId}`);
+  return metric;
+});
+
+const formulaClasses: Record<KpiMetric['direction'], string> = {
+  increase: 'kd-formula-up',
+  decrease: 'kd-formula-down',
+  stable: 'kd-formula-stable',
+  monitor: 'kd-formula-stable',
+};
 ---
 
 <div class="kd-wrap" id="kd-interactive">
@@ -22,7 +39,7 @@ const directionIcons: Record<KpiMetric['direction'], { label: string; color: str
         type="button"
         role="tab"
         id={`kd-tab-${cat.id}`}
-        aria-controls={`kd-panel-${cat.id}`}
+        aria-controls={cat.id}
         aria-selected={i === 0 ? 'true' : 'false'}
         tabindex={i === 0 ? 0 : -1}
         data-id={cat.id}
@@ -35,7 +52,7 @@ const directionIcons: Record<KpiMetric['direction'], { label: string; color: str
   {categories.map((cat, i) => (
     <div
       class="kd-panel"
-      id={`kd-panel-${cat.id}`}
+      id={cat.id}
       role="tabpanel"
       aria-labelledby={`kd-tab-${cat.id}`}
       data-id={cat.id}
@@ -78,13 +95,17 @@ const directionIcons: Record<KpiMetric['direction'], { label: string; color: str
   <div class="kd-formula">
     <div class="kd-formula-label">The Success Formula</div>
     <div class="kd-formula-content">
-      <span class="kd-formula-item kd-formula-down">Lead time <span class="kd-arrow">&#8595;</span></span>
-      <span class="kd-formula-and">AND</span>
-      <span class="kd-formula-item kd-formula-up">Deploy frequency <span class="kd-arrow">&#8593;</span></span>
-      <span class="kd-formula-and">AND</span>
-      <span class="kd-formula-item kd-formula-stable">Change failure rate <span class="kd-arrow">&#8596;</span></span>
-      <span class="kd-formula-and">AND</span>
-      <span class="kd-formula-item kd-formula-stable">Escaped defects <span class="kd-arrow">&#8596;</span></span>
+      {formulaMetrics.map((metric, index) => (
+        <>
+          {index > 0 && <span class="kd-formula-and">AND</span>}
+          <span class:list={['kd-formula-item', formulaClasses[metric.direction]]}>
+            {metric.name}
+            <span class="kd-arrow">
+              {metric.direction === 'increase' ? '\u2191' : metric.direction === 'decrease' ? '\u2193' : '\u2194'}
+            </span>
+          </span>
+        </>
+      ))}
     </div>
   </div>
 </div>

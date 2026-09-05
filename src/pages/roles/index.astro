@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import { SITE_NAME } from '../../data/site';
+import { loadRoles } from '../../lib/content';
 import { resolveSiteOrigin } from '../../lib/resolveSiteOrigin';
 import { buildBreadcrumbList, buildWebPageJsonLd } from '../../lib/jsonLd';
 import Base from '../../layouts/Base.astro';
@@ -10,7 +10,7 @@ import RoleCard from '../../components/RoleCard.astro';
 import Footer from '../../components/Footer.astro';
 import { UNIVERSAL_COMPETENCIES } from '../../data/universal-competencies';
 
-const roles = await getCollection('roles');
+const roles = await loadRoles();
 const allSorted = [...roles].sort((a, b) => a.data.order - b.data.order);
 const engineering = allSorted.filter(r => r.data.category === 'engineering');
 const product = allSorted.filter(r => r.data.category === 'product');
