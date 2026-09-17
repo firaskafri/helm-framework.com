@@ -1,6 +1,8 @@
 # HELM Correction Register
 
-Reviewed 2026-09-17. Owner: Firas Kafri. Status: all corrections below are **open**. This register records known issues; it does not implement new recommendations. See the [evidence register](/evidence) for source inspection and claim-level limitations.
+Maintainer-only record. Do not render this file on the website.
+
+Reviewed 2026-09-17. Owner: Firas Kafri. Status: all corrections below remain **open** until their full cross-guide scope is resolved. Internal source inspection and claim-level limitations are in `src/data/evidence.ts`; `/evidence` is now a reader-facing reading list.
 
 ## Compatibility policy
 
@@ -94,4 +96,5 @@ HELM 1.1 is the planning workstream for these issues, not advance approval that 
 
 ## Change history
 
+- 2026-09-17: Audience-first publishing repair. Removed the public correction-register route and internal review blocks. Rewrote Foundation for readers, removed unconfirmed statistics and company anecdotes, and replaced universal success/failure assertions with practical advice. Foundation no longer presents the exact least-member formula as established; other guide instances remain covered by plain-language limitations pending a coordinated interpretation change (C-02/C-03). Removed unsupported role-description productivity multipliers. Practitioner tool-risk wording now explicitly covers sensitive read access. These qualifications do not establish validated replacement models, staffing rules, or decision rights. Stable guide/principle anchors remain; internal evidence findings describe the earlier baseline and are not public copy. Future changes to requirements or assessment interpretation still require compatibility review.
 - 2026-09-17: Registered known semantic issues separately from 1.0.x repairs and linked evidence limitations. No correction is marked implemented.

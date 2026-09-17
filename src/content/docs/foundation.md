@@ -1,8 +1,8 @@
 ---
 id: 'foundation'
 title: 'Foundation'
-subtitle: 'Six principles that underpin every successful agentic implementation.'
-description: 'The non-negotiable principles for product development teams operating with AI agents.'
+subtitle: 'Six simple principles for working with AI agents.'
+description: 'Start with six practical principles for people and teams working with AI agents.'
 order: 1
 audience: 'everyone'
 publicationStatus: 'published'
@@ -30,7 +30,7 @@ principles:
   - id: 'principle-2-redesign-dont-automate'
     number: 2
     title: "Redesign, Don't Automate"
-    quote: 'Most fail because they automate existing processes instead of reimagining workflows from scratch.'
+    quote: 'Rethink the work before adding AI. Simplify steps and focus on the result you need.'
   - id: 'principle-3-agents-execute-humans-are-accountable'
     number: 3
     title: 'Agents Execute, Humans Are Accountable'
@@ -42,99 +42,71 @@ principles:
   - id: 'principle-5-structure-over-tooling'
     number: 5
     title: 'Structure Over Tooling'
-    quote: 'Most AI product teams fail for structural reasons, not technical ones. Clear roles matter more than model choice.'
+    quote: 'Agree who owns the work, who checks it, and who decides. Tools cannot make those choices for you.'
   - id: 'principle-6-team-wide-adoption-over-individual-mastery'
     number: 6
     title: 'Team-Wide Adoption Over Individual Mastery'
-    quote: "The team's agentic capacity is constrained by its least-adopted member in a critical-path role."
+    quote: 'Help the whole team learn how to use and review agent work, rather than relying on a few experts.'
 ---
 
 ## Foundational Principles
 
-Six non-negotiable principles that underpin every successful agentic implementation. Not aspirational statements — observed patterns from organizations that ship versus those that stall.
+HELM helps people work with AI agents while keeping people responsible for the results. These six principles give your team a shared starting point.
 
-For day-to-day operating patterns (guardrails, loops, maturity), see the [Practitioner Guide](/practitioners). For org design, adoption, and measurement, see the [Leadership Guide](/leadership).
+Use the [Practitioner Guide](/practitioners) for day-to-day work and the [Leadership Guide](/leadership) to help your team get started and learn together.
 
 ### Principle 1: Simplicity First
 
-> **Evidence: proposed recommendation.** Related provider experience supports simplicity; universal success claims remain unverified. [Source review](/evidence#fnd-simplicity).
+Start with the simplest approach that could work. A clear request with the right background information may be enough.
 
-The most successful agentic implementations are the most disciplined about staying simple. Composable patterns, not complex frameworks.
+If the task needs several steps, try a repeatable workflow. Give an agent more freedom only when the task needs it and you can check the result. Add more agents only when they make the work better.
 
-Start with the simplest solution that could work. A single LLM call with good retrieval and in-context examples is usually enough. Only introduce workflows when single calls fail. Only introduce agents when workflows lack the required flexibility. Only introduce multi-agent systems when a single agent cannot manage the tool and prompt complexity.
-
-The progression is deliberate:
-
-```
-Single LLM call  -->  Workflow  -->  Single Agent  -->  Multi-Agent System
-```
-
-Each step to the right trades latency and cost for flexibility. Move right only when you can demonstrate measurable improvement.
+**Try it:** choose one task and compare the result, time, and effort before adding more complexity.
 
 ### Principle 2: Redesign, Don't Automate
 
-> **Evidence note.** The 14% readiness statistic below is unverified. McKinsey reports the nearly-80% survey figures, but the causal explanation is an interpretation. [Readiness review](/evidence#stat-readiness) · [Adoption review](/evidence#stat-adoption).
+Before asking an agent to follow your current process, look at the result you need. Which steps help? Which create unnecessary work? Some workflows need a small change; others may benefit from a fresh approach.
 
-Most agentic AI projects fail because organizations bolt AI onto existing processes instead of rethinking the work itself. The technology isn't the problem. The instinct to automate existing steps one at a time is.
-
-The data is stark: only 14% of organizations have agentic solutions ready for deployment, with most stalling because they automate discrete steps instead of reimagining workflows (Deloitte, 2026). Nearly 80% of companies use gen AI, yet just as many report no significant bottom-line impact -- because they deployed horizontal copilots that deliver diffuse, hard-to-measure gains rather than redesigning vertical workflows (McKinsey, 2025).
-
-The right question isn't "which step can an agent do?" It's "if we were building this workflow from scratch today, knowing agents exist, what would it look like?"
+**Try it:** sketch one workflow with your team. Simplify it first, then decide where an agent could help.
 
 ### Principle 3: Agents Execute, Humans Are Accountable
 
-> **Evidence: proposed recommendation.** The ownership boundaries below express HELM's operating guidance. [Source review](/evidence#fnd-accountability).
+An agent can carry out tasks and prepare drafts. People remain responsible for decisions and results. Use these examples to agree how work is shared:
 
-An agent is a structured execution layer, not a replacement for human judgment. The boundary is clear:
+| Agents Can Help With                       | Humans Remain Responsible For            |
+| ------------------------------------------ | ---------------------------------------- |
+| First drafts of text, code, or designs     | What the work needs to achieve           |
+| Routine steps with clear instructions      | Which work is suitable to delegate       |
+| Ideas for checks and tests                 | Whether the result is good enough to use |
+| Summaries and options to support decisions | Final decisions and their consequences   |
 
-| Agents Own                                    | Humans Own                            |
-| --------------------------------------------- | ------------------------------------- |
-| Bounded implementation tasks                  | Architecture and system design        |
-| Code, test, and doc generation                | Risk acceptance and release decisions |
-| Repetitive refactors and migrations           | Security-critical logic               |
-| Pattern-matching and classification           | Complex domain reasoning              |
-| First-draft outputs for review                | Incident response and rollback        |
-| Draft PRDs and user stories                   | Product strategy and prioritization   |
-| UI component generation from design systems   | UX quality and design decisions       |
-| Test case generation from acceptance criteria | Evaluation criteria and quality bars  |
-
-When this boundary blurs, quality degrades. Agents must always be able to stop execution and return control to a human. Production-safe systems require human decision guardrails at every layer. Not as a governance formality — as a design constraint that determines whether the system belongs in production.
+**Try it:** before delegating a task, name the person who will check it and decide whether it is ready. Make sure the agent can stop and ask for help when it reaches a limit.
 
 ### Principle 4: Guardrails Are Non-Negotiable
 
-> **Evidence note.** The stack is a proposed synthesis. The 40% claim below is a forecast whose exact source, year and explanation remain unverified. [Stack review](/evidence#fnd-guardrails) · [Forecast review](/evidence#stat-cancellation).
+Guardrails are the limits and checks that help prevent mistakes. Put them in place before giving agents more work or freedom.
 
-Speed without guardrails is not velocity -- it is accelerated debt. Guardrails must exist before scaling, not after.
+HELM’s [five-layer checklist](/practitioners#the-guardrail-stack) asks what the agent can access, how work is checked, which rules apply, when a person must decide, and how the team keeps track of what happened.
 
-HELM defines a five-layer [Guardrail Stack](/practitioners#the-guardrail-stack): scope enforcement (what the agent may touch), quality gates (automated correctness checks), policy controls (safety, compliance, secret scanning), human decision points (architecture, risk, release), and governance infrastructure (registry, access control, observability). Each layer addresses a different failure mode. All five must be in place before scaling agent operations.
-
-Over 40% of agentic AI projects are projected to fail or be canceled by 2027 due to insufficient risk controls (Gartner, 2026). The guardrail stack isn't overhead. It's what makes speed possible.
+**Try it:** agree what the agent may read or change, restrict its access accordingly, and decide what must be checked before sharing the result. Written instructions alone do not restrict access.
 
 ### Principle 5: Structure Over Tooling
 
-> **Evidence note.** The Chrono quotation is present in consultancy commentary, without a documented team case. Deloitte reports the one-in-five survey finding. Claims about “most” failures or a “default trajectory” remain unverified. [Quotation review](/evidence#quote-chrono) · [Survey review](/evidence#stat-governance).
+Tools cannot resolve unclear responsibilities. Agree who owns the work, who reviews it, and who makes the final decision. You may be able to do this within your existing team.
 
-Most AI product teams fail for structural reasons, not technical ones. The tool you choose matters less than the organizational clarity around who owns what.
-
-One team's experience captures the pattern (Chrono Innovation): "By week three, nobody knew who owned evaluation quality. By week five, model selection decisions bottlenecked the product roadmap. By week six, someone shipped a feature without checking whether the cost was sustainable." That's the default trajectory when teams adopt agents without restructuring ownership. Only 1 in 5 companies has a mature governance model for autonomous AI agents despite rapid adoption plans (Deloitte, 2026).
-
-Clear roles with explicit authority, clear decision rights, and clear escalation paths -- across both engineering and product. These are more important than which model or framework you choose.
+**Try it:** pick one recurring decision and name its owner. Make sure everyone knows whom to ask when work gets stuck.
 
 ### Principle 6: Team-Wide Adoption Over Individual Mastery
 
-> **Evidence: proposed recommendation.** The exact least-member rule is an unvalidated extrapolation. The Cowork and Block examples below are secondary accounts; their causal explanation is unverified. [Team-capability review](/evidence#fnd-team) · [Example review](/evidence#story-shipping).
+Agent work still moves through a team. If only a few people know how to create or review it, handoffs can become difficult. Help people learn together without treating one person’s skill level as a score for the whole team.
 
-A Level 7 developer (running autonomous background agents and raising overnight PRs) is throttled if a Level 2 colleague controls merge approvals. Individual proficiency creates local optima. Team-wide capability creates system-level throughput.
-
-Eledath calls this the "multiplayer effect": the team's agentic capacity is constrained by its least-adopted member in a critical-path role. Organizations that ship at scale — Anthropic shipping Cowork in 10 days, Block building an internal skills marketplace of 100+ shared agent capabilities — did it by pulling the entire team up, not by concentrating expertise in a few people.
-
-Adoption is a team sport. Training, templates, shared rules files, and standardized tooling matter more than any one engineer's prompting skill.
+**Try it:** share one useful example, review it together, and choose a skill to practice. Make time for questions and support.
 
 ---
 
 ## Further Reading
 
-These principles draw on observed patterns and published research. For readers who want to go deeper:
+These articles offer practical advice, surveys, and authors’ experiences. They can help you explore the ideas further; they do not guarantee results for your team.
 
 - [_Building Effective Agents_](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic
 - [_A Practical Guide to Building Agents_](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents) — OpenAI
@@ -155,6 +127,6 @@ These principles draw on observed patterns and published research. For readers w
 
 These six principles are the foundation. The rest of HELM puts them to work:
 
-- **[Practitioner Guide](/practitioners)** — Architecture patterns, the Guardrail Stack, the Plan-Execute-Verify-Ship-Learn operating loop, and a maturity model for implementation teams.
-- **[Leadership Guide](/leadership)** — Organizational model, roles with explicit authority, a 180-day adoption roadmap, KPIs, and failure modes.
-- **[Roles in the AI Era](/roles)** — How every traditional role in a product development team transforms under these principles, with full job descriptions.
+- **[Practitioner Guide](/practitioners)** — Choose tasks, set limits, check results, and learn from the work.
+- **[Leadership Guide](/leadership)** — Agree responsibilities, support learning, and review team results.
+- **[Role Guides](/roles)** — Discuss how responsibilities and skills may change in your role.

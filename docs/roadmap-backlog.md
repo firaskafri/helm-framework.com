@@ -1,10 +1,26 @@
-# HELM Retained Backlog and Continuing Requirements
+# HELM Parked Ideas and Maintenance Notes
 
 - **Updated:** 2026-09-17
 - **Owner:** Firas Kafri
-- **Status:** Retained conditional scope; use [`../ROADMAP.md`](../ROADMAP.md) for active commitments.
+- **Status:** Parked scope and maintenance notes; use [`../ROADMAP.md`](../ROADMAP.md) for active commitments.
 
-This document preserves unfinished work from the earlier roadmap. Its placement here does not make every item a release prerequisite. Select work only when an active artifact, observed problem or demonstrated demand needs it; then give it a tracker ID, owner, completion evidence, capacity and review date. Superseded sequencing and completed-work history remain in [`roadmap-history.md`](roadmap-history.md).
+The 2026-09-17 simplicity-first decision limits additions to shared competency evaluation for AI-assisted work and an optional short playbook/pilot. The ideas below preserve earlier planning, not a queue of future releases. Expansion requires an explicit new scope decision even where an older entry says “when needed.” Apply maintenance notes only to the work being delivered. Superseded sequencing and completed-work history remain in [`roadmap-history.md`](roadmap-history.md).
+
+## Scope Disposition — Simplicity First
+
+| IDs / earlier scope                                                                                 | Current disposition                                                                                                                                  |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| COMP-001, COMP-002, COMP-003                                                                        | Retained as selection, brief definitions/examples and cross-role language checks for the shared evaluation.                                          |
+| COMP-004 — standalone Shared Competencies guide                                                     | Folded into one resource: COMP-002 presents the explanations and illustrative examples at /competencies; REV-003 adds the trialed evaluation method. |
+| REV-001, REV-002, REV-003                                                                           | Retained as drafting, trial and publication of one lightweight Shared Competency Evaluation.                                                         |
+| V11-001 — Phoenix workflow baseline                                                                 | Deferred pending a decision to try the optional playbook/pilot and selection of a workflow and participant.                                          |
+| V11-005 — pilot agreement                                                                           | Deferred with the pilot; if selected, follows V11-001 and records owners, access, stopping conditions and comparison.                                |
+| V11-003 — kit trial                                                                                 | Deferred with the pilot; if selected, follows V11-001/V11-005 and tests a short playbook using existing work records.                                |
+| V11-004 — pilot account                                                                             | Deferred with the pilot; if selected, follows V11-003 and applicable corrections, with permission for shared details.                                |
+| V12-001, V12-002 — separate adaptation guide and trial                                              | Deferred; useful ownership and learning prompts may fit in the evaluation or optional playbook.                                                      |
+| Diagnostic, additional guides/templates, role-specific evaluation, function packs and company scope | Outside current scope; earlier release assignments are retired.                                                                                      |
+
+The shared evaluation can proceed independently of the optional workflow pilot. A pilot can test playbook utility; it does not establish evaluation reliability. The detailed historical ideas below do not override these dispositions.
 
 ## Conditional Content Infrastructure
 
@@ -14,7 +30,7 @@ This document preserves unfinished work from the earlier roadmap. Its placement 
 
 ## Supporting Work and Role-Adaptation Artifacts
 
-Use these when the small operating kit, shared-competency guide or adaptation guide proves insufficient. The active development review has its own scope in the roadmap.
+These earlier proposals are parked. The active roadmap covers one shared evaluation and a possible short playbook; any broader artifact requires a new scope decision.
 
 - [ ] Shared work-classification schema covering boundedness, consequence, reversibility, evaluability, context and data sensitivity, if multiple tools need it.
 - [ ] Staged responsibility trials, exception handling and formal capability checks for workflows whose risk requires them.
@@ -43,7 +59,7 @@ The chain remains Product and Engineering specific and addresses observed fricti
 - [ ] Define how the chain operates with different owners for product, architecture, engineering and quality.
 - [ ] Connect the chain to Plan-Execute-Verify-Ship-Learn.
 
-## Practical Diagnostic — Conditional 1.3 Target
+## Practical Diagnostic — Parked, No Release Target
 
 Start only after intended users demonstrate difficulty choosing a next action with the existing kit and guides. Test the advice manually first; a short decision guide may be sufficient.
 
@@ -66,7 +82,7 @@ Start only after intended users demonstrate difficulty choosing a next action wi
 
 ### Formal Performance-Rating Applicability
 
-This is separate from the active Shared Competency Development Review. That review's first release supports reflection, feedback and development actions.
+This is outside the active Shared Competency Evaluation's scope. Its first release supports reflection, feedback and development actions. The requirements below are retained for a future applicability decision, not current delivery.
 
 - [ ] Establish a demonstrated need and intended uses before extending the method to formal ratings, promotion or compensation decisions.
 - [ ] Examine evidence quality, reviewer consistency and interpretation across relevant roles, opportunities and constraints.
@@ -104,7 +120,7 @@ Evidence collection continues during each active workstream. More extensive rese
 ### Discovery status reconciliation
 
 - [x] Implement visible framework version, evidence state and review dates — FND-002/FND-003. Continue freshness maintenance below.
-- [x] Implement durable navigation to roadmap, changelog, corrections, licensing and Updates — FND-004/FND-005. Publication remains pending in FND-004; this is not new expansion scope.
+- [x] Implement durable navigation to roadmap, changelog, corrections, licensing and Updates — FND-004/FND-005. FND-004 reconciles published metadata with the incomplete verification record.
 - [x] Label major current recommendations with evidence status — FND-003. New and changed claims require the same maintenance.
 - [ ] Add global search across concepts, roles, tools, evidence and templates when users need it.
 - [ ] Generate related-concept links from canonical relationships where they improve discovery.
@@ -164,7 +180,7 @@ Page views, downloads, agent usage, assessment completion and reorganizations ar
 - [x] Implement constrained frontmatter rendering, contribution boundaries, source-safety and dependency checks in the static publishing pipeline. Revisit these when the contribution surface changes.
 - [x] Document original framework-content/code licensing, trademark boundaries, contribution terms and a private security-reporting route. FND-004 tracks publication.
 - [ ] Complete applicable terms, privacy notices and third-party rights review before commercial cross-linking or new data collection; existing licenses do not satisfy all of these requirements.
-- [ ] Define how a person questions an assessment and how the method communicates uncertainty and limitations; REV-001/REV-002 own the first development-review implementation.
+- [ ] Define how a person questions an assessment and how the method communicates uncertainty and limitations; REV-001/REV-002 own the first shared evaluation implementation.
 - [ ] Review applicable employment, discrimination, privacy and AI-governance obligations before publishing hiring, formal evaluation or role-transition instruments for a jurisdiction.
 - [ ] Preserve accountable human review and affected-person participation for workforce decisions; do not automate employment decisions from HELM scores or task exposure.
 
@@ -217,13 +233,13 @@ Reassessed 2026-09-17. Firas is the roadmap owner; name a delivery owner and mit
 | R5  | Canonical content drifts                            | Mitigated by ownership, integrity and Updates checks; continue maintenance                                               |
 | R6  | Claims and examples become stale                    | Open; assign review dates, review vendor claims and record replacements                                                  |
 | R7  | Sensitive company or employee information leaks     | Open; minimize collection, keep private review data local and require publication permission                             |
-| R8  | Maintenance capacity cannot sustain the plan        | Active; name participants/reviewers, estimate work and keep at most three active P0/P1 items                             |
+| R8  | Maintenance capacity cannot sustain the plan        | Active; keep one enhancement in progress alongside maintenance and name trial participants                               |
 | R9  | Licensing or contributor rights are ambiguous       | Partly mitigated by owner-selected CC BY 4.0/MIT terms; publication and applicable third-party/legal requirements remain |
 | R10 | Regional guidance misrepresents local practice      | Open; use reviewed localization and regional validation                                                                  |
 | R11 | Contradictory rules undermine credibility           | Active in V11-002; resolve expectations used by an artifact before its evaluative trial/publication                      |
 | R12 | Adoption overhead exceeds benefit                   | Open; test the minimal kit and total effort; retain, simplify or stop when justified                                     |
 | R13 | Role prescriptions outlive capability assumptions   | Open; local evaluation and reassessment, with no-change/rollback options                                                 |
-| R14 | Automation erodes expertise and junior learning     | Active in adaptation work; protect practice, judgment, recovery and learning opportunities                               |
+| R14 | Automation erodes expertise and junior learning     | Consider practice, judgment and learning in shared evaluation and any optional playbook trial                            |
 | R15 | Task savings become unsupported workforce decisions | Open; distinguish released capacity from staffing evidence and require accountable review                                |
 | R16 | Diagnostic automation precedes useful advice        | Deferred with the diagnostic; establish demand and test advice before building software or scores                        |
 

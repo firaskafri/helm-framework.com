@@ -45,27 +45,34 @@ The eight files in `src/content/roles/` own role metadata, responsibilities, com
 
 `src/data/universal-competencies.ts` separately owns the shared competency set shown on the roles index. Role-specific competencies may specialize that shared vocabulary without redefining the universal list.
 
+## Shared Skills and Themed Examples
+
+- `src/data/shared-competencies.ts` owns the five learning-oriented definitions/self-checks and twenty role-by-competency practice guides. Each guide combines two practical steps, one exercise and the existing illustrative example. All four themes supply the same five competency IDs.
+- `/competencies` presents the explanations before `CompetencyExamples.astro` renders competency selection and role tabs. Theory anchors (`judgment` through `learning`) and theme anchors (`content`, `engineering`, `sales`, `account-management`) remain stable. Compound guide anchors such as `engineering-judgment` select both dimensions; theory-to-practice links preserve the active role with JavaScript and target the first role without it. Print and no-JavaScript views expose all guides.
+- The optional learning resource does not replace the existing role-list IDs or publish a validated evaluation instrument. Design rationale, vocabulary mapping and the unfinished review method remain in `docs/shared-competency-evaluation.md`; public components never import that document.
+
 ## Evidence References
 
 Each guide and role record has an `evidenceReferences` field containing external URLs cited by that entry. It may be empty when no external source is attached.
 
 - `src/data/evidence.ts` owns evidence labels, major-claim records, source inspection findings, access attempts/dates, applicability and source history.
 - `src/lib/sourceRegister.ts` derives stable source IDs and bibliography titles from canonical content; registration does not imply verification.
-- `/evidence` renders this register; `PublicationInfo.astro` and `EvidenceNote.astro` expose the same records at the point of use.
-- `docs/corrections.md` owns semantic issues, canonical correction targets, acceptance checks and prospective version impacts; `/corrections` renders it.
+- These records are internal. `/evidence` owns a short reading list and practical reading tips. `EvidenceNote.astro` uses `src/data/reading-notes.ts` for plain-language explanations at the point of use; `PublicationInfo.astro` shows only version, preview status when relevant, and editorial date. The old public claim/label sections are retired along with the review register.
+- `docs/corrections.md` owns semantic issues, canonical correction targets, acceptance checks and prospective version impacts. It has no website route.
 
 ## Reference pages and release material
 
 - `src/data/updates.json` owns release/update announcements, dates, status, summaries and linked changes. `src/data/updates.ts` validates these records for `/updates`, homepage highlights and `/updates/rss.xml`.
 - `CHANGELOG.md` is generated from the update registry by `npm run updates:sync`; `/changelog` renders it. The check rejects drift and requires a matching current-version release entry. `docs/updates.md` documents maintenance and CI change coverage.
-- `ROADMAP.md` owns `/roadmap`; `LICENSE-CONTENT.md` owns `/licensing`.
-- `ROADMAP.md` owns current Now/Next/Later priorities, active work, dependencies and release gates. `docs/roadmap-backlog.md` owns retained conditional work and continuing requirements; `docs/roadmap-history.md` preserves the pre-refresh plan, prior decisions and completed-work history.
+- `src/pages/roadmap.astro` owns the short public roadmap; `LICENSE-CONTENT.md` owns `/licensing`. Never render the internal `ROADMAP.md` tracker as a website page.
+- `ROADMAP.md` owns the simplicity-first scope, active work and publication criteria. `docs/roadmap-backlog.md` preserves parked ideas, work-item dispositions and maintenance notes; `docs/roadmap-history.md` preserves superseded plans, prior decisions and completed-work history.
 - `src/data/site.ts` owns navigation, reference links, canonical origin and editorial date for static/reference pages.
 - Content entry dates remain canonical for guides/roles. RSS and sitemap read those dates; build time never substitutes for an editorial date.
 - Updates/changelog dates derive from visible update entries. The homepage uses the later of its editorial date and the latest visible update; the published-updates RSS excludes candidates and drafts.
 - `docs/releases/1.0.1.md` records verification and publication readiness; `docs/deployment.md` owns the static deployment/runbook.
 - Repeated interactive components accept an explicit unique `id`. Primary instances preserve canonical record anchors; repeated instances namespace their IDs through `componentIds`.
 - `src/pages/checks/[fixture].astro` is emitted only during browser testing and excluded from production. `scripts/test-browser.mjs` restores the normal build after testing, including on failure.
+- `scripts/public-audiences.json` records each public page's audience and useful purpose. `scripts/public-content-guard.mjs` enforces the source/output boundary on every Astro build. `AGENTS.md` and `docs/public-publishing.md` define the required editorial review.
 
 ## Publication Metadata
 

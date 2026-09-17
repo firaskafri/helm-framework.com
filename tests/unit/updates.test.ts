@@ -212,7 +212,7 @@ test('changelog generation preserves release anchors, linked destinations and li
   const updates = valid();
   updates[0].title = '<script> [not a link]';
   const markdown = renderUpdateChangelog(updates, 'https://helmframework.com');
-  assert.match(markdown, /## 1\.0\.1 — Release candidate/);
+  assert.match(markdown, /## 1\.0\.1 — Preview/);
   assert.match(markdown, /## 1\.0\.0 — 2026-09-05/);
   assert.match(markdown, /https:\/\/helmframework\.com\/updates#helm-1-0-1/);
   assert.match(

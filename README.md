@@ -2,7 +2,7 @@
 
 A framework for product development teams building with AI agents. Principles, patterns, guardrails, and a roadmap for adoption.
 
-See [`ROADMAP.md`](ROADMAP.md) for current Now/Next/Later priorities, active work, dependencies and release gates. The [retained backlog](docs/roadmap-backlog.md) and [roadmap history](docs/roadmap-history.md) preserve conditional work and prior decisions.
+See [`ROADMAP.md`](ROADMAP.md) for simplicity-first priorities: clearer guidance, shared competency evaluation and an optional playbook/pilot. The [parked ideas](docs/roadmap-backlog.md) and [roadmap history](docs/roadmap-history.md) preserve earlier scope and decisions.
 
 ## Content Architecture
 
@@ -13,9 +13,10 @@ HELM separates narrative, structured framework records, and rendering:
 - `src/content/docs/leadership.mdx` owns Leadership Guide narrative, leadership authority definitions, and the Decision Rights Matrix; `src/data/leadership.ts` owns organizational shifts, adoption phases, KPIs, and failure modes.
 - `src/content/roles/*.md` owns the eight role-transformation and hiring guides.
 - `src/data/universal-competencies.ts` owns the shared competency set shown on the roles index.
-- `src/data/evidence.ts` owns claim labels and source-review history; `/evidence` renders the bibliography-derived register.
+- `src/data/shared-competencies.ts` owns the five simple learning definitions and role-by-competency practice guides presented at `/competencies`.
+- `src/data/evidence.ts` owns internal claim labels and source-review history. `/evidence` provides a short reading list; `src/data/reading-notes.ts` supplies plain-language tips within guides.
 - `src/data/updates.json` owns `/updates`, homepage highlights and the published-updates RSS. `CHANGELOG.md` is generated from the same records.
-- `docs/corrections.md`, `ROADMAP.md`, and `LICENSE-CONTENT.md` own their public reference pages.
+- `docs/corrections.md` and `ROADMAP.md` are maintainer-only documents. `src/pages/roadmap.astro` owns the public summary; `LICENSE-CONTENT.md` owns the public licensing page.
 
 See [`docs/content-architecture.md`](docs/content-architecture.md) for the complete ownership map, stable identifiers, routes, and reference rules.
 
@@ -100,6 +101,9 @@ docs/
 
 ## Content Editing Rules
 
+- Follow [`AGENTS.md`](AGENTS.md) and [`docs/public-publishing.md`](docs/public-publishing.md). HELM is a simple framework with guides; public content must be ready to share with its intended reader.
+- Every public page needs an audience and purpose in `scripts/public-audiences.json`. The Astro build rejects internal material and unfinished markers, including in metadata and feeds. `npm run check:audience` checks an existing production artifact.
+- Review the rendered page for clarity and usefulness, including shared elements and mobile/no-JavaScript views. Passing the build does not replace editorial review.
 - Every concept has a single canonical source. Link to it; do not restate it.
 - Role data in Astro pages must come from the `loadRoles()` content helper, never hardcoded arrays.
 - Terminology must match canonical names (e.g., "Plan-Execute-Verify-Ship-Learn", "Human Decision" for Layer 4).

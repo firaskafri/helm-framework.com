@@ -9,6 +9,7 @@ import ArrowIcon from '../components/ArrowIcon.astro';
 import Footer from '../components/Footer.astro';
 import type { PublicationStatus } from '../data/framework';
 import PublicationInfo from '../components/PublicationInfo.astro';
+import EvidenceNote from '../components/EvidenceNote.astro';
 
 interface Competency {
   title: string;
@@ -195,6 +196,7 @@ const jsonLd = [
       </header>
 
       <ContentWithToc headings={allHeadings}>
+        <EvidenceNote claim="role-guidance" />
         <slot />
 
         <h2 id="the-transformed-role">The Transformed Role</h2>

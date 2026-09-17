@@ -189,6 +189,8 @@ test('tabs, matrix, accordions and deep links work by keyboard', async ({
 
 test('both tables of contents track the active heading', async ({ page }) => {
   await page.goto('/foundation');
+  // Font loading can move headings after navigation, especially in WebKit.
+  await page.evaluate(() => document.fonts.ready);
   const target = page.locator('article h3').nth(2);
   const id = await target.getAttribute('id');
   await target.evaluate((element) =>

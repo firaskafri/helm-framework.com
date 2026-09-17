@@ -8,6 +8,7 @@ import Nav from '../../components/Nav.astro';
 import CompetencyRolePanel from '../../components/CompetencyRolePanel.astro';
 import Footer from '../../components/Footer.astro';
 import PublicationInfo from '../../components/PublicationInfo.astro';
+import EvidenceNote from '../../components/EvidenceNote.astro';
 import { SITE_UPDATED_AT } from '../../data/site';
 
 const allRoles = await loadRoles();
@@ -55,6 +56,7 @@ const jsonLd = [
           carries over, what's entirely new, and what's no longer relevant.
         </p>
         <PublicationInfo lastModified={new Date(SITE_UPDATED_AT)} />
+        <EvidenceNote claim="competency-percentages" />
       </div>
     </section>
 

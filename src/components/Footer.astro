@@ -7,6 +7,7 @@ import {
   REFERENCE_LINKS,
 } from '../data/site';
 import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
+import { statusLabel } from '../lib/updates';
 import HelmMark from './HelmMark.astro';
 
 const footerLinks = NAV_LINKS;
@@ -20,8 +21,9 @@ const footerLinks = NAV_LINKS;
         {SITE_NAME}
       </p>
       <p class="text-sm text-[var(--color-muted)]">
-        <a href="/changelog">HELM {FRAMEWORK_VERSION}</a> ·{' '}
-        {FRAMEWORK_RELEASE_STATE.replaceAll('-', ' ')}
+        <a href="/changelog">HELM {FRAMEWORK_VERSION}</a>
+        {FRAMEWORK_RELEASE_STATE !== 'published' &&
+          ` · ${statusLabel(FRAMEWORK_RELEASE_STATE)}`}
       </p>
       <p class="text-sm text-[var(--color-muted)]">
         &copy; {new Date().getFullYear()}{' '}
@@ -53,8 +55,6 @@ const footerLinks = NAV_LINKS;
     {REFERENCE_LINKS.map((link) => (
       <a href={link.href}>{link.label}</a>
     ))}
-    <a href="https://github.com/firaskafri/helm-framework.com/blob/main/CONTRIBUTING.md">
-      Contribute
-    </a>
+    <a href="https://github.com/firaskafri/helm-framework.com">Contribute</a>
   </nav>
 </footer>

@@ -10,6 +10,7 @@ export const GET: APIRoute = async ({ site }) => {
 
   const staticPaths = [
     '/',
+    '/competencies',
     '/roles',
     '/roles/competency-map',
     ...REFERENCE_LINKS.map(({ href }) => href),

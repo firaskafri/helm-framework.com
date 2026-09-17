@@ -1,13 +1,10 @@
 ---
-import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
-import {
-  claimsForPage,
-  EVIDENCE_LABELS,
-  EVIDENCE_REVIEW_DATE,
-} from '../data/evidence';
+import { FRAMEWORK_VERSION } from '../data/framework';
+import { statusLabel } from '../lib/updates';
+import type { PublicationStatus } from '../data/framework';
 interface Props {
   lastModified: Date;
-  publicationStatus?: string;
+  publicationStatus?: PublicationStatus;
   frameworkVersion?: string;
 }
 const {
@@ -15,40 +12,18 @@ const {
   publicationStatus = 'published',
   frameworkVersion = FRAMEWORK_VERSION,
 } = Astro.props;
-const claims = claimsForPage(Astro.url.pathname);
 ---
 
 <div class="publication-info text-sm text-[var(--color-ink-light)] mt-6 border-t border-[var(--color-border)] pt-4">
   <p>
-    <a href="/changelog">HELM {frameworkVersion}</a> (
-    {FRAMEWORK_RELEASE_STATE.replaceAll('-', ' ')}) · Content{' '}
-    {publicationStatus.replaceAll('-', ' ')} · Updated{' '}
+    <a href="/changelog">HELM {frameworkVersion}</a>
+    {publicationStatus !== 'published' &&
+      ` · ${statusLabel(publicationStatus)}`}{' '}
+    · Updated{' '}
     <time datetime={lastModified.toISOString()}>
       {lastModified.toISOString().slice(0, 10)}
     </time>
   </p>
-  <p>
-    Evidence:{' '}
-    <a href="/evidence">provisional synthesis with claim-level labels</a>.
-    Evidence review:{' '}
-    <time datetime={EVIDENCE_REVIEW_DATE}>{EVIDENCE_REVIEW_DATE}</time>.
-  </p>
-  {claims.length > 0 && (
-    <details class="mt-2">
-      <summary class="cursor-pointer font-medium">
-        Evidence and limitations for this page
-      </summary>
-      <ul class="mt-3 space-y-3 list-none p-0">
-        {claims.map((claim) => (
-          <li>
-            <a href={`/evidence#${claim.id}`}>{claim.title}</a> —{' '}
-            <strong>{EVIDENCE_LABELS[claim.label].title}</strong>.{' '}
-            {claim.finding}
-          </li>
-        ))}
-      </ul>
-    </details>
-  )}
 </div>
 <style>
   a {

@@ -68,7 +68,9 @@ Keep historical release notes interpretable. Prefer a new `kind: "update"` annou
 
 `npm run check:updates` verifies valid dates, unique IDs, one release entry per version, current release-state agreement, labeled links, and exact agreement between the registry and generated changelog.
 
-In pull-request CI, `UPDATES_BASE_REF` is the PR base commit. In main-push CI, it is the previous commit. The checkout includes history so the check can compare against that base. Visitor-facing changes under `src/content`, `src/data`, `src/pages`, `src/components`, `src/layouts`, `src/styles`, and `src/lib`, plus the published roadmap, correction register, and licensing source, require a new or meaningfully changed non-draft entry. Changing only timestamps does not satisfy the check. Tests, CI/deployment files, and non-published technical documentation do not require an announcement.
+In pull-request CI, `UPDATES_BASE_REF` is the PR base commit. In main-push CI, it is the previous commit. The checkout includes history so the check can compare against that base. Visitor-facing changes under `src/content`, `src/data`, `src/pages`, `src/components`, `src/layouts`, `src/styles`, and `src/lib`, plus the licensing source, require a new or meaningfully changed non-draft entry. The public roadmap lives in `src/pages/roadmap.astro`; `ROADMAP.md` and `docs/corrections.md` are internal. Changing only timestamps does not satisfy the check. Tests, CI/deployment files, and non-published technical documentation do not require an announcement.
+
+The shared audience-first standard is in `docs/public-publishing.md`. Public status labels use “Preview” and “Being tried with teams”; these are not exemptions from editorial readiness. Drafts must remain unpublished. The build-time guardrail inspects the generated notes and feeds as well as ordinary pages.
 
 Without a base (local checks or a manual workflow), schema and generated-file checks still run. Pass `--base` to exercise change coverage locally, including uncommitted changes. Initial repository pushes without a prior commit use schema/generated-file checks.
 

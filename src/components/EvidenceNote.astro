@@ -1,15 +1,13 @@
 ---
-import { EVIDENCE_CLAIMS, EVIDENCE_LABELS } from '../data/evidence';
+import { readingNote } from '../data/reading-notes';
 interface Props {
   claim: string;
 }
-const record = EVIDENCE_CLAIMS.find(({ id }) => id === Astro.props.claim);
-if (!record) throw new Error(`Unknown evidence claim: ${Astro.props.claim}`);
+const note = readingNote(Astro.props.claim);
 ---
 
-<aside class="evidence-note" aria-label="Evidence note">
-  <strong>{EVIDENCE_LABELS[record.label].title}:</strong> {record.finding}
-  <a href={`/evidence#${record.id}`}>Source review</a>.
+<aside class="evidence-note" aria-label="Using this guidance">
+  {note}
 </aside>
 <style>
   .evidence-note {

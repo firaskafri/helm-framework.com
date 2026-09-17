@@ -6,7 +6,7 @@ Copyright © 2026 Firas Kafri.
 
 Unless otherwise noted, original HELM framework content is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**. The [full legal terms](https://creativecommons.org/licenses/by/4.0/legalcode.en) apply; the [license summary](https://creativecommons.org/licenses/by/4.0/) is available for convenience.
 
-This covers framework narratives, role guides, principles, competency descriptions, structured guidance and examples, including authored guidance stored in TypeScript records or component text. You may share and adapt this content, including commercially, subject to attribution, a license link and an indication of changes.
+This covers framework explanations, role guides, principles, skill descriptions, guidance and examples, regardless of how they are stored. You may share and adapt this content, including commercially, subject to attribution, a license link and an indication of changes.
 
 Suggested attribution:
 
@@ -14,7 +14,7 @@ Suggested attribution:
 
 ## Website code — MIT
 
-Website software, rendering logic, scripts, tests, configuration and technical documentation are licensed under the [MIT License](https://github.com/firaskafri/helm-framework.com/blob/main/LICENSE). Authored framework guidance embedded in those files follows CC BY 4.0 as described above.
+Website software and maintainer documentation are licensed under the [MIT License](https://github.com/firaskafri/helm-framework.com/blob/main/LICENSE). Framework guidance stored alongside the software follows CC BY 4.0 as described above.
 
 ## Third-party material
 
@@ -26,4 +26,4 @@ These licenses grant no trademark rights in the HELM name or visual identity. Yo
 
 ## Contributions and contact
 
-Contributions follow the license applicable to the contributed material. See the [contribution guide](https://github.com/firaskafri/helm-framework.com/blob/main/CONTRIBUTING.md). For licensing questions, contact [Firas Kafri](https://www.linkedin.com/in/alkafri/).
+Contributions follow the license applicable to the contributed material. Visit the [project repository](https://github.com/firaskafri/helm-framework.com) to contribute. For licensing questions, contact [Firas Kafri](https://www.linkedin.com/in/alkafri/).

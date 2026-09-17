@@ -5,11 +5,12 @@ import tailwindcss from '@tailwindcss/vite';
 import { SITE_ORIGIN } from './src/data/site.ts';
 import { unified } from '@astrojs/markdown-remark';
 import { rehypeAccessibleContent } from './src/lib/rehypeAccessibleContent.ts';
+import { publicContentGuard } from './scripts/public-content-guard.mjs';
 
 export default defineConfig({
   site: SITE_ORIGIN,
   output: 'static',
-  integrations: [mdx()],
+  integrations: [mdx(), publicContentGuard()],
   markdown: {
     processor: unified({ rehypePlugins: [rehypeAccessibleContent] }),
   },

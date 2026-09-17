@@ -2,9 +2,21 @@
 
 <!-- Generated from src/data/updates.json. Run npm run updates:sync; edit the source, not this file. -->
 
-What has changed in HELM’s guidance and resources, why it matters for your team, and where to explore it. Entries marked “Release candidate” preview an upcoming release.
+What has changed in HELM’s guidance and resources, why it matters for your team, and where to explore it. Entries marked “Preview” describe upcoming changes.
 
 Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
+
+## 2026-09-17 — Keeping HELM simple
+
+[Keeping HELM simple](https://helmframework.com/updates#a-simpler-helm-roadmap) · Published 2026-09-17.
+
+HELM is easier to read and use, with simpler principles, practical tips, and a short roadmap focused on shared skills and a possible playbook.
+
+### A concise guide and a focused next step
+
+- Choose a skill you want to improve and your role to get a short practice guide. Each guide includes practical steps, an illustrative example, an exercise for your next task and a self-check. Explore all five competencies across content, engineering, sales and account management, or share a link to a specific guide. A structured development-review method is still planned. [Find a guide for your skill and role](https://helmframework.com/competencies) · [Explore the shared evaluation plan](https://helmframework.com/roadmap#shared-competencies-and-development)
+- We may also add a short playbook for trying HELM on one piece of work. We’ll try it with a team first and keep it only if it helps. [See the optional playbook and pilot](https://helmframework.com/roadmap#work-redesign-kit-and-pilot) · [Read the focused roadmap](https://helmframework.com/roadmap#now-next-and-later)
+- Start with six principles written in everyday language, each with a small action to try. The guides now explain how to use the advice with your team, with further reading available when you want more detail. [Read the six principles](https://helmframework.com/foundation) · [Explore further reading](https://helmframework.com/evidence)
 
 ## 1.0.1 — 2026-09-17
 
@@ -14,8 +26,8 @@ HELM 1.0.1 makes the guidance easier to evaluate, navigate, and apply while show
 
 ### Understand the guidance
 
-- See which recommendations draw on checked sources, which are proposed practices, and where evidence is still missing. This helps you judge how confidently to apply the guidance to your own work. [Explore the evidence](https://helmframework.com/evidence)
-- Find open questions about team maturity, decision ownership, and role expectations in one place, so you can recognize guidance that is still being reviewed. [See guidance under review](https://helmframework.com/corrections)
+- See which recommendations draw on checked sources, which are proposed practices, and where evidence is still missing. This helps you judge how confidently to apply the guidance to your own work. [Explore further reading](https://helmframework.com/evidence)
+- Read short notes on team working practices, decision ownership, and role expectations to help you adapt the guidance to your own team. [Get tips for using the guides](https://helmframework.com/evidence#claims)
 
 ### Read and share with your team
 
