@@ -2,9 +2,10 @@
 
 Framework releases are independent from the Astro application package version.
 
-## 1.0.1 — Release candidate
+## 1.0.1 — 2026-09-17
 
-Prepared 2026-09-17. Publication awaits the recorded release gates; no 1.0.1 tag or production deployment is implied.
+Published after the recorded release gates passed and the self-hosted VM
+deployment path replaced the Docker Hub publication pipeline.
 
 ### Foundation hardening
 
@@ -25,7 +26,7 @@ The static artifact is now directly in `dist/`. The Docker serving port changes 
 ### Known limitations
 
 - Evidence labels expose provisional and unverified claims; they do not validate the framework. The planned 1.1 pilot and conceptual corrections remain outstanding.
-- Quality and container checks passed in [GitHub Actions](https://github.com/firaskafri/helm-framework.com/actions/runs/35206062832). Merge, release tagging and production publication remain separate steps; see `docs/releases/1.0.1.md` and `docs/deployment.md`.
+- Quality and container checks passed in [GitHub Actions](https://github.com/firaskafri/helm-framework.com/actions/runs/35206062832). Release tagging and production verification remain explicit steps; see `docs/releases/1.0.1.md` and `docs/deployment.md`.
 - Automated accessibility checks are not an independent screen-reader or production-performance audit.
 
 ## 1.0.0 — 2026-09-05

@@ -47,7 +47,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - run: docker build --pull -t helm-check .
+      - run: docker build --pull --build-arg RELEASE_ID=ci-verification -t helm-check .
       - run: docker run -d --name helm-check -p 8080:8080 helm-check
       - name: Check static serving and real 404 responses
         run: |
@@ -55,6 +55,8 @@ jobs:
           curl --fail http://localhost:8080/practitioners -o /dev/null
           curl --fail http://localhost:8080/sitemap.xml -o /dev/null
           test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/missing-page)" = "404"
+          test "$(curl -fsSI http://localhost:8080/ | awk -F ': ' 'tolower($1) == "x-montra-release" { sub(/\r$/, "", $2); print $2 }')" = "ci-verification"
+          test "$(docker inspect --format '{{ index .Config.Labels "com.montra2.release-id" }}' helm-check)" = "ci-verification"
           test "$(docker exec helm-check id -u)" != "0"
       - if: always()
         run: docker logs helm-check
