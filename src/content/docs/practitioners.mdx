@@ -27,6 +27,8 @@ import TaskMatrix from '../../components/TaskMatrix.astro';
 import MaturityStepper from '../../components/MaturityStepper.astro';
 import EvidenceNote from '../../components/EvidenceNote.astro';
 
+For day-to-day agent-assisted work, start with the [operating loop](#the-operating-loop). If you are designing an agent workflow or product, the architecture patterns below help you compare options. Choose the detail relevant to your task.
+
 ## Agent Architecture Patterns
 
 ### Agent Anatomy
@@ -35,15 +37,15 @@ import EvidenceNote from '../../components/EvidenceNote.astro';
 
 These five parts help explain how an agent works.
 
-| Component        | What It Does                                                                                                     | Example                                                  |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| **Model**        | The reasoning engine. Makes decisions, generates outputs, selects tools.                                         | GPT-5.4, Claude Opus 4.6, Gemini 3 Pro                   |
-| **Tools**        | External functions, APIs, or systems the agent can invoke.                                                       | Database queries, web search, code execution, file I/O   |
-| **Instructions** | Explicit guidelines, scope constraints, and behavioral rules.                                                    | System prompts, AGENTS.md, rules files, policy documents |
-| **Memory**       | Context that persists across interactions -- short-term (conversation) and long-term (vector stores, key-value). | Conversation history, session state, project context     |
-| **Retrieval**    | Mechanisms to access external knowledge not in the model's training data.                                        | RAG pipelines, document search, knowledge bases          |
+| Component        | What It Does                                                                 | Example                                                  |
+| ---------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **Model**        | A language model (LLM) generates outputs and may choose which tools to call. | Drafting an answer or selecting a tool                   |
+| **Tools**        | External functions, APIs, or systems the agent can invoke.                   | Database queries, web search, code execution, file I/O   |
+| **Instructions** | Explicit guidelines, scope constraints, and behavioral rules.                | System prompts, AGENTS.md, rules files, policy documents |
+| **Memory**       | Information retained across interactions, with access and retention limits.  | Conversation history, task state, saved project context  |
+| **Retrieval**    | Looks up information the task needs.                                         | Document search, a knowledge base, project files         |
 
-These five components are the atoms. Everything else -- workflows, agents, multi-agent systems -- is a molecule built from them.
+Products combine these parts differently. Check which information and tools your agent actually uses.
 
 ### Workflows vs. Agents
 
@@ -51,30 +53,30 @@ These five components are the atoms. Everything else -- workflows, agents, multi
 
 Anthropic offers a useful distinction between workflows and agents:
 
-| Dimension          | Workflows                                 | Agents                                       |
-| ------------------ | ----------------------------------------- | -------------------------------------------- |
-| **Control**        | Predefined code paths orchestrate the LLM | LLM dynamically directs its own processes    |
-| **Predictability** | High -- you know the execution path       | Lower -- the model decides what to do next   |
-| **Flexibility**    | Low -- changes require code changes       | High -- adapts to novel inputs               |
-| **Best for**       | Well-defined, repeatable tasks            | Open-ended problems with unpredictable steps |
-| **Cost/latency**   | Lower -- fewer LLM calls, fixed paths     | Higher -- more calls, dynamic routing        |
-| **Error handling** | Programmatic gates and checks             | Agent must self-correct or escalate          |
+| Dimension          | Workflows                                   | Agents                                       |
+| ------------------ | ------------------------------------------- | -------------------------------------------- |
+| **Control**        | Follows steps defined in advance            | Chooses steps as the task proceeds           |
+| **Predictability** | The path is defined; results can still vary | Both the path and results can vary           |
+| **Flexibility**    | Limited to the paths you define             | Can choose among permitted actions           |
+| **Best for**       | Well-defined, repeatable tasks              | Open-ended problems with unpredictable steps |
+| **Cost/latency**   | Measure calls and time for the workflow     | Set limits and measure time and cost         |
+| **Error handling** | Defined checks and recovery steps           | Feedback, stopping conditions and escalation |
 
-The decision rule: **use workflows when you can define the task decomposition in advance; use agents when the decomposition depends on the input.**
+**Use a workflow when you can define the steps in advance. Consider an agent when the next step depends on what it finds.** In either case, agree how to check the result and when to stop.
 
 ### Tool Types
 
 <EvidenceNote claim="tool-risk" />
 
-Tools fall into three types. This classification determines how you design, test, and permission agent capabilities:
+These three tool categories help you plan access and checks:
 
-**Data tools** -- Retrieve context and information. They can expose sensitive data even when they cannot change it.
+**Data tools** retrieve context and information. They can expose sensitive data even when they cannot change it.
 Examples: Query databases, read documents, search the web, pull CRM records.
 
-**Action tools** -- Interact with systems to change state. Write operations, higher risk.
+**Action tools** change something in a system. Consider who is affected and how a mistake could be corrected.
 Examples: Send emails, update records, create tickets, issue refunds, deploy code.
 
-**Orchestration tools** -- Other agents exposed as tools. Meta-level coordination.
+**Orchestration tools** let an agent ask another agent to carry out part of the work.
 Examples: A "research agent" callable by a "manager agent," a specialist agent invoked by a triage agent.
 
 Assess each tool’s risk by what it can access, who could be affected, and whether a mistake can be undone. Use that assessment to choose the limits and checks it needs.
@@ -83,7 +85,7 @@ Assess each tool’s risk by what it can access, who could be affected, and whet
 
 <EvidenceNote claim="patterns" />
 
-Eight patterns, ordered from simplest to most complex. The rule: always start at the top and move down only when the simpler pattern demonstrably fails.
+These eight patterns are options to compare. Start with the simplest approach that meets the task’s needs; additional agents or steps should address a problem you have observed.
 
 <PatternSelector />
 
@@ -93,7 +95,7 @@ Eight patterns, ordered from simplest to most complex. The rule: always start at
 
 <EvidenceNote claim="fnd-guardrails" />
 
-Five layers of defense, grounded in [Principle 4: Guardrails Are Non-Negotiable](/foundation#principle-4-guardrails-are-non-negotiable). Each layer addresses a different failure mode. All five must be in place before scaling agent operations.
+The five layers help you review scope, quality, policy, human decisions and shared oversight. Consider each layer before expanding the work. The controls you need depend on the task and its consequences. See [Principle 4: Guardrails Are Non-Negotiable](/foundation#principle-4-guardrails-are-non-negotiable).
 
 <GuardrailStack />
 
@@ -105,7 +107,7 @@ Five layers of defense, grounded in [Principle 4: Guardrails Are Non-Negotiable]
 
 <EvidenceNote claim="operating-loop" />
 
-This is the day-to-day execution model. It replaces ad-hoc prompting with a loop you can actually repeat and improve.
+Use this loop in an existing task or review. Agree the work, carry it out, check it, decide whether to use it and learn from the result. In software work, automated checks may run in continuous integration (CI) before a pull request (PR) is merged.
 
 <OperatingLoop />
 
@@ -113,22 +115,22 @@ This is the day-to-day execution model. It replaces ad-hoc prompting with a loop
 
 <EvidenceNote claim="classification" />
 
-Not every task is equally suited for agent execution. Classify tasks along two dimensions: **boundedness** (how well-defined is the scope?) and **risk** (what is the blast radius if the agent gets it wrong?).
+Discuss two questions: **boundedness** means how clearly the task is defined; **risk** means what could happen if it goes wrong. The examples below are starting points. Access, data sensitivity and the limits of your checks can change the classification.
 
 <TaskMatrix />
 
 ### The Human-Agent Boundary
 
-The boundary is defined by a simple question: **"If the agent gets this wrong, what happens?"**
+Ask: **“If the agent gets this wrong, what happens, and how will we notice?”**
 
-- If the answer is "CI catches it and the PR is rejected" -> agent can execute autonomously
-- If the answer is "a customer sees wrong data" -> agent drafts, human verifies
-- If the answer is "we have a security breach" -> human leads, agent assists at most
-- If the answer is "we don't know" -> human leads until we do know
+- For a bounded, reversible task, an agent may execute within agreed permissions and checks.
+- If a mistake could affect a customer, agree the human review and approval needed before use.
+- For security-sensitive or production changes, a person owns the decision and explicitly limits any agent assistance.
+- If the consequences are unclear, investigate them before delegating.
 
-The boundary moves over time. As guardrails improve, evaluation coverage increases, and confidence grows, tasks shift from human-led to agent-assisted to agent-driven. But you earn that movement through demonstrated reliability. You don't assume it.
+A passing check only covers what it tests. Revisit the boundary when the task, tools or evidence change; you may need more human involvement as well as less.
 
-For how each traditional role transforms under these boundaries — from Software Engineer to Product Designer — see [Roles in the AI Era](/roles). The [Competency Evolution Explorer](/roles/competency-map) maps which competencies carry over, which are new, and which to sunset per role.
+The [role guides](/roles) discuss responsibilities and learning. Use the [Role skills explorer](/roles/competency-map) to compare the skills in those guides, or choose a [shared-skill practice guide](/competencies) for your role.
 
 ---
 
@@ -136,13 +138,13 @@ For how each traditional role transforms under these boundaries — from Softwar
 
 <EvidenceNote claim="maturity" />
 
-A five-level maturity model, drawing on Eledath's "Levels of Agentic Engineering" framework and extending it with team-level dimensions, product integration, and failure modes. Each level says where a team is, what it can do, what it needs to move up, and what risks come with the territory.
+These five levels describe patterns of agent use, drawing on Eledath’s “Levels of Agentic Engineering.” Use them to discuss the checks, skills and support a workflow needs. They do not establish a team’s performance or require every team to move to a higher number.
 
 > The [Leadership Guide](/leadership#maturity-model) has a short version of these levels for team discussions.
 
 <MaturityStepper />
 
-**Critical reminder:** The team's effective level equals the level of the lowest-capability person in a critical-path role, not the highest-capability individual. A team with one Level 4 engineer and a Level 1 gatekeeper operates at Level 1.
+Look at the actual workflow and handoffs. One person’s tool adoption is not a formula for team capability, and a well-controlled simple workflow may be the right choice.
 
 ---
 

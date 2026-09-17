@@ -30,7 +30,7 @@ Sources inspected **2026-09-17**:
 
 ## Mapping from the existing shared list
 
-The current list is owned by [`src/data/universal-competencies.ts`](../src/data/universal-competencies.ts).
+The earlier list is preserved in [`src/data/universal-competencies.ts`](../src/data/universal-competencies.ts). Following the site-wide editorial alignment, both public shared-skills presentations use the five definitions in `src/data/shared-competencies.ts`. The table below retains the mapping for interpreting older guidance.
 
 | Existing ID                       | Proposed evaluation treatment                                                                                                                                                   |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -44,6 +44,8 @@ The current list is owned by [`src/data/universal-competencies.ts`](../src/data/
 Ownership makes principle 3 explicit; it was not a separate item in the old list.
 
 **Compatibility decision:** the optional learning page expands the five competencies already proposed in the roadmap. It does not rename or replace the existing role-list records, change decision authority, or introduce assessment scores. New lesson anchors have their own IDs. Replacing the published role list would change requirements and needs a major-version decision and migration under C-07. Preserve old IDs for interpretation; this mapping does not convert earlier assessments.
+
+The later editorial pass consolidates the public shared list around the agreed five competencies. It retains the earlier data and identifiers for reference and leaves role-specific skill records separate. See `editorial-review-2026-09-17.md` for the publication and compatibility implications; no earlier assessments are converted.
 
 **Next:** REV-001 develops the structured evaluation prompts and evidence choices. COMP-003/REV-002 test whether people can distinguish the behaviors, identify evidence and choose a useful next step. Editorial approval of illustrative examples is not a substitute for these trials.
 

@@ -67,7 +67,7 @@ const phases = ADOPTION_PHASES;
 
       <div class="at-sections">
         <div class="at-section">
-          <h5 class="helm-label at-section-title">Activities</h5>
+          <h5 class="helm-label at-section-title">Suggested activities</h5>
           <ul class="at-list">
             {phase.activities.map((a) => (
               <li>{a}</li>
@@ -80,7 +80,7 @@ const phases = ADOPTION_PHASES;
         </div>
 
         <div class="at-section">
-          <h5 class="helm-label at-section-title">Exit Criteria</h5>
+          <h5 class="helm-label at-section-title">Before expanding</h5>
           <ul class="at-checklist">
             {phase.exitCriteria.map((c) => (
               <li>
@@ -120,7 +120,7 @@ const phases = ADOPTION_PHASES;
               <line x1="12" y1="9" x2="12" y2="13" />
               <line x1="12" y1="17" x2="12.01" y2="17" />
             </svg>
-            Risk Mitigations
+            Checks and precautions
           </h5>
           <ul class="at-list">
             {phase.riskMitigations.map((r) => (

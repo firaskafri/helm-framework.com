@@ -130,7 +130,7 @@ export const COMPETENCY_EXAMPLE_THEMES = [
       evaluation:
         'The generated code passes its tests, but the engineer checks with two customer accounts and discovers that the export includes another customer’s records.',
       ownership:
-        'They ensure the access issue is fixed, involve the appropriate reviewer, and verify the released feature rather than treating a merged change as completion.',
+        'They confirm the access issue is fixed, involve the appropriate reviewer and verify that the released feature behaves as intended.',
       learning:
         'A customer name containing a comma breaks the exported file. They add a test that catches this problem and include the edge case in future task briefs.',
     },
@@ -165,7 +165,7 @@ export const COMPETENCY_EXAMPLE_THEMES = [
           'Follow the change into use: verify the released behavior, respond to problems and confirm who will handle any remaining work.',
         ],
         practice:
-          'For your next release, record how you will verify the result and who will respond if it fails. Close the loop after release.',
+          'For your next release, record how you will verify the result and who will respond if it fails. Follow up after release.',
       },
       learning: {
         steps: [
@@ -283,7 +283,7 @@ export const COMPETENCY_EXAMPLE_THEMES = [
           'Communicate delays early, agree a recovery action and check with the customer that the issue is actually resolved.',
         ],
         practice:
-          'Pick one outstanding customer commitment. Confirm the owner, next action and follow-up date, then close the loop with the customer.',
+          'Pick one outstanding customer commitment. Confirm the owner, next action and follow-up date, then check with the customer that it was resolved.',
       },
       learning: {
         steps: [

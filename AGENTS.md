@@ -3,6 +3,21 @@
 HELM is a simple framework with practical guides. Every website change must help
 its intended reader understand something or take a useful next step.
 
+## Agent voice, coherence and scope
+
+Read `docs/helm-voice.md` before responding, recommending or writing for HELM.
+It governs the agent's conversation with the user as well as written content.
+
+- Answer directly and recommend a concrete approach when asked.
+- Use plain, natural language. Remove canned AI phrasing, hype, staged contrasts
+  and repetitive summaries before sending a response.
+- Keep agreed concepts and terminology consistent. Keep HELM simple and connect
+  guidance to real work and examples.
+- Respect discussion and review requests. When asked to show something before
+  creating it, show the proposal and wait for approval to implement.
+- Treat voice and coherence guardrails as behavioral instructions. Build scanners,
+  detectors or other enforcement software only when explicitly requested.
+
 ## Non-negotiable publishing rules
 
 - Never publish unfinished, unreviewed, or audience-inappropriate material. A
@@ -32,7 +47,8 @@ its intended reader understand something or take a useful next step.
    the change. Ask: **Would we confidently send this to its intended reader now?**
    If not, simplify it or keep it out of the release.
 3. Follow `docs/public-publishing.md`, update the canonical source, and add a
-   reader-facing Updates note. Keep review evidence in maintainer documentation.
+   reader-facing Updates note. Review clarity, coherence and tone against
+   `docs/helm-voice.md`. Keep review evidence in maintainer documentation.
 4. Run `npm run check`. The Astro build itself runs the public-content guardrail,
    including in Docker and when invoked directly. Fix a rejected page rather than
    weakening the guardrail or adding an exception to ship internal material.

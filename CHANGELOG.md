@@ -15,7 +15,7 @@ HELM 1.0.1 is easier to read and use, with simpler principles, practical guides,
 ### Start with clear, practical guidance
 
 - Start with six principles written in everyday language, each with a small action to try. The guides explain how to use the advice with your team. [Read the six principles](https://helmframework.com/foundation) · [For practitioners](https://helmframework.com/practitioners) · [For team leaders](https://helmframework.com/leadership)
-- The guides are easier to navigate, read on smaller screens, use with a keyboard, and share in a team discussion. [Explore the role guides](https://helmframework.com/roles) · [Reuse HELM material](https://helmframework.com/licensing)
+- The role guides now focus on responsibilities, relevant experience and learning. The same five shared competencies appear across the site, and examples make clear what the guidance does and does not establish. [Explore the role guides](https://helmframework.com/roles) · [Reuse HELM material](https://helmframework.com/licensing)
 - Further reading offers extra context and simple reminders for adapting the guidance without presenting every suggestion as a guaranteed result. [Explore further reading](https://helmframework.com/evidence)
 
 ### Practice shared skills
@@ -24,7 +24,7 @@ HELM 1.0.1 is easier to read and use, with simpler principles, practical guides,
 
 ### See what comes next
 
-- The roadmap focuses on making the current guidance clearer, trying a short shared-skills discussion, and considering a small playbook for one piece of work. [Read the focused roadmap](https://helmframework.com/roadmap#now-next-and-later)
+- The roadmap focuses on clearer guidance, a shared-competency development review to try with people across roles, and a possible short playbook for one piece of work. [Read the focused roadmap](https://helmframework.com/roadmap#now-next-and-later)
 - Follow one dated update with direct links to everything included in this release, or subscribe to future published updates. [View this release update](https://helmframework.com/updates) · [Subscribe via RSS](https://helmframework.com/updates/rss.xml)
 
 ## 1.0.0 — 2026-09-05

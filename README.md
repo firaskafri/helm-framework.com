@@ -12,8 +12,8 @@ HELM separates narrative, structured framework records, and rendering:
 - `src/content/docs/practitioners.mdx` owns Practitioner Guide narrative and composition; `src/data/practitioners.ts` owns its structured patterns, guardrails, operating loop, task matrix, and maturity levels.
 - `src/content/docs/leadership.mdx` owns Leadership Guide narrative, leadership authority definitions, and the Decision Rights Matrix; `src/data/leadership.ts` owns organizational shifts, adoption phases, KPIs, and failure modes.
 - `src/content/roles/*.md` owns the eight role-transformation and hiring guides.
-- `src/data/universal-competencies.ts` owns the shared competency set shown on the roles index.
-- `src/data/shared-competencies.ts` owns the five simple learning definitions and role-by-competency practice guides presented at `/competencies`.
+- `src/data/shared-competencies.ts` owns the five shared competencies on the roles index and the role-by-competency practice guides at `/competencies`.
+- `src/data/universal-competencies.ts` preserves the earlier shared vocabulary for reference; it is not the current public list.
 - `src/data/evidence.ts` owns internal claim labels and source-review history. `/evidence` provides a short reading list; `src/data/reading-notes.ts` supplies plain-language tips within guides.
 - `src/data/updates.json` owns `/updates`, homepage highlights and the published-updates RSS. `CHANGELOG.md` is generated from the same records.
 - `docs/corrections.md` and `ROADMAP.md` are maintainer-only documents. `src/pages/roadmap.astro` owns the public summary; `LICENSE-CONTENT.md` owns the public licensing page.

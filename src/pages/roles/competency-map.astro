@@ -15,9 +15,9 @@ const allRoles = await loadRoles();
 const roles = [...allRoles].sort((a, b) => a.data.order - b.data.order);
 const rolesView = roles.map(toRoleView);
 
-const pageTitle = 'Competency Evolution Explorer';
+const pageTitle = 'Role skills explorer';
 const pageDescription =
-  'Interactive mapping between traditional role competencies and AI-era competencies — what evolves, what is new, and what to sunset, per role.';
+  'Explore the skills described in HELM’s role guides, the experience they build on and questions to discuss with your team.';
 
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
 const homeUrl = new URL('/', siteOrigin).href;
@@ -46,14 +46,14 @@ const jsonLd = [
     <section class="pt-32 pb-14 md:pt-40 md:pb-16 px-6">
       <div class="max-w-5xl mx-auto">
         <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-6">
-          Interactive Tool
+          Role skills
         </p>
         <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-5">
           {pageTitle}
         </h1>
         <p class="text-lg md:text-xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
-          See how each role's competencies transform in the AI era — what
-          carries over, what's entirely new, and what's no longer relevant.
+          Choose a role to explore its skills, the experience they build on and
+          areas to practice. The groupings describe the guide’s content.
         </p>
         <PublicationInfo lastModified={new Date(SITE_UPDATED_AT)} />
         <EvidenceNote claim="competency-percentages" />

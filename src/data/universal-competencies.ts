@@ -4,6 +4,7 @@ import {
   assertUniqueIds,
 } from '../lib/contentIntegrity';
 
+/** Legacy vocabulary retained for interpreting earlier guidance. Current shared skills live in shared-competencies.ts. */
 export const UNIVERSAL_COMPETENCIES = [
   {
     id: 'context-engineering',

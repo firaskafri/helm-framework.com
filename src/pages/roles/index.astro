@@ -9,7 +9,7 @@ import Nav from '../../components/Nav.astro';
 import ArrowIcon from '../../components/ArrowIcon.astro';
 import RoleCard from '../../components/RoleCard.astro';
 import Footer from '../../components/Footer.astro';
-import { UNIVERSAL_COMPETENCIES } from '../../data/universal-competencies';
+import { SHARED_COMPETENCIES } from '../../data/shared-competencies';
 
 const roles = await loadRoles();
 const allSorted = [...roles].sort((a, b) => a.data.order - b.data.order);
@@ -31,9 +31,9 @@ const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
 const homeUrl = new URL('/', siteOrigin).href;
 const rolesPageUrl = new URL(Astro.url.pathname, siteOrigin).href;
 
-const rolesPageTitle = 'Roles in the AI Era';
+const rolesPageTitle = 'Roles in AI-assisted work';
 const rolesPageDescription =
-  'How every role in your product development team transforms when AI agents become part of the workflow.';
+  'Discuss responsibilities, review practices and skills for AI-assisted work across engineering, product and design.';
 
 const roleItemList = {
   '@context': 'https://schema.org',
@@ -71,15 +71,14 @@ const jsonLd = [
     <section class="pt-32 pb-16 md:pt-40 md:pb-20 px-6">
       <div class="max-w-4xl mx-auto">
         <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-6">
-          Roles &amp; Job Descriptions
+          Role guides
         </p>
         <h1 class="font-[var(--font-serif)] text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-6">
-          Roles in the AI Era
+          Roles in AI-assisted work
         </h1>
         <p class="text-xl md:text-2xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
-          How every role in your product development team transforms when AI
-          agents become part of the workflow. These aren't marginal adjustments.
-          They're fundamental redefinitions.
+          Use these guides to discuss what people do, check and own as your team
+          works with AI agents.
         </p>
         <PublicationInfo lastModified={new Date(SITE_UPDATED_AT)} />
       </div>
@@ -88,36 +87,29 @@ const jsonLd = [
     <section class="px-6 pb-16 md:pb-20">
       <div class="max-w-3xl mx-auto">
         <div class="prose">
-          <h2>The Problem with Today's Job Descriptions</h2>
+          <h2>Start with the work</h2>
           <p>
-            Most job descriptions are artifacts of a world where humans did all
-            the work. They screen for production speed, framework familiarity,
-            and years of experience.{' '}
-            <strong>
-              "5+ years of React." "Strong problem-solving skills." "Experience
-              with Agile/Scrum."
-            </strong>
+            When an agent takes on part of a task, review the responsibilities
+            around it. Who provides the context? Who checks the result? Who
+            decides whether it is ready to use?
           </p>
           <p>
-            In the agentic era, these criteria are at best incomplete and at
-            worst counterproductive. Agents write code, generate designs, draft
-            PRDs, and run tests. The human's value is no longer in{' '}
-            <em>production</em>. It's in <em>judgment</em> — deciding what to
-            build, evaluating what came back, and owning what ships.
+            The roles below are starting points for that conversation. Adapt the
+            responsibilities to your team’s work, workload and risk. Related
+            responsibilities may sit with the same person.
           </p>
           <p>
-            That's a fundamental redefinition of what each role contributes to
-            the team. These shifts are grounded in the{' '}
-            <a href="/foundation">six foundational principles</a> and
-            operationalized through the{' '}
-            <a href="/practitioners">Practitioner Guide</a> and{' '}
-            <a href="/leadership">Leadership Guide</a>.
+            The <a href="/foundation">six principles</a> explain HELM’s
+            approach. Use the <a href="/practitioners">Practitioner Guide</a>{' '}
+            for day-to-day work and the{' '}
+            <a href="/leadership">Leadership Guide</a>
+            for team decisions and learning.
           </p>
 
-          <h2>Three Shifts in Every Role</h2>
+          <h2>Three questions for your team</h2>
           <p>
-            Regardless of function — engineering, product, or design — every
-            role undergoes the same three transformations:
+            Choose a recent task and discuss the checks, expertise and results
+            it needed.
           </p>
         </div>
       </div>
@@ -130,15 +122,14 @@ const jsonLd = [
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <span class="inline-block text-xs font-semibold uppercase tracking-widest text-[var(--color-terracotta)] mb-2">
-                  Interactive Tool
+                  Explore role skills
                 </span>
                 <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-2 group-hover:text-[var(--color-terracotta)] transition-colors">
-                  Competency Evolution Explorer
+                  Role skills explorer
                 </h3>
                 <p class="text-[var(--color-ink-light)] text-sm md:text-base leading-relaxed max-w-lg">
-                  See how each role's competencies transform — what carries
-                  over, what's entirely new, and what's no longer relevant.
-                  Per-role gap analysis included.
+                  Compare the skills described in each guide. Find experience to
+                  build on and areas to discuss or practice.
                 </p>
               </div>
               <div class="flex-shrink-0">
@@ -162,13 +153,11 @@ const jsonLd = [
               01
             </span>
             <h3 class="font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mt-4 mb-3">
-              From Production to Judgment
+              Who checks the work?
             </h3>
             <p class="text-[var(--color-ink-light)] text-sm leading-relaxed">
-              Every role used to be valued for what it produced. Now? What you
-              evaluate, catch, and decide matters more. The engineer who reviews
-              ten agent-generated PRs and catches a critical bug is more
-              valuable than one who personally writes ten PRs.
+              Give reviewers the context and time to judge the result. Agree
+              which checks are needed before the work is used or shared.
             </p>
           </article>
 
@@ -177,13 +166,11 @@ const jsonLd = [
               02
             </span>
             <h3 class="font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mt-4 mb-3">
-              From Depth to Breadth
+              Where is expertise needed?
             </h3>
             <p class="text-[var(--color-ink-light)] text-sm leading-relaxed">
-              Specialists who could only operate in one layer become bottlenecks
-              when agents blur all layers. A backend engineer who cannot review
-              agent-generated frontend code slows the entire pod. T-shaped
-              competency replaces narrow expertise.
+              A task may cross several parts of the product. Identify who can
+              judge each part and involve them when a change needs their skills.
             </p>
           </article>
 
@@ -192,13 +179,11 @@ const jsonLd = [
               03
             </span>
             <h3 class="font-[var(--font-serif)] text-lg font-semibold text-[var(--color-ink)] mt-4 mb-3">
-              From Output to Outcome
+              Did the result help?
             </h3>
             <p class="text-[var(--color-ink-light)] text-sm leading-relaxed">
-              Measuring PRs written, screens designed, or stories completed
-              becomes meaningless when agents multiply volume. Impact on the
-              product and the user is what matters. Velocity without direction
-              is just noise.
+              Look at the effect on users alongside delivery volume, quality and
+              effort. More output alone does not show that work improved.
             </p>
           </article>
         </div>
@@ -209,10 +194,10 @@ const jsonLd = [
       <div class="max-w-5xl mx-auto">
         <div class="mb-8">
           <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
-            The Mapping
+            Responsibilities
           </p>
           <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
-            From traditional roles to the HELM model
+            How the role guides connect
           </h2>
         </div>
 
@@ -220,10 +205,10 @@ const jsonLd = [
           <table class="table-editorial">
             <thead>
               <tr>
-                <th>Traditional Role</th>
+                <th>Role guide</th>
                 <th></th>
-                <th>HELM Role</th>
-                <th>Key Shift</th>
+                <th>Related HELM responsibilities</th>
+                <th>Focus</th>
               </tr>
             </thead>
             <tbody>
@@ -265,15 +250,14 @@ const jsonLd = [
       <div class="max-w-5xl mx-auto">
         <div class="mb-8">
           <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
-            Universal Competencies
+            Shared skills
           </p>
           <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
-            What every role needs now
+            Five skills to practice together
           </h2>
           <p class="text-[var(--color-ink-light)] mt-3 max-w-2xl">
-            Regardless of function, every person on an AI-augmented product team
-            shares these foundational competencies. They are the baseline, not
-            the ceiling.
+            Use the same five competencies across roles. The examples and
+            practice activities change with the work.
           </p>
           <p class="text-[var(--color-ink-light)] mt-3 max-w-2xl">
             For simple explanations and everyday examples, explore{' '}
@@ -288,7 +272,7 @@ const jsonLd = [
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {UNIVERSAL_COMPETENCIES.map((c) => (
+          {SHARED_COMPETENCIES.map((c) => (
             <article class="p-6 rounded-lg bg-white/60 border border-[var(--color-border)] hover:border-[var(--color-terracotta)]/30 transition-colors">
               <h3 class="font-[var(--font-serif)] text-base font-semibold text-[var(--color-ink)] mb-2">
                 {c.title}
@@ -306,7 +290,7 @@ const jsonLd = [
       <div class="max-w-5xl mx-auto">
         <div class="mb-10">
           <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
-            Job Descriptions
+            Role guides
           </p>
           <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
             Explore each role

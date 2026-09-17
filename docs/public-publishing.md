@@ -6,6 +6,9 @@ contributions, previews, and every release.
 
 ## Audience and writing
 
+Apply [`helm-voice.md`](helm-voice.md) when reviewing wording and coherence. Keep
+agreed concepts consistent across the guides, examples and shared components.
+
 `scripts/public-audiences.json` records the reader and purpose of each public page.
 Adding a page requires an intentional reader-facing purpose. Do not add a route
 merely because a useful maintainer document exists.

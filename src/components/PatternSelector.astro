@@ -52,7 +52,7 @@ const decisionTree = PATTERN_DECISION_TREE;
       <p class="ps-panel-desc">{p.description}</p>
       <div class="ps-panel-details">
         <div class="ps-detail-block">
-          <h5 class="helm-label ps-detail-label">When to use</h5>
+          <h5 class="helm-label ps-detail-label">When to consider it</h5>
           <p>{p.whenToUse}</p>
         </div>
         <div class="ps-detail-block">
@@ -66,8 +66,8 @@ const decisionTree = PATTERN_DECISION_TREE;
   <div class="ps-decision">
     <h4 class="ps-decision-title">Pattern Selection Guide</h4>
     <p class="ps-decision-subtitle">
-      Always start at the top. Move down only when the simpler pattern
-      demonstrably fails.
+      Use the problem you have observed to choose an option. Compare it with the
+      simplest approach that could meet the task’s needs.
     </p>
     <div class="ps-flow">
       {decisionTree.map((node, i) => (
@@ -103,7 +103,7 @@ const decisionTree = PATTERN_DECISION_TREE;
       ))}
     </div>
     <p class="ps-universal-rule">
-      <strong>Universal rule:</strong> {COMPOSITION_RULE}
+      <strong>Keep it simple:</strong> {COMPOSITION_RULE}
     </p>
   </div>
 </div>

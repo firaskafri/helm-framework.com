@@ -43,13 +43,15 @@ The leadership-role definitions and Decision Rights Matrix remain canonical narr
 
 The eight files in `src/content/roles/` own role metadata, responsibilities, competencies, interview methods, day-in-the-life material, HELM relationships, and transformation narratives. Their entry IDs provide `/roles/{id}` routes and `/roles/competency-map#{id}` anchors.
 
-`src/data/universal-competencies.ts` separately owns the shared competency set shown on the roles index. Role-specific competencies may specialize that shared vocabulary without redefining the universal list.
+`src/data/shared-competencies.ts` owns the current five shared competencies used by both the roles index and `/competencies`. `src/data/universal-competencies.ts` retains the earlier vocabulary for interpretation and migration; it is no longer rendered as a competing shared list. Role-specific competencies describe applications and specialist skills alongside the shared five.
 
 ## Shared Skills and Themed Examples
 
 - `src/data/shared-competencies.ts` owns the five learning-oriented definitions/self-checks and twenty role-by-competency practice guides. Each guide combines two practical steps, one exercise and the existing illustrative example. All four themes supply the same five competency IDs.
 - `/competencies` presents the explanations before `CompetencyExamples.astro` renders competency selection and role tabs. Theory anchors (`judgment` through `learning`) and theme anchors (`content`, `engineering`, `sales`, `account-management`) remain stable. Compound guide anchors such as `engineering-judgment` select both dimensions; theory-to-practice links preserve the active role with JavaScript and target the first role without it. Print and no-JavaScript views expose all guides.
 - The optional learning resource does not replace the existing role-list IDs or publish a validated evaluation instrument. Design rationale, vocabulary mapping and the unfinished review method remain in `docs/shared-competency-evaluation.md`; public components never import that document.
+
+Role-guide headings use plain reader-facing labels while preserving earlier fragment IDs. The role skills explorer groups the skills listed in a guide; its counts and percentages do not assess a person. `docs/editorial-review-2026-09-17.md` records the wording and interpretation decisions from the site-wide copy review.
 
 ## Evidence References
 

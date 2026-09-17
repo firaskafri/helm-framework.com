@@ -1,8 +1,8 @@
 ---
 id: 'qa-engineer'
 title: 'QA Engineer / SDET'
-subtitle: 'The role that splits in two — one judges the agent, the other judges the product'
-description: 'Traditional QA owned all quality. In the AI era, there are two distinct quality surfaces: agent output correctness and product correctness. These require different skills, tools, and perspectives.'
+subtitle: 'Check agent output and the product people use'
+description: 'Review agent output against its instructions and check whether the resulting product works for its users.'
 order: 5
 publicationStatus: 'published'
 frameworkVersion: '1.0.1'
@@ -12,42 +12,42 @@ evidenceReferences: []
 category: 'product'
 evolved_from: ['QA Engineer', 'SDET', 'QA Lead', 'Test Engineer']
 maps_to: 'QA Engineer + Evaluation Lead'
-core_mission: "Own quality across two surfaces — agent output correctness (Evaluation Lead) and product correctness from the user's perspective (QA Engineer) — ensuring both are covered without gaps or duplication."
+core_mission: 'Make sure the team checks both agent output and the resulting product, with clear ownership and follow-up for problems.'
 key_responsibilities:
   - 'Evaluation Lead: Design evaluation suites for agent behavior that go beyond conventional unit and integration tests'
-  - 'Evaluation Lead: Define passing thresholds and quality bars per agent workflow so "green" means something operational'
-  - 'Evaluation Lead: Track quality metrics over time to catch drift early — before it shows up as customer pain or rework'
-  - 'Evaluation Lead: Enforce evaluation as a precondition to ship: no green eval, no merge'
-  - 'Evaluation Lead: Build automated evaluation that can validate agent output without defaulting to human-in-the-loop'
+  - 'Evaluation Lead: Agree what acceptable output looks like for each workflow'
+  - 'Evaluation Lead: Track quality over time and investigate changes'
+  - 'Evaluation Lead: Make the agreed checks part of the release decision'
+  - 'Evaluation Lead: Automate useful checks and identify where human review is still needed'
   - 'Evaluation Lead: Partner with the AI Architect on what "correct" means per task type'
   - 'QA Engineer: Translate acceptance criteria into testable assertions that reflect real user outcomes'
   - 'QA Engineer: Build or curate suites that stress UX regressions, accessibility, copy, and interaction quality'
   - 'QA Engineer: Monitor product-side drift: issues that clear agent evaluation but still violate user expectations'
   - 'QA Engineer: Coordinate with the Evaluation Lead so coverage spans both agent output and end-to-end product behavior'
   - 'QA Engineer: Review agent-generated UI for design-system fit, accessibility, and interaction quality'
-  - 'QA Engineer: Own "does it work for the user?" at every Verify phase of the operating loop'
+  - 'QA Engineer: Check whether the result works for users during the Verify phase'
 competencies:
   - title: 'Evaluation design'
-    description: 'Defining eval suites for non-deterministic or open-ended output — where "correct" is graded, not always unique.'
+    description: 'Choose meaningful examples and criteria for judging outputs that may have more than one acceptable answer.'
   - title: 'Drift detection'
-    description: 'Spotting gradual degradation that no single PR or green build exposes.'
+    description: 'Notice changes in quality over time, including problems individual test runs can miss.'
   - title: 'Product judgment'
     description: 'Assessing experience quality beyond functional pass/fail.'
     evolved_from: 'Test plans and test cases'
   - title: 'Statistical thinking'
-    description: 'Setting thresholds, confidence, and sampling when binary gates mislead.'
+    description: 'Understand the limits of a sample and explain what the available evidence supports.'
   - title: 'Automation at scale'
-    description: 'Infrastructure that keeps up with high-volume agent output without drowning the team in manual review.'
+    description: 'Build useful automated checks and plan the human review effort they leave.'
     evolved_from: 'Automation frameworks (Selenium, Cypress, Jest)'
   - title: 'Cross-functional communication'
     description: 'Turning quality signals into concrete, prioritized feedback for engineering and product.'
     evolved_from: 'Bug tracking and regression discipline'
 no_longer_screen_for:
-  - 'Manual test execution as the primary value proposition'
+  - 'Test execution counts without examples of choosing and investigating meaningful checks'
   - 'Depth in a single framework without judgment about what to automate and why'
   - 'Quality defined only as absence of defects, ignoring intent and experience'
   - 'Assumptions that all code is human-written, reviewed at human cadence, and stable between releases'
-  - 'QA as a final gate after development, disconnected from the continuous Build-Verify rhythm'
+  - 'Release checks without involvement in planning and reviewing the work'
 interview_methods:
   - title: 'Evaluation design'
     description: 'An agent generates API endpoints. Design an evaluation suite that decides whether the output is production-ready. What do you measure beyond tests passing?'
@@ -60,25 +60,27 @@ interview_methods:
   - title: 'Process design'
     description: 'For a team at Maturity Level 3, design the quality workflow. Where does evaluation run? Where does product QA run? How do they hand off and escalate?'
 day_in_life: |
-  **Evaluation Lead:** Overnight metrics show pass rates holding, but you notice something. A class of edge cases never appears in eval data at all. Coverage looks fine because nobody's testing for the thing that hasn't happened yet. You tighten scenarios and thresholds with the AI Architect. Later, you block a merge where eval green-lighted structurally valid code that violates architectural rules for that service. Agent correctness alone doesn't make something product-ready.
+  **Output review:** A generated change passes its tests but mishandles an input missing from the test data. You add that case, explain the expected behavior and ask for a correction.
 
-  **QA Engineer:** A new feature built mostly by agents passes all functional tests. You walk it anyway. The flow obeys the design system but feels wrong — step order, unclear error states, keyboard traps. Tests don't catch "feels wrong." You do. You file crisp, user-centered issues and update assertions so the next cycle catches the class of failure, not just the instance.
-
-  **Both:** You sync on coverage. Where did eval stop and product QA pick up? What slipped through both? How do today's findings change tomorrow's criteria? Two disciplines, each deep enough to stand alone, wired together to protect the whole system.
+  **Product review:** A walkthrough reveals an unclear error message and a keyboard trap. You describe the user impact, agree fixes and add checks before release. The team reviews what both kinds of testing missed.
 helm_connection: |
-  This page maps directly to [QA Engineer](/leadership#qa-engineer) and [Evaluation Lead](/leadership#evaluation-lead) in the HELM [Leadership Guide](/leadership), including the explicit split of ownership: agent output correctness versus product correctness. In the [Practitioner Guide](/practitioners), that split lands in [Layer 2: Quality Guardrails](/practitioners#layer-2-quality-guardrails): evaluations and product checks are guardrails, not optional polish. Operationally, both roles anchor the [Verify](/practitioners#verify) phase of the HELM [operating loop](/practitioners#the-plan-execute-verify-ship-learn-cycle) — evaluation before merge and integration, product QA before release confidence.
+  The [Evaluation Lead](/leadership#evaluation-lead) and [QA Engineer](/leadership#qa-engineer) responsibilities contribute to [Layer 2: Quality](/practitioners#layer-2-quality-guardrails) and the [Verify](/practitioners#verify) phase. Agree how your team covers both kinds of review.
 
-  [Failure Mode 3: Silent Quality Drift](/leadership#failure-mode-3-silent-quality-drift) is the shared enemy: metrics look fine while experience and agent behavior erode. The [KPI Dashboard](/leadership#kpi-dashboard)'s **Quality** section should reflect both surfaces — agent-eval health and product-quality signals — so leadership sees drift before it becomes a narrative crisis. HELM treats quality as infrastructure for human-first execution; splitting QA into Evaluation Lead and QA Engineer is how that infrastructure stays honest in the AI era.
+  Use [Silent Quality Drift](/leadership#failure-mode-3-silent-quality-drift) and the [KPI Dashboard](/leadership#kpi-dashboard) to investigate cases where test results and user experience disagree.
 ---
 
-## The Shift
+<span id="the-shift"></span>
 
-Traditional QA held a single mandate: own quality end to end. Test plans, automation suites, regression cycles, bug triage, release sign-off. One craft, one lens. Does the software behave as specified before it reaches users?
+## Working with agents
 
-That single lens can't cover what agents produce. Two quality surfaces now sit on top of each other. **Agent output quality**: is the code, copy, or design the agent generated instruction-faithful, structurally sound, and fit to enter the product pipeline? **Product quality**: does what ships actually serve the user — correct behavior, accessible interfaces, coherent experience? The first asks whether the machine did its job well enough to merit scrutiny. The second asks whether the result deserves the user's trust.
+Agent-assisted delivery needs checks on the generated work and on the resulting product. Plan those checks with the people who will use their results.
 
-Different questions. Different tools. Different mental models. HELM makes the line explicit: **the Evaluation Lead owns agent output correctness; the QA Engineer owns product correctness.** One judges the agent. The other judges the product. Collapsing both into one overloaded job description is how teams end up with gaps in both.
+**Agent output quality** asks whether the generated work follows its instructions and meets the relevant checks. **Product quality** asks whether the result works for users, including its behavior, clarity and accessibility.
 
-## What the Traditional Job Description Looked Like
+HELM names these responsibilities **Evaluation Lead** and **QA Engineer**. They need clear ownership, but they need not be separate jobs in every team. Decide based on workload, expertise and risk.
 
-The assumption was baked into the org chart: "quality" is one column. One person, one playbook. Postings asked for test plans and test cases, automation framework proficiency (Selenium, Cypress, Jest), CI/CD integration, bug tracking discipline, and SDLC fluency. Technical correctness and user-facing quality were treated as the same problem. They aren't.
+<span id="what-the-traditional-job-description-looked-like"></span>
+
+## Experience to discuss
+
+Discuss how someone chooses tests, investigates conflicting signals and checks the experience of using a product. Use a relevant agent-generated example and ask what automated checks would miss and how they would handle that gap.

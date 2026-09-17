@@ -14,9 +14,9 @@ const directionIcons: Record<
   KpiMetric['direction'],
   { label: string; color: string }
 > = {
-  increase: { label: 'Increase', color: 'var(--color-steel)' },
-  decrease: { label: 'Decrease', color: 'var(--color-terracotta)' },
-  stable: { label: 'Stable or decrease', color: 'var(--color-muted)' },
+  increase: { label: 'Discuss increase', color: 'var(--color-steel)' },
+  decrease: { label: 'Discuss decrease', color: 'var(--color-terracotta)' },
+  stable: { label: 'Check stability', color: 'var(--color-muted)' },
   monitor: { label: 'Monitor', color: 'var(--color-muted)' },
 };
 
@@ -134,7 +134,7 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
   ))}
 
   <div class="kd-formula">
-    <div class="kd-formula-label">The Success Formula</div>
+    <div class="kd-formula-label">Read these measures together</div>
     <div class="kd-formula-content">
       {formulaMetrics.map((metric, index) => (
         <>
@@ -154,6 +154,10 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
         </>
       ))}
     </div>
+    <p class="text-sm mt-3">
+      This pattern may suggest improvement. Check user outcomes and total effort
+      before drawing a conclusion.
+    </p>
   </div>
 </div>
 

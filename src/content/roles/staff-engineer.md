@@ -1,8 +1,8 @@
 ---
 id: 'staff-engineer'
 title: 'Staff / Principal Engineer'
-subtitle: 'From the best individual coder to the architect of systems agents build within'
-description: 'Staff engineers solved the hardest implementation problems. In the AI era, the hardest problems are structural: system design, model selection, orchestration patterns, and failure modes that agents cannot reason about.'
+subtitle: 'Set technical direction and clear boundaries for agent-assisted work'
+description: 'Help teams make architecture decisions, set boundaries for agents and review how changes affect the wider system.'
 order: 2
 publicationStatus: 'published'
 frameworkVersion: '1.0.1'
@@ -12,38 +12,38 @@ evidenceReferences: []
 category: 'engineering'
 evolved_from: ['Staff Engineer', 'Principal Engineer', 'Solutions Architect']
 maps_to: 'AI Architect'
-core_mission: 'Define the technical architecture, orchestration patterns, and system boundaries within which both agents and engineers operate. Own the structural decisions that determine whether an agentic system compounds capability or compounds risk.'
+core_mission: 'Make architecture, data-flow and operating decisions clear enough for people to implement and review, including when agents do part of the work.'
 key_responsibilities:
   - 'Select models and assign responsibility by task class, weighing capability, cost, latency, and failure sensitivity'
   - 'Design end-to-end data flow from inputs through processing, persistence, and outputs—including what agents may read, write, or infer'
   - 'Choose orchestration patterns (single agent, multi-agent, deterministic workflow, or hybrid) based on task structure, reversibility, and oversight requirements'
   - 'Define failure modes, recovery paths, and escalation triggers before agents encounter them in production'
-  - 'Establish architectural guardrails so agents cannot silently reshape structure, ownership, or trust boundaries'
-  - 'Review and approve system-design decisions across engineering pods; hold the line on consistency and composability'
+  - 'Define architectural constraints and check that agent changes respect them'
+  - 'Review system-design decisions across teams for compatibility and maintainability'
   - 'Own the evaluation architecture: what can be measured, how evaluation data flows through the system, and how system-level health is assessed'
-  - 'Drive compounding engineering by documenting decisions in durable form—rules, ADRs, boundaries—so the next agent and the next human build on the same foundation'
+  - 'Record decisions, alternatives and constraints so later work can build on them'
 competencies:
   - title: 'System design mastery'
-    description: 'Architect systems that treat AI agents as execution components inside explicit contracts, not as magic that replaces design.'
+    description: 'Design the interfaces, data flow and operating limits for systems that include agents.'
     evolved_from: 'Deep distributed systems expertise'
   - title: 'Orchestration pattern expertise'
-    description: 'Discriminate when workflows, single-agent loops, or multi-agent compositions fit the problem—aligned with established composition patterns for structuring reliable agentic systems.'
+    description: 'Choose a workflow or agent pattern that fits the task, and explain why simpler options are insufficient.'
   - title: 'Failure mode thinking'
-    description: 'Anticipate hallucination, scope drift, cost spirals, stale instructions, and ambiguous ownership; design detection and recovery into the architecture.'
+    description: 'Plan for incorrect outputs, repeated actions, stale instructions and unclear ownership, including how to detect and recover from failures.'
     evolved_from: 'Designing and shipping systems at scale'
   - title: 'Cost-performance reasoning'
-    description: 'Tie model and routing choices to measurable quality, latency, and spend—not to model hype.'
+    description: 'Compare model and routing choices using task quality, response time and cost.'
   - title: 'Technical communication'
-    description: 'Translate architecture into rules files, task boundaries, and instructions that both people and agents can execute without improvising structure.'
+    description: 'Explain architecture decisions through clear task boundaries, diagrams and instructions.'
     evolved_from: 'Track record of mentorship'
   - title: 'Cross-domain judgment'
     description: 'Assess output quality and design risk across domains (backend, data, security, UX) when agents span them.'
     evolved_from: 'Leading complex technical initiatives'
 no_longer_screen_for:
-  - 'Personal code output volume or vanity metrics such as lines of code'
-  - 'Narrow supremacy in a single language or framework when agents cover breadth'
+  - 'Code volume without evidence of the decisions and results behind it'
+  - 'Language or framework expertise without examples of wider system judgment'
   - 'Expectation that you personally implement every subsystem you design'
-  - '"Hero" narratives where one person rescues a program through brute-force implementation'
+  - 'Individual achievements without evidence of collaboration or knowledge sharing'
   - 'LeetCode-style algorithm screens disconnected from system and agentic design'
 interview_methods:
   - title: 'System design'
@@ -57,31 +57,27 @@ interview_methods:
   - title: 'Guardrail design'
     description: 'Specify scope, quality, and policy guardrails for a concrete agent workflow, including escalation.'
 day_in_life: |
-  Architecture review first: execution metrics, cost per run, failure rates, guardrail triggers. Where are agents spending tokens without moving outcomes? A working session follows on a new feature, debating prompt chaining versus a constrained agent loop, locking the pattern that fits the risk profile.
+  You compare a fixed workflow with an agent loop for a new feature. The team reviews the expected quality, cost and failure cases before choosing the simpler option that meets the need.
 
-  Afternoon, you review a pod's proposed change. The diff looks fine. The data flow doesn't. You catch a boundary violation (or a stale assumption that execution alone would never surface) and send the team back with a structural fix, not a style nit.
-
-  Last thing you do: record the decision. What was chosen, what was rejected, and what agents must not reinterpret next week. That record matters more than any single pull request. It's the architecture everyone, human and agent, will build inside tomorrow.
+  Later, an implementation review reveals that customer data crosses a service boundary it should not cross. You agree a correction and record the decision so future tasks include the same constraint.
 helm_connection: |
-  This role maps directly to the [AI Architect](/leadership#ai-architect) in the [Leadership Guide](/leadership): the senior technical owner of how intelligence is embedded in systems, not just which tools are turned on.
+  The [AI Architect](/leadership#ai-architect) responsibilities cover technical direction. Use the [Decision Rights Matrix](/leadership#decision-rights-matrix) to agree who decides, the [Guardrail Stack](/practitioners#the-guardrail-stack) to review controls, and the [Composition Patterns](/practitioners#composition-patterns) to compare implementation options.
 
-  The [Decision Rights Matrix](/leadership#decision-rights-matrix) is where this role becomes operational—clear ownership for model selection, orchestration pattern choices, and architecture-level changes, so neither agents nor ad hoc consensus rewrite structure by default.
-
-  The [Guardrail Stack](/practitioners#the-guardrail-stack) (Layers 1–5) turns abstract architecture into enforceable reality: Scope, Quality, Policy, Human Decision, and Governance—each layer something the AI Architect designs for and reviews with the same rigor once applied to service boundaries.
-
-  The [Composition Patterns](/practitioners#composition-patterns) in the [Practitioner Guide](/practitioners) are the implementation vocabulary: how work is decomposed, sequenced, and supervised. The Staff / Principal Engineer in the AI era owns when those patterns apply and how they compose across teams.
-
-  [Principle 5: Structure Over Tooling](/foundation#principle-5-structure-over-tooling) runs through all of it: the organization wins when structure (boundaries, rights, guardrails, documented decisions) outlasts any single model release or agent framework. That is the job.
+  [Principle 5: Structure Over Tooling](/foundation#principle-5-structure-over-tooling) asks the team to keep responsibilities clear as its tools change.
 ---
 
-## The Shift
+<span id="the-shift"></span>
 
-Staff and principal engineers sat at the top of the individual-contributor ladder. They untangled the hardest technical problems, shipped the systems nobody else could, and set the quality bar by example. Career progression rewarded depth in code, judgment exercised through personal execution, and a reputation built on what you could build with your own hands.
+## Working with agents
 
-Agents now absorb a growing share of that implementation work. They draft, refactor, and wire code faster than any human. Senior technical leadership isn't obsolete — but the hard problems moved. They're structural now: which model handles which class of task, how data crosses subsystem boundaries, where agent autonomy stops, what "good" means when you've delegated execution, and which orchestration pattern fits the risk.
+Staff and principal engineers help teams make technical decisions that affect more than one task or service. Agent-assisted work adds questions about context, tool access, review and interactions across the system.
 
-So the Staff Engineer becomes the **AI Architect**. Not by abandoning technical depth, but by focusing it where agents are weakest. You define boundaries. You own the decisions agents cannot safely make — trade-offs that need business context, long-horizon consistency, and real accountability when something fails systemically. HELM calls this **Principle 5: Structure Over Tooling**. Tools and models rotate; the shape of the system has to outlast them. Your job is encoding that shape in architecture, policy, and explicit **Decision Rights**: who (or what) may choose models, orchestration modes, and structural changes, and with what evidence.
+For a product that runs agents, this may include model selection, data flow and recovery. For a team using coding agents, start with the development workflow and the system boundaries their changes must respect.
 
-## What the Traditional Job Description Looked Like
+The **AI Architect** name describes a set of responsibilities in HELM. Agree how your team covers them rather than assuming a new title is needed.
 
-The interview loop told you everything about priorities. Ten-plus years of engineering experience. Led complex technical initiatives. Deep distributed systems expertise. Mentorship track record. Evidence of designing and shipping systems at scale. What employers were really screening for was **individual technical accomplishment**: what you personally built, how hard the problem was, and how clearly your fingerprints were on the result.
+<span id="what-the-traditional-job-description-looked-like"></span>
+
+## Experience to discuss
+
+Discuss architecture, technical leadership and mentoring through concrete decisions. What alternatives did the person consider, who did they involve, and how did they check the result? Use agent-related scenarios where they match the work.
