@@ -64,6 +64,39 @@ for (const route of routes) {
   });
 }
 
+test('updates are discoverable and link to changed content without JavaScript', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    reducedMotion: 'reduce',
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.goto('http://127.0.0.1:4322/');
+  const latest = page.locator('section[aria-labelledby="latest-updates"]');
+  const link = latest.getByRole('link', { name: /See what changed/ }).first();
+  const destination = await link.getAttribute('href');
+  await link.click();
+  await page.waitForLoadState('load');
+  await expect
+    .poll(() => page.evaluate(() => document.fonts.status))
+    .toBe('loaded');
+  expect(new URL(page.url()).pathname).toBe('/updates');
+  const entry = page.locator(
+    `[data-update-id="${destination?.split('#')[1]}"]`,
+  );
+  await expect(entry).toBeVisible();
+  const changedContent = entry.locator('.update-links a[href^="/"]').first();
+  const target = await changedContent.getAttribute('href');
+  await changedContent.click();
+  expect(new URL(page.url()).pathname).toBe(
+    new URL(target!, 'http://127.0.0.1:4322').pathname,
+  );
+  await expect(page.locator('main h1')).toBeVisible();
+  await context.close();
+});
+
 test('mobile menu supports Escape and ordinary keyboard navigation', async ({
   page,
 }) => {

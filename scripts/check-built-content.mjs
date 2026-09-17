@@ -220,6 +220,66 @@ feed('item').each((_, element) => {
     failures.push(`RSS publication date disagrees with ${route}`);
 });
 const image = await sharp(path.join(DIST_DIR, 'og-default.png')).metadata();
+
+const updatesPage = pagesByPublicPath.get('/updates');
+if (!updatesPage) throw new Error('The public updates page is required');
+const announcementIds = [];
+const updateRecords = new Map();
+updatesPage.$('[data-update-id]').each((_, element) => {
+  const item = updatesPage.$(element);
+  const id = item.attr('data-update-id');
+  updateRecords.set(id, {
+    status: item.attr('data-update-status'),
+    date: item.attr('data-update-date'),
+    modified: item.attr('data-update-modified'),
+  });
+  if (item.attr('data-update-status') === 'published') announcementIds.push(id);
+});
+if (!updateRecords.size) failures.push('Updates page has no entries');
+const updateFeed = cheerio.load(
+  await readFile(path.join(DIST_DIR, 'updates/rss.xml'), 'utf8'),
+  { xmlMode: true },
+);
+const feedIds = [];
+updateFeed('item').each((_, element) => {
+  const item = updateFeed(element);
+  const url = new URL(item.find('link').text());
+  const id = decodeURIComponent(url.hash.slice(1));
+  const record = updateRecords.get(id);
+  feedIds.push(id);
+  if (
+    url.origin !== siteOrigin ||
+    url.pathname.replace(/\/$/, '') !== '/updates' ||
+    !updatesPage.ids.has(id) ||
+    record?.status !== 'published'
+  ) {
+    failures.push(
+      `Updates RSS references a missing or unpublished announcement: ${url.href}`,
+    );
+    return;
+  }
+  if (
+    new Date(item.find('pubDate').text()).toISOString().slice(0, 10) !==
+      record.date ||
+    item.find('dcterms\\:modified').text().slice(0, 10) !== record.modified
+  )
+    failures.push(`Updates RSS dates disagree with ${id}`);
+});
+if (JSON.stringify(feedIds) !== JSON.stringify(announcementIds))
+  failures.push(
+    'Updates RSS must contain every published entry in timeline order, and no candidates or drafts',
+  );
+for (const page of pageRecords) {
+  if (page.$('meta[name="robots"]').attr('content')?.includes('noindex'))
+    continue;
+  if (!page.$('nav[aria-label="Main navigation"] a[href="/updates"]').length)
+    failures.push(`${page.publicPath} is missing Updates in navigation`);
+  if (!page.$('link[rel="alternate"][href="/updates/rss.xml"]').length)
+    failures.push(
+      `${page.publicPath} is missing the updates RSS discovery link`,
+    );
+}
+
 if (image.format !== 'png' || image.width < 1200 || image.height < 630)
   failures.push('Default OG image must be a real PNG of at least 1200×630');
 let javascriptBytes = 0;

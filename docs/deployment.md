@@ -24,7 +24,7 @@ Browser tests build `/checks/components` only when `HELM_TEST_FIXTURES=1`, exerc
 
 `.github/workflows/quality.yml` runs on pull requests and main pushes, with read-only repository permissions:
 
-- `quality`: formatting, ESLint, Astro/TypeScript diagnostics, unit tests, generated-content checks, source-safety checks, dependency audit, browser/accessibility tests.
+- `quality`: formatting, ESLint, Astro/TypeScript diagnostics, mandatory linked update notes and changelog synchronization, unit tests, generated-content checks, source-safety checks, dependency audit, browser/accessibility tests.
 - `container`: build the production image and check serving, 404 behavior and non-root execution.
 
 The workflow uploads browser diagnostics and a production `dist/` artifact named with the source commit. Action references and image bases are pinned. The artifact is suitable for deployment only after both checks pass.
@@ -46,7 +46,7 @@ This configuration was applied and confirmed by API readback on 2026-09-17. It w
 
 1. Review the candidate diff and evidence report in `docs/releases/1.0.1.md`.
 2. Confirm the required GitHub checks passed for the exact release commit and verify the nginx image.
-3. Set `FRAMEWORK_RELEASE_STATE` to `published`, date the changelog, and record approval/completion evidence. Re-run checks for this release change.
+3. Set `FRAMEWORK_RELEASE_STATE` and the matching release entry in `src/data/updates.json` to `published`, set its publication/update dates, run `npm run updates:sync`, and record approval/completion evidence. Re-run checks for this release change. See `docs/updates.md`.
 4. Publish only the approved artifact/image. Tags and repository releases are created explicitly by the maintainer as `framework-v1.0.1`.
 5. Change the hosting target port from the previous **80** to **8080** when adopting this Dockerfile. Confirm TLS, health checks and routing at the hosting platform.
 6. Smoke-test the public routes and metadata. Record the deployed image digest and source commit in the release report.

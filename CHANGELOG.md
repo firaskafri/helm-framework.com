@@ -1,56 +1,46 @@
-# HELM Framework Changelog
+# HELM Release History
 
-Framework releases are independent from the Astro application package version.
+<!-- Generated from src/data/updates.json. Run npm run updates:sync; edit the source, not this file. -->
+
+What has changed in HELM’s guidance and resources, why it matters for your team, and where to explore it. Entries marked “Release candidate” preview an upcoming release.
+
+Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
 
 ## 1.0.1 — Release candidate
 
-Prepared 2026-09-17. Publication awaits the recorded release gates; no 1.0.1 tag or production deployment is implied.
+[Clearer evidence, easier reading](https://helmframework.com/updates#helm-1-0-1) · Prepared 2026-09-17.
 
-### Foundation hardening
+A preview of the next HELM update: understand what supports the guidance, explore the resources more easily, and see what is being developed to help your team.
 
-- Added claim-level evidence labels, source inspection history, access-failure records and an unsupported-claim inventory at [Evidence and Sources](/evidence).
-- Recorded semantic issues separately in the [Correction Register](/corrections). Existing recommendations and canonical anchors retain their baseline meaning.
-- Added visible framework version, release/evidence state, editorial dates and evidence-review dates. RSS and sitemap now preserve content modification dates.
-- Fixed mobile-menu Escape behavior, table-of-contents synchronization, reduced-motion behavior, text contrast, narrow-screen tables and keyboard interactions.
-- Made substantive guide and competency content available without JavaScript and in print; made repeated components independently operable with unique IDs.
-- Sanitized rendered role frontmatter and escaped embedded JSON-LD.
-- Added formatting, lint, type, unit, browser, accessibility, content, source-safety and dependency gates, with required-check configuration for GitHub.
-- Upgraded the build dependencies, removed the Node runtime adapter and sessions, and added an unprivileged static nginx image.
-- Published code/content licensing, contribution guidance and canonical roadmap/changelog pages.
+### Understand the guidance
 
-### Deployment compatibility
+- See which recommendations draw on checked sources, which are proposed practices, and where evidence is still missing. This helps you judge how confidently to apply the guidance to your own work. [Explore the evidence](https://helmframework.com/evidence)
+- Find open questions about team maturity, decision ownership, and role expectations in one place, so you can recognize guidance that is still being reviewed. [See guidance under review](https://helmframework.com/corrections)
 
-The static artifact is now directly in `dist/`. The Docker serving port changes from **80 to 8080**. The Astro application package remains `0.0.1`; framework version and release state are maintained independently.
+### Read and share with your team
 
-### Known limitations
+- The guides are easier to navigate on smaller screens and with a keyboard. Clearer text contrast and improved tables of contents help you find and read the sections you need. [For practitioners](https://helmframework.com/practitioners) · [For team leaders](https://helmframework.com/leadership)
+- Read the full guide and competency content even when interactive features are unavailable, or print it for a team discussion. Clear reuse and attribution guidance also helps you adapt HELM material for your team. [Explore role competencies](https://helmframework.com/roles/competency-map) · [Reuse HELM material](https://helmframework.com/licensing)
+- Follow dated updates with direct links to the resources that changed. You can also subscribe to published updates, so you do not have to check the site for every new release. [Follow updates](https://helmframework.com/updates) · [Subscribe via RSS](https://helmframework.com/updates/rss.xml)
 
-- Evidence labels expose provisional and unverified claims; they do not validate the framework. The planned 1.1 pilot and conceptual corrections remain outstanding.
-- Quality and container checks passed in [GitHub Actions](https://github.com/firaskafri/helm-framework.com/actions/runs/35206062832). Merge, release tagging and production publication remain separate steps; see `docs/releases/1.0.1.md` and `docs/deployment.md`.
-- Automated accessibility checks are not an independent screen-reader or production-performance audit.
+### What’s coming next
+
+- The roadmap now gives a clearer view of what is ready, what is being developed, and what still needs testing. Upcoming work includes a small kit for trying HELM on a real workflow and guidance for adapting responsibilities and learning needs. [See what’s next](https://helmframework.com/roadmap#now-next-and-later)
+- Shared competencies and a development review are now explicit priorities. They will focus on working behaviors such as judgment, accountability, collaboration, and learning across roles. These resources are planned and will be tried with teams before publication. [Read the development plan](https://helmframework.com/roadmap#shared-competencies-and-development)
 
 ## 1.0.0 — 2026-09-05
 
-HELM 1.0.0 records the existing public framework before semantic corrections.
+[A shared starting point for human–agent teamwork](https://helmframework.com/updates#helm-1-0-0) · Published 2026-09-05. Updated 2026-09-17.
 
-### Included
+The first numbered release brings HELM’s principles, practical guides, and role descriptions together, so your team can refer to the same version when discussing how to work with AI agents.
 
-- Foundation guide and six principles
-- Practitioner patterns, Guardrail Stack, operating loop, task matrix, and maturity model
-- Leadership operating model, authority definitions, adoption roadmap, KPI dashboard, and failure modes
-- Eight role-transformation and hiring guides
-- Universal competency reference
+### A common language for your team
 
-### Baseline Improvements
+- Explore six principles for decisions about AI-assisted work, from choosing simple approaches to keeping people accountable for results. [Start with the principles](https://helmframework.com/foundation)
+- Use the Practitioner Guide to discuss how agents fit a workflow, how results should be checked, and where people need to make decisions. [Explore working practices](https://helmframework.com/practitioners)
+- Explore ownership, adoption, and measurement with the Leadership Guide, including questions to consider as your team changes how it works. [Read the Leadership Guide](https://helmframework.com/leadership)
+- Explore how responsibilities and competencies may change across engineering, product, and design when agents become part of the work. [Explore the role guides](https://helmframework.com/roles)
 
-- Added stable content and concept identifiers.
-- Added publication status, framework version, creation date, modification date, and evidence-reference metadata.
-- Documented canonical ownership and independent package versioning.
-- Added deterministic collection, route, link, anchor, and DOM ID validation.
+### Putting HELM to use
 
-### Limitations
-
-- Evidence references identify sources already attached to each entry. Claim-level provenance, evidence labels, access dates, and replacement history remain part of the Evidence baseline workstream.
-- Known questions about applicability, maturity, decision ownership, role requirements, and enforceable controls remain in the HELM 1.1 correction workstream.
-- No machine-readable framework export is part of this release.
-
-The Astro application package remains at version `0.0.1`.
+- This release established a common reference for discussion and local testing. Teams still needed to try the guidance against their own work, and several recommendations were scheduled for review. [Follow HELM’s development](https://helmframework.com/roadmap)

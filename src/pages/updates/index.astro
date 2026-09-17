@@ -1,0 +1,152 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { PUBLIC_UPDATES, UPDATES_LAST_MODIFIED } from '../../data/updates';
+import { statusLabel, updateUrl } from '../../lib/updates';
+import { resolveSiteOrigin } from '../../lib/resolveSiteOrigin';
+import { buildBreadcrumbList, buildWebPageJsonLd } from '../../lib/jsonLd';
+
+const title = 'HELM Updates';
+const description =
+  'See what is new in HELM, what it means for your team, and where to find updated guidance and resources.';
+const origin = resolveSiteOrigin(Astro.site, Astro.url);
+const modified = new Date(UPDATES_LAST_MODIFIED);
+const jsonLd = [
+  buildBreadcrumbList([
+    { name: 'Home', url: origin.href },
+    { name: 'Updates', url: new URL('/updates', origin).href },
+  ]),
+  buildWebPageJsonLd({
+    headline: title,
+    description,
+    url: new URL('/updates', origin).href,
+    homeUrl: origin.href,
+    dateModified: modified,
+  }),
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  lastModified={modified}
+  jsonLd={jsonLd}
+>
+  <Nav />
+  <main id="main-content" class="max-w-5xl mx-auto px-6 pt-28 pb-20 w-full">
+    <header class="max-w-3xl mb-12">
+      <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
+        The framework, evolving
+      </p>
+      <h1 class="font-serif text-[clamp(2.5rem,6vw,4rem)] font-semibold leading-tight mb-5">
+        What’s new in HELM
+      </h1>
+      <p class="text-lg text-[var(--color-ink-light)]">
+        See what has changed, why it matters for your team, and where to explore
+        it. Entries marked “Release candidate” preview an upcoming release.
+      </p>
+      <nav
+        aria-label="Update resources"
+        class="flex flex-wrap gap-x-6 gap-y-3 mt-6 text-sm font-medium text-[var(--color-terracotta)]"
+      >
+        <a href="/updates/rss.xml" class="underline underline-offset-4">
+          Subscribe to published updates (RSS)
+        </a>
+        <a href="/changelog" class="underline underline-offset-4">
+          Release history
+        </a>
+        <a href="/roadmap" class="underline underline-offset-4">
+          What’s next
+        </a>
+      </nav>
+    </header>
+
+    <ol class="list-none p-0 space-y-10">
+      {PUBLIC_UPDATES.map((update) => (
+        <li>
+          <article
+            id={update.id}
+            data-update-id={update.id}
+            data-update-date={update.date}
+            data-update-modified={update.updatedAt}
+            data-update-status={update.status}
+            data-update-version={update.version}
+            data-update-kind={update.kind}
+            class="rounded-xl border border-[var(--color-border)] bg-white p-6 md:p-10"
+            aria-labelledby={`${update.id}-title`}
+          >
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm mb-4">
+              <span class="text-[var(--color-muted)]">
+                {update.status === 'published' ? 'Published' : 'Prepared'}{' '}
+                <time datetime={update.date}>{update.date}</time>
+              </span>
+              <span class="font-medium">HELM {update.version}</span>
+              <span class="helm-badge">{statusLabel(update.status)}</span>
+            </div>
+            <h2
+              id={`${update.id}-title`}
+              class="font-serif text-2xl md:text-3xl font-semibold leading-tight mb-4"
+            >
+              <a
+                href={updateUrl(update)}
+                class="hover:text-[var(--color-terracotta)]"
+              >
+                {update.title}
+              </a>
+            </h2>
+            <p class="text-lg text-[var(--color-ink-light)] mb-6">
+              {update.summary}
+            </p>
+            {update.updatedAt !== update.date && (
+              <p class="text-sm text-[var(--color-muted)] mb-6">
+                Updated{' '}
+                <time datetime={update.updatedAt}>{update.updatedAt}</time>
+              </p>
+            )}
+            <div class="prose">
+              {update.sections.map((section) => (
+                <section>
+                  <h3>{section.heading}</h3>
+                  <ul>
+                    {section.items.map((item) => (
+                      <li class="mb-4">
+                        <p>{item.text}</p>
+                        <ul class="update-links">
+                          {item.links.map((link) => (
+                            <li>
+                              <a href={link.href}>{link.label}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </main>
+  <Footer />
+</Base>
+<style>
+  .prose .update-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 1rem;
+  }
+  .prose .update-links li {
+    font-size: 0.9rem;
+    padding: 0;
+    margin: 0;
+  }
+  .prose li > p {
+    margin-bottom: 0.4rem;
+  }
+</style>

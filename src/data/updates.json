@@ -1,0 +1,131 @@
+[
+  {
+    "id": "helm-1-0-1",
+    "kind": "release",
+    "version": "1.0.1",
+    "status": "release-candidate",
+    "date": "2026-09-17",
+    "updatedAt": "2026-09-17",
+    "title": "Clearer evidence, easier reading",
+    "summary": "A preview of the next HELM update: understand what supports the guidance, explore the resources more easily, and see what is being developed to help your team.",
+    "sections": [
+      {
+        "heading": "Understand the guidance",
+        "items": [
+          {
+            "text": "See which recommendations draw on checked sources, which are proposed practices, and where evidence is still missing. This helps you judge how confidently to apply the guidance to your own work.",
+            "links": [{ "label": "Explore the evidence", "href": "/evidence" }]
+          },
+          {
+            "text": "Find open questions about team maturity, decision ownership, and role expectations in one place, so you can recognize guidance that is still being reviewed.",
+            "links": [
+              { "label": "See guidance under review", "href": "/corrections" }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Read and share with your team",
+        "items": [
+          {
+            "text": "The guides are easier to navigate on smaller screens and with a keyboard. Clearer text contrast and improved tables of contents help you find and read the sections you need.",
+            "links": [
+              { "label": "For practitioners", "href": "/practitioners" },
+              { "label": "For team leaders", "href": "/leadership" }
+            ]
+          },
+          {
+            "text": "Read the full guide and competency content even when interactive features are unavailable, or print it for a team discussion. Clear reuse and attribution guidance also helps you adapt HELM material for your team.",
+            "links": [
+              {
+                "label": "Explore role competencies",
+                "href": "/roles/competency-map"
+              },
+              { "label": "Reuse HELM material", "href": "/licensing" }
+            ]
+          },
+          {
+            "text": "Follow dated updates with direct links to the resources that changed. You can also subscribe to published updates, so you do not have to check the site for every new release.",
+            "links": [
+              { "label": "Follow updates", "href": "/updates" },
+              { "label": "Subscribe via RSS", "href": "/updates/rss.xml" }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "What’s coming next",
+        "items": [
+          {
+            "text": "The roadmap now gives a clearer view of what is ready, what is being developed, and what still needs testing. Upcoming work includes a small kit for trying HELM on a real workflow and guidance for adapting responsibilities and learning needs.",
+            "links": [
+              {
+                "label": "See what’s next",
+                "href": "/roadmap#now-next-and-later"
+              }
+            ]
+          },
+          {
+            "text": "Shared competencies and a development review are now explicit priorities. They will focus on working behaviors such as judgment, accountability, collaboration, and learning across roles. These resources are planned and will be tried with teams before publication.",
+            "links": [
+              {
+                "label": "Read the development plan",
+                "href": "/roadmap#shared-competencies-and-development"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "helm-1-0-0",
+    "kind": "release",
+    "version": "1.0.0",
+    "status": "published",
+    "date": "2026-09-05",
+    "updatedAt": "2026-09-17",
+    "title": "A shared starting point for human–agent teamwork",
+    "summary": "The first numbered release brings HELM’s principles, practical guides, and role descriptions together, so your team can refer to the same version when discussing how to work with AI agents.",
+    "sections": [
+      {
+        "heading": "A common language for your team",
+        "items": [
+          {
+            "text": "Explore six principles for decisions about AI-assisted work, from choosing simple approaches to keeping people accountable for results.",
+            "links": [
+              { "label": "Start with the principles", "href": "/foundation" }
+            ]
+          },
+          {
+            "text": "Use the Practitioner Guide to discuss how agents fit a workflow, how results should be checked, and where people need to make decisions.",
+            "links": [
+              { "label": "Explore working practices", "href": "/practitioners" }
+            ]
+          },
+          {
+            "text": "Explore ownership, adoption, and measurement with the Leadership Guide, including questions to consider as your team changes how it works.",
+            "links": [
+              { "label": "Read the Leadership Guide", "href": "/leadership" }
+            ]
+          },
+          {
+            "text": "Explore how responsibilities and competencies may change across engineering, product, and design when agents become part of the work.",
+            "links": [{ "label": "Explore the role guides", "href": "/roles" }]
+          }
+        ]
+      },
+      {
+        "heading": "Putting HELM to use",
+        "items": [
+          {
+            "text": "This release established a common reference for discussion and local testing. Teams still needed to try the guidance against their own work, and several recommendations were scheduled for review.",
+            "links": [
+              { "label": "Follow HELM’s development", "href": "/roadmap" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

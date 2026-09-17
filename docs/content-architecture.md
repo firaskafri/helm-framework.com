@@ -5,7 +5,7 @@ This document maps each framework domain to its canonical repository source. Com
 ## Ownership Rules
 
 - Markdown and MDX own narrative, explanations, and page composition.
-- TypeScript data modules own structured records rendered by interactive components.
+- TypeScript data modules own structured records rendered by components. Update announcements are edited in JSON and exposed through a validated TypeScript module.
 - Role Markdown frontmatter owns structured role-transformation data; each role body owns its transformation and hiring narrative.
 - Other pages may summarize a canonical domain and link to it. They must not restate the complete record set.
 - Entry IDs and semantic record IDs are stable public references. Renaming one requires an explicit compatibility decision.
@@ -56,9 +56,13 @@ Each guide and role record has an `evidenceReferences` field containing external
 
 ## Reference pages and release material
 
-- `CHANGELOG.md` owns `/changelog`; `ROADMAP.md` owns `/roadmap`; `LICENSE-CONTENT.md` owns `/licensing`.
+- `src/data/updates.json` owns release/update announcements, dates, status, summaries and linked changes. `src/data/updates.ts` validates these records for `/updates`, homepage highlights and `/updates/rss.xml`.
+- `CHANGELOG.md` is generated from the update registry by `npm run updates:sync`; `/changelog` renders it. The check rejects drift and requires a matching current-version release entry. `docs/updates.md` documents maintenance and CI change coverage.
+- `ROADMAP.md` owns `/roadmap`; `LICENSE-CONTENT.md` owns `/licensing`.
+- `ROADMAP.md` owns current Now/Next/Later priorities, active work, dependencies and release gates. `docs/roadmap-backlog.md` owns retained conditional work and continuing requirements; `docs/roadmap-history.md` preserves the pre-refresh plan, prior decisions and completed-work history.
 - `src/data/site.ts` owns navigation, reference links, canonical origin and editorial date for static/reference pages.
 - Content entry dates remain canonical for guides/roles. RSS and sitemap read those dates; build time never substitutes for an editorial date.
+- Updates/changelog dates derive from visible update entries. The homepage uses the later of its editorial date and the latest visible update; the published-updates RSS excludes candidates and drafts.
 - `docs/releases/1.0.1.md` records verification and publication readiness; `docs/deployment.md` owns the static deployment/runbook.
 - Repeated interactive components accept an explicit unique `id`. Primary instances preserve canonical record anchors; repeated instances namespace their IDs through `componentIds`.
 - `src/pages/checks/[fixture].astro` is emitted only during browser testing and excluded from production. `scripts/test-browser.mjs` restores the normal build after testing, including on failure.
