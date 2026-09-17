@@ -23,7 +23,7 @@ const roles = await loadRoles();
 const sortedRoles = [...roles].sort((a, b) => a.data.order - b.data.order);
 
 const homeDescription =
-  'HELM (Human-first Execution and Leadership Model): principles, practitioner and leadership guides, and AI-era role definitions for product development teams.';
+  'HELM helps teams work with AI agents: choose what to delegate, check the results, agree responsibilities and build shared skills.';
 
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
 const homeUrl = new URL('/', siteOrigin).href;
@@ -34,7 +34,7 @@ const websiteJsonLd = {
   name: SITE_NAME,
   alternateName: SITE_FULL_NAME,
   url: homeUrl,
-  description: `${SITE_FULL_NAME} — a framework for tech teams operating with AI agents.`,
+  description: `${SITE_FULL_NAME}: practical guidance for teams working with AI agents.`,
 };
 const homeModified = new Date(
   UPDATES_LAST_MODIFIED > SITE_UPDATED_AT
@@ -56,7 +56,7 @@ const homeModified = new Date(
     <Hero
       lastModified={homeModified}
       title={SITE_NAME}
-      subtitle="An operating framework for product development teams building with AI agents. Principles, patterns, guardrails, and a roadmap for adoption."
+      subtitle="Practical guidance for working with AI agents. Choose what to delegate, check the results, and agree which decisions people own."
     />
 
     <section class="px-6 pb-20">
@@ -67,7 +67,7 @@ const homeModified = new Date(
               Principles
             </p>
             <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
-              Six non-negotiable foundations
+              Six principles for working with agents
             </h2>
           </div>
           <a

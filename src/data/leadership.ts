@@ -15,44 +15,44 @@ export const ORG_SHIFTS: OrgShiftData[] = [
   {
     id: 'organizational-shift-1',
     number: 1,
-    title: 'Workflows: Design for AI-first, not AI-assisted',
+    title: 'Workflows: Simplify before adding agents',
     description:
-      'Stop asking "where can an agent help in this process?" Start asking "if we built this process from scratch with agents, what would it look like?" Redesign the workflow before automating it.',
+      'Start with the result you need. Remove unnecessary steps, then decide where an agent could help. A small change may be enough.',
   },
   {
     id: 'organizational-shift-2',
     number: 2,
-    title: 'Leadership: From directing execution to defining constraints',
+    title: 'Leadership: Agree goals, limits and decisions',
     description:
-      'Leaders stop specifying how work gets done and start defining what "good" looks like, what boundaries exist, and what must not happen. PMs write constraints and quality bars, not step-by-step specifications.',
+      'Make the expected result, constraints and decision owner clear. Include detailed steps when the task needs them, and give the team room to use its expertise.',
   },
   {
     id: 'organizational-shift-3',
     number: 3,
-    title: 'Talent: From specialists to T-shaped integrators',
+    title: 'Skills: Connect expertise across the work',
     description:
-      'Individual contributors need breadth across the stack because agents blur layer boundaries. Hire and develop for judgment across domains, not just depth in one.',
+      'Help people understand the parts of a task they need to review. Involve specialists when a change reaches beyond that knowledge.',
   },
   {
     id: 'organizational-shift-4',
     number: 4,
-    title: 'Culture: Build continuous reinvention',
+    title: 'Learning: Review and improve together',
     description:
-      'Tools, models, and patterns change quarterly. Build a culture where workflows are versioned and revisited, rules files are living documents, and "the way we do things" is explicitly up for revision.',
+      'Review working practices when tasks, tools or results change. Share useful lessons and remove instructions that no longer help.',
   },
   {
     id: 'organizational-shift-5',
     number: 5,
-    title: 'Structure: From functional teams to outcome-oriented pods',
+    title: 'Structure: Make handoffs and ownership clear',
     description:
-      'Reorganize around outcomes (features, services, customer journeys) rather than functions (frontend, backend, QA). Each pod includes product roles alongside engineering roles.',
+      'Agree who owns the result across product, engineering and quality work. Try a different team arrangement when an observed handoff or responsibility problem warrants it.',
   },
   {
     id: 'organizational-shift-6',
     number: 6,
-    title: 'People systems: Measure impact, not output volume',
+    title: 'Measurement: Review outcomes, quality and effort',
     description:
-      'Agent-assisted teams will produce more PRs, more designs, more docs, more tests. None of these are meaningful measures of contribution. Measure product outcomes, quality, and decision quality.',
+      'Use delivery counts to understand activity, alongside evidence about user outcomes, quality and effort. Avoid treating agent use or output volume as a measure of a person’s ability.',
   },
 ];
 
@@ -74,28 +74,28 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
     number: 1,
     name: 'Contained Pilot',
     days: 'Days 1–30',
-    goal: 'Establish baseline metrics, validate feasibility, build team confidence in a controlled environment.',
+    goal: 'Try one workflow and record what changes for delivery and the people doing the work.',
     activities: [
       'Select one repository with moderate complexity',
-      'Define 3 repeatable task types (e.g., API endpoint, test generation, refactor)',
+      'Choose a small set of repeatable tasks, such as a local prototype, test or refactor',
       'Measure baseline metrics: PR cycle time, change failure rate, test coverage, bug rate',
-      'Set up basic guardrails: scope definition, CI as gate, senior review on all agent PRs',
-      'Every team member runs at least one agent-assisted task',
+      'Agree scope, restrict access, protect sensitive data and name a reviewer for agent changes',
+      'Give participants a chance to try relevant tasks with support',
       'Document what works, what fails, and what surprises',
     ],
     productNote:
       'PM participates in defining task types. Designer reviews agent-generated UI. Baseline product metrics recorded.',
     exitCriteria: [
       'Baseline metrics recorded for comparison',
-      'At least 10 agent-assisted tasks completed and reviewed',
+      'Representative tasks reviewed, with enough evidence to explain the next decision',
       'No critical quality incidents from agent output',
       "Team can articulate which tasks agents handle well and which they don't",
       'Basic rules file created and shared across the team',
     ],
     riskMitigations: [
-      'Senior review on 100% of agent PRs — no exceptions in Phase 1',
+      'A named, capable person reviews each agent change during the pilot',
       'Start with low-risk, well-bounded tasks only',
-      'If a quality incident occurs, pause and retrospect before continuing',
+      'If a quality incident occurs, pause, investigate and agree what must change before continuing',
     ],
   },
   {
@@ -109,23 +109,23 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
       'Create task templates for each repeatable pattern',
       'Introduce risk labels (low / medium / high) on every agent task',
       'Implement full quality guardrail layer (Layer 2)',
-      'Begin implementing policy guardrails (Layer 3): secret scanning, branch protection',
+      'Review existing policy controls, including secrets, branch protection and access, for the expanded work',
       'Start tracking adoption KPIs: % PRs agent-assisted, CI first-pass rate',
       'Expand rules file based on Phase 1 lessons',
     ],
     productNote:
       'PM creates acceptance criteria templates. Designer contributes design tokens and component specs. Begin tracking design compliance rate.',
     exitCriteria: [
-      'Task templates exist for at least 3 common patterns',
+      'Task briefs cover the recurring work chosen for this trial',
       'Risk labeling applied to all agent tasks',
       'Quality guardrails (Layer 2) fully automated in CI',
-      'Policy guardrails (Layer 3) partially implemented',
+      'Policy controls cover the data and actions in the expanded workflow',
       'Adoption KPIs tracked weekly',
       'No increase in change failure rate compared to baseline',
     ],
     riskMitigations: [
       'Maintain senior review on medium and high risk tasks',
-      'Low-risk tasks may move to sampling-based review (1 in 3)',
+      'Change review depth only when risk, verification coverage and observed results support it',
       'Weekly retrospective on agent output quality',
     ],
   },
@@ -134,13 +134,13 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
     number: 3,
     name: 'Standardize',
     days: 'Days 61–90',
-    goal: 'Codify the operating model into an internal standard. Formalize governance. Train the full team.',
+    goal: 'Make useful practices repeatable and help the team learn them.',
     activities: [
-      'Publish internal "Agentic SOP" (operating loop, task matrix, review requirements, escalation)',
-      'Implement remaining policy guardrails (Layer 3): PII filtering, relevance checking, moderation',
+      'Write a short standard operating procedure (SOP) covering task planning, checks, ownership and escalation',
+      'Review policy controls for the workflow, including personal-data handling and output checks where applicable',
       'Add repo-level policy enforcement',
       'Train all team members on SOP, task templates, and rules files',
-      'Conduct maturity self-assessment (Level 1–5) and set target for next quarter',
+      'Discuss current practices using the five levels and choose a useful improvement',
       'Establish evaluation framework beyond CI',
       'Define roles and decision rights',
     ],
@@ -148,9 +148,9 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
       'Product team trained on SOP alongside engineering. Product-specific KPIs added to dashboard. PM owns Plan phase. Designer owns design system compliance.',
     exitCriteria: [
       'Internal SOP is published and accessible to all team members',
-      'All team members have completed SOP training',
+      'The people doing and reviewing the work understand the procedure and know where to ask for help',
       'Guardrail stack (Layers 1–4) fully operational',
-      'Maturity self-assessment completed; current level agreed; target set',
+      'The team can explain its working practices and the next improvement to try',
       'Evaluation framework exists beyond CI',
       'Decision rights are documented',
     ],
@@ -165,11 +165,11 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
     number: 4,
     name: 'Scale',
     days: 'Days 91–180',
-    goal: 'Expand across teams. Build governance infrastructure. Move toward higher maturity levels.',
+    goal: 'Extend practices to other teams when the results and support capacity justify it.',
     activities: [
       'Roll out to additional teams and repositories',
       'Implement governance layer (Layer 5): agent registry, access control, cross-team observability',
-      'Build shared skills/template library across teams',
+      'Share useful task examples, instructions and templates across teams',
       'Establish cost budgeting per team and per agent workflow',
       'Begin experimenting with Level 4 capabilities (background agents, async PRs)',
       'Publish organizational metrics dashboard',
@@ -181,14 +181,14 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
     exitCriteria: [
       'Multiple teams operating under the same SOP',
       'Governance layer (Layer 5) operational (minimum: registry + cost tracking)',
-      'Shared skills library in use across teams',
+      'Teams can find and use the shared task examples and instructions',
       'Organizational KPI dashboard published and reviewed weekly',
       'Change failure rate stable or improved relative to baseline',
-      'Quarterly maturity assessment shows progression',
+      'Review shows whether expanded use is helping and what needs to change',
       'Roles and decision rights scaled to match organizational breadth',
     ],
     riskMitigations: [
-      'Do not skip Phase 3 before scaling — scaling without standards multiplies chaos',
+      'Check that responsibilities, working practices and support are clear before expanding',
       'Start Level 4 experiments in a single pod before expanding',
       'Monitor cost carefully during scale-out; token spend can increase non-linearly',
     ],
@@ -249,7 +249,7 @@ export const KPI_CATEGORIES: KpiCategory[] = [
         id: 'test-coverage-delta',
         name: 'Test coverage delta',
         measures: 'Change in test coverage over time',
-        direction: 'increase',
+        direction: 'monitor',
       },
       {
         id: 'deployment-frequency',
@@ -273,7 +273,8 @@ export const KPI_CATEGORIES: KpiCategory[] = [
       {
         id: 'ci-first-pass-rate',
         name: '% PRs passing CI first run',
-        measures: 'Quality of agent-generated code before human review',
+        measures:
+          'Share of first CI runs that pass; interpretation depends on the checks and task mix',
         direction: 'increase',
       },
       {
@@ -292,7 +293,7 @@ export const KPI_CATEGORIES: KpiCategory[] = [
         id: 'rules-file-update-frequency',
         name: 'Rules file update frequency',
         measures: "How often the team's rules and templates are refined",
-        direction: 'increase',
+        direction: 'monitor',
       },
       {
         id: 'cost-per-agent-task',
@@ -343,7 +344,7 @@ export const KPI_CATEGORIES: KpiCategory[] = [
         id: 'review-rejection-rate',
         name: 'Review rejection rate',
         measures: '% of agent PRs rejected in code review',
-        direction: 'decrease',
+        direction: 'monitor',
       },
       {
         id: 'post-merge-defect-rate',
@@ -389,9 +390,9 @@ export const FAILURE_MODES: FailureMode[] = [
     number: 1,
     name: 'Automation Theater',
     symptom:
-      'High volume of agent activity with minimal measurable business or delivery impact. Dashboards show "AI adoption" but nothing ships faster or better.',
+      'Agent activity increases without a clear improvement in delivery or user outcomes.',
     rootCause:
-      'Tasks selected for agents are easy-to-automate busywork rather than genuine bottlenecks. The team optimizes for agent-friendly tasks rather than high-impact tasks.',
+      'The selected tasks may not address an important problem, or the benefit may be offset by review and rework.',
     mitigations: [
       'Tie every agent workflow to a measurable delivery KPI',
       'Require a "so what?" test: if automated, what bottleneck does it remove?',
@@ -419,9 +420,9 @@ export const FAILURE_MODES: FailureMode[] = [
     number: 3,
     name: 'Silent Quality Drift',
     symptom:
-      'Code merges quickly. Sprint velocity looks good. But incident rate, bug reports, or customer complaints gradually climb.',
+      'Changes merge quickly while incidents, bug reports or customer complaints increase.',
     rootCause:
-      'Verification gates are incomplete. Agent-generated code passes CI but introduces subtle issues not covered by tests.',
+      'The checks may be missing important cases. Compare the reported problems with what is actually tested.',
     mitigations: [
       'Expand evaluation coverage beyond unit tests (integration tests, performance benchmarks, architecture fitness functions)',
       'Track post-release defect rate specifically for agent-generated code',
@@ -442,7 +443,7 @@ export const FAILURE_MODES: FailureMode[] = [
       'Maintain team-level rules files (not personal ones)',
       'Publish an internal "agentic SOP" with examples',
       'Pair programming sessions where skilled users demonstrate approach',
-      'Make the Learn phase mandatory: every insight gets codified',
+      'Use the Learn phase to share useful findings and remove unhelpful instructions',
     ],
   },
   {
@@ -452,11 +453,11 @@ export const FAILURE_MODES: FailureMode[] = [
     symptom:
       'Agent usage scales across teams, but nobody has a clear view of which agents exist, what they access, or what they cost.',
     rootCause:
-      'Governance infrastructure (Layer 5) was not built before scaling. Organizations skipped standardization.',
+      'Shared records, ownership or controls may not have kept up with the work. Check where visibility or responsibility is missing.',
     mitigations: [
       'Implement governance layer before cross-team scaling',
-      'Start with minimum viable governance: agent registry + cost tracking',
-      'Add access control and audit trails as usage grows',
+      'Start with clear ownership, appropriate access, useful activity records and cost tracking',
+      'Review access controls and audit records before adding more workflows or teams',
       'Assign a governance owner (AI Reliability or Platform Engineer)',
       'Review governance completeness quarterly',
     ],
@@ -466,9 +467,9 @@ export const FAILURE_MODES: FailureMode[] = [
     number: 6,
     name: 'Velocity Without Direction',
     symptom:
-      "Team ships 3x faster but product metrics (adoption, retention, satisfaction) don't improve or decline.",
+      'Delivery speeds up, but adoption, retention or customer satisfaction does not improve.',
     rootCause:
-      'Agent adoption accelerated delivery without improving problem selection. The team is building the wrong things faster.',
+      'The work may not address the intended user problem. Check the evidence behind the priorities and what happened after release.',
     mitigations: [
       'Tie agent task selection to product outcome metrics',
       'Require PM sign-off on every task plan',

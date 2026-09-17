@@ -85,18 +85,26 @@ const colors = colorClasses[category];
 
 const allHeadings = [
   ...headings,
-  { depth: 2, slug: 'the-transformed-role', text: 'The Transformed Role' },
-  { depth: 3, slug: 'core-mission', text: 'Core Mission' },
-  { depth: 3, slug: 'key-responsibilities', text: 'Key Responsibilities' },
-  { depth: 3, slug: 'required-competencies', text: 'Required Competencies' },
+  {
+    depth: 2,
+    slug: 'the-transformed-role',
+    text: 'Responsibilities and skills',
+  },
+  { depth: 3, slug: 'core-mission', text: 'Purpose' },
+  {
+    depth: 3,
+    slug: 'key-responsibilities',
+    text: 'Responsibilities to discuss',
+  },
+  { depth: 3, slug: 'required-competencies', text: 'Skills for this work' },
   {
     depth: 3,
     slug: 'what-we-no-longer-screen-for',
-    text: 'What We No Longer Screen For',
+    text: 'Signals that need more context',
   },
-  { depth: 3, slug: 'how-we-interview', text: 'How We Interview' },
-  { depth: 2, slug: 'day-in-the-life', text: 'Day in the Life' },
-  { depth: 2, slug: 'connection-to-helm', text: 'Connection to HELM' },
+  { depth: 3, slug: 'how-we-interview', text: 'Questions to discuss' },
+  { depth: 2, slug: 'day-in-the-life', text: 'An example day' },
+  { depth: 2, slug: 'connection-to-helm', text: 'Related HELM guidance' },
 ];
 
 const dayInLifeHtml = await renderSafeMarkdown(day_in_life);
@@ -111,10 +119,10 @@ const jsonLd = [
   buildBreadcrumbList([
     { name: 'Home', url: homeUrl },
     { name: 'Roles', url: rolesIndexUrl },
-    { name: subtitle, url: pageUrl },
+    { name: title, url: pageUrl },
   ]),
   buildWebPageJsonLd({
-    headline: subtitle,
+    headline: title,
     description,
     url: pageUrl,
     homeUrl,
@@ -158,13 +166,14 @@ const jsonLd = [
         </div>
 
         <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-4">
-          {subtitle}
+          {title}
         </h1>
+        <p class="text-lg text-[var(--color-ink-light)]">{subtitle}</p>
 
         <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6 pt-6 border-t border-[var(--color-border)]">
           <div class="flex items-center gap-2">
             <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)]">
-              Evolved from
+              Related job titles
             </span>
             <div class="flex flex-wrap gap-1.5">
               {evolved_from.map((role) => (
@@ -176,7 +185,7 @@ const jsonLd = [
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)]">
-              HELM role
+              HELM responsibilities
             </span>
             <span
               class:list={[
@@ -199,19 +208,24 @@ const jsonLd = [
         <EvidenceNote claim="role-guidance" />
         <slot />
 
-        <h2 id="the-transformed-role">The Transformed Role</h2>
+        <h2 id="the-transformed-role">Responsibilities and skills</h2>
 
-        <h3 id="core-mission">Core Mission</h3>
+        <h3 id="core-mission">Purpose</h3>
         <p>{core_mission}</p>
 
-        <h3 id="key-responsibilities">Key Responsibilities</h3>
+        <h3 id="key-responsibilities">Responsibilities to discuss</h3>
         <ul>
           {key_responsibilities.map((r) => (
             <li>{r}</li>
           ))}
         </ul>
 
-        <h3 id="required-competencies">Required Competencies</h3>
+        <h3 id="required-competencies">Skills for this work</h3>
+        <p>
+          These role-specific skills complement the{' '}
+          <a href="/competencies">five shared competencies</a>. Choose examples
+          relevant to the work and support people as they practice.
+        </p>
         <ul>
           {competencies.map((c) => (
             <li>
@@ -222,12 +236,10 @@ const jsonLd = [
 
         <a href={competencyMapUrl} class="competency-cta group">
           <div class="competency-cta-body">
-            <span class="competency-cta-label">
-              Competency Evolution Explorer
-            </span>
+            <span class="competency-cta-label">Role skills explorer</span>
             <p class="competency-cta-desc">
-              See which of these competencies evolved from traditional skills,
-              which are entirely new, and where the gap is largest.
+              Compare the skills in this guide and choose an area to discuss or
+              practice.
             </p>
           </div>
           <span class="competency-cta-action">
@@ -236,14 +248,24 @@ const jsonLd = [
           </span>
         </a>
 
-        <h3 id="what-we-no-longer-screen-for">What We No Longer Screen For</h3>
+        <h3 id="what-we-no-longer-screen-for">
+          Signals that need more context
+        </h3>
+        <p>
+          Use work examples alongside these signals; none is a complete measure
+          of someone’s ability.
+        </p>
         <ul>
           {no_longer_screen_for.map((item) => (
             <li>{item}</li>
           ))}
         </ul>
 
-        <h3 id="how-we-interview">How We Interview</h3>
+        <h3 id="how-we-interview">Questions to discuss</h3>
+        <p>
+          Adapt these example questions to the role and the person’s
+          opportunities to do the work.
+        </p>
         <ul>
           {interview_methods.map((m) => (
             <li>
@@ -252,14 +274,14 @@ const jsonLd = [
           ))}
         </ul>
 
-        <h2 id="day-in-the-life">Day in the Life</h2>
+        <h2 id="day-in-the-life">An example day</h2>
         <p class="text-sm">
-          <strong>Illustrative scenario.</strong> This narrative is a teaching
-          example, not a measured implementation report.
+          <strong>Illustrative scenario.</strong> Use this example to discuss
+          how the responsibilities fit together.
         </p>
         <Fragment set:html={dayInLifeHtml} />
 
-        <h2 id="connection-to-helm">Connection to HELM</h2>
+        <h2 id="connection-to-helm">Related HELM guidance</h2>
         <Fragment set:html={helmConnectionHtml} />
       </ContentWithToc>
     </div>

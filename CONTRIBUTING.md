@@ -1,6 +1,6 @@
 # Contributing to HELM
 
-Start with `AGENTS.md`, `docs/public-publishing.md`, and `docs/content-architecture.md`. `ROADMAP.md` is the maintainer plan. Discuss changes to framework meaning in an issue before expanding a release.
+Start with `AGENTS.md`, `docs/helm-voice.md`, `docs/public-publishing.md`, and `docs/content-architecture.md`. `ROADMAP.md` is the maintainer plan. Discuss changes to framework meaning in an issue before expanding a release.
 
 ## Public readiness comes first
 

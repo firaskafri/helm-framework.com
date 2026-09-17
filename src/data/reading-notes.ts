@@ -3,7 +3,7 @@ const READING_NOTES: Record<string, string> = {
   'fnd-guardrails':
     'Use the five layers as a starting checklist. Written instructions alone do not restrict access, and passing automated checks does not guarantee the work is ready.',
   'agent-anatomy':
-    'These five parts are a simple way to understand an agent. Products combine them differently, and the named tools are examples rather than recommendations.',
+    'These five parts are a simple way to understand an agent. Products combine them differently; check which parts your task actually needs.',
   workflows:
     'A workflow follows steps you define. An agent chooses steps as it goes. Compare the quality, cost, and time needed for your task before choosing.',
   'tool-risk':
@@ -28,7 +28,7 @@ const READING_NOTES: Record<string, string> = {
   failures:
     'These examples suggest things to investigate. They are not measured results or proof that one cause explains your team’s experience.',
   'role-guidance':
-    'Use the responsibilities and skills as discussion prompts, not a scoring system for people or teams. The interview and day-in-the-life examples are illustrations to adapt to your team.',
+    'Adapt the responsibilities and skills to the work your team does. The questions and example day support discussion and learning; they are not a scoring system for people.',
   'competency-percentages':
     'The percentages describe the skills listed in each guide. They do not measure a person’s ability, readiness, or skill gap.',
 };

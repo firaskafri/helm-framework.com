@@ -52,11 +52,11 @@ const modes = FAILURE_MODES;
         <div class="fd-content-wrap" id={ids.record(`fd-content-${m.number}`)}>
           <div class="fd-content">
             <div class="fd-cause">
-              <h5 class="helm-label fd-content-label">Root Cause</h5>
+              <h5 class="helm-label fd-content-label">What to investigate</h5>
               <p>{m.rootCause}</p>
             </div>
             <div class="fd-mitigations">
-              <h5 class="helm-label fd-content-label">Mitigation</h5>
+              <h5 class="helm-label fd-content-label">Actions to try</h5>
               <ul>
                 {m.mitigations.map((mit) => (
                   <li>{mit}</li>

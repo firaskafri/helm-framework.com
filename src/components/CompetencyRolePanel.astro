@@ -25,7 +25,7 @@ const accentVar =
   <div class="ce-header">
     <h2 class="ce-header-top">
       <div class="ce-header-from">
-        <span class="ce-label">Traditional Role</span>
+        <span class="ce-label">Role guide</span>
         <span class="ce-header-title">{role.fromTitle}</span>
         <span class="ce-header-aliases">{role.aliases.join(' \u00B7 ')}</span>
       </div>
@@ -56,7 +56,7 @@ const accentVar =
         </svg>
       </div>
       <div class="ce-header-to">
-        <span class="ce-label">AI-Era Role</span>
+        <span class="ce-label">HELM responsibilities</span>
         <span class="ce-header-title" style={`color:var(${accentVar})`}>
           {role.toTitle}
         </span>
@@ -67,22 +67,22 @@ const accentVar =
     <div class="ce-stats">
       <div class="ce-stat">
         <span class="ce-stat-num ce-stat-evolved">{role.evolved.length}</span>
-        <span class="ce-stat-label">Evolved</span>
+        <span class="ce-stat-label">Build on experience</span>
       </div>
       <div class="ce-stat">
         <span class="ce-stat-num ce-stat-gap">{role.gaps.length}</span>
-        <span class="ce-stat-label">New Gaps</span>
+        <span class="ce-stat-label">Additional skills</span>
       </div>
       <div class="ce-stat">
         <span class="ce-stat-num ce-stat-dep">{role.deprecated.length}</span>
-        <span class="ce-stat-label">Sunset</span>
+        <span class="ce-stat-label">Discuss in context</span>
       </div>
     </div>
 
     <div class="ce-gap-wrap">
       <div class="ce-gap-labels">
-        <span>Foundation you build on</span>
-        <span>New areas to develop</span>
+        <span>Skills linked to prior experience</span>
+        <span>Other skills in this guide</span>
       </div>
       <div class="ce-gap-bar">
         <div
@@ -95,13 +95,13 @@ const accentVar =
         ></div>
       </div>
       <div class="ce-gap-labels ce-gap-labels-pct">
-        <span>{foundation}% existing foundation</span>
-        <span>{gap}% new competencies</span>
+        <span>{foundation}% of listed skills</span>
+        <span>{gap}% of listed skills</span>
       </div>
     </div>
 
     <a href={`/roles/${role.slug}`} class="ce-jd-link">
-      Read full job description
+      Read the role guide
       <svg
         width="14"
         height="14"
@@ -120,13 +120,11 @@ const accentVar =
 
   <div class="ce-section">
     <div class="ce-section-head">
-      <span class="ce-section-badge ce-badge-evolved">Evolved</span>
-      <h3 class="ce-section-title">
-        Competencies that carry over &mdash; transformed
-      </h3>
+      <span class="ce-section-badge ce-badge-evolved">Build on experience</span>
+      <h3 class="ce-section-title">Experience you can build on</h3>
       <p class="ce-section-desc">
-        These build on your existing foundation. The core skill survives but the
-        application, scope, and context change fundamentally.
+        These entries connect familiar experience with tasks in AI-assisted
+        work. Use the examples to discuss what you know and what needs practice.
       </p>
     </div>
     <div class="ce-evo-list">
@@ -134,7 +132,7 @@ const accentVar =
         <article class="ce-evo-item" style={`animation-delay:${i * 60}ms`}>
           <div class="ce-evo-comparison">
             <div class="ce-evo-was">
-              <span class="ce-evo-tag">Was</span>
+              <span class="ce-evo-tag">Related experience</span>
               <span class="ce-evo-was-text">{c.was}</span>
             </div>
             <div class="ce-evo-arrow" aria-hidden="true">
@@ -152,7 +150,7 @@ const accentVar =
               </svg>
             </div>
             <div class="ce-evo-now">
-              <span class="ce-evo-tag ce-evo-tag-now">Now</span>
+              <span class="ce-evo-tag ce-evo-tag-now">Application</span>
               <span class="ce-evo-now-title">{c.now}</span>
             </div>
           </div>
@@ -164,11 +162,11 @@ const accentVar =
 
   <div class="ce-section">
     <div class="ce-section-head">
-      <span class="ce-section-badge ce-badge-gap">New Gaps</span>
-      <h3 class="ce-section-title">Entirely new competencies to develop</h3>
+      <span class="ce-section-badge ce-badge-gap">Additional skills</span>
+      <h3 class="ce-section-title">Other skills to discuss</h3>
       <p class="ce-section-desc">
-        No traditional equivalent exists. These represent genuine skill gaps
-        that require deliberate investment to close.
+        These skills may also help with the work. The guide does not assign them
+        to a previous skill or assume they are new to you.
       </p>
     </div>
     <div class="ce-cards">
@@ -178,7 +176,7 @@ const accentVar =
           style={`animation-delay:${(role.evolved.length + i) * 60}ms`}
         >
           <div class="ce-card-gap-head">
-            <span class="ce-card-gap-badge">NEW</span>
+            <span class="ce-card-gap-badge">PRACTICE</span>
             <span class="ce-card-now-title">{c.title}</span>
           </div>
           <p class="ce-card-now-desc">{c.desc}</p>
@@ -189,11 +187,11 @@ const accentVar =
 
   <div class="ce-section">
     <div class="ce-section-head">
-      <span class="ce-section-badge ce-badge-dep">Sunset</span>
-      <h3 class="ce-section-title">What we no longer screen for</h3>
+      <span class="ce-section-badge ce-badge-dep">Discuss in context</span>
+      <h3 class="ce-section-title">Signals that need more context</h3>
       <p class="ce-section-desc">
-        These were reasonable signals in the pre-AI era. They are no longer
-        reliable predictors of contribution in agent-augmented teams.
+        These signals alone do not show how someone approaches the work. Discuss
+        relevant examples, decisions and learning alongside them.
       </p>
     </div>
     <div class="ce-dep-list">

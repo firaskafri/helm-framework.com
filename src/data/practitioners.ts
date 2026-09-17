@@ -19,13 +19,12 @@ export const LOOP_PHASES: LoopPhase[] = [
     order: 1,
     label: 'Plan',
     ownerLabel: 'Product + Engineering',
-    summary:
-      'Before any agent touches code, define the contract that bounds execution.',
+    summary: 'Agree the task, its limits and how the result will be checked.',
     details: [
       'Product defines: Goal, acceptance criteria, UX requirements',
       'Engineering defines: Scope, non-goals, risk level, constraints, verification method',
-      'The plan is not a suggestion — it is the contract that bounds agent execution',
-      'Without it, you get creative drift',
+      'Record who reviews the result, who decides whether it is ready and when to stop',
+      'Match tool access and execution limits to the plan; instructions alone do not enforce them',
     ],
   },
   {
@@ -34,13 +33,13 @@ export const LOOP_PHASES: LoopPhase[] = [
     label: 'Execute',
     ownerLabel: 'Agents (monitored)',
     summary:
-      'Agents work autonomously within the bounds set by the Plan phase.',
+      'Agents carry out the agreed task with configured access and execution limits.',
     details: [
       'Generate code, tests, documentation, or refactors',
       'Call tools as needed (data retrieval, API interactions, code execution)',
       'Iterate within the defined scope (run tests, fix failures, retry)',
       'Operate within configured iteration limits',
-      "The human's role during execution is monitoring, not directing",
+      'People monitor progress and intervene when the task reaches a limit or needs a decision',
     ],
   },
   {
@@ -48,7 +47,8 @@ export const LOOP_PHASES: LoopPhase[] = [
     order: 3,
     label: 'Verify',
     ownerLabel: 'Automated + Human',
-    summary: 'Automated and human checks before anything merges.',
+    summary:
+      'Check the work with appropriate automated checks and human review.',
     details: [
       'Automated: CI pipeline, static analysis, security scanning, coverage thresholds, policy checks',
       'Human — Engineering: code review, architecture alignment, edge case consideration',
@@ -61,10 +61,11 @@ export const LOOP_PHASES: LoopPhase[] = [
     order: 4,
     label: 'Ship',
     ownerLabel: 'Human decision',
-    summary: 'Merge and deploy with full auditability and rollback capability.',
+    summary:
+      'Decide whether to release the work and confirm how to recover from a problem.',
     details: [
       'Audit trail: what was generated, by which agent, reviewed by whom',
-      'Rollback path: every deployment must be reversible within a defined SLA',
+      'Recovery: agree a rollback or recovery procedure, including how to handle irreversible changes',
       'Post-merge monitoring: watch for anomalies in error rates and latency',
       'Diff review: ensure merged code matches what was reviewed',
     ],
@@ -74,14 +75,13 @@ export const LOOP_PHASES: LoopPhase[] = [
     order: 5,
     label: 'Learn',
     ownerLabel: 'Whole team',
-    summary:
-      'After shipping, codify the lessons so each cycle makes the next one better.',
+    summary: 'Use what happened to improve the next task, check or handoff.',
     details: [
-      'Update rules files: add rules to prevent recurrence of manual corrections',
+      'Update instructions when a correction reveals a useful general lesson',
       'Refine task templates: tighten plans that were ambiguous',
       'Update evaluation criteria: add checks the verify step missed',
-      'Share across the team: convert successful patterns into shared templates and SOPs',
-      'This is "compounding engineering" — without Learn, you get repetition instead of improvement',
+      'Share useful examples and changes with the team',
+      'Remove instructions or steps that no longer help',
     ],
   },
 ];
@@ -100,14 +100,14 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     id: 'layer-1-scope',
     number: 1,
     name: 'Scope',
-    parenthetical: 'task boundary enforcement',
+    parenthetical: 'task limits and access',
     purpose:
-      'Prevent agents from drifting beyond their assigned task — the most common failure mode in practice.',
+      'Define what the agent may do and enforce the access and execution limits needed for the task.',
     items: [
       {
         element: 'Target',
         description:
-          'Specific files, directories, or systems the agent may touch',
+          'Name the files or systems the agent may use and restrict its permissions accordingly',
         example: 'src/api/users/, payments_table',
       },
       {
@@ -138,7 +138,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     name: 'Quality',
     parenthetical: 'code and output correctness',
     purpose:
-      'Enforce code and output correctness through automated checks before any human review.',
+      'Use automated checks and human review to find problems before the work is used.',
     items: [
       {
         element: 'Formatting & linting',
@@ -152,7 +152,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
       {
         element: 'Unit & integration tests',
         description:
-          'Existing test suite must pass; new code must include tests',
+          'Run relevant tests and add meaningful checks for the change',
       },
       {
         element: 'Static analysis',
@@ -160,7 +160,8 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
       },
       {
         element: 'Coverage thresholds',
-        description: 'No regressions in test coverage',
+        description:
+          'Review coverage alongside the importance of the cases being tested',
       },
       {
         element: 'Design system compliance',
@@ -169,7 +170,8 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
       },
       {
         element: 'Accessibility standards',
-        description: 'WCAG compliance checks on generated interfaces',
+        description:
+          'Automated and manual checks against the relevant accessibility requirements',
       },
     ],
   },
@@ -179,7 +181,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
     name: 'Policy',
     parenthetical: 'safety and compliance',
     purpose:
-      'Enforce safety, compliance, and organizational rules that automated quality checks cannot catch.',
+      'Apply the privacy, security and organizational controls the work needs.',
     items: [
       {
         element: 'No secret exposure',
@@ -188,12 +190,14 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
       },
       {
         element: 'PII filtering',
-        description: 'LLM-based or regex-based PII detection on outputs',
+        description:
+          'Limit access to personal information and check outputs for unintended disclosure',
         example: 'Privacy violations in generated content',
       },
       {
         element: 'Safety classification',
-        description: 'Detect prompt injection, jailbreak attempts',
+        description:
+          'Treat untrusted input carefully; detection can help but may miss attempts to redirect an agent',
         example: 'System exploitation',
       },
       {
@@ -283,7 +287,7 @@ export const GUARDRAIL_LAYERS: GuardrailLayer[] = [
       {
         element: 'Audit trail',
         description:
-          'Complete record of agent actions, decisions, and outcomes for compliance and debugging',
+          'Record relevant actions, approvals and outcomes, with appropriate access and retention',
       },
       {
         element: 'Cost budgeting',
@@ -309,9 +313,9 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     number: 1,
     name: 'Prompt Chaining',
     description:
-      'Decompose a task into a fixed sequence of steps. Each LLM call processes the output of the previous one. Programmatic gates between steps validate intermediate results.',
+      'Split a task into a fixed sequence of steps. Each model call uses the previous result, with checks between steps.',
     whenToUse:
-      'Task can be cleanly decomposed into fixed subtasks. You trade latency for accuracy by making each call simpler.',
+      'The task has clear steps. Compare whether the extra calls improve quality enough to justify their time and cost.',
     example:
       'Generate marketing copy, then translate it. Write an outline, validate it against criteria, then write the full document.',
   },
@@ -342,7 +346,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     number: 4,
     name: 'Evaluator-Optimizer',
     description:
-      'One LLM generates a response. Another evaluates it and provides feedback. Loop until quality criteria are met.',
+      'One model generates a response and another reviews it. Repeat within agreed limits, and stop for human review when needed.',
     whenToUse:
       'Clear evaluation criteria exist, and iterative refinement provides measurable improvement.',
     example:
@@ -353,7 +357,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
     number: 5,
     name: 'Single Agent Loop',
     description:
-      'A single LLM with tools operates in a loop until an exit condition is met (final output, no tool calls, error, or max iterations). The fundamental agent pattern.',
+      'One model uses tools and feedback until it finishes, reaches a limit or needs help.',
     whenToUse:
       'Dynamic decision-making about which tools to call and in what order, but complexity does not warrant splitting across multiple agents.',
     example:
@@ -395,7 +399,7 @@ export const COMPOSITION_PATTERNS: CompositionPattern[] = [
 ];
 
 export const COMPOSITION_RULE =
-  "Maximize a single agent's capabilities before splitting into multiple agents.";
+  'Add another agent only when it addresses a problem the simpler approach cannot handle well.';
 
 export interface PatternDecisionNode {
   id: string;
@@ -424,7 +428,7 @@ export const PATTERN_DECISION_TREE: PatternDecisionNode[] = [
     id: 'single-agent-complexity',
     order: 3,
     start: 'Single Agent Loop',
-    ifFails: 'Too many tools (>15) or overlapping concerns',
+    ifFails: 'Tool selection or overlapping tasks cause repeated errors',
     thenConsider: 'Manager or Orchestrator-Workers',
   },
   {
@@ -463,7 +467,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     agentRole: 'Agent-driven',
     description: 'Automated verification. Sampling review.',
     engineeringExamples: [
-      'API endpoints and CRUD features',
+      'Local API prototypes using synthetic data',
       'Code formatting, linting, and style fixes',
       'Documentation and changelog generation',
     ],
@@ -483,7 +487,7 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     engineeringExamples: [
       'Frontend component generation and cleanup',
       'Test generation for existing business logic',
-      'Migration scripts and repetitive refactors',
+      'Migration scripts tried on disposable test data',
     ],
     productExamples: [
       'PRD drafts from user research notes',
@@ -594,15 +598,16 @@ export const TASK_MATRIX: TaskMatrixCell[] = [
     boundedness: 'open-ended',
     risk: 'high',
     agentRole: 'Human only',
-    description: 'Agent excluded.',
+    description:
+      'People own these decisions. Scope any agent research or drafting as a separate task with appropriate access and review.',
     engineeringExamples: [
-      'Incident response and production debugging',
-      'Security breach investigation',
+      'Approving changes during a production incident',
+      'Accepting security risk after an investigation',
     ],
     productExamples: [
-      'Product strategy and roadmap prioritization',
-      'Brand voice definition and tone calibration',
-      'Pricing and packaging decisions',
+      'Final product strategy and roadmap decisions',
+      'Approving customer-facing claims and brand commitments',
+      'Approving pricing and packaging commitments',
     ],
   },
 ];
@@ -656,7 +661,8 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
       },
       {
         dimension: 'Risk profile',
-        details: 'Low. Developer reviews every suggestion.',
+        details:
+          'Depends on the task and data. Reviewing each suggestion can still miss errors.',
       },
     ],
     assessmentCriteria: [
@@ -665,7 +671,8 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
       'No shared rules or templates for AI usage',
       'AI usage is individual, not team-standardized',
     ],
-    failureMode: 'Over-trust of suggestions without review; cargo-cult coding.',
+    failureMode:
+      'Accepting suggestions without checking or understanding them.',
   },
   {
     id: 'level-2-structured',
@@ -701,7 +708,7 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
       {
         dimension: 'Risk profile',
         details:
-          'Low-to-moderate. Human reviews all output before it reaches the codebase.',
+          'Human review helps, but risk still depends on access, consequences and what the review covers.',
       },
     ],
     assessmentCriteria: [
@@ -711,14 +718,14 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
       'Team has basic conventions for when and how to use AI tools',
     ],
     failureMode:
-      'Prompt tribal knowledge (only some team members know effective patterns).',
+      'Useful prompting and review practices are known by only a few people.',
   },
   {
     id: 'level-3-integrated',
     level: 3,
     name: 'Integrated',
     description:
-      'AI agents are integrated into the development lifecycle through automated feedback loops. CI serves as the verification layer.',
+      'Agents use automated feedback during development. CI checks support human review of the result.',
     signal: '"Agents iterate on CI feedback; rules improve each cycle"',
     dimensions: [
       {
@@ -749,12 +756,12 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
       {
         dimension: 'Risk profile',
         details:
-          'Moderate. Automated checks catch most issues. Human review remains mandatory for medium/high risk.',
+          'Automated checks can miss important cases. Human review remains necessary where consequences or uncertainty require it.',
       },
     ],
     assessmentCriteria: [
       'Agents iterate based on CI/test feedback without human intervention in the loop',
-      'Rules files and templates are updated after each cycle (compounding engineering)',
+      'Useful lessons from completed work inform instructions, templates and checks',
       'Evaluation coverage is explicitly tracked and improving',
       'Guardrail stack (all 5 layers) is operational',
       'Team measures agentic adoption KPIs',
@@ -805,11 +812,11 @@ export const MATURITY_LEVELS: MaturityLevel[] = [
       'Agents produce PRs asynchronously (not just in interactive sessions)',
       'Human review happens after completion, not during execution',
       'Cost tracking and budgeting is active per agent and per team',
-      'Execution traces provide full visibility into agent reasoning and actions',
+      'Execution records show relevant tool calls, outputs and failures for review',
       'Incident response protocol exists for agent-caused failures',
     ],
     failureMode:
-      '"Confident mistakes" — agents follow stale rules without understanding original tradeoffs. Cost overruns from uncapped execution.',
+      'Stale instructions produce unsuitable work, or uncapped runs exceed the budget.',
   },
   {
     id: 'level-5-orchestrated',

@@ -46,13 +46,13 @@ One option is a **small cross-functional team**: people with different skills wh
 
 <OrgShift />
 
-Senior leads oversee pods delivering complete product slices. Agents handle bounded implementation within each pod. Handoffs between teams are replaced by direct ownership.
+In this example, a cross-functional team owns a feature through delivery, with agents helping on bounded tasks. Review whether that arrangement would improve your current handoffs.
 
 ### Roles with Explicit Authority
 
 <EvidenceNote claim="staffing" />
 
-Nine roles that must carry real authority, not secondary responsibilities stacked on existing jobs. The distinction matters: when evaluation quality is "someone's side project," it doesn't get done until an incident forces it.
+These nine roles describe responsibilities to assign. The people covering them need authority, time and support. One person may cover several responsibilities; a separate position is a decision about workload and risk. Model hosting and inference responsibilities apply when the product needs that infrastructure.
 
 ### Engineering Roles
 
@@ -68,7 +68,7 @@ Responsibilities:
 - Defines failure modes and recovery paths
 - Makes the structural decisions the rest of the team builds on
 
-For the full transformation story, see [Staff / Principal Engineer: Roles in the AI Era](/roles/staff-engineer).
+See the [Staff / Principal Engineer guide](/roles/staff-engineer) for examples and skills to discuss.
 
 #### AI Reliability Engineer
 
@@ -82,11 +82,11 @@ Responsibilities:
 - Owns the guardrail stack implementation and enforcement
 - Runs incident response for agent-related failures
 
-For the full transformation story, see [SRE / DevOps Engineer: Roles in the AI Era](/roles/sre-devops-engineer).
+See the [SRE / DevOps Engineer guide](/roles/sre-devops-engineer) for examples and skills to discuss.
 
 #### Evaluation Lead
 
-**Owns:** Test coverage and evaluation strategy. Not unit tests for code — evaluation coverage for agent outputs.
+**Owns:** The approach to checking agent outputs, including criteria, examples and the limits of automated checks.
 
 Responsibilities:
 
@@ -96,7 +96,7 @@ Responsibilities:
 - Ensures evaluation runs before every ship decision
 - Tracks quality metrics over time to detect drift
 
-The Evaluation Lead emerges from the traditional QA role splitting in two. For the full transformation story, see [QA Engineer / SDET: Roles in the AI Era](/roles/qa-engineer).
+Agree how output evaluation and product testing are covered in your team. See the [QA Engineer / SDET guide](/roles/qa-engineer) for examples of both.
 
 #### Product Engineer
 
@@ -110,11 +110,11 @@ Responsibilities:
 - Ensures agent output meets product requirements and UX standards
 - Manages the Plan-Execute-Verify-Ship-Learn loop (see [Practitioner Guide](/practitioners))
 
-For the full transformation story, see [Software Engineer: Roles in the AI Era](/roles/software-engineer).
+See the [Software Engineer guide](/roles/software-engineer) for examples and skills to discuss.
 
 #### Platform Engineer
 
-**Owns:** Infrastructure, model hosting, and inference serving. Optional early, required at scale.
+**Owns:** Shared execution infrastructure, including model hosting and inference when the product requires them.
 
 Responsibilities:
 
@@ -124,23 +124,23 @@ Responsibilities:
 - Implements the governance layer (registry, access control, observability)
 - Manages secrets, API keys, and secure agent-to-system connectivity
 
-For the full transformation story, see [Platform Engineer: Roles in the AI Era](/roles/platform-engineer).
+See the [Platform Engineer guide](/roles/platform-engineer) for examples and skills to discuss.
 
 #### Engineering Manager
 
-**Owns:** Team capability, adoption equity, and outcome-based measurement. The person who executes the Six Organizational Shifts day-to-day.
+**Owns:** Team capability, learning support and review of delivery results.
 
 Responsibilities:
 
-- Assesses and advances the team's maturity level using the Maturity Model (Levels 1-5)
-- Ensures adoption equity: the team's effective level equals the least-adopted member in a critical-path role
+- Uses the Maturity Model to discuss working practices and the checks they need
+- Finds workflow bottlenecks and helps people build relevant skills
 - Defines and enforces the team's operating rhythm around the Plan-Execute-Verify-Ship-Learn loop
-- Restructures team workflows from horizontal silos to vertical cross-functional pods
-- Establishes KPIs that measure product impact, not output volume
+- Reviews handoffs and responsibilities before changing team structure
+- Reviews user outcomes, quality and effort alongside delivery volume
 - Coaches engineers on judgment, review quality, and context engineering
-- Manages the human side of AI adoption: resistance, identity shifts, and role redefinition
+- Discusses workload, concerns and learning needs with the people affected
 
-For the full transformation story, see [Engineering Manager: Roles in the AI Era](/roles/engineering-manager).
+See the [Engineering Manager guide](/roles/engineering-manager) for examples and skills to discuss.
 
 ### Product Roles
 
@@ -153,10 +153,10 @@ Responsibilities:
 - Defines what to build and why (the "Plan" phase of the operating loop)
 - Writes acceptance criteria that agents can execute against
 - Reviews agent output for product correctness (does it solve the user's problem?)
-- Defines constraints and quality bars instead of writing detailed specifications
+- Chooses the detail a task needs, including constraints and examples of acceptable results
 - Tracks product outcome metrics alongside delivery metrics
 
-For the full transformation story, see [Product Manager: Roles in the AI Era](/roles/product-manager).
+See the [Product Manager guide](/roles/product-manager) for examples and skills to discuss.
 
 #### Product Designer
 
@@ -167,10 +167,10 @@ Responsibilities:
 - Maintains the design system that agents generate from (tokens, components, patterns)
 - Reviews agent-generated UI for UX quality and design consistency
 - Defines design tokens and component specifications as agent instructions
-- Focuses on design governance and quality auditing rather than pixel-level execution
+- Designs interactions, reviews generated interfaces and improves shared design guidance
 - Addresses the emerging discipline sometimes called Agent Experience (AX): designing for both human and agent actors
 
-For the full transformation story, see [Product Designer: Roles in the AI Era](/roles/product-designer).
+See the [Product Designer guide](/roles/product-designer) for examples and skills to discuss.
 
 #### QA Engineer
 
@@ -183,13 +183,15 @@ Responsibilities:
 - Monitors quality drift from a user-facing perspective (UX regressions, accessibility, copy errors)
 - Works with the Evaluation Lead on comprehensive quality coverage
 
-**Boundary with Evaluation Lead:** The Evaluation Lead owns agent output correctness (did the agent follow instructions? is the code well-structured? does it pass technical evaluation?). The QA Engineer owns product correctness (does the shipped feature meet the user's need? does it work as specified? does it meet accessibility and UX standards?). One judges the agent. The other judges the product.
+**Working with the Evaluation Lead:** Check whether the agent output meets its instructions and technical requirements, then whether the resulting product works for users. Agree the checks and handoffs so both responsibilities are covered.
 
-> For the full transformation story — how each of these roles evolved from traditional job descriptions and what to screen for when hiring — see [Roles in the AI Era](/roles).
+> Use the [role guides](/roles) to discuss responsibilities, relevant experience and learning needs.
 
 ### Scaling Path
 
-**Start (7-8 people):**
+The team sizes below are illustrations, not staffing requirements. Start with the responsibilities your work needs and review how much time and expertise each takes.
+
+**Example: smaller team (7–8 people):**
 
 - 1 AI Architect (leads)
 - 2-3 Product Engineers
@@ -198,7 +200,7 @@ Responsibilities:
 - 1 Product Manager (may be part-time)
 - 1 Product Designer (may be shared across pods early on)
 
-**Scale (12-16 people):**
+**Example: larger team (11–16 people):**
 
 - 1 AI Architect
 - 3-4 Product Engineers (some specializing in different surfaces)
@@ -210,31 +212,31 @@ Responsibilities:
 - 1-2 Product Designers
 - 1 QA Engineer
 
-The key: roles exist with authority, not as hats stacked on other jobs. This applies equally to product roles. A PM who owns acceptance criteria must have the authority to reject agent output that doesn't meet the bar.
+Give each responsibility a named owner with enough time and authority to do the work. If one person covers several areas, check that the workload is realistic and that review remains effective.
 
 ### Decision Rights Matrix
 
 <EvidenceNote claim="decision-rights" />
 
-Ownership clarity alone isn't enough. You also need clear decision rights: every critical decision has a single owner, not a consensus process.
+Use the roles below as starting points for assigning decisions. Name one accountable decision owner, the people to consult and any required approvals. Where a row lists several roles, resolve that choice before using the table.
 
-| Decision                          | Owner                          | Consulted           | Rationale                                                                        |
+| Decision                          | Roles to involve               | Further input       | What to consider                                                                 |
 | --------------------------------- | ------------------------------ | ------------------- | -------------------------------------------------------------------------------- |
 | Model selection                   | AI Architect + Evaluation Lead | Product Engineer    | Technical fit + eval data must align                                             |
-| Orchestration pattern             | AI Architect (single owner)    | Team                | Architecture cascades into everything; needs one voice                           |
+| Orchestration pattern             | AI Architect                   | Team                | Task structure, integration, cost and failure handling                           |
 | Cost control                      | AI Reliability Engineer        | AI Architect        | Token spend, compute budgets, cost alerts                                        |
-| Eval thresholds ("can we ship?")  | Evaluation Lead                | Product, Architect  | Must be decided before emotional attachment to shipping                          |
+| Eval thresholds ("can we ship?")  | Evaluation Lead                | Product, Architect  | Agree the checks before reviewing the output                                     |
 | Feature prioritization            | Product Manager + AI Architect | Team                | Architect says what's feasible, PM decides what matters                          |
 | What to build (problem selection) | Product Manager                | Architect, Team     | PM owns problem definition; engineering owns solution                            |
 | Acceptance criteria               | Product Manager                | Engineering, Design | Criteria must be agent-executable; PM defines, engineering validates feasibility |
 | UX quality standards              | Product Designer               | PM, Engineering     | Design system compliance, accessibility, interaction quality                     |
 | Design system changes             | Product Designer               | PM, AI Architect    | Components and tokens agents generate from                                       |
 | Product-level quality thresholds  | QA Engineer                    | PM, Evaluation Lead | User-facing quality distinct from agent output correctness                       |
-| Architecture decisions            | AI Architect                   | Team                | No agent makes architecture decisions                                            |
-| Security decisions                | AI Architect + Reliability Eng | Team                | Humans only, never delegated to agents                                           |
+| Architecture decisions            | AI Architect                   | Team                | People approve architecture and accept its consequences                          |
+| Security decisions                | AI Architect + Reliability Eng | Team                | People approve changes and accept security risk                                  |
 | Release decisions                 | Product Manager + AI Architect | Reliability Eng     | Human judgment on production readiness                                           |
 
-**The single mistake most teams make:** involving too many people in every decision, hoping consensus catches problems. Instead, they get slow, uncertain decision-making where nobody feels accountable when things go wrong.
+Involve the people affected and make the final decision owner clear. Record how to raise concerns and resolve disagreements.
 
 ---
 
@@ -246,9 +248,9 @@ The full five-level maturity model (dimension tables, assessment criteria, prere
 
 <MaturityStepper variant="compact" />
 
-**Critical reminder:** A team's effective level is set by its least-adopted member in a critical-path role — see the [Maturity Model](/practitioners#maturity-model) in the Practitioner Guide for the full rationale.
+Use the levels to discuss workflows, not to score people. One person’s tool adoption does not determine the team’s capability. Check the actual handoffs, review capacity and support needed.
 
-Use the maturity level to calibrate the [Adoption Roadmap](#adoption-roadmap) phases and to set KPI targets in the [Measurement](#measurement-and-failure-modes) section below.
+Use what you observe to choose a next step in the [Adoption Roadmap](#adoption-roadmap) and relevant questions in [Measurement](#measurement-and-failure-modes).
 
 ---
 
@@ -256,7 +258,7 @@ Use the maturity level to calibrate the [Adoption Roadmap](#adoption-roadmap) ph
 
 <EvidenceNote claim="adoption" />
 
-A four-phase rollout over 180 days. Each phase has defined goals, activities, exit criteria, and risk mitigations. The principle: staged adoption gives you speed without blind trust.
+This four-phase example uses a 180-day schedule to organize a trial and possible expansion. Adapt its dates and activities to your team. Expand when the work and checks justify it; a calendar date or task count does not prove readiness.
 
 <AdoptionTimeline />
 
@@ -268,7 +270,7 @@ A four-phase rollout over 180 days. Each phase has defined goals, activities, ex
 
 <EvidenceNote claim="kpis" />
 
-Track these metrics weekly. The goal isn't to maximize agent usage. It's to deliver faster without quality regression.
+Choose key performance indicators (KPIs) that help answer a decision your team faces. Review user outcomes, quality and total effort together. The suggested directions below need context; none is a score for an individual.
 
 <KpiDashboard />
 
@@ -276,7 +278,7 @@ Track these metrics weekly. The goal isn't to maximize agent usage. It's to deli
 
 <EvidenceNote claim="failures" />
 
-Each failure mode includes the symptom (how you detect it), the root cause (why it happens), and the mitigation (how to fix it).
+These examples describe symptoms, possible explanations and actions to try. Investigate the cause in your own work before choosing a response.
 
 <FailureDiagnostics />
 

@@ -34,11 +34,11 @@ principles:
   - id: 'principle-3-agents-execute-humans-are-accountable'
     number: 3
     title: 'Agents Execute, Humans Are Accountable'
-    quote: 'Agents are a structured execution layer, not a replacement for human judgment on architecture, risk, and release.'
+    quote: 'Agents can help with tasks. People remain responsible for decisions and results.'
   - id: 'principle-4-guardrails-are-non-negotiable'
     number: 4
     title: 'Guardrails Are Non-Negotiable'
-    quote: 'Speed without guardrails is not velocity — it is accelerated debt. Build guardrails before scaling, not after.'
+    quote: 'Set limits and checks before giving agents more work or freedom.'
   - id: 'principle-5-structure-over-tooling'
     number: 5
     title: 'Structure Over Tooling'

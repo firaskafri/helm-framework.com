@@ -1,8 +1,8 @@
 ---
 id: 'product-designer'
 title: 'Product Designer'
-subtitle: 'From producing screens to governing the system agents generate from'
-description: 'Designers produced wireframes, mockups, and polished visuals. When agents can generate UI components from design systems, the production bottleneck evaporates. But agents cannot judge whether the result feels right to a user.'
+subtitle: 'Design clear experiences and review agent-generated interfaces'
+description: 'Give people and agents useful design guidance, then check the resulting interfaces for usability, consistency and accessibility.'
 order: 8
 publicationStatus: 'published'
 frameworkVersion: '1.0.1'
@@ -13,39 +13,39 @@ category: 'product'
 evolved_from:
   ['UX Designer', 'UI Designer', 'Product Designer', 'Interaction Designer']
 maps_to: 'Product Designer'
-core_mission: 'Own the design system agents generate from, uphold design quality and UX coherence across agent-built interfaces, and define interaction standards that preserve user trust.'
+core_mission: 'Help the team design and build interfaces that people can understand and use, with clear guidance for agent-generated work.'
 key_responsibilities:
-  - 'Maintain the design system as agent instructions: tokens, components, patterns, spacing rules, and interaction standards documented with enough precision that agents follow them reliably'
-  - 'Review agent-generated UI for design quality, UX coherence, interaction rhythm, and emotional appropriateness—not only literal spec match'
-  - 'Define design tokens and component specifications as machine-readable inputs (not only Figma artifacts) so agents consume intent, not screenshots'
-  - 'Shift from designing individual screens to designing the constraints and rules that govern all screens'
+  - 'Maintain design-system components, values and examples that people and agents can use'
+  - 'Review generated interfaces for usability, visual consistency, tone and interaction behavior'
+  - 'Provide reusable design values and component specifications alongside visual examples'
+  - 'Design individual interactions and improve the shared guidance they depend on'
   - 'Address Agent Experience (AX): flows that work for human users and for agent actors operating on the same product surfaces'
   - 'Run design audits at scale—sampling and reviewing agent-generated UI across features to catch consistency and quality drift early'
-  - 'Embed accessibility (WCAG) in system specifications so accessible output is the default, not a retrofit'
+  - 'Include accessibility requirements in design specifications and verify them in the interface'
   - 'Partner with the QA Engineer on design-system compliance checks in CI so violations surface before release'
 competencies:
   - title: 'Design system architecture'
-    description: 'Building and maintaining systems precise enough for generation—tokens, components, patterns, and rules at implementation depth.'
+    description: 'Maintain reusable components, design values, states and examples at the detail implementation needs.'
     evolved_from: 'Design system familiarity'
   - title: 'Design governance'
-    description: 'Moving from primary production to quality control—reviewing, auditing, and correcting agent output at volume without losing standards.'
+    description: 'Set clear review standards, check generated work and use findings to improve the design system.'
   - title: 'Machine-readable specification'
     description: 'Expressing design intent in structured forms (token JSON, component APIs, interaction specs) agents can execute against.'
   - title: 'UX judgment at volume'
-    description: 'Quickly assessing many agent-generated interfaces while still sensing subtle failures—timing, spacing rhythm, visual weight, tone.'
+    description: 'Review generated interfaces for task flow, timing, spacing, visual hierarchy and tone.'
     evolved_from: 'UX/UI experience (3-5 years)'
   - title: 'Accessibility engineering'
-    description: 'Baking a11y requirements into the system so compliance is systematic, not heroic last-mile fixes.'
+    description: 'Design for accessibility and combine automated checks with keyboard, assistive-technology and user testing where needed.'
     evolved_from: 'Implicit accessibility awareness'
   - title: 'Cross-functional collaboration'
-    description: 'Working with engineering and product so requirements land as agent-executable constraints, not ambiguous intent.'
+    description: 'Agree requirements and constraints with engineering and product, using examples to resolve ambiguity.'
     evolved_from: 'Research and usability testing'
 no_longer_screen_for:
   - 'Pixel-perfect production speed as the main proxy for ability'
   - 'Portfolios judged primarily on screen count'
-  - 'Figma or Sketch fluency as a differentiator—tools are table stakes'
+  - 'Design-tool fluency without examples of the decisions behind the work'
   - 'Expectation that one designer personally produces every screen in a feature'
-  - 'Design excellence equated with trend-chasing rather than systemic thinking'
+  - 'Visual trends without evidence of usability, consistency or user needs'
 interview_methods:
   - title: 'Design system evaluation'
     description: '"Here is a design system. An agent produced these five screens. Which pass our quality bar, which fail, and why?"'
@@ -58,25 +58,27 @@ interview_methods:
   - title: 'Quality audit'
     description: '"Review these ten agent-generated components. Where is the system degrading subtly?"'
 day_in_life: |
-  Something is off with a button variant. Three agent-generated features shipped it with inconsistent padding, and you trace the problem to an ambiguous token definition in the design system. You fix the token, tighten the written spec, and update the machine-readable version so the next agent run gets it right without human correction.
+  Several generated screens use different spacing for the same button. You find an ambiguous design value, correct it and review the affected interfaces with engineering.
 
-  You audit three agent-built features from the last sprint. Typography hierarchy drifted. Not a one-off — it's a governance gap. You propose updates to the token structure and walk through the fix with the QA Engineer, who'll scope a CI check so this class of drift gets caught automatically.
-
-  Later you draft a new interaction pattern at the precision agents need: states, transitions, focus order, error copy tone, success criteria. Generation and human review share one source of truth. Your work product isn't a folder of screens anymore. It's the **system that produces screens** and the **judgment** that keeps what ships honest.
+  For a new interaction, you document loading, error and success states, along with focus order and copy. You test the resulting flow and update the example where people misunderstand the next step.
 helm_connection: |
-  This role maps to the [Product Designer](/leadership#product-designer) in the [Leadership Guide](/leadership): accountable for how product experience is defined and defended as the organization scales with automation. In the [Practitioner Guide](/practitioners), it sits on [Layer 2: Quality Guardrails](/practitioners#layer-2-quality-guardrails). Design system compliance and accessibility standards are guardrails agents and humans share, not optional polish.
+  The [Product Designer](/leadership#product-designer) responsibilities connect to [Layer 2: Quality](/practitioners#layer-2-quality-guardrails) and the [Verify](/practitioners#verify) phase. Check design-system use, accessibility and the experience of completing the task.
 
-  In the [Operating Loop](/practitioners#the-plan-execute-verify-ship-learn-cycle), the [Verify](/practitioners#verify) phase includes UX review: agent output is treated as candidate work that must pass human-centered criteria before it is accepted. **Shift 2** applies directly: leaders and designers stop optimizing for hands-on screen production and optimize for **constraints, specs, and governance** that shape every generated surface.
-
-  Under the [Decision Rights Matrix](/leadership#decision-rights-matrix), **UX quality standards** and **changes to the design system** carry explicit ownership and approval paths, so speed from agents never outruns the standards that define acceptable experience.
+  Use the [Decision Rights Matrix](/leadership#decision-rights-matrix) to agree who approves design-system changes and quality standards.
 ---
 
-## The Shift
+<span id="the-shift"></span>
 
-An agent can explore twenty screen variations in the time a human designer refines one. Wireframes, mockups, prototypes, polished visuals — the production layer that defined design careers — got fast. What didn't get fast: deciding whether a flow feels trustworthy, whether interaction rhythm matches user expectations, or whether emotional resonance lands. Agents optimize against specification. They can't optimize against felt experience.
+## Working with agents
 
-So the job shifts. From making screens to governing the system agents build within, and auditing what they ship. Production shrinks. Governance and taste expand. A designer who maintains a design system precise enough that agents consistently produce compliant, coherent UI is more valuable than one who personally draws every frame. This also opens **Agent Experience (AX)** — designing for human users _and_ for agent actors that read, navigate, and act on the same surfaces. That dual audience demands constraints, not just comps. It aligns with **Shift 2** in HELM: stop optimizing for hands-on screen production, start **defining constraints** that shape every generated surface.
+Agents can help produce interface drafts and variations. Designers still need to understand the user’s task and check whether the result is clear, usable and accessible.
 
-## What the Traditional Job Description Looked Like
+Provide useful examples, states and constraints, then review what gets built. Use feedback to improve both the interface and the guidance used to generate it.
 
-The portfolio was the interview. Three to five years of UX/UI experience. Figma or Sketch proficiency. End-to-end process. Research and usability testing. Wireframes, mockups, high-fidelity prototypes. Design system familiarity was a bonus, not the core. The signal was production skill and visual craft: could you ship the artifact?
+If a product also serves agents that navigate or act on its interfaces, **Agent Experience (AX)** covers that additional interaction. Test the tasks each kind of user needs to complete.
+
+<span id="what-the-traditional-job-description-looked-like"></span>
+
+## Experience to discuss
+
+Use portfolio examples to discuss research, interaction design, visual craft and testing. Ask what changed after feedback and how the person worked with engineering and product. Where agents help produce interfaces, discuss how they would guide and review that work.

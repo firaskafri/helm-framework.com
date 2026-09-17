@@ -21,7 +21,7 @@
             ]
           },
           {
-            "text": "The guides are easier to navigate, read on smaller screens, use with a keyboard, and share in a team discussion.",
+            "text": "The role guides now focus on responsibilities, relevant experience and learning. The same five shared competencies appear across the site, and examples make clear what the guidance does and does not establish.",
             "links": [
               { "label": "Explore the role guides", "href": "/roles" },
               { "label": "Reuse HELM material", "href": "/licensing" }
@@ -53,7 +53,7 @@
         "heading": "See what comes next",
         "items": [
           {
-            "text": "The roadmap focuses on making the current guidance clearer, trying a short shared-skills discussion, and considering a small playbook for one piece of work.",
+            "text": "The roadmap focuses on clearer guidance, a shared-competency development review to try with people across roles, and a possible short playbook for one piece of work.",
             "links": [
               {
                 "label": "Read the focused roadmap",
