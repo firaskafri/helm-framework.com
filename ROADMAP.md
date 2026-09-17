@@ -4,25 +4,34 @@
 **Last updated:** 2026-09-17
 **Roadmap owner:** Firas Kafri
 **Review cadence:** Weekly during active delivery; monthly otherwise
-**Current focus:** Verify the HELM 1.0.1 hardening candidate on GitHub; local quality gates, evidence provenance, accessible static publishing and licensing are implemented
+**Current focus:** Try a small kit on one real workflow, fix misleading guidance, and learn what changes for the people doing the work
+**Release work:** Verify the HELM 1.0.1 hardening candidate on GitHub; local quality gates, evidence provenance, accessible static publishing and licensing are implemented
 
 ## Purpose
 
 This document tracks HELM's evolution from a reference framework into a practical implementation system. It is the source of truth for product direction, release scope, progress, and roadmap decisions.
 
-HELM already explains the target operating model through principles, practitioner guidance, leadership guidance, and role definitions. The next releases must close the gap between understanding HELM and applying it inside a real team.
+HELM already describes an operating model through principles, practitioner guidance, leadership guidance, and role definitions. The next releases must turn that reference into a tested method for continually adapting work, skills, jobs, and teams, rather than prescribing a final organizational shape.
 
 ## Product Direction
 
-HELM vNext will help teams:
+HELM helps teams answer five practical questions as AI changes their work:
 
-1. Assess their current operating maturity using evidence rather than self-perception.
-2. Redesign real workflows around appropriate human and agent responsibilities.
-3. Transition existing people into changed roles without relying on generic job descriptions.
-4. Run repeatable operating practices using concrete templates and artifacts.
-5. Learn from documented implementations and feed those findings back into the framework.
+1. What can agents usefully do now?
+2. What should people still do, check, and own?
+3. What do people need to learn or keep practicing?
+4. Does the team need to change how it works or who owns what?
+5. What worked, what did not, and what should we try next?
 
-The near-term audience is Product and Engineering teams using coding agents to develop software. HELM should help them control quality, cost, and accountability in an existing workflow. Start with one workflow. No reorganization required.
+The near-term audience is Product and Engineering teams using coding agents to develop software. Start with one workflow and measure delivery outcomes alongside changes to human work and learning. No reorganization is required to start; there is no assumption that existing roles must remain unchanged.
+
+Do not depend on an AGI timeline. Try capabilities on real work rather than treat announcements as proof. Share local lessons as local lessons, not a universal job model.
+
+### Keep it practical
+
+Use existing tickets, pull requests, and retrospectives wherever possible. Start with one short work brief, a check-and-owner list, and a before/after note; these can live in the same document. Add a field, template, metric, or process only when it helps someone make a real decision. A useful field-tested guide can ship with clear limitations; it does not need a research program behind it.
+
+The detailed lists below are a delivery backlog, not a process every adopting team must follow. For a release, select the relevant work and apply its exit criteria. Safety, privacy, honest claims, and a working accessible product remain requirements; optional research, infrastructure, and organizational work do not become gates by default.
 
 Building products whose runtime behavior depends on agents is a separate applicability context: model hosting, inference reliability, conversational evaluations, and specialized agent-platform staffing become relevant when the product requires them, rather than as prerequisites for every team adopting coding agents.
 
@@ -35,26 +44,23 @@ The public framework and HELM Studio remain separate products:
 
 ## Primary Users and Jobs
 
-- **Team leaders and transformation owners:** assess current operations, choose a safe next step, redesign workflows, and manage role transitions.
-- **Practitioners:** plan, execute, verify, and improve agent-assisted work using concrete contracts and templates.
-- **People managers and hiring teams:** define changed responsibilities, evaluate capability gaps, and transition existing people fairly.
+- **Team leaders and transformation owners:** test capability changes, redesign workflows, and decide whether responsibilities, team interfaces, or staffing mix should change.
+- **Practitioners:** execute and verify agent-assisted work, participate in redesign, and develop the judgment and recovery skills their work requires.
+- **People managers and hiring teams:** revise responsibilities and development paths, preserve learning opportunities, and support fair transitions and redeployment.
 - **Framework maintainers and implementation partners:** apply one canonical model, record evidence, and feed validated lessons back into HELM.
 
 Every public feature must serve at least one of these jobs. HELM Studio buyers may enter through the framework, but sales conversion is not the framework site's primary job.
 
 ## Roadmap Principles
 
-- Add implementation depth before adding more conceptual breadth.
-- Start from observed work, not existing job titles.
-- Let teams adopt a minimal operating kit before considering role transitions or reorganization.
-- Require accountable responsibilities; add dedicated positions only when workload and risk justify them.
-- Separate execution autonomy from operational maturity.
-- Make infrastructure expansion conditional on a real consumer or demonstrated maintenance problem.
-- Separate candidate function-neutral concepts from validated function-specific guidance; do not generalize prematurely.
-- Mark field observations clearly; do not present one company's practice as universal.
-- Preserve a static-first architecture until a real requirement justifies backend complexity.
-- Keep every framework concept in one canonical, typed source.
-- Treat accessibility, testing, content integrity, and publishing metadata as release requirements.
+- Start from real work, not new job titles or an org chart.
+- Keep the kit small; reuse existing tools and documents.
+- Try changes before prescribing them, and say where the lessons came from.
+- Keep human ownership, safe stopping conditions, and learning opportunities clear.
+- More agents do not automatically mean a better team; keeping the current approach is a valid outcome.
+- Add roles, infrastructure, and broader scope only when needed.
+- Keep the site static-first and structured content single-source.
+- Preserve accessibility, testing, privacy, and honest publishing.
 
 ## Progress Summary
 
@@ -63,29 +69,39 @@ Every public feature must serve at least one of these jobs. HELM Studio buyers m
 - [x] Establish the vNext direction and this roadmap.
 - [x] Snapshot and publish the current framework as HELM 1.0.0.
 - [ ] Harden the technical and content foundation.
-- [ ] Release the minimal operating kit, conceptual corrections, and first approved pilot report.
-- [ ] Validate the Role Transition Protocol and Specification Chain as evidence justifies follow-on work.
-- [ ] Release the evidence-based maturity assessment.
+- [ ] Release the work redesign kit, conceptual corrections, and first approved pilot report covering delivery and people impacts.
+- [ ] Turn pilot lessons into a short Work, Skills, and Team Adaptation guide and try it in a team review.
+- [ ] Build a simple diagnostic only if users need help choosing their next action.
+- [ ] Validate selected Specification Chain artifacts only where implementation evidence justifies them.
 - [ ] Extend implementation evidence and publish an additional function pack if demand and validation justify it.
-- [ ] Decide whether broader company scope is warranted and, if approved, validate and release HELM 2.0.
+- [ ] Decide whether broader company scope is warranted and, if approved, validate and assign it a release.
 
 ## Version Baseline and Release Map
 
-The current public framework predates formal versioning. Before feature work is published, snapshot the current framework as **HELM 1.0.0** and align page metadata, release notes, and repository tags to that baseline. Any existing machine-readable exports must agree; creating a new export is not a baseline prerequisite.
+The formerly unversioned public framework has been snapshotted as **HELM 1.0.0**, with publication metadata, release notes, and the `framework-v1.0.0` repository tag. Any existing machine-readable exports must agree with their published framework version; creating a new export is not a baseline prerequisite.
 
 The application package uses an independent technical version. Framework releases describe published guidance; package releases describe the Astro application. The HELM 1.0.0 baseline therefore retains application package version `0.0.1`.
 
-The release sequence is:
+The delivery sequence is below. Labels beyond 1.0.0 are planning targets, not compatibility decisions or calendar commitments:
 
 1. **HELM 1.0.x — Foundation Hardening:** repair content ownership, quality controls, accessibility, publishing, and deployment without changing the framework's intended meaning.
-2. **HELM 1.1 — Minimal Operating Kit and Pilot:** publish a small usable kit, compatible conceptual corrections, and an approved pilot report. Retain broader role-transition and Specification Chain work as evidence-led follow-on scope.
-3. **HELM 1.2 — Evidence-Based Assessment:** assess teams using the stable work-classification, evidence, and action definitions tested in the pilot.
-4. **HELM 1.3 — Evidence and Function Packs:** deepen implementation evidence; add a function pack only when demand and validation justify expansion.
-5. **HELM 2.0 — Candidate Company Operating Model:** consider broader scope only if it serves demonstrated needs and external evidence satisfies the release gates.
+2. **HELM 1.1 — Work Redesign Kit and Pilot:** publish a small usable kit, compatible conceptual corrections, and an approved report covering delivery effort, responsibility changes, and human capability impacts.
+3. **HELM 1.2 - Work, Skills, and Team Adaptation:** publish a short guide to changing responsibilities and learning needs, tried in a real team review.
+4. **HELM 1.3 - Practical Diagnostic, if needed:** help users choose a next action from the kit and guide; start without a scoring system.
+5. **Conditional expansion — Evidence and Function Packs:** continue implementation research throughout delivery; assign expansion a release only when demand, validation, and capacity justify it.
+6. **Candidate Company Operating Model — Unassigned:** consider broader scope only if it serves demonstrated needs and external evidence satisfies the release gates.
 
-Research and design may overlap across releases. Publication follows stable dependencies, but a full transition system, wholesale content migration, and new exports do not block the first kit. Follow-on transition work receives a release assignment only after pilot review.
+Work can overlap. The first kit does not wait for a full adaptation guide, content migration, or exports. The guide follows the pilot; the diagnostic follows only if users need it. Multiple teams and formal scoring studies are not prerequisites for a clearly labeled first guide.
 
-Version labels beyond the baseline remain subject to the documented compatibility policy. Semantic corrections cannot ship as meaning-preserving 1.0.x repairs. Record each correction's version impact before publication; breaking changes require an appropriate version and migration guidance, even if company-wide scope is never pursued.
+### Compatibility policy
+
+The compatibility contract covers published recommendation meaning, decision rights, assessment interpretation, and stable identifiers or artifact contracts, not just application APIs.
+
+- **Patch:** meaning-preserving repairs, such as broken links or rendering fixes, that leave existing decisions and artifacts interpretable.
+- **Minor:** additive guidance or optional artifacts that do not invalidate existing recommendations, responsibilities, scores, or references.
+- **Major:** changes that invalidate those interpretations or contracts, such as redefining an existing maturity level or replacing a mandatory staffing rule with a conflicting recommendation.
+
+Record the rationale, affected sources, migration guidance, and release assignment for each conceptual correction before publication. Semantic corrections cannot ship as meaning-preserving 1.0.x repairs. If a milestone contains breaking changes, relabel it and subsequent targets before scope freeze; HELM 2.0 is available for necessary breaking corrections and is not reserved for company-wide expansion. Urgent harmful guidance requires a visible warning or withdrawal while the versioned correction is prepared.
 
 ---
 
@@ -111,20 +127,31 @@ Roadmap releases are outcome-gated rather than date-gated. A release receives ca
 
 ### Active work tracker
 
-| ID      | Priority | Work item                                                               | Release           | Status      | Owner | Target review       | Completion evidence                                                                                         |
-| ------- | -------- | ----------------------------------------------------------------------- | ----------------- | ----------- | ----- | ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| RM-001  | P0       | Establish the vNext roadmap                                             | Planning          | Done        | Firas | 2026-09-05          | `ROADMAP.md`                                                                                                |
-| VER-001 | P0       | Snapshot the current public framework                                   | HELM 1.0.0        | Done        | Firas | 2026-09-05          | `framework-v1.0.0`, `CHANGELOG.md`, and publication metadata                                                |
-| FND-001 | P0       | Inventory canonical concepts and actual sources                         | HELM 1.0.x        | Done        | Firas | 2026-09-05          | `docs/content-architecture.md` and `npm run check:content`                                                  |
-| FND-002 | P0       | Record the baseline and implement automated quality/accessibility gates | HELM 1.0.x        | Done        | Firas | 2026-09-17          | `npm run check`: 8 unit and 39 browser checks pass; `docs/quality-baseline.md` and `docs/releases/1.0.1.md` |
-| V11-001 | P0       | Capture the Phoenix feature-development workflow end to end             | HELM 1.1          | Ready       | Firas | Next roadmap review | Evidence-backed current-state workflow                                                                      |
-| FND-003 | P0       | Establish claim provenance and evidence labels                          | HELM 1.0.x        | Done        | Firas | 2026-09-17          | 28 claim records, source register, `/evidence`, `docs/corrections.md`; build and provenance checks pass     |
-| FND-004 | P1       | Complete static publishing, licenses and release verification           | HELM 1.0.x        | In progress | Firas | 2026-09-17          | Local artifact and licensing verified; required checks configured; remote quality/container run pending     |
-| V11-002 | P0       | Audit applicability and conceptual contradictions                       | HELM 1.1 planning | Ready       | Firas | Next roadmap review | Correction register with canonical targets, acceptance checks, and version impacts                          |
-| V11-003 | P1       | Test a minimal operating kit on one workflow                            | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-001 workflow and safety review required; then editable kit and non-author usability findings            |
-| V11-004 | P1       | Publish the first approved pilot report                                 | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-003 pilot required; then approved baseline, total-effort results, limitations, and retrospective        |
+| ID      | Priority | Work item                                                      | Release           | Status      | Owner | Target review       | Completion evidence                                                                                                                         |
+| ------- | -------- | -------------------------------------------------------------- | ----------------- | ----------- | ----- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| RM-001  | P0       | Establish the vNext roadmap                                    | Planning          | Done        | Firas | 2026-09-05          | `ROADMAP.md`                                                                                                                                |
+| VER-001 | P0       | Snapshot the current public framework                          | HELM 1.0.0        | Done        | Firas | 2026-09-05          | `framework-v1.0.0`, `CHANGELOG.md`, and publication metadata                                                                                |
+| FND-001 | P0       | Inventory canonical concepts and actual sources                | HELM 1.0.x        | Done        | Firas | 2026-09-05          | `docs/content-architecture.md` and `npm run check:content`                                                                                  |
+| V11-001 | P0       | Describe one Phoenix workflow as it works today                | HELM 1.1          | Ready       | Firas | Next roadmap review | Short note using existing tickets: work, effort, owners, and what people need to know; agree what can be shared                             |
+| V11-002 | P0       | Resolve credibility-critical guidance and classify corrections | HELM 1.1 planning | Ready       | Firas | Next roadmap review | Correction register covering autonomy, staffing, ownership, safeguards, source provenance, acceptance checks, and compatibility decisions   |
+| FND-002 | P0       | Record the quality baseline and publication blockers           | HELM 1.0.x        | Done        | Firas | 2026-09-17          | `npm run check`: 8 unit and 39 browser checks validated; `docs/quality-baseline.md` and `docs/releases/1.0.1.md`                            |
+| FND-003 | P1       | Complete claim provenance and evidence labels                  | HELM 1.0.x        | Done        | Firas | 2026-09-17          | 28 claim records, source register, `/evidence`, `docs/corrections.md`; build and provenance checks pass; semantic fixes remain with V11-002 |
+| FND-004 | P1       | Complete static publishing, licenses and release verification  | HELM 1.0.x        | In progress | Firas | 2026-09-17          | Local artifact and licensing verified; required checks configured; remote quality/container run pending                                     |
+| V11-005 | P1       | Agree how to run the pilot safely                              | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-001 required; record owners, access limits, stop conditions, and what to compare in the same work note                                  |
+| V11-003 | P1       | Test the work redesign kit on one workflow                     | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-001 and V11-005 required; then editable kit, before/after work map, and non-author usability findings                                   |
+| V11-004 | P1       | Publish the first approved pilot report                        | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-003 required; then approved delivery and people-impact findings, limitations, and retain/revise/reject decisions                        |
+| V12-001 | P1       | Write a short team adaptation guide from pilot lessons         | HELM 1.2          | Blocked     | Firas | Pilot review        | V11-003 required; one worked example and prompts for responsibilities, skills, and next steps                                               |
+| V12-002 | P1       | Try the guide in a real team review                            | HELM 1.2          | Blocked     | Firas | Guide review        | V12-001 required; someone other than the author can use it, and confusion is fixed or clearly noted                                         |
 
 When an item enters **In progress**, its target review must be a specific date. Add or split tracker rows when a work item cannot be reviewed as one coherent change.
+
+### Immediate priority order
+
+1. Describe one real workflow and what people currently do (V11-001).
+2. Resolve credibility-critical guidance and its compatibility decisions (V11-002), including the urgent provenance subset of FND-003.
+3. Complete release verification (FND-004); the quality baseline and publication-blocking repairs (FND-002) are locally verified.
+
+Keep no more than three items active. Finish required hardening alongside the pilot as capacity permits. The questionnaire, more role pages, comprehensive templates, function packs, and Studio conversion work can wait. Cosmetic repairs and optional infrastructure must not delay trying the kit; public release gates still apply.
 
 ### Capacity and spend controls
 
@@ -148,13 +175,13 @@ A roadmap item is Done only when:
 
 ### Critical path and parallel work
 
-1. Snapshot the current public framework as HELM 1.0.0 while recording content ownership, quality, and evidence baselines.
-2. Repair demonstrated content-integrity problems and build quality gates. Conditional infrastructure work stays off the critical path unless a documented dependency requires it.
-3. Capture the Phoenix workflow and audit conceptual contradictions in parallel with hardening.
-4. Test the minimal kit after recording a baseline, owners, and safety boundaries. Private pilot research need not wait for site hardening; public HELM 1.1 publication requires the HELM 1.0.x exit criteria, applicable corrections, and an approved pilot report.
-5. Use pilot findings to select follow-on transition artifacts. HELM 1.2 depends on stable classification, evidence, and recommendation definitions, not completion of every role-transition template.
-6. HELM 1.3 builds on the first report; any additional function pack requires both demand and approved validation evidence.
-7. Broader HELM 2.0 scope remains optional and blocked until its demand decision and all release gates are satisfied.
+1. Preserve the completed HELM 1.0.0 baseline and content ownership map; record the remaining quality and evidence baselines.
+2. Describe the Phoenix workflow and what people currently do, fix misleading guidance, and address publication-blocking defects within available capacity.
+3. Test the work redesign kit after approving measurement, participation, owners, and safety boundaries. Private research need not wait for site hardening; public HELM 1.1 publication requires the HELM 1.0.x exit criteria, applicable corrections, and an approved pilot report.
+4. Turn pilot lessons into HELM 1.2's short guide and try it in a real team review. Publish the worked example and its limits; additional teams can extend the evidence later.
+5. Build HELM 1.3's diagnostic only if users struggle to choose their next action. Test the advice manually before adding a questionnaire or scores.
+6. Continue implementation evidence throughout delivery. Function packs require demand, maintenance capacity, and approved validation; Specification Chain additions require observed friction.
+7. Broader company scope remains optional and unassigned until its demand decision and release gates are satisfied. Breaking corrections can require a major version independently of that expansion.
 
 ---
 
@@ -229,19 +256,18 @@ These items remain accepted work. Schedule them only when a named consumer or do
 
 ---
 
-## HELM 1.1 — Minimal Operating Kit and Pilot
+## HELM 1.1 - Work Redesign Kit and Pilot
 
-**Objective:** Help a software product team apply HELM to one existing workflow, measure the full delivery effort, and choose a justified next step without requiring new job titles or a reorganization.
+**Objective:** Help one team try a better way of working with agents and show what changed for delivery and the people doing the work.
 
 ### Minimal operating kit
 
-- [ ] Provide a current-state map for one workflow, including handoffs and exceptions.
-- [ ] Provide a task execution contract with scope, non-goals, acceptance criteria, constraints, and stop conditions.
-- [ ] Provide a risk and verification checklist covering consequences, reversibility, permissions, sensitive data, and required checks.
-- [ ] Provide a responsibility and decision-owner worksheet using existing team members.
-- [ ] Provide a baseline measurement sheet and retrospective/learning log.
-- [ ] Make the kit downloadable, editable, and usable without an account.
-- [ ] Lead the public entry point with a concrete first action and link to the relevant framework guidance.
+- [ ] A short work brief: scope, non-goals, acceptance criteria, constraints, and when to stop.
+- [ ] A check-and-owner list: what agents do, who checks and owns the result, permissions, sensitive data, and required approvals.
+- [ ] A before/after note: work and handoffs, time including review and rework, quality, what people need to learn, and what to do next.
+- [ ] Make these editable and usable without an account, with a concrete first action linked from the site.
+
+These can be sections in an existing ticket or document, not three new forms. Record what was observed and what is still a guess; do not try to measure long-term career outcomes in the first pilot.
 
 ### Conceptual corrections and applicability
 
@@ -255,158 +281,133 @@ This work changes guidance and is separate from meaning-preserving foundation re
 - [ ] Distinguish behavioral instructions from sandboxing, least-privilege access, network restrictions, and protected approval boundaries.
 - [ ] Treat access controls for sensitive systems as baseline safeguards; distinguish read-only incident assistance from authority to change production.
 - [ ] Qualify categorical claims about past engineering work, typing speed, universal success patterns, and mandatory role changes.
+- [ ] Reframe fixed role destinations as context-dependent options; distinguish task automation from job elimination and capability announcements from locally demonstrated readiness.
 - [ ] Publish correction rationale and migration notes under the appropriate framework version; defer incompatible changes to an explicitly versioned release rather than hiding them in 1.0.x.
 
-### First pilot and publication evidence
+### Try it on real work
 
-- [ ] Define the publication boundary for the Phoenix or Salalem implementation before collecting publishable evidence.
-- [ ] Record the baseline, task mix, observation period, and comparison method before the intervention.
-- [ ] Test the kit with a participant who did not author it and record ambiguity, missing context, and completion time.
-- [ ] Measure planning, execution, review, rework, tool costs, escaped defects, and product outcomes where observable; distinguish elapsed time from human effort.
-- [ ] Include failed tasks, abandoned approaches, adjustments, uncertainty, and unresolved questions.
-- [ ] Obtain approval for names, metrics, quotations, and confidential operating details before publication.
-- [ ] Publish the first approved pilot report with baseline, intervention, results, limitations, and lessons; anonymize only with approval.
-- [ ] Link findings to canonical practices and record which kit or framework decisions they changed.
-- [ ] Choose follow-on artifacts based on observed friction; stop or redesign the intervention if benefits do not justify its total cost.
+- [ ] Pick one Phoenix or Salalem workflow, involve the people doing it, and agree safety and sharing limits before starting.
+- [ ] Note how comparable work is done today and which tools are used. Use existing delivery records; label estimates and missing information.
+- [ ] Have someone other than the author use the kit. Note confusing instructions, failed attempts, and unnecessary steps.
+- [ ] Compare total effort, review/rework, quality, and tool cost where available. Ask what changed in responsibilities, workload, and learning; do not equate time saved with removable headcount.
+- [ ] Publish a short approved account: what we tried, what happened, what did not work, and what we would keep or change. Get permission for company details and quotations.
+- [ ] Choose a next step and a sensible time to revisit it. Stop or simplify if the kit adds more work than value.
 
 ### Exit criteria
 
-- [ ] A non-author participant can use the minimal kit on one workflow without undocumented help or an org-chart change.
-- [ ] Task boundaries, accountable decision owners, verification, and safe stopping conditions are explicit.
-- [ ] The kit is downloadable, editable, and linked from relevant framework sections.
-- [ ] Applicable conceptual corrections have evidence-status labels, version-impact decisions, and migration notes where needed.
-- [ ] An approved pilot report includes total delivery effort, failures, limitations, and comparison with the baseline.
-- [ ] The retrospective has changed at least one kit element or framework recommendation.
-- [ ] Follow-on work is explicitly selected, deferred, or rejected based on pilot findings.
+- [ ] Someone other than the author can use the editable kit without hidden instructions or an org-chart change.
+- [ ] Ownership, checks, and safe stopping conditions are clear; applicable guidance corrections are versioned and explained.
+- [ ] One approved worked example shows before/after delivery and people impacts, including failures and unknowns.
+- [ ] The team can explain what to keep or change next. Keeping the current approach is allowed.
 
-### Follow-on scope: Role Transition Protocol and Specification Chain
+---
 
-The following work remains planned for validation after the minimal kit. It is not a prerequisite for HELM 1.1. Assign selected items to a release in the active tracker after pilot review; only definitions actually consumed by HELM 1.2 become assessment dependencies.
+## HELM 1.2 - Work, Skills, and Team Adaptation
 
-The Specification Chain remains Product and Engineering specific: product context, PRD, architecture, testing, implementation, and release evidence. Its artifacts need demonstrated use. The Role Transition Protocol is a candidate general method whose broader applicability requires later evidence.
+**Objective:** Help a team update responsibilities and learning needs as agents change its work, without requiring a new operating model or HR program.
 
-### Role Transition Protocol
+This replaces the larger Role Transition Protocol with a short guide based on the pilot. Use it in an existing retrospective or planning conversation when the tools, work, or team change.
 
-- [ ] Capture the Phoenix feature-development workflow from initial context through production and learning.
-- [ ] Define how to observe and document the current workflow.
-- [ ] Separate decisions, execution, verification, knowledge, handoffs, and exceptions.
-- [ ] Define one canonical work-classification schema shared by role transition, task classification, and assessment.
-- [ ] Classify activities by boundedness, consequence, reversibility, evaluability, context availability, and data sensitivity.
-- [ ] Assign each activity to human-owned, agent-executed, agent-assisted, or eliminated work.
-- [ ] Define role boundaries, decision rights, escalation paths, and required artifacts.
-- [ ] Define a transition sequence: shadow, co-own, own, and audit.
-- [ ] Define capability-gap assessment and training requirements.
-- [ ] Define a post-transition review using operational and outcome evidence.
-- [ ] Define how affected employees participate in workflow discovery, role design, and transition review.
-- [ ] Define exception handling for work that does not fit the target role split.
+### What the guide covers
 
-### Specification Chain
+- [ ] What agents can now do reliably, what still needs people, and what work has appeared or disappeared.
+- [ ] Who does, checks, approves, and owns the work; what happens when it goes wrong.
+- [ ] What people need to learn or keep practicing, including how juniors learn and how the team catches mistakes or recovers without agents.
+- [ ] Whether a handoff, responsibility, or team boundary needs changing. Try the smallest reversible change first; do not assume a new job title or smaller team is the answer.
+- [ ] One next action, an owner, and when to check back. Include the affected people and make time for learning.
 
-- [ ] Define the relationship between product context, PRD, architecture, testing plan, implementation, and release evidence.
-- [ ] Specify the owner and approval boundary for every artifact.
-- [ ] Define the minimum contract required before agent execution begins.
-- [ ] Define how implementation discoveries update upstream artifacts.
-- [ ] Define how the chain operates when different people own product, architecture, engineering, and quality.
-- [ ] Connect the chain explicitly to Plan-Execute-Verify-Ship-Learn.
+### Try and publish
 
-### Follow-on public toolkit
+- [ ] Use the guide in a real team review with someone other than the author; fix confusing or unnecessary steps.
+- [ ] Publish one worked example showing a responsibility or learning decision; a justified decision not to change anything also counts.
 
-Reuse the minimal kit's workflow map, responsibility worksheet, execution contract, verification checklist, and learning log. Add the following artifacts only where pilot evidence justifies them:
+### Exit criteria
 
+- [ ] A non-author can use the guide to reach a clear next action without undocumented help.
+- [ ] The example covers responsibilities, learning needs, and limits of what was observed.
+- [ ] The guide is accessible and editable, and any proposed change has an owner and a check-back point.
+
+One local example is enough for a first release labeled as field-tested in that context. Testing other teams and longer-term outcomes stays in the evidence backlog, not on this release's critical path.
+
+### Conditional supporting artifacts
+
+The larger protocol's unfinished work remains optional. Pull an item into delivery only when the small kit or guide proves insufficient; do not build the full set first.
+
+- [ ] Shared work-classification schema covering boundedness, consequence, reversibility, evaluability, context, and data sensitivity, if multiple tools need it
+- [ ] Staged responsibility trials, exception handling, and formal capability checks for workflows whose risk requires them
+- [ ] Longer-term development, junior progression, coaching, workload, and redeployment guidance based on actual team needs
 - [ ] Role charter and job-description template
-- [ ] Capability-gap assessment
+- [ ] Downloadable capability-gap assessment based on the validated method
 - [ ] 30/60/90-day transition plan
 - [ ] Agent-ready PRD template
 - [ ] Architecture decision record
 - [ ] Testing-plan template
 - [ ] Knowledge-transfer and exception register
 - [ ] Public entry points for understanding HELM, redesigning a workflow, transitioning a role, and finding the relevant toolkit
+- [ ] Product Manager transition example, if observed work justifies that framing
+- [ ] QA Engineer and Evaluation Lead transition example, without presupposing a dedicated role split
+- [ ] Clarification of why the leadership model contains nine operational roles while the role collection begins from eight traditional-role pages
+- [ ] Decision on whether Evaluation Lead requires a dedicated role guide
 
-### Worked examples
+### Conditional Specification Chain
 
-- [ ] Publish a Product Manager transition example.
-- [ ] Publish a QA Engineer and Evaluation Lead transition example.
-- [ ] Clarify why the leadership model contains nine operational roles while the role collection begins from eight traditional-role pages.
-- [ ] Decide whether Evaluation Lead requires a dedicated role guide.
-- [ ] Pilot the protocol with someone who did not author it and record ambiguities, missing context, and completion time.
+The Specification Chain remains Product and Engineering specific: product context, PRD, architecture, testing, implementation, and release evidence. Add artifacts only to address observed friction; the complete chain does not block adaptation validation.
 
-### Follow-on protocol validation gates
-
-Apply these gates before publishing the selected transition protocol; they do not block the minimal kit.
-
-- [ ] A team can complete the protocol without consulting undocumented knowledge.
-- [ ] Every protocol step produces a named artifact or decision.
-- [ ] At least two worked examples demonstrate materially different transition shapes.
-- [ ] The templates are downloadable, editable, and linked from the relevant framework sections.
-- [ ] A real implementation retrospective has changed at least one part of the protocol.
+- [ ] Define the relationship between product context, PRD, architecture, testing plan, implementation, and release evidence.
+- [ ] Specify the owner and approval boundary for every artifact.
+- [ ] Define the minimum contract required before agent execution begins, reusing the kit's work brief.
+- [ ] Define how implementation discoveries update upstream artifacts.
+- [ ] Define how the chain operates when different people own product, architecture, engineering, and quality.
+- [ ] Connect the chain explicitly to Plan-Execute-Verify-Ship-Learn.
 
 ---
 
-## HELM 1.2 — Evidence-Based Assessment
+## HELM 1.3 - Practical Diagnostic, if Needed
 
-**Objective:** Replace informal maturity self-labeling with a practical assessment that produces an evidence-backed action plan.
+**Objective:** Help a reader choose a useful next action when the kit and guide alone are not enough.
 
-### Assessment model
+Do not build this just because it appears on the roadmap. First see whether users struggle to choose their next step, and try a few questions manually. A short decision guide may be sufficient; a maturity score is not required.
 
-- [ ] Separate maturity into independent dimensions:
-  - Workflow readiness
-  - Context and documentation
-  - Agent execution
-  - Verification and evaluation
-  - Human decision controls
-  - Governance and observability
-  - Team capability
-  - Outcome measurement
-- [ ] Define evidence requirements for every score.
-- [ ] Remove vendor adoption as a proxy for operational maturity.
-- [ ] Apply the corrected distinction between execution autonomy and operational maturity; do not award maturity merely for adopting more agents or orchestration.
-- [ ] Map the existing Levels 1–5 to the new dimensions and decide explicitly what is retained, reframed, or deprecated.
-- [ ] Publish migration guidance so existing references to a HELM level remain interpretable.
-- [ ] Define how the weakest critical-path dimension affects the overall recommendation.
-- [ ] Represent confidence and unknown evidence without converting uncertainty into a precise score.
-- [ ] Define assessment applicability by team type, company size, and function.
-- [ ] Validate scoring against observed team behavior.
+### Minimum scope
 
-### Assessment experience
-
-- [ ] Build a guided, accessible questionnaire.
-- [ ] Let users record supporting evidence and unknowns.
-- [ ] Produce a maturity profile rather than only one organization-wide level.
-- [ ] Identify the weakest critical-path dimension.
-- [ ] Recommend the next three actions.
-- [ ] Generate a 90-day action outline with readiness gates.
-- [ ] Support local export without requiring an account.
-- [ ] Make local-only data handling explicit and prevent sensitive assessment content from entering analytics.
-- [ ] Explain the boundary between the public assessment and a facilitated HELM Studio Diagnostic.
-
-### Task classification update
-
-- [ ] Preserve the understandable boundedness-and-risk matrix.
-- [ ] Formalize and extend the work-classification fields tested in the HELM 1.1 kit as the shared schema for assessment and follow-on role transition.
-- [ ] Add decision gates for reversibility, objective verification, context sufficiency, permissions, and data sensitivity.
-- [ ] Generate a recommended autonomy level and required guardrails.
-- [ ] Test the classifier against real engineering, product, content, and operational tasks.
+- [ ] Confirm a real user need and test the questions against actual workflow examples.
+- [ ] Ask only enough to suggest up to three next actions linked to the kit or guide; allow unknowns and no change.
+- [ ] Keep answers local, make the interaction accessible, and support export without an account.
+- [ ] Explain where the advice comes from, its limits, and how it differs from a facilitated Studio service.
+- [ ] Test decision rules, including missing information and risky work; never infer employability or staffing cuts from answers.
 
 ### Exit criteria
 
-- [ ] Every score is traceable to evidence or explicitly marked unknown.
-- [ ] Mixed-maturity teams receive a dimensional profile rather than a misleading single label.
-- [ ] Recommendations map to canonical HELM practices and templates.
-- [ ] The assessment works with keyboard navigation and without account creation.
-- [ ] Scoring and recommendation rules have automated tests.
+- [ ] Intended users can choose and explain a relevant next step using it.
+- [ ] Advice points to existing guidance, states uncertainty, and passes tested example cases.
+- [ ] Accessibility and applicable data-handling checks pass. Advice is checked against real examples; automated rule tests are required only when decision logic is implemented in software.
+
+### Optional assessment backlog
+
+The previous assessment scope is retained here, not required for the first diagnostic. Add it only if a simpler decision guide fails to meet a demonstrated need.
+
+- [ ] Dimensional maturity covering workflow, context, execution, verification, human decisions, governance, team capability, and outcomes, without treating vendor adoption or more agents as maturity
+- [ ] Evidence requirements, unknowns, confidence, and observed-work tests for any scoring introduced
+- [ ] Explicit mapping and migration guidance for existing Levels 1-5 before changing their meaning
+- [ ] Critical-path recommendations and a 90-day action outline, if users need them
+- [ ] Extended boundedness-and-risk classifier covering reversibility, verification, context, permissions, and sensitive data, with autonomy and guardrail recommendations tested on real tasks
+- [ ] Shared classification fields and applicability checks across team sizes and functions, when those consumers exist
 
 ---
 
-## HELM 1.3 — Evidence and Function Packs
+## Conditional Expansion - Evidence and Function Packs
 
 **Objective:** Deepen evidence from software product teams and investigate additional functions only where users demonstrate a need.
 
+**Release assignment:** Unassigned. Evidence collection continues through the pilot, adaptation, and diagnostic milestones. Function packs and discovery enhancements are later conditional scope, not prerequisites for those milestones.
+
 ### Evidence expansion
 
-The evidence baseline begins in HELM 1.0.x, and the first approved pilot report is required for HELM 1.1. This release extends that work rather than starting it.
+The first pilot and team review provide initial examples. Later evidence should add useful lessons, not delay those releases or repackage their findings as new validation.
 
 - [ ] Publish additional case studies using the established provenance, publication-approval, and measurement requirements.
 - [ ] Follow up on the first pilot to test whether benefits persist and identify ongoing review and maintenance costs.
+- [ ] Try a materially different workflow or team and publish a second worked example before claiming broader applicability.
 - [ ] Document which findings confirm, revise, or deprecate framework guidance.
 - [ ] Seek independent implementation evidence and record differences from the original environment.
 
@@ -436,23 +437,23 @@ The evidence baseline begins in HELM 1.0.x, and the first approved pilot report 
 ### Exit criteria
 
 - [ ] Major recommendations state their evidence status.
-- [ ] At least one public case study includes limitations and measured outcomes.
+- [ ] At least one newly approved case study or longitudinal follow-up adds evidence beyond previously released reports, including measured outcomes, limitations, and its effect on guidance.
 - [ ] Any additional function pack has demonstrated demand and has been tested against real work; otherwise record deferral and release evidence improvements alone.
 - [ ] Framework and Studio remain clearly differentiated.
 
 ---
 
-## HELM 2.0 — Candidate Company Operating Model
+## Candidate Company Operating Model - Unassigned
 
 **Objective:** Decide whether broader company scope solves a demonstrated problem better than continued depth for software product teams. Expansion is optional. Evidence may favor staying focused.
 
 ### Release gates
 
 - [ ] Document user demand, expected benefit, maintenance capacity, and the decision to pursue broader company scope.
-- [ ] The Role Transition Protocol has been used by multiple teams.
+- [ ] The Work, Skills, and Team Adaptation guide has been used by multiple teams.
 - [ ] At least one implementation is outside Salalem.
 - [ ] Documented variations show which elements are universal and which are context-specific.
-- [ ] The assessment produces credible recommendations across different team shapes.
+- [ ] The work and team-adaptation guidance has been used successfully across different team shapes, with limitations documented.
 - [ ] Product and Engineering plus at least two additional function packs meet evidence requirements.
 - [ ] Case studies include measurable outcomes and implementation limitations.
 - [ ] Public framework content and HELM Studio delivery use the same canonical model.
@@ -466,36 +467,34 @@ The evidence baseline begins in HELM 1.0.x, and the first approved pilot report 
 - [ ] Portfolio-level governance and measurement
 - [ ] Versioned, machine-readable framework distribution
 
-Company-wide HELM 2.0 scope remains provisional until the release gates are satisfied. A decision to stay focused on software product teams is a valid product outcome; version numbers alone do not commit HELM to broader applicability.
+Company-wide scope remains provisional until the release gates are satisfied. Assign a version only after approving scope and reviewing compatibility. A decision to stay focused on software product teams is a valid product outcome; HELM 2.0 may instead be needed earlier for breaking guidance corrections.
 
 ---
 
 ## Cross-Cutting Validation and Measurement
 
-These requirements apply to HELM 1.0.x and every later release. Their placement here avoids repeating them inside each milestone; it does not defer them until HELM 2.0.
+Use these checks where relevant to the feature being shipped. They are not a requirement to run every research method or collect every metric for every release. Existing work notes and retrospectives are sufficient unless a specific decision needs more.
 
-### Research and validation
+### Learn from use
 
-- [ ] Maintain a research register containing the question, method, participants, evidence, finding, and resulting decision.
-- [ ] Separate author observation, participant report, measured outcome, and external research.
-- [ ] Test protocols and templates with intended users who did not help write them.
-- [ ] Run usability checks on assessment comprehension, terminology, navigation, and exports.
-- [ ] Record negative findings and abandoned approaches, not only successful implementations.
-- [ ] Revalidate high-impact guidance when model capabilities, regulations, or operating assumptions materially change.
-- [ ] Provide a visible feedback route for corrections and implementation reports.
+- [ ] Keep a short note of what was tried, by whom, what happened, and what changed. Distinguish observations, user reports, measurements, and external claims.
+- [ ] Have intended users try the relevant guide, template, navigation, or export; include failures and confusing steps.
+- [ ] Revisit advice when tools, risks, or operating assumptions change. Do not turn a short pilot into a claim about long-term careers or whole industries.
+- [ ] Provide a visible route for corrections and implementation feedback.
 
 ### Success measures
 
-Baselines must be recorded before targets are set. Targets belong in the active tracker once measurement is reliable.
+For the first pilot, use a before/after comparison of effort and quality plus a conversation about responsibilities and learning. Use estimates when necessary, label them, and do not manufacture precision. The following are questions to draw from as needed, not a mandatory dashboard:
 
-- **Practical utility:** users can complete a protocol, produce the expected artifacts, and identify a justified next action.
+- **Practical utility:** users can apply the kit or guide and identify a useful next action.
 - **Assessment integrity:** scores are evidence-backed, uncertainty remains visible, and repeated assessments are explainable.
 - **Implementation outcomes:** compare lead time, quality, failure rate, and product outcomes against an agreed baseline while accounting for planning, execution, review, rework, and tool costs. Faster generation alone does not establish a delivery benefit.
+- **People and teams:** are responsibilities clearer, is workload reasonable, and do people have time to learn and retain the judgment needed to check and recover from mistakes?
 - **Content trust:** major claims have provenance, links remain valid, and freshness reviews happen on schedule.
 - **Product usability:** completion, abandonment, template usage, search success, accessibility defects, and user-reported confusion are monitored.
 - **Framework learning:** field evidence produces traceable confirmations, revisions, or deprecations.
 
-Avoid optimizing for page views, assessment completion, downloads, or agent usage without evidence that teams made better decisions or achieved better outcomes.
+Avoid optimizing for page views, assessment completion, downloads, agent usage, or the number of reorganizations without evidence that teams made better decisions or achieved better outcomes. Collect people-impact evidence proportionately and with agreed access boundaries, not as individual surveillance.
 
 ### Analytics and feedback
 
@@ -518,6 +517,8 @@ Avoid optimizing for page views, assessment completion, downloads, or agent usag
 - [ ] Publish terms, privacy information, framework licensing, content licensing, and trademark guidance before commercial cross-linking.
 - [ ] Define how users challenge an assessment result and how HELM communicates uncertainty and limitations.
 - [ ] Review applicable employment, discrimination, privacy, and AI-governance obligations before publishing hiring or role-transition instruments for a jurisdiction.
+- [ ] Keep individual capability and career-development evidence private by default; agree access and retention before research collection and obtain approval for any publication.
+- [ ] Prohibit automated employment decisions based on HELM scores or task exposure; require accountable human review, affected-person participation, and applicable safeguards for workforce changes.
 
 ---
 
@@ -557,6 +558,7 @@ Framework material moves through **Draft**, **Field test**, **Release candidate*
 - [ ] Scope is frozen and unfinished work is moved explicitly.
 - [ ] Milestone exit criteria are satisfied with linked evidence.
 - [ ] Required user validation is complete.
+- [ ] Adaptation guidance states its tested capability conditions, people impacts, applicability limits, and reassessment triggers; uncertainty and no-change findings remain visible.
 - [ ] Automated quality, accessibility, security, content-integrity, and build checks pass.
 - [ ] Privacy, legal, evidence, and editorial reviews are complete where applicable.
 - [ ] Release notes describe additions, changes, removals, limitations, and known issues.
@@ -571,6 +573,7 @@ Framework material moves through **Draft**, **Field test**, **Release candidate*
 - [ ] Deprecate concepts visibly before removal.
 - [ ] Preserve versioned records so case studies and assessments remain interpretable.
 - [ ] Review vendor examples separately from vendor-neutral framework guidance.
+- [ ] Link material capability changes or regressions to the affected work, skill, and responsibility guidance and its next validation decision.
 
 ---
 
@@ -588,6 +591,10 @@ Framework material moves through **Draft**, **Field test**, **Release candidate*
 - **R10 — Regional or translated guidance misrepresents local practice | Medium | Open:** use reviewed localization and regional validation.
 - **R11 — Internal contradictions undermine credibility | High | Open:** track conceptual corrections separately from technical hardening and document their evidence and version impacts.
 - **R12 — Adoption overhead exceeds delivery benefit | High | Open:** test the minimal kit without reorganization and measure total effort before adding artifacts, staffing, or infrastructure.
+- **R13 - Role prescriptions outlive capability assumptions | High | Open:** use scheduled and event-triggered local evaluations; preserve evidence-backed no-change and rollback options rather than prescribe permanent successor jobs.
+- **R14 - Automation erodes expertise and junior development | High | Open:** track learning opportunities, protected practice, retained judgment, and recovery capability through adaptation reviews.
+- **R15 - Task savings become unsupported workforce decisions | High | Open:** distinguish released capacity from sustainable staffing changes; require people-impact evidence, consultation, and accountable human approval.
+- **R16 - Diagnostic automation precedes useful advice | High | Open:** establish user need and try the advice manually before building a questionnaire or scores.
 
 Review risk status during every roadmap review. Add a trigger, owner, and mitigation task to the active tracker when a risk becomes imminent.
 
@@ -606,12 +613,17 @@ These items are outside the current roadmap unless evidence creates a concrete n
 - Complex personalization that cannot be justified by the public assessment
 - A universal runtime-agent platform or specialized staffing prescription for all coding-agent adopters
 - Mandatory company-wide expansion without documented demand
+- AGI arrival forecasts, universal future-job catalogs, or automatic staffing recommendations derived from capability benchmarks
+
+The questionnaire, additional role guides, comprehensive Specification Chain templates, function packs, and Studio conversion work remain retained later or conditional scope in their sections, not immediate delivery priorities.
 
 ## Decision Log
 
+Entries preserve decision history. Later decisions supersede earlier ones, including the final simplification decision below. The current release map and tracker govern execution.
+
 ### 2026-09-17 — Prepare a meaning-preserving 1.0.1 hardening release
 
-The release adds explicit evidence status and source limitations while preserving the baseline recommendations. Semantic corrections remain in their own register with version-impact review. The shared-competency proposal remains follow-on assessment work, not part of hardening.
+The release adds explicit evidence status and source limitations while preserving the baseline recommendations. Semantic corrections remain in their own register with version-impact review. The shared-competency proposal remains follow-on work, not part of hardening.
 
 ### 2026-09-17 — Adopt static nginx serving and enforced quality checks
 
@@ -681,6 +693,30 @@ Correctness, accessibility, source ownership, and appropriate tests remain relea
 
 Function packs and company-wide guidance require demonstrated need as well as validation. Continuing to deepen HELM for software product teams remains an acceptable direction.
 
+### 2026-09-05 - Make continuous adaptation the core promise
+
+HELM will help teams continually redesign work, skills, jobs, and team interfaces as locally demonstrated AI capabilities and business needs change. Product and Engineering remains the initial validation context. No reorganization is required to begin, but existing roles are not assumed permanent. AGI timing and benchmark performance are not staffing evidence.
+
+### 2026-09-05 - Validate adaptation before automating diagnosis
+
+The first kit now measures changes to human work and capability alongside delivery. Work, Skills, and Team Adaptation becomes the core milestone targeting HELM 1.2; the evidence-backed diagnostic moves to the 1.3 planning target. This supersedes the earlier optional Role Transition Protocol sequencing. Repeated reviews and a materially different context must validate the protocol before diagnostic implementation.
+
+### 2026-09-05 - Prioritize workflow evidence and credibility
+
+The first three work packages are the workflow and human capability baseline, credibility-critical guidance, and the quality baseline with publication blockers. Complete remaining provenance and required hardening alongside approved private research as capacity permits. Additional role pages, comprehensive Specification Chain templates, function packs, and Studio conversion work remain lower priority, without weakening public release gates.
+
+### 2026-09-05 - Treat development and workforce impacts as outcomes
+
+Learning opportunities, retained judgment and recovery, junior progression, workload, and fair transitions are part of operational sustainability. Reuse the kit's existing artifacts to record these impacts. Released task capacity does not by itself establish removable headcount, and HELM scores must not automate employment decisions.
+
+### 2026-09-05 - Accept evidence-backed retention and separate versioning from expansion
+
+Validation must produce traceable retain/revise/reject decisions, not mandatory changes. Later evidence releases must add new implementation findings. Function packs and company-wide scope become unassigned conditional expansion; HELM 2.0 is not reserved for broader applicability. Apply the compatibility policy to semantic corrections and relabel planning targets when breaking changes require it.
+
+### 2026-09-05 - Keep the product practical
+
+Replace the large adaptation protocol with a short team guide, and combine the starter kit into three sections that can live in existing work documents. One real use and a clear account of its limits are enough for a first field-tested release; multiple-context and longitudinal studies move to later evidence work. A diagnostic is conditional on user need, and scoring is optional. This supersedes the earlier repeated-validation gates, not the focus on changing skills and responsibilities or the safety and publishing requirements.
+
 ## Update Log
 
 ### 2026-09-17
@@ -721,6 +757,14 @@ Function packs and company-wide guidance require demonstrated need as well as va
 - Published the HELM 1.0.0 content architecture baseline with stable metadata and identifiers.
 - Added the canonical ownership map and independent package-version policy.
 - Added deterministic collection, route, link, anchor, and DOM ID validation.
+- Reframed product direction around continuous adaptation of work, skills, jobs, and teams without assuming an AGI timeline.
+- Updated the current focus and tracker to prioritize the human capability baseline, credibility-critical corrections, and publication-blocking quality work.
+- Expanded the first pilot with before-and-after work maps, learning and workload evidence, released-capacity decisions, and reassessment triggers.
+- Promoted Work, Skills, and Team Adaptation to the 1.2 planning target and moved the diagnostic to 1.3 after repeated validation.
+- Retained Specification Chain artifacts and role examples as conditional supporting work; removed release assignments from optional function and company expansion.
+- Defined compatibility rules, separated major versions from company-wide scope, and required new evidence for later evidence releases.
+- Replaced forced-change validation gates with justified retain/revise/reject decisions and added people-impact measures, safeguards, and risks.
+- Simplified the kit and adaptation guide, moved extensive validation and scoring to optional backlog, and clarified that delivery checklists are not a mandatory adoption process.
 
 ## How to Maintain This Tracker
 
