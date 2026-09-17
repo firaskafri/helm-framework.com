@@ -29,7 +29,7 @@ HELM 1.0.1 is easier to read and use, with simpler principles, practical guides,
 
 ## 1.0.0 — 2026-09-05
 
-[A shared starting point for human–agent teamwork](https://helmframework.com/updates#helm-1-0-0) · Published 2026-09-05. Updated 2026-09-17.
+[A shared starting point for human–agent teamwork](https://helmframework.com/updates#helm-1-0-0) · Published 2026-09-05.
 
 The first numbered release brings HELM’s principles, practical guides, and role descriptions together, so your team can refer to the same version when discussing how to work with AI agents.
 
