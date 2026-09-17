@@ -1,6 +1,19 @@
 # Contributing to HELM
 
-Start with `ROADMAP.md` and `docs/content-architecture.md`. Discuss changes to framework meaning in an issue before expanding a release.
+Start with `AGENTS.md`, `docs/public-publishing.md`, and `docs/content-architecture.md`. `ROADMAP.md` is the maintainer plan. Discuss changes to framework meaning in an issue before expanding a release.
+
+## Public readiness comes first
+
+HELM is a simple framework with practical guides. Every public page must have a
+reader and a useful purpose in `scripts/public-audiences.json`. Write for that
+reader in plain language. Keep internal planning, evidence-review records, and
+release engineering out of the website. Previews must meet the same standard.
+
+Review the rendered result, including mobile/no-JavaScript views, shared elements,
+metadata, and feeds. Would you confidently send it to its intended reader now?
+If not, simplify it or keep it out of the release. Passing tests alone is not
+editorial approval. Every Astro build runs the public-content guardrail; do not
+weaken it to publish internal material. See `docs/public-publishing.md`.
 
 ## Development
 
@@ -12,7 +25,7 @@ Start with `ROADMAP.md` and `docs/content-architecture.md`. Discuss changes to f
 ## Content and evidence
 
 - Edit the canonical source, preserve stable IDs, and link to existing concepts.
-- Every major claim needs a matching evidence record: distinguish proposals, commentary, forecasts, surveys and measured results.
+- Every major claim needs a matching internal evidence record: distinguish proposals, commentary, forecasts, surveys and measured results. Public text explains useful limitations simply, at the point of use; never render review records or claim labels.
 - Add new bibliography URLs to the entry's `evidenceReferences`. Record actual source inspection separately; never invent an access date or treat a citation as verification.
 - Record changed meaning and version impact in `docs/corrections.md` before publication. Preserve interpretation and migration paths for existing users.
 - Update editorial modification dates when content or structured records change. Update source-review dates only after inspection.

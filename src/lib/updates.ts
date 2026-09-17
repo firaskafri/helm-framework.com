@@ -108,10 +108,13 @@ export function updateUrl(update: Pick<Update, 'id'>): string {
 }
 
 export function statusLabel(status: Update['status']): string {
-  return status
-    .split('-')
-    .map((word) => word[0].toUpperCase() + word.slice(1))
-    .join(' ');
+  return {
+    draft: 'Draft',
+    'release-candidate': 'Preview',
+    'field-test': 'Being tried with teams',
+    published: 'Published',
+    deprecated: 'Replaced by newer guidance',
+  }[status];
 }
 
 /** CI requires meaningful notes when visitors' content or interface changes. */
@@ -122,7 +125,7 @@ export function assertUpdateCoverage(
 ): void {
   const visible = files.filter(
     (file) =>
-      /^(src\/(content|data|pages|components|layouts|styles|lib)\/|ROADMAP\.md$|LICENSE-CONTENT\.md$|docs\/corrections\.md$)/.test(
+      /^(src\/(content|data|pages|components|layouts|styles|lib)\/|LICENSE-CONTENT\.md$)/.test(
         file,
       ) &&
       !file.startsWith('src/pages/checks/') &&

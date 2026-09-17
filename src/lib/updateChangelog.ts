@@ -14,7 +14,7 @@ export function renderUpdateChangelog(
   return [
     '# HELM Release History',
     '<!-- Generated from src/data/updates.json. Run npm run updates:sync; edit the source, not this file. -->',
-    'What has changed in HELM’s guidance and resources, why it matters for your team, and where to explore it. Entries marked “Release candidate” preview an upcoming release.',
+    'What has changed in HELM’s guidance and resources, why it matters for your team, and where to explore it. Entries marked “Preview” describe upcoming changes.',
     `Browse ${link('the latest updates', '/updates')} or ${link('subscribe to published updates via RSS', '/updates/rss.xml')}.`,
     ...publicUpdates(updates).flatMap((update) => [
       update.kind === 'release'

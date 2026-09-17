@@ -1,5 +1,55 @@
 [
   {
+    "id": "a-simpler-helm-roadmap",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-09-17",
+    "updatedAt": "2026-09-17",
+    "title": "Keeping HELM simple",
+    "summary": "HELM is easier to read and use, with simpler principles, practical tips, and a short roadmap focused on shared skills and a possible playbook.",
+    "sections": [
+      {
+        "heading": "A concise guide and a focused next step",
+        "items": [
+          {
+            "text": "Choose a skill you want to improve and your role to get a short practice guide. Each guide includes practical steps, an illustrative example, an exercise for your next task and a self-check. Explore all five competencies across content, engineering, sales and account management, or share a link to a specific guide. A structured development-review method is still planned.",
+            "links": [
+              {
+                "label": "Find a guide for your skill and role",
+                "href": "/competencies"
+              },
+              {
+                "label": "Explore the shared evaluation plan",
+                "href": "/roadmap#shared-competencies-and-development"
+              }
+            ]
+          },
+          {
+            "text": "We may also add a short playbook for trying HELM on one piece of work. We’ll try it with a team first and keep it only if it helps.",
+            "links": [
+              {
+                "label": "See the optional playbook and pilot",
+                "href": "/roadmap#work-redesign-kit-and-pilot"
+              },
+              {
+                "label": "Read the focused roadmap",
+                "href": "/roadmap#now-next-and-later"
+              }
+            ]
+          },
+          {
+            "text": "Start with six principles written in everyday language, each with a small action to try. The guides now explain how to use the advice with your team, with further reading available when you want more detail.",
+            "links": [
+              { "label": "Read the six principles", "href": "/foundation" },
+              { "label": "Explore further reading", "href": "/evidence" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "helm-1-0-1",
     "kind": "release",
     "version": "1.0.1",
@@ -14,12 +64,17 @@
         "items": [
           {
             "text": "See which recommendations draw on checked sources, which are proposed practices, and where evidence is still missing. This helps you judge how confidently to apply the guidance to your own work.",
-            "links": [{ "label": "Explore the evidence", "href": "/evidence" }]
+            "links": [
+              { "label": "Explore further reading", "href": "/evidence" }
+            ]
           },
           {
-            "text": "Find open questions about team maturity, decision ownership, and role expectations in one place, so you can recognize guidance that is still being reviewed.",
+            "text": "Read short notes on team working practices, decision ownership, and role expectations to help you adapt the guidance to your own team.",
             "links": [
-              { "label": "See guidance under review", "href": "/corrections" }
+              {
+                "label": "Get tips for using the guides",
+                "href": "/evidence#claims"
+              }
             ]
           }
         ]

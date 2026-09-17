@@ -1,171 +1,58 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+import Reference from '../layouts/Reference.astro';
 import { loadDocs } from '../lib/content';
 import { buildSourceRegister } from '../lib/sourceRegister';
-import {
-  EVIDENCE_CLAIMS,
-  EVIDENCE_LABELS,
-  EVIDENCE_REVIEW_DATE,
-} from '../data/evidence';
 const sources = buildSourceRegister(await loadDocs());
 ---
 
-<Base
-  title="Evidence and Sources"
-  description="Claim-level evidence, source provenance, limitations and correction status for HELM."
+<Reference
+  title="Further reading"
+  description="Explore the reading behind HELM and simple tips for applying the guidance to your team."
 >
-  <Nav />
-  <main id="main-content" class="max-w-4xl mx-auto px-6 pt-28 pb-16 w-full">
-    <article class="prose">
-      <h1>Evidence and Sources</h1>
-      <p>
-        HELM combines proposed practices, provider guidance, practitioner
-        commentary and enterprise research. Publication status describes
-        availability; it does not establish validation. Last evidence review:{' '}
-        <time datetime={EVIDENCE_REVIEW_DATE}>{EVIDENCE_REVIEW_DATE}</time>.
-      </p>
-      <p>
-        This register covers the baseline’s major recommendations, numerical
-        claims and categorical statements. No HELM pilot is currently labeled a
-        measured result. Sources listed only as further reading are explicitly
-        marked unreviewed. <a href="/corrections">Conceptual corrections</a> are
-        tracked separately from evidence labeling.
-      </p>
-      <h2 id="evidence-labels">Evidence labels</h2>
-      <dl>
-        {Object.entries(EVIDENCE_LABELS).map(([id, label]) => (
-          <>
-            <dt id={`label-${id}`}>
-              <strong>{label.title}</strong>
-            </dt>
-            <dd>{label.description}</dd>
-          </>
-        ))}
-      </dl>
-      <h2 id="claims">Claim register</h2>
-      {EVIDENCE_CLAIMS.map((claim) => (
-        <section id={claim.id}>
-          <h3>{claim.title}</h3>
-          <p>
-            <strong>{EVIDENCE_LABELS[claim.label].title}</strong> · {claim.kind}{' '}
-            · reviewed {EVIDENCE_REVIEW_DATE}
-          </p>
-          <p>{claim.finding}</p>
-          <p>
-            Guidance:{' '}
-            {claim.targets.map((target, index) => (
-              <>
-                {index > 0 && ' · '}
-                <a href={target}>{target}</a>
-              </>
-            ))}
-          </p>
-          {claim.sources.length > 0 ? (
-            <ul>
-              {claim.sources.map((url) => {
-                const source = sources.find((item) => item.url === url)!;
-                return (
-                  <li>
-                    <a href={`#${source.id}`}>{source.title}</a>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <p>
-              No external source attached; this is explicitly provisional or
-              illustrative.
-            </p>
-          )}
-          {claim.correction && (
-            <p>
-              Follow-up:{' '}
-              <a href={`/corrections#${claim.correction.toLowerCase()}`}>
-                {claim.correction}
-              </a>
-              .
-            </p>
-          )}
-        </section>
-      ))}
-      <h2 id="sources">Source register</h2>
-      {sources.map((source) => (
-        <section id={source.id}>
-          <h3>
-            <a href={source.url}>{source.title}</a>
-          </h3>
-          <p>Cited by: {source.entries.join(', ')}.</p>
-          {source.review ? (
-            <>
-              <p>
-                <strong>
-                  {source.review.status === 'reviewed'
-                    ? 'Source inspected'
-                    : 'Access blocked'}
-                </strong>
-                . Attempted {source.review.attemptedAt}; accessed{' '}
-                {source.review.accessedAt ?? 'not retrieved'}.
-              </p>
-              <p>Applicability: {source.review.applicability}</p>
-              <p>{source.review.finding}</p>
-              <details>
-                <summary>Source history</summary>
-                <ul>
-                  {source.review.history.map((item) => (
-                    <li>
-                      {item.date}: {item.action}
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </>
-          ) : (
-            <>
-              <p>
-                <strong>Registered; not yet inspected.</strong> No access date
-                or claim verification is asserted. Applicability remains
-                unassessed; this reference is further reading rather than
-                verified support.
-              </p>
-              <p>
-                History: {EVIDENCE_REVIEW_DATE} — inventoried from the baseline
-                bibliography; original URL retained.
-              </p>
-            </>
-          )}
-          {source.claims.length > 0 && (
-            <p>
-              Linked claims:{' '}
-              {source.claims.map((claim, index) => (
-                <>
-                  {index > 0 && ', '}
-                  <a href={`#${claim.id}`}>{claim.title}</a>
-                </>
-              ))}
-            </p>
-          )}
-        </section>
-      ))}
-      <h2 id="maintenance">Review and correction policy</h2>
-      <p>
-        Maintainer: Firas Kafri. Review major claims quarterly, and sooner when
-        a source changes or contradictory evidence appears. Preserve the old URL
-        and record replacement rationale and date. Changes to guidance go
-        through the compatibility policy and correction register. Modification
-        dates record editorial changes; evidence-review dates record source
-        inspection.
-      </p>
-      <p>
-        To report an error,{' '}
-        <a href="https://github.com/firaskafri/helm-framework.com/issues/new">
-          open an issue
-        </a>{' '}
-        with the claim ID, proposed correction and inspectable source. Keep
-        private company and employee information out of public reports.
-      </p>
-    </article>
-  </main>
-  <Footer />
-</Base>
+  <h1>Further reading</h1>
+  <p>
+    HELM brings together practical advice for working with AI agents. Start with
+    the <a href="/foundation">six principles</a> and try the guides on your own
+    work. The reading below offers more detail when you need it.
+  </p>
+  <p>
+    The guides suggest ways to work; they do not guarantee results. Examples and
+    planning targets are there to help you get started. Check what works for
+    your team and adjust as you learn.
+  </p>
+  <h2 id="sources">Explore the reading</h2>
+  <p>
+    These articles include practical advice, surveys, and authors’ experiences.
+    They offer different perspectives, rather than proof of the whole framework.
+  </p>
+  <ul>
+    {sources.map((source) => (
+      <li id={source.id}>
+        <a href={source.url}>{source.title.replaceAll('_', '')}</a>
+      </li>
+    ))}
+  </ul>
+  <h2 id="claims">Applying what you read</h2>
+  <ul>
+    <li>
+      Try one practice on a small piece of work before using it more widely.
+    </li>
+    <li>Treat team sizes, dates, and targets as examples to adapt.</li>
+    <li>Look at quality and review effort alongside speed.</li>
+    <li>
+      Use the role guides to discuss learning, rather than to score people.
+    </li>
+  </ul>
+  <p>
+    The <a href="/practitioners">Practitioner Guide</a> helps you plan and check
+    the work. The <a href="/leadership">Leadership Guide</a> helps you discuss
+    responsibilities and learning with your team.
+  </p>
+  <h2 id="maintenance">Help improve HELM</h2>
+  <p>
+    Found something unclear or incorrect?{' '}
+    <a href="https://github.com/firaskafri/helm-framework.com/issues/new">
+      Tell us which page you were reading and what would help.
+    </a>
+  </p>
+</Reference>

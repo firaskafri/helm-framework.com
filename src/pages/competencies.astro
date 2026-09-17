@@ -1,0 +1,124 @@
+---
+import Reference from '../layouts/Reference.astro';
+import CompetencyExamples from '../components/CompetencyExamples.astro';
+import {
+  SHARED_COMPETENCIES,
+  COMPETENCY_EXAMPLE_THEMES,
+} from '../data/shared-competencies';
+---
+
+<Reference
+  title="Shared skills for working with AI"
+  description="Choose a skill and your role for practical guidance, everyday AI-assisted work examples and a small exercise to help you improve."
+>
+  <h1>Shared skills for working with AI</h1>
+  <p class="skill-intro">
+    Good AI-assisted work takes more than a useful tool. HELM suggests five
+    competencies—skills and behaviors you can practice—to help you make good
+    choices, work with others and take responsibility for results.
+  </p>
+  <p>
+    Choose a skill you want to develop, then your role. Each guide gives you
+    practical steps, an example and a small exercise. These ideas build on{' '}
+    <a href="/foundation">HELM’s six principles</a>.
+  </p>
+
+  <h2 id="five-shared-skills">Five skills to practice</h2>
+  <ol class="skill-definitions" role="list">
+    {SHARED_COMPETENCIES.map((competency, index) => (
+      <li>
+        <h3 id={competency.id}>
+          <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          {competency.title}
+        </h3>
+        <div class="skill-definition-copy">
+          <p>{competency.description}</p>
+          <a
+            class="skill-practice-link"
+            href={`#${COMPETENCY_EXAMPLE_THEMES[0].id}-${competency.id}`}
+            data-practice-target="competency-examples"
+            data-practice-competency={competency.id}
+          >
+            Practice {competency.title}
+          </a>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <h2 id="examples">Build a skill in your role</h2>
+  <p>
+    Pick one competency to work on. The expectations stay the same across roles;
+    the guidance helps you put them into practice in your own work. The examples
+    are illustrative situations to learn from and adapt.
+  </p>
+  <CompetencyExamples />
+
+  <h2 id="try-it">Choose one thing to practice</h2>
+  <p>Pick a recent piece of AI-assisted work and discuss:</p>
+  <ol>
+    <li>Which of these behaviors helped, or would have helped?</li>
+    <li>What example from the work supports that view?</li>
+    <li>What will you practice on the next similar task?</li>
+  </ol>
+  <p>
+    Consider the opportunity and support people had. If there is not enough
+    evidence, say so. Use this for learning and feedback; a formal evaluation
+    method is still being developed.
+  </p>
+</Reference>
+
+<style>
+  .skill-intro {
+    font-size: 1.15rem;
+  }
+
+  .skill-definitions {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .skill-definitions li {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--color-border);
+    break-inside: avoid;
+  }
+
+  .skill-definitions h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.7;
+  }
+
+  .skill-definitions h3 span {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .skill-definitions p {
+    margin: 0;
+    color: var(--color-ink-light);
+  }
+
+  .skill-practice-link {
+    display: inline-block;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 639px) {
+    .skill-definitions li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.4rem;
+    }
+  }
+</style>

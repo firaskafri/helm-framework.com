@@ -96,7 +96,10 @@ function validateEntries(
 }
 
 export async function loadDocs(): Promise<CollectionEntry<'docs'>[]> {
-  const docs = await getCollection('docs');
+  const docs = await getCollection(
+    'docs',
+    ({ data }) => data.publicationStatus !== 'draft',
+  );
   validateEntries('docs collection', docs, REQUIRED_DOC_IDS);
 
   const foundation = docs.find(({ id }) => id === 'foundation');
@@ -121,7 +124,10 @@ export async function loadDocs(): Promise<CollectionEntry<'docs'>[]> {
 }
 
 export async function loadRoles(): Promise<CollectionEntry<'roles'>[]> {
-  const roles = await getCollection('roles');
+  const roles = await getCollection(
+    'roles',
+    ({ data }) => data.publicationStatus !== 'draft',
+  );
   validateEntries('roles collection', roles, REQUIRED_ROLE_IDS);
   return roles;
 }

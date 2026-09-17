@@ -27,7 +27,7 @@ Browser tests build `/checks/components` only when `HELM_TEST_FIXTURES=1`, exerc
 - `quality`: formatting, ESLint, Astro/TypeScript diagnostics, mandatory linked update notes and changelog synchronization, unit tests, generated-content checks, source-safety checks, dependency audit, browser/accessibility tests.
 - `container`: build the production image and check serving, 404 behavior and non-root execution.
 
-The workflow uploads browser diagnostics and a production `dist/` artifact named with the source commit. Action references and image bases are pinned. The artifact is suitable for deployment only after both checks pass.
+The workflow uploads browser diagnostics and a production `dist/` artifact named with the source commit. Action references and image bases are pinned. The artifact is suitable for deployment only after both checks pass and the audience-first editorial review in `docs/public-publishing.md` is complete. Every Astro build, including the Docker build, runs the public-content guardrail. Test fixtures and unreviewed public wording must never be deployed.
 
 GitHub Actions verifies source and container behavior but does not publish or
 deploy production images. Production releases are built from a clean, exact
@@ -48,7 +48,7 @@ This configuration was applied and confirmed by API readback on 2026-09-17. It w
 
 ## Publishing sequence
 
-1. Review the candidate diff and evidence report in `docs/releases/1.0.1.md`.
+1. Review the candidate diff and evidence report in `docs/releases/1.0.1.md`. Complete the rendered audience/readiness review in `docs/public-publishing.md` and record which pages and shared surfaces were inspected. A passing build alone is not publication approval.
 2. Confirm the required GitHub checks passed for the exact release commit and verify the nginx image.
 3. Set `FRAMEWORK_RELEASE_STATE` and the matching release entry in `src/data/updates.json` to `published`, set its publication/update dates, run `npm run updates:sync`, and record approval/completion evidence. Re-run checks for this release change. See `docs/updates.md`.
 4. Merge the approved revision and create the explicit `framework-v1.0.1` tag and repository release.

@@ -2,7 +2,7 @@
 id: 'practitioners'
 title: 'Practitioner Guide'
 subtitle: 'How we build and operate with AI agents day-to-day.'
-description: 'Architecture patterns, guardrails, operating loop, and maturity model for engineers, tech leads, PMs, and designers.'
+description: 'Choose tasks, set limits, check results, and learn from day-to-day work with AI agents.'
 order: 2
 audience: 'practitioners'
 publicationStatus: 'published'
@@ -33,7 +33,7 @@ import EvidenceNote from '../../components/EvidenceNote.astro';
 
 <EvidenceNote claim="agent-anatomy" />
 
-Every agent, regardless of framework or vendor, is composed of five core components.
+These five parts help explain how an agent works.
 
 | Component        | What It Does                                                                                                     | Example                                                  |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
@@ -49,7 +49,7 @@ These five components are the atoms. Everything else -- workflows, agents, multi
 
 <EvidenceNote claim="workflows" />
 
-A critical architectural distinction, first articulated by Anthropic, governs every design decision downstream:
+Anthropic offers a useful distinction between workflows and agents:
 
 | Dimension          | Workflows                                 | Agents                                       |
 | ------------------ | ----------------------------------------- | -------------------------------------------- |
@@ -68,7 +68,7 @@ The decision rule: **use workflows when you can define the task decomposition in
 
 Tools fall into three types. This classification determines how you design, test, and permission agent capabilities:
 
-**Data tools** -- Retrieve context and information. Read-only, low-risk.
+**Data tools** -- Retrieve context and information. They can expose sensitive data even when they cannot change it.
 Examples: Query databases, read documents, search the web, pull CRM records.
 
 **Action tools** -- Interact with systems to change state. Write operations, higher risk.
@@ -77,7 +77,7 @@ Examples: Send emails, update records, create tickets, issue refunds, deploy cod
 **Orchestration tools** -- Other agents exposed as tools. Meta-level coordination.
 Examples: A "research agent" callable by a "manager agent," a specialist agent invoked by a triage agent.
 
-Risk rating should be assigned per tool: low (read-only), medium (reversible writes), high (irreversible writes, financial impact, external-facing). These ratings feed directly into the Guardrail Stack.
+Assess each tool’s risk by what it can access, who could be affected, and whether a mistake can be undone. Use that assessment to choose the limits and checks it needs.
 
 ### Composition Patterns
 
@@ -138,7 +138,7 @@ For how each traditional role transforms under these boundaries — from Softwar
 
 A five-level maturity model, drawing on Eledath's "Levels of Agentic Engineering" framework and extending it with team-level dimensions, product integration, and failure modes. Each level says where a team is, what it can do, what it needs to move up, and what risks come with the territory.
 
-> This is the canonical maturity model for the entire HELM framework. The [Leadership Guide](/leadership#maturity-model) references this model and provides a quick-reference table for leadership conversations.
+> The [Leadership Guide](/leadership#maturity-model) has a short version of these levels for team discussions.
 
 <MaturityStepper />
 

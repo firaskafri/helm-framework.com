@@ -1,8 +1,8 @@
 ---
 id: 'product-manager'
 title: 'Product Manager'
-subtitle: 'From directing execution to orchestrating intent through precision requirements'
-description: "Product managers wrote detailed PRDs and directed engineering execution. When agents execute against well-defined criteria at 10x speed, vague requirements produce vague results at 10x speed. The PM's value is now in orchestrating intent, not directing execution."
+subtitle: 'Make goals clear and help your team build what users need'
+description: 'Help your team solve the right problems with AI agents: make goals clear, agree what good results look like, and check what users need.'
 order: 7
 publicationStatus: 'published'
 frameworkVersion: '1.0.1'

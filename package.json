@@ -12,6 +12,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check:content": "npm run build && node scripts/check-built-content.mjs",
+    "check:audience": "node scripts/public-content-guard.mjs",
     "check:types": "astro check",
     "updates:sync": "tsx scripts/check-updates.ts --write",
     "check:updates": "tsx scripts/check-updates.ts",

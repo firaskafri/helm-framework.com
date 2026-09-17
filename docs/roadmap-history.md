@@ -1,6 +1,28 @@
-# HELM Roadmap History — Before the 2026-09-17 Refresh
+# HELM Roadmap History
 
-This snapshot preserves the earlier plan, completed work, decision log and update history. Its statuses and release assignments describe that point in time. Use [`../ROADMAP.md`](../ROADMAP.md) for current priorities and [`roadmap-backlog.md`](roadmap-backlog.md) for retained conditional work and continuing requirements. The current roadmap's 2026-09-17 refresh supersedes the pilot-first adaptation sequencing below and makes the previously unspecified shared-competency follow-on work explicit.
+Use [`../ROADMAP.md`](../ROADMAP.md) for current scope and [`roadmap-backlog.md`](roadmap-backlog.md) for parked ideas and maintenance notes. Historical statuses and release assignments below describe their own point in time.
+
+## 2026-09-17 — Simplicity-first scope decision
+
+Following the earlier refresh on the same day, the owner clarified that HELM should remain a concise guiding document and every enhancement should serve simplicity. Additions are limited to shared, cross-role competency evaluation for AI-assisted work and possibly a short playbook tested through one pilot.
+
+- COMP-001/COMP-002/COMP-003 now supply the selection, brief definitions/examples and language checks needed by the evaluation. REV-001/REV-002/REV-003 deliver one resource for reflection, feedback and development, including those definitions.
+- COMP-004's separate guide publication and V12-001/V12-002's adaptation guide/trial are deferred. V11-001/V11-005/V11-003/V11-004 are deferred pending a decision on the optional playbook/pilot; Phoenix remains a candidate.
+- The earlier 1.1/1.2/1.3 scope assignments are retired. Diagnostic software, further guides, role-specific evaluation, function packs and company expansion require a new scope decision.
+- Existing guidance corrections remain maintenance priorities. The evaluation does not depend on a workflow pilot; a playbook pilot does not validate the evaluation method.
+- FND-004 remains In review to reconcile 1.0.1's published metadata with the incomplete release verification report. PRs #11 and #22 are already merged; this decision does not claim new deployment evidence.
+
+This decision supersedes both earlier roadmaps below. The linked Updates note is `a-simpler-helm-roadmap`; it remains a release candidate pending publication.
+
+## 2026-09-17 — Earlier parallel-output refresh (RM-002)
+
+The [committed roadmap snapshot](https://github.com/firaskafri/helm-framework.com/blob/75f493f2318a5c23028da534128d077c9672b2c8/ROADMAP.md) preserves the complete intervening plan. It made workflow practice and shared competencies independent tracks, added COMP-001 through COMP-004 and REV-001 through REV-003, and made V12-001 ready to draft independently of Phoenix. It targeted the kit/pilot at 1.1, competency/development and adaptation outputs at 1.2, and a conditional diagnostic at 1.3.
+
+RM-002 was recorded Done with local content and targeted browser/accessibility checks. RM-001, VER-001, FND-001, FND-002, FND-003 and FND-005 retain their implementation evidence in the snapshot, the records below, `quality-baseline.md`, `releases/1.0.1.md` and `updates.md`. Completion of implementation does not itself establish publication.
+
+## Snapshot — Before the 2026-09-17 Refresh
+
+The following snapshot preserves the earlier plan, completed work, decision log and update history. Its pilot-first sequencing was superseded by the parallel-output refresh, and both plans are now superseded by the simplicity-first scope decision above.
 
 **Status:** Historical snapshot
 **Last updated:** 2026-09-17

@@ -87,8 +87,6 @@ for (const page of pageRecords) {
     failures.push(`${page.publicPath} exceeds the 400 KB HTML budget`);
   if (!page.$('meta[name="helm:framework-version"]').attr('content'))
     failures.push(`${page.publicPath} lacks a framework version`);
-  if (!page.$('meta[name="helm:evidence-state"]').attr('content'))
-    failures.push(`${page.publicPath} lacks an evidence state`);
   page.$('script[type="application/ld+json"]').each((_, element) => {
     try {
       JSON.parse(page.$(element).text());

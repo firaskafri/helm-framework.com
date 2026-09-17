@@ -1,0 +1,27 @@
+---
+description: Keep every HELM website release simple, audience-focused, and publicly presentable
+alwaysApply: true
+---
+
+# Public audience release guard
+
+- HELM is a simple framework with practical guides. Every public page must help
+  its intended reader understand something or take a useful next step.
+- Never publish unfinished, review-oriented, maintainer-only, or
+  audience-inappropriate material.
+- Keep technical implementation, release mechanics, internal evidence labels,
+  correction registers, task IDs, source-review logs, and acceptance criteria
+  out of website copy, navigation, metadata, feeds, and downloads.
+- Use plain language, short explanations, concrete examples, and descriptive
+  links. Explain specialist terms only when the intended audience needs them.
+- Preserve honest limitations in reader-friendly language; do not make
+  unsupported guidance sound proven.
+- Every public route must declare its audience and purpose in
+  `scripts/public-audiences.json`.
+- Follow `docs/public-publishing.md` and update the reader-facing Updates entry
+  for public changes.
+- Review rendered desktop, mobile, no-JavaScript, metadata, and feed output.
+- Run `npm run check`. Never weaken, bypass, or add exceptions to
+  `scripts/public-content-guard.mjs` to make a release pass.
+- If any public surface is not ready to send directly to its intended reader,
+  simplify it or keep it out of the release.

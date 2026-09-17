@@ -1,0 +1,86 @@
+{
+  "/": {
+    "audience": "People new to HELM",
+    "purpose": "Understand HELM and choose a guide."
+  },
+  "/foundation": {
+    "audience": "Everyone using HELM",
+    "purpose": "Understand six simple principles and try a useful action."
+  },
+  "/practitioners": {
+    "audience": "People doing AI-assisted work",
+    "purpose": "Choose tasks, set limits, check results, and learn from the work."
+  },
+  "/leadership": {
+    "audience": "Team leaders",
+    "purpose": "Agree responsibilities, support learning, and review team results."
+  },
+  "/competencies": {
+    "audience": "People doing AI-assisted work across content, engineering, sales and account management",
+    "purpose": "Choose a competency and role, learn a practical approach and use an example and exercise to improve that skill."
+  },
+  "/roles": {
+    "audience": "Team members and people managers",
+    "purpose": "Find guidance for discussing responsibilities and skills."
+  },
+  "/roles/software-engineer": {
+    "audience": "Software engineers",
+    "purpose": "Discuss how to build and review software with agents."
+  },
+  "/roles/staff-engineer": {
+    "audience": "Staff engineers",
+    "purpose": "Discuss technical direction and help teams work with agents."
+  },
+  "/roles/engineering-manager": {
+    "audience": "Engineering managers",
+    "purpose": "Support team learning and review the impact of agent work."
+  },
+  "/roles/sre-devops-engineer": {
+    "audience": "Reliability and operations engineers",
+    "purpose": "Discuss reliable agent-assisted operations and human responsibilities."
+  },
+  "/roles/qa-engineer": {
+    "audience": "Quality engineers",
+    "purpose": "Discuss how to check the quality of agent work."
+  },
+  "/roles/platform-engineer": {
+    "audience": "Platform engineers",
+    "purpose": "Discuss shared tools and support for teams using agents."
+  },
+  "/roles/product-manager": {
+    "audience": "Product managers",
+    "purpose": "Make goals clear and check that agent work meets user needs."
+  },
+  "/roles/product-designer": {
+    "audience": "Product designers",
+    "purpose": "Discuss how to design and review experiences involving agents."
+  },
+  "/roles/competency-map": {
+    "audience": "Team members and people managers",
+    "purpose": "Explore the skills described in role guides and choose what to discuss."
+  },
+  "/evidence": {
+    "audience": "Readers looking for more context",
+    "purpose": "Find further reading and practical limits to consider when using the guides."
+  },
+  "/roadmap": {
+    "audience": "People following HELM",
+    "purpose": "Understand the small set of planned improvements."
+  },
+  "/updates": {
+    "audience": "People using HELM",
+    "purpose": "See what changed, why it helps, and where to read it."
+  },
+  "/changelog": {
+    "audience": "People comparing HELM releases",
+    "purpose": "Find a clear history of reader-facing changes."
+  },
+  "/licensing": {
+    "audience": "People reusing HELM",
+    "purpose": "Understand how to share, adapt, and credit the material."
+  },
+  "/404.html": {
+    "audience": "People following a missing link",
+    "purpose": "Find a useful route back to the guides."
+  }
+}

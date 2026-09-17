@@ -1,0 +1,389 @@
+---
+import {
+  SHARED_COMPETENCIES,
+  COMPETENCY_EXAMPLE_THEMES,
+} from '../data/shared-competencies';
+import { componentIds } from '../lib/componentIds';
+
+interface Props {
+  id?: string;
+}
+
+const ids = componentIds('competency-examples', Astro.props.id);
+---
+
+<div class="skill-examples" id={ids.root} data-interactive>
+  <div class="skill-filter">
+    <label for={ids.record('skill-to-practice')}>I want to improve</label>
+    <select id={ids.record('skill-to-practice')}>
+      {SHARED_COMPETENCIES.map((competency) => (
+        <option value={competency.id}>{competency.title}</option>
+      ))}
+    </select>
+  </div>
+  <p class="skill-role-label">In my role or team</p>
+  <nav class="skill-fallback" aria-label="Jump to role guides">
+    {COMPETENCY_EXAMPLE_THEMES.map((theme) => (
+      <a href={`#${ids.record(theme.id)}`}>{theme.title}</a>
+    ))}
+  </nav>
+  <div class="skill-tabs" role="tablist" aria-label="Role or team">
+    {COMPETENCY_EXAMPLE_THEMES.map((theme, index) => (
+      <button
+        type="button"
+        role="tab"
+        class:list={['skill-tab', index === 0 && 'skill-tab-active']}
+        id={ids.record(`example-tab-${theme.id}`)}
+        aria-controls={ids.record(theme.id)}
+        aria-selected={index === 0 ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
+      >
+        {theme.title}
+      </button>
+    ))}
+  </div>
+
+  {COMPETENCY_EXAMPLE_THEMES.map((theme, index) => (
+    <section
+      class="skill-panel"
+      id={ids.record(theme.id)}
+      role="tabpanel"
+      aria-labelledby={ids.record(`example-tab-${theme.id}`)}
+      tabindex="0"
+      hidden={index !== 0}
+    >
+      <header class="skill-situation">
+        <p class="skill-theme">{theme.title} · Practice guide</p>
+        <h3>{theme.situation}</h3>
+      </header>
+      {SHARED_COMPETENCIES.map((competency, competencyIndex) => (
+        <article
+          class="skill-guide"
+          id={ids.record(`${theme.id}-${competency.id}`)}
+          data-competency={competency.id}
+          tabindex="-1"
+          hidden={competencyIndex !== 0}
+        >
+          <div class="skill-guide-heading">
+            <h4>{competency.title}</h4>
+            <a
+              class="skill-guide-link"
+              href={`#${ids.record(`${theme.id}-${competency.id}`)}`}
+              aria-label={`Link to ${competency.title} for ${theme.title}`}
+            >
+              Link to this guide
+            </a>
+          </div>
+          <h5>How to build it</h5>
+          <ol class="skill-steps">
+            {theme.guidance[competency.id].steps.map((step) => (
+              <li>{step}</li>
+            ))}
+          </ol>
+          <div class="skill-worked-example">
+            <h5>Illustrative example</h5>
+            <p>{theme.examples[competency.id]}</p>
+          </div>
+          <h5>Try it on your next task</h5>
+          <p class="skill-practice">{theme.guidance[competency.id].practice}</p>
+          <p class="skill-self-check">
+            <strong>Check yourself:</strong> {competency.selfCheck}
+          </p>
+        </article>
+      ))}
+    </section>
+  ))}
+</div>
+
+<script>
+  import { enhanceTabs } from '../lib/enhanceTabs';
+
+  document.querySelectorAll<HTMLElement>('.skill-examples').forEach((wrap) => {
+    const select = wrap.querySelector<HTMLSelectElement>(
+      '.skill-filter select',
+    );
+    const panels = [...wrap.querySelectorAll<HTMLElement>('.skill-panel')];
+    const guides = [...wrap.querySelectorAll<HTMLElement>('.skill-guide')];
+    const tabs = [...wrap.querySelectorAll<HTMLButtonElement>('.skill-tab')];
+    if (!select || !guides.length) return;
+
+    let initialized = false;
+
+    function activeGuide() {
+      const panel = panels.find((item) => !item.hidden);
+      return guides.find(
+        (guide) =>
+          panel?.contains(guide) && guide.dataset.competency === select!.value,
+      );
+    }
+
+    function updateAddress() {
+      if (!initialized) return;
+      const guide = activeGuide();
+      if (guide) history.replaceState(history.state, '', `#${guide.id}`);
+    }
+
+    function showSkill() {
+      guides.forEach((guide) => {
+        guide.hidden = guide.dataset.competency !== select!.value;
+      });
+    }
+
+    function openGuide(guide: HTMLElement) {
+      const panel = guide.closest<HTMLElement>('.skill-panel');
+      const tab = tabs.find(
+        (item) => item.getAttribute('aria-controls') === panel?.id,
+      );
+      if (!tab || !guide.dataset.competency) return;
+      select!.value = guide.dataset.competency;
+      showSkill();
+      tab.click();
+      requestAnimationFrame(() => {
+        guide.focus({ preventScroll: true });
+        guide.scrollIntoView({ block: 'start', behavior: 'instant' });
+      });
+    }
+
+    function syncGuideFragment() {
+      let fragment: string;
+      try {
+        fragment = decodeURIComponent(window.location.hash.slice(1));
+      } catch {
+        return;
+      }
+      const guide = guides.find((item) => item.id === fragment);
+      if (guide) openGuide(guide);
+    }
+
+    enhanceTabs(wrap, '.skill-tab', '.skill-panel', {
+      activeClass: 'skill-tab-active',
+      onActivate: updateAddress,
+    });
+    showSkill();
+    syncGuideFragment();
+    initialized = true;
+    select.addEventListener('change', () => {
+      showSkill();
+      updateAddress();
+    });
+    window.addEventListener('hashchange', syncGuideFragment);
+
+    document
+      .querySelectorAll<HTMLAnchorElement>('[data-practice-target]')
+      .forEach((link) => {
+        if (link.dataset.practiceTarget !== wrap.id) return;
+        link.addEventListener('click', (event) => {
+          if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          )
+            return;
+          const panel = panels.find((item) => !item.hidden);
+          const guide = guides.find(
+            (item) =>
+              panel?.contains(item) &&
+              item.dataset.competency === link.dataset.practiceCompetency,
+          );
+          if (!guide) return;
+          event.preventDefault();
+          if (window.location.hash === `#${guide.id}`) openGuide(guide);
+          else window.location.hash = guide.id;
+        });
+      });
+  });
+</script>
+
+<style>
+  .skill-filter {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 22rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .skill-filter label,
+  .skill-role-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .skill-filter select {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    background: white;
+    color: var(--color-ink);
+    font: inherit;
+  }
+
+  .skill-role-label {
+    margin: 0 0 0.5rem;
+  }
+
+  .skill-fallback {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .skill-examples:not([data-enhanced]) .skill-filter,
+  .skill-examples[data-enhanced] .skill-fallback {
+    display: none;
+  }
+
+  .skill-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .skill-tab {
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: white;
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .skill-tab:hover {
+    border-color: var(--color-terracotta);
+  }
+
+  .skill-tab-active {
+    border-color: var(--color-terracotta);
+    background: var(--color-terracotta);
+    color: white;
+  }
+
+  .skill-panel {
+    margin: 0 0 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: white;
+    overflow: clip;
+  }
+
+  .skill-situation {
+    padding: 1.5rem;
+    background: var(--color-cream-dark);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .skill-theme {
+    margin: 0 0 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .skill-situation h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+
+  .skill-guide {
+    padding: 1.5rem;
+  }
+
+  .skill-guide + .skill-guide {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .skill-guide-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .skill-guide h4 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+  }
+
+  .skill-guide h5 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    break-after: avoid;
+  }
+
+  .skill-guide p,
+  .skill-steps {
+    margin: 0;
+    color: var(--color-ink-light);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .skill-steps {
+    padding-left: 1.25rem;
+  }
+
+  .skill-steps li {
+    padding-left: 0.25rem;
+    margin: 0 0 0.75rem;
+  }
+
+  .skill-worked-example {
+    padding: 1.25rem;
+    margin: 1.25rem 0;
+    background: var(--color-cream);
+    border-left: 3px solid var(--color-terracotta);
+    break-inside: avoid;
+  }
+
+  .skill-guide .skill-self-check {
+    margin-top: 1rem;
+  }
+
+  .skill-guide-link {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 639px) {
+    .skill-tab {
+      flex: 1 1 calc(50% - 0.5rem);
+      padding: 0.7rem 0.5rem;
+    }
+
+    .skill-situation {
+      padding: 1.25rem;
+    }
+
+    .skill-guide {
+      padding: 1.25rem;
+    }
+  }
+
+  @media print {
+    .skill-filter,
+    .skill-role-label,
+    .skill-fallback,
+    .skill-guide-link {
+      display: none;
+    }
+
+    .skill-panel {
+      overflow: visible;
+    }
+
+    .skill-situation {
+      break-after: avoid;
+    }
+  }
+</style>
