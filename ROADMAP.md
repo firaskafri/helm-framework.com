@@ -5,7 +5,7 @@
 **Roadmap owner:** Firas Kafri
 **Review cadence:** Weekly during active delivery; monthly otherwise
 **Current focus:** Try a small kit on one real workflow, fix misleading guidance, and learn what changes for the people doing the work
-**Release work:** Verify the HELM 1.0.1 hardening candidate on GitHub; local quality gates, evidence provenance, accessible static publishing and licensing are implemented
+**Release work:** HELM 1.0.1 hardening is verified locally and on GitHub; PR #11 awaits review, merge and production publication
 
 ## Purpose
 
@@ -127,21 +127,21 @@ Roadmap releases are outcome-gated rather than date-gated. A release receives ca
 
 ### Active work tracker
 
-| ID      | Priority | Work item                                                      | Release           | Status      | Owner | Target review       | Completion evidence                                                                                                                         |
-| ------- | -------- | -------------------------------------------------------------- | ----------------- | ----------- | ----- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| RM-001  | P0       | Establish the vNext roadmap                                    | Planning          | Done        | Firas | 2026-09-05          | `ROADMAP.md`                                                                                                                                |
-| VER-001 | P0       | Snapshot the current public framework                          | HELM 1.0.0        | Done        | Firas | 2026-09-05          | `framework-v1.0.0`, `CHANGELOG.md`, and publication metadata                                                                                |
-| FND-001 | P0       | Inventory canonical concepts and actual sources                | HELM 1.0.x        | Done        | Firas | 2026-09-05          | `docs/content-architecture.md` and `npm run check:content`                                                                                  |
-| V11-001 | P0       | Describe one Phoenix workflow as it works today                | HELM 1.1          | Ready       | Firas | Next roadmap review | Short note using existing tickets: work, effort, owners, and what people need to know; agree what can be shared                             |
-| V11-002 | P0       | Resolve credibility-critical guidance and classify corrections | HELM 1.1 planning | Ready       | Firas | Next roadmap review | Correction register covering autonomy, staffing, ownership, safeguards, source provenance, acceptance checks, and compatibility decisions   |
-| FND-002 | P0       | Record the quality baseline and publication blockers           | HELM 1.0.x        | Done        | Firas | 2026-09-17          | `npm run check`: 8 unit and 39 browser checks validated; `docs/quality-baseline.md` and `docs/releases/1.0.1.md`                            |
-| FND-003 | P1       | Complete claim provenance and evidence labels                  | HELM 1.0.x        | Done        | Firas | 2026-09-17          | 28 claim records, source register, `/evidence`, `docs/corrections.md`; build and provenance checks pass; semantic fixes remain with V11-002 |
-| FND-004 | P1       | Complete static publishing, licenses and release verification  | HELM 1.0.x        | In progress | Firas | 2026-09-17          | Local artifact and licensing verified; required checks configured; remote quality/container run pending                                     |
-| V11-005 | P1       | Agree how to run the pilot safely                              | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-001 required; record owners, access limits, stop conditions, and what to compare in the same work note                                  |
-| V11-003 | P1       | Test the work redesign kit on one workflow                     | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-001 and V11-005 required; then editable kit, before/after work map, and non-author usability findings                                   |
-| V11-004 | P1       | Publish the first approved pilot report                        | HELM 1.1          | Blocked     | Firas | Next roadmap review | V11-003 required; then approved delivery and people-impact findings, limitations, and retain/revise/reject decisions                        |
-| V12-001 | P1       | Write a short team adaptation guide from pilot lessons         | HELM 1.2          | Blocked     | Firas | Pilot review        | V11-003 required; one worked example and prompts for responsibilities, skills, and next steps                                               |
-| V12-002 | P1       | Try the guide in a real team review                            | HELM 1.2          | Blocked     | Firas | Guide review        | V12-001 required; someone other than the author can use it, and confusion is fixed or clearly noted                                         |
+| ID      | Priority | Work item                                                      | Release           | Status    | Owner | Target review       | Completion evidence                                                                                                                         |
+| ------- | -------- | -------------------------------------------------------------- | ----------------- | --------- | ----- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| RM-001  | P0       | Establish the vNext roadmap                                    | Planning          | Done      | Firas | 2026-09-05          | `ROADMAP.md`                                                                                                                                |
+| VER-001 | P0       | Snapshot the current public framework                          | HELM 1.0.0        | Done      | Firas | 2026-09-05          | `framework-v1.0.0`, `CHANGELOG.md`, and publication metadata                                                                                |
+| FND-001 | P0       | Inventory canonical concepts and actual sources                | HELM 1.0.x        | Done      | Firas | 2026-09-05          | `docs/content-architecture.md` and `npm run check:content`                                                                                  |
+| V11-001 | P0       | Describe one Phoenix workflow as it works today                | HELM 1.1          | Ready     | Firas | Next roadmap review | Short note using existing tickets: work, effort, owners, and what people need to know; agree what can be shared                             |
+| V11-002 | P0       | Resolve credibility-critical guidance and classify corrections | HELM 1.1 planning | Ready     | Firas | Next roadmap review | Correction register covering autonomy, staffing, ownership, safeguards, source provenance, acceptance checks, and compatibility decisions   |
+| FND-002 | P0       | Record the quality baseline and publication blockers           | HELM 1.0.x        | Done      | Firas | 2026-09-17          | `npm run check`: 8 unit and 39 browser checks validated; `docs/quality-baseline.md` and `docs/releases/1.0.1.md`                            |
+| FND-003 | P1       | Complete claim provenance and evidence labels                  | HELM 1.0.x        | Done      | Firas | 2026-09-17          | 28 claim records, source register, `/evidence`, `docs/corrections.md`; build and provenance checks pass; semantic fixes remain with V11-002 |
+| FND-004 | P1       | Complete static publishing, licenses and release verification  | HELM 1.0.x        | In review | Firas | 2026-09-17          | PR #11; GitHub run 35206062832 quality/container checks pass; `docs/releases/1.0.1.md`; merge and production publication pending            |
+| V11-005 | P1       | Agree how to run the pilot safely                              | HELM 1.1          | Blocked   | Firas | Next roadmap review | V11-001 required; record owners, access limits, stop conditions, and what to compare in the same work note                                  |
+| V11-003 | P1       | Test the work redesign kit on one workflow                     | HELM 1.1          | Blocked   | Firas | Next roadmap review | V11-001 and V11-005 required; then editable kit, before/after work map, and non-author usability findings                                   |
+| V11-004 | P1       | Publish the first approved pilot report                        | HELM 1.1          | Blocked   | Firas | Next roadmap review | V11-003 required; then approved delivery and people-impact findings, limitations, and retain/revise/reject decisions                        |
+| V12-001 | P1       | Write a short team adaptation guide from pilot lessons         | HELM 1.2          | Blocked   | Firas | Pilot review        | V11-003 required; one worked example and prompts for responsibilities, skills, and next steps                                               |
+| V12-002 | P1       | Try the guide in a real team review                            | HELM 1.2          | Blocked   | Firas | Guide review        | V12-001 required; someone other than the author can use it, and confusion is fixed or clearly noted                                         |
 
 When an item enters **In progress**, its target review must be a specific date. Add or split tracker rows when a work item cannot be reviewed as one coherent change.
 
@@ -149,7 +149,7 @@ When an item enters **In progress**, its target review must be a specific date. 
 
 1. Describe one real workflow and what people currently do (V11-001).
 2. Resolve credibility-critical guidance and its compatibility decisions (V11-002), including the urgent provenance subset of FND-003.
-3. Complete release verification (FND-004); the quality baseline and publication-blocking repairs (FND-002) are locally verified.
+3. Review and publish the verified hardening candidate (FND-004); quality, evidence and container checks pass.
 
 Keep no more than three items active. Finish required hardening alongside the pilot as capacity permits. The questionnaire, more role pages, comprehensive templates, function packs, and Studio conversion work can wait. Cosmetic repairs and optional infrastructure must not delay trying the kit; public release gates still apply.
 
@@ -189,7 +189,7 @@ A roadmap item is Done only when:
 
 **Objective:** Make the existing framework maintainable, testable, accessible, and genuinely single-source before expanding it.
 
-**1.0.1 candidate status (2026-09-17):** Repository implementation passes the full local quality gate. Checkmarks below record implemented and locally verified work; public publication and remote container validation remain tracked by FND-004. The conditional infrastructure backlog remains demand-gated.
+**1.0.1 candidate status (2026-09-17):** Repository implementation passes local and GitHub quality/container gates. Checkmarks below record verified implementation; merge and production publication remain tracked by FND-004. See [PR #11](https://github.com/firaskafri/helm-framework.com/pull/11) and `docs/releases/1.0.1.md`. The conditional infrastructure backlog remains demand-gated.
 
 ### Content architecture
 
@@ -228,7 +228,7 @@ These items remain accepted work. Schedule them only when a named consumer or do
 - [x] Add browser tests for keyboard navigation, no-JavaScript fallbacks, and critical responsive paths.
 - [x] Add automated accessibility checks.
 - [x] Add dependency, secret, and unsafe-content checks appropriate to the static publishing pipeline.
-- [x] Add pull-request CI that runs all quality gates and a production build; first remote execution is tracked by FND-004.
+- [x] Add pull-request CI that runs all quality gates and a production build; GitHub run 35206062832 passed both required jobs.
 
 ### Publishing and interface repairs
 
@@ -252,7 +252,8 @@ These items remain accepted work. Schedule them only when a named consumer or do
 - [x] Major claims have a recorded source or explicit unsupported/provisional status, with semantic corrections tracked separately.
 - [x] Required GitHub checks block merging with failed type, content, accessibility, test, build or container checks; strict enforcement including administrators confirmed by API readback.
 - [x] Core content and navigation remain usable without JavaScript.
-- [ ] Static deployment has passed the remote container smoke test and the production publication steps in `docs/deployment.md`.
+- [x] Static deployment contains no unexplained runtime layer; remote container smoke tests passed.
+- [ ] Complete merge, tagging and the production publication steps in `docs/deployment.md`.
 
 ---
 
@@ -729,6 +730,8 @@ Replace the large adaptation protocol with a short team guide, and combine the s
 - Selected static nginx deployment, pinned dependencies/actions/images, documented port migration and rollback, and connected Docker publication to successful checks.
 - Applied required GitHub checks and verified the repository setting by API readback.
 - Recorded 1.0.1 as a release candidate; remote workflow/container verification and production publication remain outstanding.
+- Merged the newer adaptation-focused roadmap from main while retaining hardening progress and evidence.
+- Verified GitHub run 35206062832: both quality and container jobs passed. FND-004 is in review; merge and production publication remain outstanding.
 
 ### 2026-09-05
 

@@ -25,7 +25,7 @@ The static artifact is now directly in `dist/`. The Docker serving port changes 
 ### Known limitations
 
 - Evidence labels expose provisional and unverified claims; they do not validate the framework. The planned 1.1 pilot and conceptual corrections remain outstanding.
-- Container execution and the first remote CI run must pass before publication. See `docs/releases/1.0.1.md` and `docs/deployment.md` for the release record and hosting steps.
+- Quality and container checks passed in [GitHub Actions](https://github.com/firaskafri/helm-framework.com/actions/runs/35206062832). Merge, release tagging and production publication remain separate steps; see `docs/releases/1.0.1.md` and `docs/deployment.md`.
 - Automated accessibility checks are not an independent screen-reader or production-performance audit.
 
 ## 1.0.0 — 2026-09-05
