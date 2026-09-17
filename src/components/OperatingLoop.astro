@@ -1,7 +1,11 @@
 ---
 import { LOOP_PHASES } from '../data/practitioners';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('operating-loop', Astro.props.id);
 
 const phases = LOOP_PHASES;
 
@@ -22,7 +26,7 @@ const arrowPaths = [
 ];
 ---
 
-<div class="ol-wrap" id="operating-loop">
+<div class="ol-wrap" id={ids.root} data-interactive>
   <div class="ol-ring-container">
     <svg
       class="ol-ring"
@@ -38,14 +42,14 @@ const arrowPaths = [
           stroke="var(--color-border)"
           stroke-width="1.5"
           stroke-dasharray="6 4"
-          marker-end="url(#ol-arrowhead)"
+          marker-end={`url(#${ids.record('ol-arrowhead')})`}
           style={`--i:${i}`}
         />
       ))}
 
       <defs>
         <marker
-          id="ol-arrowhead"
+          id={ids.record('ol-arrowhead')}
           markerWidth="8"
           markerHeight="6"
           refX="7"
@@ -55,7 +59,7 @@ const arrowPaths = [
           <path d="M0,0 L8,3 L0,6" fill="var(--color-muted-light)" />
         </marker>
         <marker
-          id="ol-arrowhead-active"
+          id={ids.record('ol-arrowhead-active')}
           markerWidth="8"
           markerHeight="6"
           refX="7"
@@ -71,8 +75,9 @@ const arrowPaths = [
           class="ol-node"
           data-phase={phase.id}
           role="tab"
-          id={`ol-tab-${phase.id}`}
-          aria-controls={phase.id}
+          id={ids.record(`ol-tab-${phase.id}`)}
+          aria-controls={ids.record(phase.id)}
+          aria-label={phase.label}
           aria-selected={i === 0 ? 'true' : 'false'}
           tabindex={i === 0 ? 0 : -1}
           style={`--i:${i}`}
@@ -100,9 +105,9 @@ const arrowPaths = [
   {phases.map((phase, i) => (
     <div
       class="ol-panel"
-      id={phase.id}
+      id={ids.record(phase.id)}
       role="tabpanel"
-      aria-labelledby={`ol-tab-${phase.id}`}
+      aria-labelledby={ids.record(`ol-tab-${phase.id}`)}
       data-phase={phase.id}
       hidden={i !== 0}
     >
@@ -121,59 +126,25 @@ const arrowPaths = [
 </div>
 
 <script>
-  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
-
-  const wrap = document.getElementById('operating-loop');
-  if (wrap) {
-    const nodes = wrap.querySelectorAll<SVGGElement>('.ol-node');
-    const panels = wrap.querySelectorAll<HTMLElement>('.ol-panel');
-    const arrows = wrap.querySelectorAll<SVGPathElement>('.ol-arrow');
-    const phaseIds = Array.from(nodes).map((n) => n.dataset.phase!);
-    let activeIdx = 0;
-
-    function activate(idx: number) {
-      activeIdx = idx;
-      nodes.forEach((n, i) => {
-        const on = i === idx;
-        n.classList.toggle('ol-node-active', on);
-        n.setAttribute('aria-selected', String(on));
-        n.tabIndex = on ? 0 : -1;
-      });
-      panels.forEach((p) => {
-        p.hidden = p.dataset.phase !== phaseIds[idx];
-      });
-      arrows.forEach((a, i) => {
-        const isActive = i === idx;
-        a.classList.toggle('ol-arrow-active', isActive);
-        a.setAttribute(
-          'marker-end',
-          isActive ? 'url(#ol-arrowhead-active)' : 'url(#ol-arrowhead)',
-        );
-      });
-    }
-
-    nodes.forEach((n, i) => {
-      n.addEventListener('click', () => activate(i));
-      n.addEventListener('keydown', (e: KeyboardEvent) => {
-        let next = activeIdx;
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          next = (activeIdx + 1) % phaseIds.length;
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          next = (activeIdx - 1 + phaseIds.length) % phaseIds.length;
-        } else {
-          return;
-        }
-        e.preventDefault();
-        activate(next);
-        nodes[next].focus();
-      });
-    });
-
-    syncFragmentSelection(panels, activate);
-  }
-
+  import { enhanceTabs } from '../lib/enhanceTabs';
   import { observeEntrance } from '../lib/observeEntrance';
-  observeEntrance('operating-loop', 'ol-visible', 0.2);
+  document.querySelectorAll<HTMLElement>('.ol-wrap').forEach((wrap) => {
+    const arrows = wrap.querySelectorAll<SVGPathElement>('.ol-arrow');
+    const markers = wrap.querySelectorAll('marker');
+    enhanceTabs(wrap, '.ol-node', '.ol-panel', {
+      activeClass: 'ol-node-active',
+      onActivate(index) {
+        arrows.forEach((arrow, i) => {
+          arrow.classList.toggle('ol-arrow-active', i === index);
+          arrow.setAttribute(
+            'marker-end',
+            `url(#${markers[i === index ? 1 : 0].id})`,
+          );
+        });
+      },
+    });
+    observeEntrance(wrap, 'ol-visible', 0.2);
+  });
 </script>
 
 <style>
@@ -211,7 +182,10 @@ const arrowPaths = [
     fill: white;
     stroke: var(--color-border);
     stroke-width: 2;
-    transition: fill 0.25s ease, stroke 0.25s ease, r 0.25s ease;
+    transition:
+      fill 0.25s ease,
+      stroke 0.25s ease,
+      r 0.25s ease;
   }
 
   .ol-node:hover .ol-node-bg,
@@ -264,8 +238,12 @@ const arrowPaths = [
   }
 
   @keyframes helm-fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

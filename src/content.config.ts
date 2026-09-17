@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import { FRAMEWORK_VERSION, PUBLICATION_STATUSES } from './data/framework';
 
@@ -16,7 +17,7 @@ const publicationMetadata = z
     frameworkVersion: z.literal(FRAMEWORK_VERSION),
     createdAt: z.coerce.date(),
     lastModified: z.coerce.date(),
-    evidenceReferences: z.array(z.string().url()),
+    evidenceReferences: z.array(z.url()),
   })
   .refine(({ createdAt, lastModified }) => lastModified >= createdAt, {
     message: 'lastModified must be on or after createdAt',

@@ -10,7 +10,8 @@ interface Props {
 const { role, index } = Astro.props;
 const gap = gapPercent(role);
 const foundation = 100 - gap;
-const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--color-steel';
+const accentVar =
+  role.category === 'engineering' ? '--color-terracotta' : '--color-steel';
 ---
 
 <div
@@ -29,14 +30,36 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
         <span class="ce-header-aliases">{role.aliases.join(' \u00B7 ')}</span>
       </div>
       <div class="ce-header-arrow" aria-hidden="true">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <circle cx="20" cy="20" r="19" stroke={`var(${accentVar})`} stroke-width="1.5" stroke-dasharray="3 3" opacity="0.4" />
-          <path d="M15 20H25M25 20L21 16M25 20L21 24" stroke={`var(${accentVar})`} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle
+            cx="20"
+            cy="20"
+            r="19"
+            stroke={`var(${accentVar})`}
+            stroke-width="1.5"
+            stroke-dasharray="3 3"
+            opacity="0.4"
+          />
+          <path
+            d="M15 20H25M25 20L21 16M25 20L21 24"
+            stroke={`var(${accentVar})`}
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </div>
       <div class="ce-header-to">
         <span class="ce-label">AI-Era Role</span>
-        <span class="ce-header-title" style={`color:var(${accentVar})`}>{role.toTitle}</span>
+        <span class="ce-header-title" style={`color:var(${accentVar})`}>
+          {role.toTitle}
+        </span>
       </div>
     </h2>
     <p class="ce-header-subtitle">{role.subtitle}</p>
@@ -62,8 +85,14 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
         <span>New areas to develop</span>
       </div>
       <div class="ce-gap-bar">
-        <div class="ce-gap-bar-fill ce-gap-bar-evolved" style={`width:${foundation}%`}></div>
-        <div class="ce-gap-bar-fill ce-gap-bar-new" style={`width:${gap}%`}></div>
+        <div
+          class="ce-gap-bar-fill ce-gap-bar-evolved"
+          style={`width:${foundation}%`}
+        ></div>
+        <div
+          class="ce-gap-bar-fill ce-gap-bar-new"
+          style={`width:${gap}%`}
+        ></div>
       </div>
       <div class="ce-gap-labels ce-gap-labels-pct">
         <span>{foundation}% existing foundation</span>
@@ -73,15 +102,32 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
 
     <a href={`/roles/${role.slug}`} class="ce-jd-link">
       Read full job description
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
     </a>
   </div>
 
   <div class="ce-section">
     <div class="ce-section-head">
       <span class="ce-section-badge ce-badge-evolved">Evolved</span>
-      <h3 class="ce-section-title">Competencies that carry over &mdash; transformed</h3>
-      <p class="ce-section-desc">These build on your existing foundation. The core skill survives but the application, scope, and context change fundamentally.</p>
+      <h3 class="ce-section-title">
+        Competencies that carry over &mdash; transformed
+      </h3>
+      <p class="ce-section-desc">
+        These build on your existing foundation. The core skill survives but the
+        application, scope, and context change fundamentally.
+      </p>
     </div>
     <div class="ce-evo-list">
       {role.evolved.map((c, i) => (
@@ -92,7 +138,18 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
               <span class="ce-evo-was-text">{c.was}</span>
             </div>
             <div class="ce-evo-arrow" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
             </div>
             <div class="ce-evo-now">
               <span class="ce-evo-tag ce-evo-tag-now">Now</span>
@@ -109,11 +166,17 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
     <div class="ce-section-head">
       <span class="ce-section-badge ce-badge-gap">New Gaps</span>
       <h3 class="ce-section-title">Entirely new competencies to develop</h3>
-      <p class="ce-section-desc">No traditional equivalent exists. These represent genuine skill gaps that require deliberate investment to close.</p>
+      <p class="ce-section-desc">
+        No traditional equivalent exists. These represent genuine skill gaps
+        that require deliberate investment to close.
+      </p>
     </div>
     <div class="ce-cards">
       {role.gaps.map((c, i) => (
-        <article class="ce-card ce-card-gap" style={`animation-delay:${(role.evolved.length + i) * 60}ms`}>
+        <article
+          class="ce-card ce-card-gap"
+          style={`animation-delay:${(role.evolved.length + i) * 60}ms`}
+        >
           <div class="ce-card-gap-head">
             <span class="ce-card-gap-badge">NEW</span>
             <span class="ce-card-now-title">{c.title}</span>
@@ -128,12 +191,30 @@ const accentVar = role.category === 'engineering' ? '--color-terracotta' : '--co
     <div class="ce-section-head">
       <span class="ce-section-badge ce-badge-dep">Sunset</span>
       <h3 class="ce-section-title">What we no longer screen for</h3>
-      <p class="ce-section-desc">These were reasonable signals in the pre-AI era. They are no longer reliable predictors of contribution in agent-augmented teams.</p>
+      <p class="ce-section-desc">
+        These were reasonable signals in the pre-AI era. They are no longer
+        reliable predictors of contribution in agent-augmented teams.
+      </p>
     </div>
     <div class="ce-dep-list">
       {role.deprecated.map((d, i) => (
-        <div class="ce-dep-item" style={`animation-delay:${(role.evolved.length + role.gaps.length + i) * 40}ms`}>
-          <svg class="ce-dep-x" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
+        <div
+          class="ce-dep-item"
+          style={`animation-delay:${(role.evolved.length + role.gaps.length + i) * 40}ms`}
+        >
+          <svg
+            class="ce-dep-x"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
           <span>{d}</span>
         </div>
       ))}

@@ -1,5 +1,12 @@
 ---
-import { SITE_NAME, SITE_AUTHOR, SITE_AUTHOR_URL, NAV_LINKS } from '../data/site';
+import {
+  SITE_NAME,
+  SITE_AUTHOR,
+  SITE_AUTHOR_URL,
+  NAV_LINKS,
+  REFERENCE_LINKS,
+} from '../data/site';
+import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
 import HelmMark from './HelmMark.astro';
 
 const footerLinks = NAV_LINKS;
@@ -13,15 +20,41 @@ const footerLinks = NAV_LINKS;
         {SITE_NAME}
       </p>
       <p class="text-sm text-[var(--color-muted)]">
-        &copy; {new Date().getFullYear()} <a href={SITE_AUTHOR_URL} target="_blank" rel="noopener noreferrer" class="text-[var(--color-muted)] hover:text-[var(--color-terracotta)] transition-colors">{SITE_AUTHOR}</a>
+        <a href="/changelog">HELM {FRAMEWORK_VERSION}</a> ·{' '}
+        {FRAMEWORK_RELEASE_STATE.replaceAll('-', ' ')}
+      </p>
+      <p class="text-sm text-[var(--color-muted)]">
+        &copy; {new Date().getFullYear()}{' '}
+        <a
+          href={SITE_AUTHOR_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[var(--color-muted)] hover:text-[var(--color-terracotta)] transition-colors"
+        >
+          {SITE_AUTHOR}
+        </a>
       </p>
     </div>
-    <nav class="flex flex-wrap gap-6">
+    <nav aria-label="Footer navigation" class="flex flex-wrap gap-6">
       {footerLinks.map((link) => (
-        <a href={link.href} class="text-sm text-[var(--color-muted)] hover:text-[var(--color-terracotta)] no-underline transition-colors">
+        <a
+          href={link.href}
+          class="text-sm text-[var(--color-muted)] hover:text-[var(--color-terracotta)] no-underline transition-colors"
+        >
           {link.label}
         </a>
       ))}
     </nav>
   </div>
+  <nav
+    aria-label="Framework information"
+    class="max-w-6xl mx-auto mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-[var(--color-muted)]"
+  >
+    {REFERENCE_LINKS.map((link) => (
+      <a href={link.href}>{link.label}</a>
+    ))}
+    <a href="https://github.com/firaskafri/helm-framework.com/blob/main/CONTRIBUTING.md">
+      Contribute
+    </a>
+  </nav>
 </footer>

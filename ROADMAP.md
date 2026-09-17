@@ -1,10 +1,11 @@
 # HELM Product Roadmap
 
 **Status:** Active planning document
-**Last updated:** 2026-09-05
+**Last updated:** 2026-09-17
 **Roadmap owner:** Firas Kafri
 **Review cadence:** Weekly during active delivery; monthly otherwise
 **Current focus:** Try a small kit on one real workflow, fix misleading guidance, and learn what changes for the people doing the work
+**Release work:** HELM 1.0.1 hardening is verified locally and on GitHub; PR #11 awaits review, merge and production publication
 
 ## Purpose
 
@@ -126,20 +127,21 @@ Roadmap releases are outcome-gated rather than date-gated. A release receives ca
 
 ### Active work tracker
 
-| ID | Priority | Work item | Release | Status | Owner | Target review | Completion evidence |
-|---|---|---|---|---|---|---|---|
-| RM-001 | P0 | Establish the vNext roadmap | Planning | Done | Firas | 2026-09-05 | `ROADMAP.md` |
-| VER-001 | P0 | Snapshot the current public framework | HELM 1.0.0 | Done | Firas | 2026-09-05 | `framework-v1.0.0`, `CHANGELOG.md`, and publication metadata |
-| FND-001 | P0 | Inventory canonical concepts and actual sources | HELM 1.0.x | Done | Firas | 2026-09-05 | `docs/content-architecture.md` and `npm run check:content` |
-| V11-001 | P0 | Describe one Phoenix workflow as it works today | HELM 1.1 | Ready | Firas | Next roadmap review | Short note using existing tickets: work, effort, owners, and what people need to know; agree what can be shared |
-| V11-002 | P0 | Resolve credibility-critical guidance and classify corrections | HELM 1.1 planning | Ready | Firas | Next roadmap review | Correction register covering autonomy, staffing, ownership, safeguards, source provenance, acceptance checks, and compatibility decisions |
-| FND-002 | P0 | Record the quality baseline and publication blockers | HELM 1.0.x | Ready | Firas | Next roadmap review | Reproducible baseline and prioritized type, content, accessibility, security, and build repair tasks |
-| FND-003 | P1 | Complete claim provenance and evidence labels | HELM 1.0.x | Ready | Firas | Next roadmap review | Source register, evidence labels, and unsupported-claim inventory; urgent claims handled with V11-002 |
-| V11-005 | P1 | Agree how to run the pilot safely | HELM 1.1 | Blocked | Firas | Next roadmap review | V11-001 required; record owners, access limits, stop conditions, and what to compare in the same work note |
-| V11-003 | P1 | Test the work redesign kit on one workflow | HELM 1.1 | Blocked | Firas | Next roadmap review | V11-001 and V11-005 required; then editable kit, before/after work map, and non-author usability findings |
-| V11-004 | P1 | Publish the first approved pilot report | HELM 1.1 | Blocked | Firas | Next roadmap review | V11-003 required; then approved delivery and people-impact findings, limitations, and retain/revise/reject decisions |
-| V12-001 | P1 | Write a short team adaptation guide from pilot lessons | HELM 1.2 | Blocked | Firas | Pilot review | V11-003 required; one worked example and prompts for responsibilities, skills, and next steps |
-| V12-002 | P1 | Try the guide in a real team review | HELM 1.2 | Blocked | Firas | Guide review | V12-001 required; someone other than the author can use it, and confusion is fixed or clearly noted |
+| ID      | Priority | Work item                                                      | Release           | Status    | Owner | Target review       | Completion evidence                                                                                                                         |
+| ------- | -------- | -------------------------------------------------------------- | ----------------- | --------- | ----- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| RM-001  | P0       | Establish the vNext roadmap                                    | Planning          | Done      | Firas | 2026-09-05          | `ROADMAP.md`                                                                                                                                |
+| VER-001 | P0       | Snapshot the current public framework                          | HELM 1.0.0        | Done      | Firas | 2026-09-05          | `framework-v1.0.0`, `CHANGELOG.md`, and publication metadata                                                                                |
+| FND-001 | P0       | Inventory canonical concepts and actual sources                | HELM 1.0.x        | Done      | Firas | 2026-09-05          | `docs/content-architecture.md` and `npm run check:content`                                                                                  |
+| V11-001 | P0       | Describe one Phoenix workflow as it works today                | HELM 1.1          | Ready     | Firas | Next roadmap review | Short note using existing tickets: work, effort, owners, and what people need to know; agree what can be shared                             |
+| V11-002 | P0       | Resolve credibility-critical guidance and classify corrections | HELM 1.1 planning | Ready     | Firas | Next roadmap review | Correction register covering autonomy, staffing, ownership, safeguards, source provenance, acceptance checks, and compatibility decisions   |
+| FND-002 | P0       | Record the quality baseline and publication blockers           | HELM 1.0.x        | Done      | Firas | 2026-09-17          | `npm run check`: 8 unit and 39 browser checks validated; `docs/quality-baseline.md` and `docs/releases/1.0.1.md`                            |
+| FND-003 | P1       | Complete claim provenance and evidence labels                  | HELM 1.0.x        | Done      | Firas | 2026-09-17          | 28 claim records, source register, `/evidence`, `docs/corrections.md`; build and provenance checks pass; semantic fixes remain with V11-002 |
+| FND-004 | P1       | Complete static publishing, licenses and release verification  | HELM 1.0.x        | In review | Firas | 2026-09-17          | PR #11; GitHub run 35206062832 quality/container checks pass; `docs/releases/1.0.1.md`; merge and production publication pending            |
+| V11-005 | P1       | Agree how to run the pilot safely                              | HELM 1.1          | Blocked   | Firas | Next roadmap review | V11-001 required; record owners, access limits, stop conditions, and what to compare in the same work note                                  |
+| V11-003 | P1       | Test the work redesign kit on one workflow                     | HELM 1.1          | Blocked   | Firas | Next roadmap review | V11-001 and V11-005 required; then editable kit, before/after work map, and non-author usability findings                                   |
+| V11-004 | P1       | Publish the first approved pilot report                        | HELM 1.1          | Blocked   | Firas | Next roadmap review | V11-003 required; then approved delivery and people-impact findings, limitations, and retain/revise/reject decisions                        |
+| V12-001 | P1       | Write a short team adaptation guide from pilot lessons         | HELM 1.2          | Blocked   | Firas | Pilot review        | V11-003 required; one worked example and prompts for responsibilities, skills, and next steps                                               |
+| V12-002 | P1       | Try the guide in a real team review                            | HELM 1.2          | Blocked   | Firas | Guide review        | V12-001 required; someone other than the author can use it, and confusion is fixed or clearly noted                                         |
 
 When an item enters **In progress**, its target review must be a specific date. Add or split tracker rows when a work item cannot be reviewed as one coherent change.
 
@@ -147,7 +149,7 @@ When an item enters **In progress**, its target review must be a specific date. 
 
 1. Describe one real workflow and what people currently do (V11-001).
 2. Resolve credibility-critical guidance and its compatibility decisions (V11-002), including the urgent provenance subset of FND-003.
-3. Establish the quality baseline and publication-blocking repairs (FND-002).
+3. Review and publish the verified hardening candidate (FND-004); quality, evidence and container checks pass.
 
 Keep no more than three items active. Finish required hardening alongside the pilot as capacity permits. The questionnaire, more role pages, comprehensive templates, function packs, and Studio conversion work can wait. Cosmetic repairs and optional infrastructure must not delay trying the kit; public release gates still apply.
 
@@ -187,6 +189,8 @@ A roadmap item is Done only when:
 
 **Objective:** Make the existing framework maintainable, testable, accessible, and genuinely single-source before expanding it.
 
+**1.0.1 candidate status (2026-09-17):** Repository implementation passes local and GitHub quality/container gates. Checkmarks below record verified implementation; merge and production publication remain tracked by FND-004. See [PR #11](https://github.com/firaskafri/helm-framework.com/pull/11) and `docs/releases/1.0.1.md`. The conditional infrastructure backlog remains demand-gated.
+
 ### Content architecture
 
 - [x] Tag and document the current public framework as the HELM 1.0.0 baseline before semantic content changes.
@@ -200,12 +204,12 @@ A roadmap item is Done only when:
 
 ### Evidence baseline
 
-- [ ] Define evidence labels that distinguish a proposed recommendation, author observation, participant report, measured result, and externally supported claim.
-- [ ] Record source provenance for major claims and recommendations, including unsupported claims that need qualification or removal.
-- [ ] Maintain a source register with access date, claim linkage, applicability, and replacement history.
-- [ ] Check quoted statistics against their sources and distinguish correlation, forecasts, and causal claims.
-- [ ] Publish a framework changelog and visible version, evidence-state, and freshness information.
-- [ ] Route changes to a recommendation's meaning through the conceptual-corrections workstream; evidence labeling alone does not validate the recommendation.
+- [x] Define evidence labels that distinguish a proposed recommendation, author observation, participant report, measured result, and externally supported claim.
+- [x] Record source provenance for major claims and recommendations, including unsupported claims that need qualification or removal.
+- [x] Maintain a source register with access date, claim linkage, applicability, and replacement history.
+- [x] Check quoted statistics against their sources and distinguish correlation, forecasts, and causal claims. Retrieval failures and unresolved figures are explicitly marked unverified.
+- [x] Implement the public framework changelog and visible version, evidence-state, and freshness information; production publication is tracked by FND-004.
+- [x] Route changes to a recommendation's meaning through the conceptual-corrections workstream; evidence labeling alone does not validate the recommendation.
 
 ### Conditional infrastructure backlog
 
@@ -217,38 +221,39 @@ These items remain accepted work. Schedule them only when a named consumer or do
 
 ### Quality gates
 
-- [ ] Record the current build, type, link, accessibility, performance, and browser baseline.
-- [ ] Add formatting, linting, TypeScript, and `astro check` scripts.
-- [ ] Add unit tests for existing content transforms and structured-data helpers; test scoring logic when the assessment introduces it.
-- [ ] Add content-integrity tests for duplicate IDs, ordering, links, anchors, and required evidence.
-- [ ] Add browser tests for keyboard navigation, no-JavaScript fallbacks, and critical responsive paths.
-- [ ] Add automated accessibility checks.
-- [ ] Add dependency, secret, and unsafe-content checks appropriate to the static publishing pipeline.
-- [ ] Add pull-request CI that runs all quality gates and a production build.
+- [x] Record the current build, type, link, accessibility, performance, and browser baseline.
+- [x] Add formatting, linting, TypeScript, and `astro check` scripts.
+- [x] Add unit tests for existing content transforms and structured-data helpers; scoring tests remain a requirement when an assessment introduces scoring.
+- [x] Add content-integrity tests for duplicate IDs, ordering, links, anchors, and required evidence.
+- [x] Add browser tests for keyboard navigation, no-JavaScript fallbacks, and critical responsive paths.
+- [x] Add automated accessibility checks.
+- [x] Add dependency, secret, and unsafe-content checks appropriate to the static publishing pipeline.
+- [x] Add pull-request CI that runs all quality gates and a production build; GitHub run 35206062832 passed both required jobs.
 
 ### Publishing and interface repairs
 
-- [ ] Choose and document one static-first deployment path.
-- [ ] Remove runtime deployment dependencies unless a dynamic feature requires them.
-- [ ] Fix mobile-menu Escape behavior.
-- [ ] Fix active-heading tracking for both rendered tables of contents.
-- [ ] Make interactive controls instance-scoped and safely reusable.
-- [ ] Ensure substantive content remains available when JavaScript fails.
-- [ ] Match the loaded serif font to the configured design token.
-- [ ] Add a real default Open Graph image.
-- [ ] Use one canonical source for the production origin.
-- [ ] Publish accurate modification dates in pages, RSS, and the sitemap.
-- [ ] Sanitize or otherwise constrain rendered frontmatter HTML before accepting external contributors or CMS content.
-- [ ] Add licensing and contribution documentation.
+- [x] Choose and document one static-first deployment path.
+- [x] Remove runtime deployment dependencies unless a dynamic feature requires them.
+- [x] Fix mobile-menu Escape behavior.
+- [x] Fix active-heading tracking for both rendered tables of contents.
+- [x] Make interactive controls instance-scoped and safely reusable.
+- [x] Ensure substantive content remains available when JavaScript fails.
+- [x] Match the loaded serif font to the configured design token.
+- [x] Verify and retain the existing real default Open Graph image; enforce its dimensions and availability.
+- [x] Use one canonical source for the production origin.
+- [x] Generate accurate modification dates in pages, RSS, and the sitemap; production publication is tracked by FND-004.
+- [x] Sanitize or otherwise constrain rendered frontmatter HTML before accepting external contributors or CMS content.
+- [x] Add licensing and contribution documentation.
 
 ### Exit criteria
 
-- [ ] The content ownership map matches the repository.
-- [ ] All published framework records pass validation appropriate to their canonical source; a single storage format is not required.
-- [ ] Major claims have a recorded source or explicit unsupported/provisional status, with semantic corrections tracked separately.
-- [ ] Pull requests cannot merge with failed type, content, accessibility, test, or build checks.
-- [ ] Core content and navigation remain usable without JavaScript.
-- [ ] Deployment contains no unexplained runtime layer.
+- [x] The content ownership map matches the repository.
+- [x] All framework records in the candidate pass validation appropriate to their canonical source; a single storage format is not required.
+- [x] Major claims have a recorded source or explicit unsupported/provisional status, with semantic corrections tracked separately.
+- [x] Required GitHub checks block merging with failed type, content, accessibility, test, build or container checks; strict enforcement including administrators confirmed by API readback.
+- [x] Core content and navigation remain usable without JavaScript.
+- [x] Static deployment contains no unexplained runtime layer; remote container smoke tests passed.
+- [ ] Complete merge, tagging and the production publication steps in `docs/deployment.md`.
 
 ---
 
@@ -617,6 +622,18 @@ The questionnaire, additional role guides, comprehensive Specification Chain tem
 
 Entries preserve decision history. Later decisions supersede earlier ones, including the final simplification decision below. The current release map and tracker govern execution.
 
+### 2026-09-17 — Prepare a meaning-preserving 1.0.1 hardening release
+
+The release adds explicit evidence status and source limitations while preserving the baseline recommendations. Semantic corrections remain in their own register with version-impact review. The shared-competency proposal remains follow-on work, not part of hardening.
+
+### 2026-09-17 — Adopt static nginx serving and enforced quality checks
+
+Remove the Node adapter and sessions; build static files and serve them with an unprivileged nginx image on port 8080. Pin image digests and workflow actions. Require `quality` and `container` checks on an up-to-date branch, including administrators. The existing Docker publisher waits for successful main-branch checks and a published release state.
+
+### 2026-09-17 — License content and code separately
+
+Owner selected CC BY 4.0 for original framework content and MIT for website code/technical documentation. Third-party rights remain separate, and the licenses grant no trademark endorsement rights.
+
 ### 2026-09-05 — Implementation depth comes first
 
 The next release will prioritize role transition, assessment, templates, and evidence instead of expanding the conceptual framework.
@@ -702,6 +719,19 @@ Validation must produce traceable retain/revise/reject decisions, not mandatory 
 Replace the large adaptation protocol with a short team guide, and combine the starter kit into three sections that can live in existing work documents. One real use and a clear account of its limits are enough for a first field-tested release; multiple-context and longitudinal studies move to later evidence work. A diagnostic is conditional on user need, and scoring is optional. This supersedes the earlier repeated-validation gates, not the focus on changing skills and responsibilities or the safety and publishing requirements.
 
 ## Update Log
+
+### 2026-09-17
+
+- Captured the pre-hardening build, dependency and accessibility baseline.
+- Implemented and locally verified formatting, lint, type, unit, browser, accessibility, content and source-safety gates; dependency audit is clean.
+- Added 28 major-claim records, source retrieval history, evidence labels and the semantic correction register. Unverified statistics and causal inferences remain explicitly identified.
+- Added public evidence/correction/changelog/roadmap/licensing routes and consistent visible and machine-readable dates.
+- Repaired navigation, contrast, responsive tables, progressive enhancement, print, reduced motion, unsafe frontmatter rendering and repeated component IDs.
+- Selected static nginx deployment, pinned dependencies/actions/images, documented port migration and rollback, and connected Docker publication to successful checks.
+- Applied required GitHub checks and verified the repository setting by API readback.
+- Recorded 1.0.1 as a release candidate; remote workflow/container verification and production publication remain outstanding.
+- Merged the newer adaptation-focused roadmap from main while retaining hardening progress and evidence.
+- Verified GitHub run 35206062832: both quality and container jobs passed. FND-004 is in review; merge and production publication remain outstanding.
 
 ### 2026-09-05
 

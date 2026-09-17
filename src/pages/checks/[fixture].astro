@@ -1,0 +1,38 @@
+---
+// Only emitted for browser tests, never in the release artifact.
+import Base from '../../layouts/Base.astro';
+import PatternSelector from '../../components/PatternSelector.astro';
+import MaturityStepper from '../../components/MaturityStepper.astro';
+import AdoptionTimeline from '../../components/AdoptionTimeline.astro';
+import KpiDashboard from '../../components/KpiDashboard.astro';
+import TaskMatrix from '../../components/TaskMatrix.astro';
+import GuardrailStack from '../../components/GuardrailStack.astro';
+import FailureDiagnostics from '../../components/FailureDiagnostics.astro';
+import OperatingLoop from '../../components/OperatingLoop.astro';
+import OrgShift from '../../components/OrgShift.astro';
+export function getStaticPaths() {
+  return process.env.HELM_TEST_FIXTURES === '1'
+    ? [{ params: { fixture: 'components' } }]
+    : [];
+}
+---
+
+<Base title="Component checks" noindex>
+  <main id="main-content" class="prose max-w-4xl mx-auto p-6">
+    <h1>Repeated component checks</h1>
+    {[1, 2].map((index) => (
+      <section data-instance={index}>
+        <h2>Instance {index}</h2>
+        <PatternSelector id={`patterns-${index}`} />
+        <MaturityStepper id={`maturity-${index}`} />
+        <AdoptionTimeline id={`adoption-${index}`} />
+        <KpiDashboard id={`kpis-${index}`} />
+        <TaskMatrix id={`tasks-${index}`} />
+        <GuardrailStack id={`guardrails-${index}`} />
+        <FailureDiagnostics id={`failures-${index}`} />
+        <OperatingLoop id={`loop-${index}`} />
+        <OrgShift id={`org-${index}`} />
+      </section>
+    ))}
+  </main>
+</Base>

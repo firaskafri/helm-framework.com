@@ -2,24 +2,34 @@
 import { KPI_CATEGORIES, KPI_SUCCESS_FORMULA } from '../data/leadership';
 import type { KpiMetric } from '../data/leadership';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('kd-interactive', Astro.props.id);
 
 const categories = KPI_CATEGORIES;
 
-const directionIcons: Record<KpiMetric['direction'], { label: string; color: string }> = {
+const directionIcons: Record<
+  KpiMetric['direction'],
+  { label: string; color: string }
+> = {
   increase: { label: 'Increase', color: 'var(--color-steel)' },
   decrease: { label: 'Decrease', color: 'var(--color-terracotta)' },
-  stable:   { label: 'Stable or decrease', color: 'var(--color-muted)' },
-  monitor:  { label: 'Monitor', color: 'var(--color-muted)' },
+  stable: { label: 'Stable or decrease', color: 'var(--color-muted)' },
+  monitor: { label: 'Monitor', color: 'var(--color-muted)' },
 };
 
 const metricsById = new Map(
-  categories.flatMap((category) => category.metrics.map((metric) => [metric.id, metric])),
+  categories.flatMap((category) =>
+    category.metrics.map((metric) => [metric.id, metric]),
+  ),
 );
 
 const formulaMetrics = KPI_SUCCESS_FORMULA.map((metricId) => {
   const metric = metricsById.get(metricId);
-  if (!metric) throw new Error(`Unknown KPI success-formula metric: ${metricId}`);
+  if (!metric)
+    throw new Error(`Unknown KPI success-formula metric: ${metricId}`);
   return metric;
 });
 
@@ -31,15 +41,15 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
 };
 ---
 
-<div class="kd-wrap" id="kd-interactive">
+<div class="kd-wrap" id={ids.root} data-interactive>
   <div class="kd-tabs" role="tablist" aria-label="KPI categories">
     {categories.map((cat, i) => (
       <button
         class:list={['kd-tab', i === 0 && 'kd-tab-active']}
         type="button"
         role="tab"
-        id={`kd-tab-${cat.id}`}
-        aria-controls={cat.id}
+        id={ids.record(`kd-tab-${cat.id}`)}
+        aria-controls={ids.record(cat.id)}
         aria-selected={i === 0 ? 'true' : 'false'}
         tabindex={i === 0 ? 0 : -1}
         data-id={cat.id}
@@ -52,9 +62,9 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
   {categories.map((cat, i) => (
     <div
       class="kd-panel"
-      id={cat.id}
+      id={ids.record(cat.id)}
       role="tabpanel"
-      aria-labelledby={`kd-tab-${cat.id}`}
+      aria-labelledby={ids.record(`kd-tab-${cat.id}`)}
       data-id={cat.id}
       hidden={i !== 0}
     >
@@ -67,17 +77,48 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
                 <h4 class="kd-metric-name">{metric.name}</h4>
                 <span class="kd-direction" style={`color:${dir.color}`}>
                   {metric.direction === 'increase' && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
                       <path d="M12 19V5M5 12l7-7 7 7" />
                     </svg>
                   )}
                   {metric.direction === 'decrease' && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
                       <path d="M12 5v14M5 12l7 7 7-7" />
                     </svg>
                   )}
-                  {(metric.direction === 'stable' || metric.direction === 'monitor') && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  {(metric.direction === 'stable' ||
+                    metric.direction === 'monitor') && (
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
                       <path d="M5 12h14" />
                     </svg>
                   )}
@@ -98,10 +139,16 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
       {formulaMetrics.map((metric, index) => (
         <>
           {index > 0 && <span class="kd-formula-and">AND</span>}
-          <span class:list={['kd-formula-item', formulaClasses[metric.direction]]}>
+          <span
+            class:list={['kd-formula-item', formulaClasses[metric.direction]]}
+          >
             {metric.name}
             <span class="kd-arrow">
-              {metric.direction === 'increase' ? '\u2191' : metric.direction === 'decrease' ? '\u2193' : '\u2194'}
+              {metric.direction === 'increase'
+                ? '\u2191'
+                : metric.direction === 'decrease'
+                  ? '\u2193'
+                  : '\u2194'}
             </span>
           </span>
         </>
@@ -111,53 +158,19 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
 </div>
 
 <script>
-  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
-
-  const wrap = document.getElementById('kd-interactive');
-  if (wrap) {
-    const tabs = wrap.querySelectorAll<HTMLButtonElement>('.kd-tab');
-    const panels = wrap.querySelectorAll<HTMLElement>('.kd-panel');
-
-    function activate(id: string) {
-      tabs.forEach((t) => {
-        const on = t.dataset.id === id;
-        t.classList.toggle('kd-tab-active', on);
-        t.setAttribute('aria-selected', String(on));
-        t.tabIndex = on ? 0 : -1;
-      });
-      panels.forEach((p) => {
-        p.hidden = p.dataset.id !== id;
-      });
-    }
-
-    tabs.forEach((t, idx) => {
-      t.addEventListener('click', () => {
-        const id = t.dataset.id;
-        if (id) activate(id);
-      });
-      t.addEventListener('keydown', (e: KeyboardEvent) => {
-        let next = idx;
-        if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
-        else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
-        else return;
-        e.preventDefault();
-        const id = tabs[next].dataset.id;
-        if (!id) return;
-        activate(id);
-        tabs[next].focus();
-      });
-    });
-
-    syncFragmentSelection(panels, (index) => {
-      const id = panels[index].dataset.id;
-      if (id) activate(id);
-    });
-  }
+  import { enhanceTabs } from '../lib/enhanceTabs';
+  document.querySelectorAll<HTMLElement>('.kd-wrap').forEach((wrap) => {
+    enhanceTabs(wrap, '.kd-tab', '.kd-panel', { activeClass: 'kd-tab-active' });
+  });
 </script>
 
 <style>
   .kd-wrap {
     margin: 2rem 0;
+  }
+
+  .kd-tab.kd-tab-active:hover {
+    color: white;
   }
 
   .kd-tabs {
@@ -170,7 +183,9 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
     padding-bottom: 2px;
   }
 
-  .kd-tabs::-webkit-scrollbar { display: none; }
+  .kd-tabs::-webkit-scrollbar {
+    display: none;
+  }
 
   .kd-tab {
     flex-shrink: 0;
@@ -203,7 +218,9 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
     color: white;
   }
 
-  .kd-panel[hidden] { display: none; }
+  .kd-panel[hidden] {
+    display: none;
+  }
 
   .kd-cards {
     display: grid;
@@ -216,17 +233,26 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 1rem 1.15rem;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
   }
 
   .kd-card:hover {
-    border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-terracotta));
+    border-color: color-mix(
+      in srgb,
+      var(--color-border) 50%,
+      var(--color-terracotta)
+    );
     box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kd-card { transition: none; }
+    .kd-card {
+      transition: none;
+    }
   }
 
   .kd-card-head {
@@ -281,7 +307,7 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--color-muted-light);
+    color: var(--color-cream-dark);
     margin-bottom: 0.75rem;
   }
 
@@ -303,7 +329,11 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
   }
 
   .kd-formula-down {
-    background: color-mix(in srgb, var(--color-terracotta) 20%, var(--color-ink));
+    background: color-mix(
+      in srgb,
+      var(--color-terracotta) 20%,
+      var(--color-ink)
+    );
     color: var(--color-cream);
   }
 
@@ -320,7 +350,7 @@ const formulaClasses: Record<KpiMetric['direction'], string> = {
   .kd-formula-and {
     font-size: 0.65rem;
     font-weight: 700;
-    color: var(--color-muted-light);
+    color: var(--color-cream-dark);
     letter-spacing: 0.06em;
   }
 

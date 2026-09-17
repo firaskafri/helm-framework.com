@@ -6,6 +6,7 @@ import Nav from '../components/Nav.astro';
 import ContentWithToc from '../components/ContentWithToc.astro';
 import Footer from '../components/Footer.astro';
 import type { PublicationStatus } from '../data/framework';
+import PublicationInfo from '../components/PublicationInfo.astro';
 
 interface Props {
   title: string;
@@ -63,7 +64,6 @@ const jsonLd = [
 
   <main id="main-content" class="pt-24 md:pt-28 pb-16 px-6">
     <div class="max-w-7xl mx-auto">
-
       <header class="max-w-3xl mb-12 md:mb-16">
         <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
           {title}
@@ -71,12 +71,16 @@ const jsonLd = [
         <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-4">
           {subtitle}
         </h1>
+        <PublicationInfo
+          lastModified={lastModified}
+          publicationStatus={publicationStatus}
+          frameworkVersion={frameworkVersion}
+        />
       </header>
 
       <ContentWithToc headings={headings}>
         <slot />
       </ContentWithToc>
-
     </div>
   </main>
 

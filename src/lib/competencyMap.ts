@@ -24,7 +24,11 @@ export function toRoleView(r: CollectionEntry<'roles'>): RoleView {
     slug: r.id,
     evolved: r.data.competencies
       .filter((c) => c.evolved_from)
-      .map((c) => ({ was: c.evolved_from!, now: c.title, desc: c.description })),
+      .map((c) => ({
+        was: c.evolved_from!,
+        now: c.title,
+        desc: c.description,
+      })),
     gaps: r.data.competencies
       .filter((c) => !c.evolved_from)
       .map((c) => ({ title: c.title, desc: c.description })),

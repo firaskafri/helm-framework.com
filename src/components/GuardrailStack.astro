@@ -1,38 +1,67 @@
 ---
 import { GUARDRAIL_LAYERS } from '../data/practitioners';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('guardrail-stack', Astro.props.id);
 
 const layers = [...GUARDRAIL_LAYERS].reverse();
 ---
 
-<div class="gs-wrap" id="guardrail-stack">
+<div class="gs-wrap" id={ids.root} data-interactive>
   <div class="gs-stack">
     {layers.map((layer, i) => {
       const intensity = 0.03 + i * 0.02;
       const hasExamples = layer.items.some((item) => item.example);
       return (
-        <div class="gs-layer" data-layer={layer.number} style={`--i:${i}; --intensity:${intensity}`}>
+        <div
+          class="gs-layer"
+          data-layer={layer.number}
+          style={`--i:${i}; --intensity:${intensity}`}
+        >
           <button
             class="gs-layer-header"
             type="button"
-            aria-expanded="false"
-            aria-controls={layer.id}
-            id={`gs-btn-${layer.number}`}
+            aria-expanded="true"
+            aria-controls={ids.record(layer.id)}
+            id={ids.record(`gs-btn-${layer.number}`)}
           >
             <span class="gs-layer-num">{layer.number}</span>
             <div class="gs-layer-info">
               <span class="gs-layer-name">{layer.name}</span>
               <span class="gs-layer-parens">({layer.parenthetical})</span>
             </div>
-            <svg class="gs-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              class="gs-chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <path d="M6 9l6 6 6-6" />
             </svg>
           </button>
-          <div class="gs-detail-wrap" id={layer.id} role="region" aria-labelledby={`gs-btn-${layer.number}`}>
+          <div
+            class="gs-detail-wrap"
+            id={ids.record(layer.id)}
+            role="region"
+            aria-labelledby={ids.record(`gs-btn-${layer.number}`)}
+          >
             <div class="gs-detail">
               <p class="gs-purpose">{layer.purpose}</p>
-              <div class="gs-table-wrap">
+              <div
+                class="gs-table-wrap"
+                tabindex="0"
+                role="region"
+                aria-label={`${layer.name} details table`}
+              >
                 <table class="gs-table">
                   <thead>
                     <tr>
@@ -65,9 +94,9 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
 <script>
   import { syncFragmentSelection } from '../lib/syncFragmentSelection';
 
-  const wrap = document.getElementById('guardrail-stack');
-  if (wrap) {
-    const buttons = wrap.querySelectorAll<HTMLButtonElement>('.gs-layer-header');
+  document.querySelectorAll<HTMLElement>('.gs-wrap').forEach((wrap) => {
+    const buttons =
+      wrap.querySelectorAll<HTMLButtonElement>('.gs-layer-header');
     const details = wrap.querySelectorAll<HTMLElement>('.gs-detail-wrap');
 
     function closeAll() {
@@ -75,12 +104,23 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
         b.setAttribute('aria-expanded', 'false');
         b.closest('.gs-layer')?.classList.remove('gs-layer-open');
       });
+      details.forEach((detail) => {
+        detail.inert = true;
+        detail.setAttribute('aria-hidden', 'true');
+      });
     }
 
     function open(btn: HTMLButtonElement) {
       closeAll();
       btn.setAttribute('aria-expanded', 'true');
       btn.closest('.gs-layer')?.classList.add('gs-layer-open');
+      const detail = [...details].find(
+        (item) => item.id === btn.getAttribute('aria-controls'),
+      );
+      if (detail) {
+        detail.inert = false;
+        detail.removeAttribute('aria-hidden');
+      }
     }
 
     function toggle(btn: HTMLButtonElement) {
@@ -92,7 +132,7 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
     buttons.forEach((btn, idx) => {
       btn.addEventListener('click', () => toggle(btn));
       btn.addEventListener('keydown', (e: KeyboardEvent) => {
-        let next = idx;
+        let next: number;
         if (e.key === 'ArrowDown') next = Math.min(idx + 1, buttons.length - 1);
         else if (e.key === 'ArrowUp') next = Math.max(idx - 1, 0);
         else return;
@@ -101,11 +141,13 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
       });
     });
 
+    closeAll();
+    wrap.dataset.enhanced = 'true';
     syncFragmentSelection(details, (index) => open(buttons[index]));
-  }
+    observeEntrance(wrap, 'gs-visible');
+  });
 
   import { observeEntrance } from '../lib/observeEntrance';
-  observeEntrance('guardrail-stack', 'gs-visible');
 </script>
 
 <style>
@@ -121,7 +163,11 @@ const layers = [...GUARDRAIL_LAYERS].reverse();
 
   .gs-layer {
     border: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-terracotta) calc(var(--intensity) * 100%), white);
+    background: color-mix(
+      in srgb,
+      var(--color-terracotta) calc(var(--intensity) * 100%),
+      white
+    );
     transition: box-shadow 0.2s ease;
     opacity: 0;
     transform: translateY(8px);

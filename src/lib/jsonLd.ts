@@ -1,5 +1,13 @@
 import { SITE_NAME } from '../data/site';
 
+/** JSON embedded in HTML must not be able to terminate its script element. */
+export function serializeJsonLd(value: Record<string, unknown>): string {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
 export interface BreadcrumbItem {
   name: string;
   url: string;

@@ -1,31 +1,89 @@
 ---
 import { ORG_SHIFTS } from '../data/leadership';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('six-organizational-shifts', Astro.props.id);
 
 const shifts = ORG_SHIFTS;
 ---
 
-<div class="os-wrap" id="six-organizational-shifts">
+<div class="os-wrap" id={ids.root}>
   <div class="os-diagram">
     <div class="os-panel os-panel-before">
-      <span class="os-panel-label">Before <span class="os-panel-sublabel">(Horizontal Silos)</span></span>
+      <span class="os-panel-label">
+        Before <span class="os-panel-sublabel">(Horizontal Silos)</span>
+      </span>
       <div class="os-flow-h">
         <div class="os-node os-node-start">Product</div>
-        <svg class="os-flow-arrow" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true">
-          <path d="M0,8 L20,8 M16,3 L21,8 L16,13" fill="none" stroke="var(--color-muted-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          class="os-flow-arrow"
+          width="24"
+          height="16"
+          viewBox="0 0 24 16"
+          aria-hidden="true"
+        >
+          <path
+            d="M0,8 L20,8 M16,3 L21,8 L16,13"
+            fill="none"
+            stroke="var(--color-muted-light)"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <div class="os-node">Frontend</div>
-        <svg class="os-flow-arrow" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true">
-          <path d="M0,8 L20,8 M16,3 L21,8 L16,13" fill="none" stroke="var(--color-muted-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          class="os-flow-arrow"
+          width="24"
+          height="16"
+          viewBox="0 0 24 16"
+          aria-hidden="true"
+        >
+          <path
+            d="M0,8 L20,8 M16,3 L21,8 L16,13"
+            fill="none"
+            stroke="var(--color-muted-light)"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <div class="os-node">Backend</div>
-        <svg class="os-flow-arrow" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true">
-          <path d="M0,8 L20,8 M16,3 L21,8 L16,13" fill="none" stroke="var(--color-muted-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          class="os-flow-arrow"
+          width="24"
+          height="16"
+          viewBox="0 0 24 16"
+          aria-hidden="true"
+        >
+          <path
+            d="M0,8 L20,8 M16,3 L21,8 L16,13"
+            fill="none"
+            stroke="var(--color-muted-light)"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <div class="os-node">QA</div>
-        <svg class="os-flow-arrow" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true">
-          <path d="M0,8 L20,8 M16,3 L21,8 L16,13" fill="none" stroke="var(--color-muted-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          class="os-flow-arrow"
+          width="24"
+          height="16"
+          viewBox="0 0 24 16"
+          aria-hidden="true"
+        >
+          <path
+            d="M0,8 L20,8 M16,3 L21,8 L16,13"
+            fill="none"
+            stroke="var(--color-muted-light)"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <div class="os-node">DevOps</div>
       </div>
@@ -34,13 +92,29 @@ const shifts = ORG_SHIFTS;
 
     <div class="os-divider" aria-hidden="true">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="19" stroke="var(--color-terracotta)" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.4" />
-        <path d="M15 20H25M25 20L21 16M25 20L21 24" stroke="var(--color-terracotta)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <circle
+          cx="20"
+          cy="20"
+          r="19"
+          stroke="var(--color-terracotta)"
+          stroke-width="1.5"
+          stroke-dasharray="3 3"
+          opacity="0.4"
+        />
+        <path
+          d="M15 20H25M25 20L21 16M25 20L21 24"
+          stroke="var(--color-terracotta)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </div>
 
     <div class="os-panel os-panel-after">
-      <span class="os-panel-label">After <span class="os-panel-sublabel">(Vertical Pods)</span></span>
+      <span class="os-panel-label">
+        After <span class="os-panel-sublabel">(Vertical Pods)</span>
+      </span>
       <div class="os-pods">
         {['A', 'B', 'C'].map((letter) => (
           <div class="os-pod">
@@ -52,8 +126,21 @@ const shifts = ORG_SHIFTS;
               <span class="os-pod-role os-role-eng">Engineers</span>
               <span class="os-pod-role os-role-agent">Agent</span>
             </div>
-            <svg class="os-pod-arrow" width="16" height="24" viewBox="0 0 16 24" aria-hidden="true">
-              <path d="M8,0 L8,20 M3,16 L8,21 L13,16" fill="none" stroke="var(--color-terracotta)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <svg
+              class="os-pod-arrow"
+              width="16"
+              height="24"
+              viewBox="0 0 16 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M8,0 L8,20 M3,16 L8,21 L13,16"
+                fill="none"
+                stroke="var(--color-terracotta)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
             <span class="os-pod-output">Feature {letter}</span>
           </div>
@@ -64,8 +151,14 @@ const shifts = ORG_SHIFTS;
 
   <div class="os-shifts">
     {shifts.map((shift, i) => (
-      <article class="os-shift-card" id={shift.id} style={`--i:${i}`}>
-        <span class="os-shift-num">{String(shift.number).padStart(2, '0')}</span>
+      <article
+        class="os-shift-card"
+        id={ids.record(shift.id)}
+        style={`--i:${i}`}
+      >
+        <span class="os-shift-num">
+          {String(shift.number).padStart(2, '0')}
+        </span>
         <div>
           <h4 class="os-shift-title">{shift.title}</h4>
           <p class="os-shift-desc">{shift.description}</p>
@@ -78,7 +171,7 @@ const shifts = ORG_SHIFTS;
 <script>
   import { observeEntrance } from '../lib/observeEntrance';
   document.querySelectorAll<HTMLElement>('.os-wrap').forEach((wrap) => {
-    observeEntrance(wrap.id, 'os-visible', 0.1);
+    observeEntrance(wrap, 'os-visible', 0.1);
   });
 </script>
 
@@ -128,13 +221,25 @@ const shifts = ORG_SHIFTS;
   }
 
   @keyframes os-slideRight {
-    from { opacity: 0; transform: translateX(-12px); }
-    to   { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   @keyframes os-slideLeft {
-    from { opacity: 0; transform: translateX(12px); }
-    to   { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -283,7 +388,10 @@ const shifts = ORG_SHIFTS;
     background: white;
     border: 1px solid var(--color-border);
     border-radius: 10px;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
     opacity: 0;
     transform: translateY(8px);
   }
@@ -302,7 +410,11 @@ const shifts = ORG_SHIFTS;
   }
 
   .os-shift-card:hover {
-    border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-terracotta));
+    border-color: color-mix(
+      in srgb,
+      var(--color-border) 50%,
+      var(--color-terracotta)
+    );
     box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
   }
@@ -351,6 +463,17 @@ const shifts = ORG_SHIFTS;
 
     .os-flow-h {
       gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .os-pods {
+      flex-wrap: wrap;
+    }
+    .os-pod {
+      flex-basis: 90px;
+    }
+    .os-panel {
+      min-width: 0;
     }
 
     .os-shifts {

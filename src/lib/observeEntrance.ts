@@ -3,12 +3,20 @@
  * triggering CSS entrance animations. Disconnects after first intersection.
  */
 export function observeEntrance(
-  elementId: string,
+  element: string | HTMLElement,
   visibleClass: string,
   threshold = 0.15,
 ): void {
-  const el = document.getElementById(elementId);
+  const el =
+    typeof element === 'string' ? document.getElementById(element) : element;
   if (!el) return;
+  if (
+    !('IntersectionObserver' in window) ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    el.classList.add(visibleClass);
+    return;
+  }
 
   const obs = new IntersectionObserver(
     ([entry]) => {

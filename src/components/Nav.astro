@@ -9,11 +9,16 @@ const links = NAV_LINKS.map((link) => ({
   isActive:
     link.href === '/'
       ? normalizedPath === '/'
-      : normalizedPath === link.href || normalizedPath.startsWith(`${link.href}/`),
+      : normalizedPath === link.href ||
+        normalizedPath.startsWith(`${link.href}/`),
 }));
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-cream)]/95 backdrop-blur-sm border-b border-[var(--color-border)]">
+<nav
+  data-site-nav
+  aria-label="Main navigation"
+  class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-cream)]/95 backdrop-blur-sm border-b border-[var(--color-border)]"
+>
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a
       href="/"
@@ -49,13 +54,25 @@ const links = NAV_LINKS.map((link) => ({
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
-      <span class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center" id="bar1"></span>
-      <span class="block w-5 h-0.5 bg-[var(--color-ink)] transition-opacity" id="bar2"></span>
-      <span class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center" id="bar3"></span>
+      <span
+        class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center"
+        id="bar1"
+      ></span>
+      <span
+        class="block w-5 h-0.5 bg-[var(--color-ink)] transition-opacity"
+        id="bar2"
+      ></span>
+      <span
+        class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center"
+        id="bar3"
+      ></span>
     </button>
   </div>
 
-  <div id="mobile-menu" class="md:hidden hidden border-t border-[var(--color-border)] bg-[var(--color-cream)]">
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-[var(--color-border)] bg-[var(--color-cream)]"
+  >
     <ul class="list-none m-0 p-4 flex flex-col gap-1">
       {links.map((link) => (
         <li class="m-0 p-0">
@@ -83,14 +100,23 @@ const links = NAV_LINKS.map((link) => ({
   const bar1 = document.getElementById('bar1');
   const bar2 = document.getElementById('bar2');
   const bar3 = document.getElementById('bar3');
+  document
+    .querySelector('[data-site-nav]')
+    ?.setAttribute('data-enhanced', 'true');
 
   function setMenuOpen(open: boolean) {
     if (!menu || !btn) return;
     menu.classList.toggle('hidden', !open);
     btn.setAttribute('aria-expanded', String(open));
-    bar1?.style.setProperty('transform', open ? 'rotate(45deg) translate(2px, 4px)' : '');
+    bar1?.style.setProperty(
+      'transform',
+      open ? 'rotate(45deg) translate(2px, 4px)' : '',
+    );
     bar2?.style.setProperty('opacity', open ? '0' : '1');
-    bar3?.style.setProperty('transform', open ? 'rotate(-45deg) translate(2px, -4px)' : '');
+    bar3?.style.setProperty(
+      'transform',
+      open ? 'rotate(-45deg) translate(2px, -4px)' : '',
+    );
 
     if (open) {
       const firstLink = menu.querySelector<HTMLAnchorElement>('a');
@@ -107,24 +133,25 @@ const links = NAV_LINKS.map((link) => ({
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (menu?.classList.contains('hidden') !== false) {
+    if (btn?.getAttribute('aria-expanded') === 'true') {
       setMenuOpen(false);
     }
   });
 
-  menu?.addEventListener('keydown', (e) => {
-    if (e.key !== 'Tab') return;
-    const focusable = menu.querySelectorAll<HTMLElement>('a, button');
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
+  // This is a disclosure, not a modal: Tab may leave the navigation.
+  document
+    .querySelector('[data-site-nav]')
+    ?.addEventListener('focusout', (event) => {
+      const next = (event as FocusEvent).relatedTarget;
+      if (
+        next instanceof Node &&
+        !document.querySelector('[data-site-nav]')?.contains(next)
+      ) {
+        menu?.classList.add('hidden');
+        btn?.setAttribute('aria-expanded', 'false');
+        bar1?.style.removeProperty('transform');
+        bar2?.style.removeProperty('opacity');
+        bar3?.style.removeProperty('transform');
+      }
+    });
 </script>

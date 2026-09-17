@@ -2,15 +2,18 @@ interface IdentifiedRecord {
   id: string;
 }
 
-export function assertNonEmpty(label: string, records: readonly unknown[]): void {
+export function assertNonEmpty(
+  label: string,
+  records: readonly unknown[],
+): void {
   if (records.length === 0) {
     throw new Error(`${label} must not be empty`);
   }
 }
 
-export function assertUniqueIds<T extends IdentifiedRecord>(
+export function assertUniqueIds(
   label: string,
-  records: readonly T[],
+  records: readonly IdentifiedRecord[],
 ): void {
   const seen = new Set<string>();
 
@@ -45,7 +48,9 @@ export function assertConsecutiveOrder(
   sorted.forEach((order, index) => {
     const expected = index + 1;
     if (order !== expected) {
-      throw new Error(`${label} order must be consecutive from 1; expected ${expected}, received ${order}`);
+      throw new Error(
+        `${label} order must be consecutive from 1; expected ${expected}, received ${order}`,
+      );
     }
   });
 }

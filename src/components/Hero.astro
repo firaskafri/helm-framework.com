@@ -1,6 +1,7 @@
 ---
 import ArrowIcon from './ArrowIcon.astro';
-import { SITE_FULL_NAME } from '../data/site';
+import { SITE_FULL_NAME, SITE_UPDATED_AT } from '../data/site';
+import PublicationInfo from './PublicationInfo.astro';
 
 interface Props {
   title: string;
@@ -24,6 +25,7 @@ const { title, subtitle } = Astro.props;
     <p class="text-xl md:text-2xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
       {subtitle}
     </p>
+    <PublicationInfo lastModified={new Date(SITE_UPDATED_AT)} />
     <div class="flex flex-col sm:flex-row gap-4 mt-10">
       <a
         href="/practitioners"

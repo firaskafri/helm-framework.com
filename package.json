@@ -2,6 +2,8 @@
   "name": "helm-framework",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
   "author": "Firas Kafri <firas.alkafri@gmail.com>",
   "engines": {
     "node": ">=22.12.0"
@@ -10,20 +12,43 @@
     "dev": "astro dev",
     "build": "astro build",
     "check:content": "npm run build && node scripts/check-built-content.mjs",
+    "check:types": "astro check",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "check:format": "prettier --check .",
+    "test": "tsx --test tests/unit/*.test.ts",
+    "test:browser": "node scripts/test-browser.mjs",
+    "check:security": "node scripts/check-source-safety.mjs && npm audit --audit-level=low",
+    "check": "npm run check:format && npm run lint && npm run check:types && npm test && npm run check:content && npm run check:security && npm run test:browser",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.3",
-    "@astrojs/node": "^10.0.4",
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/rss": "^4.0.19",
     "@tailwindcss/vite": "^4.2.2",
-    "astro": "^6.1.2",
+    "astro": "^7.3.3",
     "marked": "^17.0.5",
-    "sharp": "^0.34.5",
+    "sanitize-html": "^2.17.7",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
-    "cheerio": "^1.2.0"
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.3",
+    "@types/sanitize-html": "^2.16.1",
+    "cheerio": "^1.2.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.7",
+    "prettier-plugin-astro": "^1.0.1",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.70.0"
   }
 }
