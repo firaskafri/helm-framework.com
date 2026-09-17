@@ -2,7 +2,7 @@
 
 A framework for product development teams building with AI agents. Principles, patterns, guardrails, and a roadmap for adoption.
 
-See [`ROADMAP.md`](ROADMAP.md) for the product roadmap, active-work tracker, release gates, decisions, risks, and update log.
+See [`ROADMAP.md`](ROADMAP.md) for current Now/Next/Later priorities, active work, dependencies and release gates. The [retained backlog](docs/roadmap-backlog.md) and [roadmap history](docs/roadmap-history.md) preserve conditional work and prior decisions.
 
 ## Content Architecture
 
@@ -14,7 +14,8 @@ HELM separates narrative, structured framework records, and rendering:
 - `src/content/roles/*.md` owns the eight role-transformation and hiring guides.
 - `src/data/universal-competencies.ts` owns the shared competency set shown on the roles index.
 - `src/data/evidence.ts` owns claim labels and source-review history; `/evidence` renders the bibliography-derived register.
-- `docs/corrections.md`, `CHANGELOG.md`, `ROADMAP.md`, and `LICENSE-CONTENT.md` own their public reference pages.
+- `src/data/updates.json` owns `/updates`, homepage highlights and the published-updates RSS. `CHANGELOG.md` is generated from the same records.
+- `docs/corrections.md`, `ROADMAP.md`, and `LICENSE-CONTENT.md` own their public reference pages.
 
 See [`docs/content-architecture.md`](docs/content-architecture.md) for the complete ownership map, stable identifiers, routes, and reference rules.
 
@@ -22,7 +23,7 @@ See [`docs/content-architecture.md`](docs/content-architecture.md) for the compl
 
 The published framework and application package are versioned independently:
 
-- **Framework:** HELM 1.0.1 release candidate. The published baseline remains recorded by `framework-v1.0.0`; see `CHANGELOG.md` and `docs/releases/1.0.1.md` for verification and publication status.
+- **Framework:** HELM 1.0.1, published as `framework-v1.0.1`; see `CHANGELOG.md` and `docs/releases/1.0.1.md` for verification and publication details.
 - **Application package:** `0.0.1`, used only for the Astro application package.
 
 Changing one version does not imply a change to the other.
@@ -107,6 +108,12 @@ docs/
 - Record source provenance and label proposals, illustrations, unverified claims and external evidence distinctly. Update editorial dates when guidance or structured records change.
 
 ## Release operations and contributions
+
+### Keeping visitors up to date
+
+Add linked changes to `src/data/updates.json`, then run `npm run updates:sync`. The `/updates` timeline, homepage highlights, `/changelog`, and `/updates/rss.xml` all share those records. CI requires meaningful notes for visitor-facing changes and checks current release metadata, generated-file synchronization, and links. Candidates are labeled; RSS includes published announcements only.
+
+Run `npm run check:updates -- --base origin/main` to check the mechanism locally. See [`docs/updates.md`](docs/updates.md) for the record format and release workflow.
 
 - [`docs/quality-baseline.md`](docs/quality-baseline.md) records the pre-hardening state and reproducible checks.
 - [`docs/deployment.md`](docs/deployment.md) documents static serving, port **8080**, required GitHub checks and rollback.

@@ -24,7 +24,7 @@ Browser tests build `/checks/components` only when `HELM_TEST_FIXTURES=1`, exerc
 
 `.github/workflows/quality.yml` runs on pull requests and main pushes, with read-only repository permissions:
 
-- `quality`: formatting, ESLint, Astro/TypeScript diagnostics, unit tests, generated-content checks, source-safety checks, dependency audit, browser/accessibility tests.
+- `quality`: formatting, ESLint, Astro/TypeScript diagnostics, mandatory linked update notes and changelog synchronization, unit tests, generated-content checks, source-safety checks, dependency audit, browser/accessibility tests.
 - `container`: build the production image and check serving, 404 behavior and non-root execution.
 
 The workflow uploads browser diagnostics and a production `dist/` artifact named with the source commit. Action references and image bases are pinned. The artifact is suitable for deployment only after both checks pass.
@@ -50,7 +50,7 @@ This configuration was applied and confirmed by API readback on 2026-09-17. It w
 
 1. Review the candidate diff and evidence report in `docs/releases/1.0.1.md`.
 2. Confirm the required GitHub checks passed for the exact release commit and verify the nginx image.
-3. Set `FRAMEWORK_RELEASE_STATE` to `published`, date the changelog, and record approval evidence. Re-run checks for this release change.
+3. Set `FRAMEWORK_RELEASE_STATE` and the matching release entry in `src/data/updates.json` to `published`, set its publication/update dates, run `npm run updates:sync`, and record approval/completion evidence. Re-run checks for this release change. See `docs/updates.md`.
 4. Merge the approved revision and create the explicit `framework-v1.0.1` tag and repository release.
 5. Deploy that clean revision through the self-hosted VM component release tooling. The component builds the repository Dockerfile on the VM, serves port **8080** privately, and is exposed only through the shared TLS gateway.
 6. Smoke-test the public routes and metadata. Record the deployed local image ID, source commit, and rollback release in the release report.

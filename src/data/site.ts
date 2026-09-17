@@ -8,9 +8,10 @@ export const SITE_AUTHOR_URL = 'https://www.linkedin.com/in/alkafri/';
 /** Editorial date for site/reference pages; never derived from build time. */
 export const SITE_UPDATED_AT = '2026-09-17';
 export const REFERENCE_LINKS = [
+  { href: '/updates', label: 'Updates' },
   { href: '/evidence', label: 'Evidence' },
   { href: '/corrections', label: 'Corrections' },
-  { href: '/changelog', label: 'Changelog' },
+  { href: '/changelog', label: 'Release history' },
   { href: '/roadmap', label: 'Roadmap' },
   { href: '/licensing', label: 'Licensing' },
 ] as const;
@@ -21,4 +22,5 @@ export const NAV_LINKS = [
   { href: '/practitioners', label: 'Practitioners' },
   { href: '/leadership', label: 'Leadership' },
   { href: '/roles', label: 'Roles' },
+  { href: '/updates', label: 'Updates' },
 ] as const;

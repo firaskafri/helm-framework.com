@@ -1,11 +1,14 @@
 ---
 import { Content } from '../../CHANGELOG.md';
 import Reference from '../layouts/Reference.astro';
+import { UPDATES_LAST_MODIFIED } from '../data/updates';
 ---
 
 <Reference
-  title="Framework Changelog"
-  description="Version history, compatibility notes and release status for HELM."
+  title="Release History"
+  description="What has changed in HELM’s guidance and resources, why it matters for your team, and where to explore it."
+  lastModified={new Date(UPDATES_LAST_MODIFIED)}
+  showPublicationInfo={false}
 >
   <Content />
 </Reference>

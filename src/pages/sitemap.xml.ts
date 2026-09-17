@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { SITE_ORIGIN, SITE_UPDATED_AT, REFERENCE_LINKS } from '../data/site';
 import { loadDocs, loadRoles } from '../lib/content';
+import { UPDATES_LAST_MODIFIED } from '../data/updates';
 
 export const GET: APIRoute = async ({ site }) => {
   const origin = site?.href.replace(/\/$/, '') ?? SITE_ORIGIN;
@@ -12,7 +13,15 @@ export const GET: APIRoute = async ({ site }) => {
     '/roles',
     '/roles/competency-map',
     ...REFERENCE_LINKS.map(({ href }) => href),
-  ].map((path) => ({ path, modified: SITE_UPDATED_AT }));
+  ].map((path) => ({
+    path,
+    modified:
+      path === '/updates' || path === '/changelog'
+        ? UPDATES_LAST_MODIFIED
+        : path === '/' && UPDATES_LAST_MODIFIED > SITE_UPDATED_AT
+          ? UPDATES_LAST_MODIFIED
+          : SITE_UPDATED_AT,
+  }));
   const docPaths = docs.map((d) => ({
     path: `/${d.id}`,
     modified: d.data.lastModified.toISOString().slice(0, 10),
