@@ -1,23 +1,23 @@
 ---
-id: "practitioners"
-title: "Practitioner Guide"
-subtitle: "How we build and operate with AI agents day-to-day."
-description: "Architecture patterns, guardrails, operating loop, and maturity model for engineers, tech leads, PMs, and designers."
+id: 'practitioners'
+title: 'Practitioner Guide'
+subtitle: 'How we build and operate with AI agents day-to-day.'
+description: 'Architecture patterns, guardrails, operating loop, and maturity model for engineers, tech leads, PMs, and designers.'
 order: 2
-audience: "practitioners"
-publicationStatus: "published"
-frameworkVersion: "1.0.0"
-createdAt: "2026-04-01"
-lastModified: "2026-04-01"
+audience: 'practitioners'
+publicationStatus: 'published'
+frameworkVersion: '1.0.1'
+createdAt: '2026-04-01'
+lastModified: '2026-09-17'
 evidenceReferences:
-  - "https://www.anthropic.com/engineering/building-effective-agents"
-  - "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents"
-  - "https://www.kaggle.com/whitepaper-agents"
-  - "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/"
-  - "https://vibecoding.app/blog/agentic-engineering-for-software-teams"
-  - "https://www.bassimeledath.com/blog/levels-of-agentic-engineering"
-  - "https://www.gartner.com/en/articles/top-technology-trends-2026"
-  - "https://www.gartner.com/en/articles/intelligent-agent-in-ai"
+  - 'https://www.anthropic.com/engineering/building-effective-agents'
+  - 'https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents'
+  - 'https://www.kaggle.com/whitepaper-agents'
+  - 'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/'
+  - 'https://vibecoding.app/blog/agentic-engineering-for-software-teams'
+  - 'https://www.bassimeledath.com/blog/levels-of-agentic-engineering'
+  - 'https://www.gartner.com/en/articles/top-technology-trends-2026'
+  - 'https://www.gartner.com/en/articles/intelligent-agent-in-ai'
 ---
 
 import PatternSelector from '../../components/PatternSelector.astro';
@@ -25,39 +25,46 @@ import GuardrailStack from '../../components/GuardrailStack.astro';
 import OperatingLoop from '../../components/OperatingLoop.astro';
 import TaskMatrix from '../../components/TaskMatrix.astro';
 import MaturityStepper from '../../components/MaturityStepper.astro';
+import EvidenceNote from '../../components/EvidenceNote.astro';
 
 ## Agent Architecture Patterns
 
 ### Agent Anatomy
 
+<EvidenceNote claim="agent-anatomy" />
+
 Every agent, regardless of framework or vendor, is composed of five core components.
 
-| Component | What It Does | Example |
-|---|---|---|
-| **Model** | The reasoning engine. Makes decisions, generates outputs, selects tools. | GPT-5.4, Claude Opus 4.6, Gemini 3 Pro |
-| **Tools** | External functions, APIs, or systems the agent can invoke. | Database queries, web search, code execution, file I/O |
-| **Instructions** | Explicit guidelines, scope constraints, and behavioral rules. | System prompts, AGENTS.md, rules files, policy documents |
-| **Memory** | Context that persists across interactions -- short-term (conversation) and long-term (vector stores, key-value). | Conversation history, session state, project context |
-| **Retrieval** | Mechanisms to access external knowledge not in the model's training data. | RAG pipelines, document search, knowledge bases |
+| Component        | What It Does                                                                                                     | Example                                                  |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **Model**        | The reasoning engine. Makes decisions, generates outputs, selects tools.                                         | GPT-5.4, Claude Opus 4.6, Gemini 3 Pro                   |
+| **Tools**        | External functions, APIs, or systems the agent can invoke.                                                       | Database queries, web search, code execution, file I/O   |
+| **Instructions** | Explicit guidelines, scope constraints, and behavioral rules.                                                    | System prompts, AGENTS.md, rules files, policy documents |
+| **Memory**       | Context that persists across interactions -- short-term (conversation) and long-term (vector stores, key-value). | Conversation history, session state, project context     |
+| **Retrieval**    | Mechanisms to access external knowledge not in the model's training data.                                        | RAG pipelines, document search, knowledge bases          |
 
 These five components are the atoms. Everything else -- workflows, agents, multi-agent systems -- is a molecule built from them.
 
 ### Workflows vs. Agents
 
+<EvidenceNote claim="workflows" />
+
 A critical architectural distinction, first articulated by Anthropic, governs every design decision downstream:
 
-| Dimension | Workflows | Agents |
-|---|---|---|
-| **Control** | Predefined code paths orchestrate the LLM | LLM dynamically directs its own processes |
-| **Predictability** | High -- you know the execution path | Lower -- the model decides what to do next |
-| **Flexibility** | Low -- changes require code changes | High -- adapts to novel inputs |
-| **Best for** | Well-defined, repeatable tasks | Open-ended problems with unpredictable steps |
-| **Cost/latency** | Lower -- fewer LLM calls, fixed paths | Higher -- more calls, dynamic routing |
-| **Error handling** | Programmatic gates and checks | Agent must self-correct or escalate |
+| Dimension          | Workflows                                 | Agents                                       |
+| ------------------ | ----------------------------------------- | -------------------------------------------- |
+| **Control**        | Predefined code paths orchestrate the LLM | LLM dynamically directs its own processes    |
+| **Predictability** | High -- you know the execution path       | Lower -- the model decides what to do next   |
+| **Flexibility**    | Low -- changes require code changes       | High -- adapts to novel inputs               |
+| **Best for**       | Well-defined, repeatable tasks            | Open-ended problems with unpredictable steps |
+| **Cost/latency**   | Lower -- fewer LLM calls, fixed paths     | Higher -- more calls, dynamic routing        |
+| **Error handling** | Programmatic gates and checks             | Agent must self-correct or escalate          |
 
 The decision rule: **use workflows when you can define the task decomposition in advance; use agents when the decomposition depends on the input.**
 
 ### Tool Types
+
+<EvidenceNote claim="tool-risk" />
 
 Tools fall into three types. This classification determines how you design, test, and permission agent capabilities:
 
@@ -74,6 +81,8 @@ Risk rating should be assigned per tool: low (read-only), medium (reversible wri
 
 ### Composition Patterns
 
+<EvidenceNote claim="patterns" />
+
 Eight patterns, ordered from simplest to most complex. The rule: always start at the top and move down only when the simpler pattern demonstrably fails.
 
 <PatternSelector />
@@ -81,6 +90,8 @@ Eight patterns, ordered from simplest to most complex. The rule: always start at
 ---
 
 ## The Guardrail Stack
+
+<EvidenceNote claim="fnd-guardrails" />
 
 Five layers of defense, grounded in [Principle 4: Guardrails Are Non-Negotiable](/foundation#principle-4-guardrails-are-non-negotiable). Each layer addresses a different failure mode. All five must be in place before scaling agent operations.
 
@@ -92,11 +103,15 @@ Five layers of defense, grounded in [Principle 4: Guardrails Are Non-Negotiable]
 
 ### The Plan-Execute-Verify-Ship-Learn Cycle
 
+<EvidenceNote claim="operating-loop" />
+
 This is the day-to-day execution model. It replaces ad-hoc prompting with a loop you can actually repeat and improve.
 
 <OperatingLoop />
 
 ### Task Classification Matrix
+
+<EvidenceNote claim="classification" />
 
 Not every task is equally suited for agent execution. Classify tasks along two dimensions: **boundedness** (how well-defined is the scope?) and **risk** (what is the blast radius if the agent gets it wrong?).
 
@@ -119,6 +134,8 @@ For how each traditional role transforms under these boundaries — from Softwar
 
 ## Maturity Model
 
+<EvidenceNote claim="maturity" />
+
 A five-level maturity model, drawing on Eledath's "Levels of Agentic Engineering" framework and extending it with team-level dimensions, product integration, and failure modes. Each level says where a team is, what it can do, what it needs to move up, and what risks come with the territory.
 
 > This is the canonical maturity model for the entire HELM framework. The [Leadership Guide](/leadership#maturity-model) references this model and provides a quick-reference table for leadership conversations.
@@ -131,11 +148,11 @@ A five-level maturity model, drawing on Eledath's "Levels of Agentic Engineering
 
 ## Further Reading
 
-- [*Building Effective Agents*](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic
-- [*A Practical Guide to Building Agents*](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents) — OpenAI
-- [*AI Agents Whitepaper*](https://www.kaggle.com/whitepaper-agents) — Google
-- [*Cloud Adoption Framework*](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/) — Microsoft
-- [*Agentic Engineering for Software Teams*](https://vibecoding.app/blog/agentic-engineering-for-software-teams) — vibecoding.app
-- [*The 8 Levels of Agentic Engineering*](https://www.bassimeledath.com/blog/levels-of-agentic-engineering) — Eledath
-- [*Top Strategic Technology Trends 2026*](https://www.gartner.com/en/articles/top-technology-trends-2026) — Gartner
-- [*Five Stages of Agentic Evolution*](https://www.gartner.com/en/articles/intelligent-agent-in-ai) — Gartner
+- [_Building Effective Agents_](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic
+- [_A Practical Guide to Building Agents_](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents) — OpenAI
+- [_AI Agents Whitepaper_](https://www.kaggle.com/whitepaper-agents) — Google
+- [_Cloud Adoption Framework_](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/) — Microsoft
+- [_Agentic Engineering for Software Teams_](https://vibecoding.app/blog/agentic-engineering-for-software-teams) — vibecoding.app
+- [_The 8 Levels of Agentic Engineering_](https://www.bassimeledath.com/blog/levels-of-agentic-engineering) — Eledath
+- [_Top Strategic Technology Trends 2026_](https://www.gartner.com/en/articles/top-technology-trends-2026) — Gartner
+- [_Five Stages of Agentic Evolution_](https://www.gartner.com/en/articles/intelligent-agent-in-ai) — Gartner

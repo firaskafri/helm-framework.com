@@ -40,7 +40,10 @@ const isTransformed = title === maps_to;
             ? 'group-hover:text-[var(--color-terracotta)]'
             : 'group-hover:text-[var(--color-steel)]',
         ]}
-        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
         aria-hidden="true"
       >
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -51,18 +54,29 @@ const isTransformed = title === maps_to;
         <span
           class:list={[
             'font-semibold',
-            accent === 'terracotta' ? 'text-[var(--color-terracotta)]' : 'text-[var(--color-steel)]',
+            accent === 'terracotta'
+              ? 'text-[var(--color-terracotta)]'
+              : 'text-[var(--color-steel)]',
           ]}
-        >Transformed role</span> in HELM
+        >
+          Transformed role
+        </span>{' '}
+        in HELM
       </p>
     ) : (
       <p class="text-xs text-[var(--color-muted)] mb-3">
-        Becomes <span
+        Becomes{' '}
+        <span
           class:list={[
             'font-semibold',
-            accent === 'terracotta' ? 'text-[var(--color-terracotta)]' : 'text-[var(--color-steel)]',
+            accent === 'terracotta'
+              ? 'text-[var(--color-terracotta)]'
+              : 'text-[var(--color-steel)]',
           ]}
-        >{maps_to}</span> in HELM
+        >
+          {maps_to}
+        </span>{' '}
+        in HELM
       </p>
     )}
     <p class="text-sm text-[var(--color-ink-light)] leading-relaxed">

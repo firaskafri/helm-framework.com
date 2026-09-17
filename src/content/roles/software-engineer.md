@@ -1,60 +1,60 @@
 ---
-id: "software-engineer"
-title: "Software Engineer"
-subtitle: "From code producer to agent orchestrator and quality judge"
+id: 'software-engineer'
+title: 'Software Engineer'
+subtitle: 'From code producer to agent orchestrator and quality judge'
 description: "The software engineer's identity was built around writing code. In the AI era, agents write code faster than any human. The engineer's value is no longer in production — it's in orchestration, review, and judgment."
 order: 1
-publicationStatus: "published"
-frameworkVersion: "1.0.0"
-createdAt: "2026-04-01"
-lastModified: "2026-04-01"
+publicationStatus: 'published'
+frameworkVersion: '1.0.1'
+createdAt: '2026-04-01'
+lastModified: '2026-09-17'
 evidenceReferences: []
-category: "engineering"
-evolved_from: ["Frontend Engineer", "Backend Engineer", "Full-Stack Engineer"]
-maps_to: "Product Engineer"
-core_mission: "Orchestrate agent-assisted delivery of product features, ensuring quality, architectural integrity, and product correctness within the HELM operating loop."
+category: 'engineering'
+evolved_from: ['Frontend Engineer', 'Backend Engineer', 'Full-Stack Engineer']
+maps_to: 'Product Engineer'
+core_mission: 'Orchestrate agent-assisted delivery of product features, ensuring quality, architectural integrity, and product correctness within the HELM operating loop.'
 key_responsibilities:
-  - "Define task plans with clear scope, acceptance criteria, and constraints"
-  - "Run the Plan-Execute-Verify-Ship-Learn loop for scoped delivery tasks"
-  - "Review agent-generated code for architectural alignment, edge cases, and security"
-  - "Create and maintain task templates and agent instructions (rules files)"
-  - "Integrate agent output into the product, ensuring it meets UX and product standards"
-  - "Iterate agent execution based on CI feedback (the Execute-Verify loop)"
-  - "Contribute to compounding engineering by codifying lessons into rules and templates"
-  - "Collaborate with PM and Design to translate acceptance criteria into agent-executable plans"
+  - 'Define task plans with clear scope, acceptance criteria, and constraints'
+  - 'Run the Plan-Execute-Verify-Ship-Learn loop for scoped delivery tasks'
+  - 'Review agent-generated code for architectural alignment, edge cases, and security'
+  - 'Create and maintain task templates and agent instructions (rules files)'
+  - 'Integrate agent output into the product, ensuring it meets UX and product standards'
+  - 'Iterate agent execution based on CI feedback (the Execute-Verify loop)'
+  - 'Contribute to compounding engineering by codifying lessons into rules and templates'
+  - 'Collaborate with PM and Design to translate acceptance criteria into agent-executable plans'
 competencies:
-  - title: "Context engineering"
-    description: "Structuring prompts, rules files, and task plans so agents produce output that fits your standards on the first pass more often, and fails in predictable, recoverable ways when they do not."
-  - title: "Cross-layer code review"
-    description: "Reading and challenging agent-generated changes across frontend, backend, and infrastructure without deferring whole layers to someone else."
-    evolved_from: "Framework/language fluency (5+ years with React, Python, etc.)"
-  - title: "Architectural judgment"
-    description: "Spotting when output violates established patterns, quietly accumulates tech debt, or introduces security and reliability risk."
-    evolved_from: "Problem-solving and algorithm skills"
-  - title: "Quality evaluation at volume"
-    description: "Maintaining a high bar when reviewing code you did not write, without rubber-stamping or burning out on nitpicks."
-  - title: "Product awareness"
+  - title: 'Context engineering'
+    description: 'Structuring prompts, rules files, and task plans so agents produce output that fits your standards on the first pass more often, and fails in predictable, recoverable ways when they do not.'
+  - title: 'Cross-layer code review'
+    description: 'Reading and challenging agent-generated changes across frontend, backend, and infrastructure without deferring whole layers to someone else.'
+    evolved_from: 'Framework/language fluency (5+ years with React, Python, etc.)'
+  - title: 'Architectural judgment'
+    description: 'Spotting when output violates established patterns, quietly accumulates tech debt, or introduces security and reliability risk.'
+    evolved_from: 'Problem-solving and algorithm skills'
+  - title: 'Quality evaluation at volume'
+    description: 'Maintaining a high bar when reviewing code you did not write, without rubber-stamping or burning out on nitpicks.'
+  - title: 'Product awareness'
     description: "Asking whether the change solves the user's problem and meets the bar for shippable product, not only whether it compiles and passes tests."
-  - title: "System thinking"
-    description: "Tracing how a localized change propagates through dependencies, contracts, and operational behavior."
-    evolved_from: "REST API and database experience"
+  - title: 'System thinking'
+    description: 'Tracing how a localized change propagates through dependencies, contracts, and operational behavior.'
+    evolved_from: 'REST API and database experience'
 no_longer_screen_for:
-  - "Whiteboard algorithm challenges disconnected from how the team actually ships"
-  - "Arbitrary years-of-experience gates tied to specific framework versions"
-  - "Raw speed of manual typing or line count as a proxy for seniority"
-  - "Memorization of syntax or API surface area that documentation and agents retrieve instantly"
-  - "Hyper-specialization in a single layer of the stack with no ability to reason across boundaries"
+  - 'Whiteboard algorithm challenges disconnected from how the team actually ships'
+  - 'Arbitrary years-of-experience gates tied to specific framework versions'
+  - 'Raw speed of manual typing or line count as a proxy for seniority'
+  - 'Memorization of syntax or API surface area that documentation and agents retrieve instantly'
+  - 'Hyper-specialization in a single layer of the stack with no ability to reason across boundaries'
 interview_methods:
-  - title: "Code review exercise"
+  - title: 'Code review exercise'
     description: "Evaluate an agent-generated pull request for correctness, security, and fit with the system's architecture."
-  - title: "Task planning"
-    description: "Given a feature request, produce a plan that bounds agent work: scope, non-goals, acceptance criteria, and risk level."
-  - title: "System design"
-    description: "Discuss decisions agents should not make alone: boundaries, ownership, failure modes, and evolution of the architecture."
-  - title: "Judgment scenarios"
-    description: "Present flawed agent output and ask what is wrong, and how you would change instructions or rules to prevent recurrence."
-  - title: "Debugging"
-    description: "Diagnose a subtle defect in agent-generated code that satisfies tests but fails under realistic edge conditions or integration pressure."
+  - title: 'Task planning'
+    description: 'Given a feature request, produce a plan that bounds agent work: scope, non-goals, acceptance criteria, and risk level.'
+  - title: 'System design'
+    description: 'Discuss decisions agents should not make alone: boundaries, ownership, failure modes, and evolution of the architecture.'
+  - title: 'Judgment scenarios'
+    description: 'Present flawed agent output and ask what is wrong, and how you would change instructions or rules to prevent recurrence.'
+  - title: 'Debugging'
+    description: 'Diagnose a subtle defect in agent-generated code that satisfies tests but fails under realistic edge conditions or integration pressure.'
 day_in_life: |
   Three agent-generated PRs landed overnight. One is clean. One has a subtle regression in the auth flow that tests don't cover. The third solves the wrong problem entirely — good code, wrong intent. You reject two, approve one, and tighten the task plan for the next run so the same mistakes cost less to catch.
 

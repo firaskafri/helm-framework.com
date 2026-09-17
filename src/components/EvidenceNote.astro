@@ -1,0 +1,24 @@
+---
+import { EVIDENCE_CLAIMS, EVIDENCE_LABELS } from '../data/evidence';
+interface Props {
+  claim: string;
+}
+const record = EVIDENCE_CLAIMS.find(({ id }) => id === Astro.props.claim);
+if (!record) throw new Error(`Unknown evidence claim: ${Astro.props.claim}`);
+---
+
+<aside class="evidence-note" aria-label="Evidence note">
+  <strong>{EVIDENCE_LABELS[record.label].title}:</strong> {record.finding}
+  <a href={`/evidence#${record.id}`}>Source review</a>.
+</aside>
+<style>
+  .evidence-note {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-left: 3px solid var(--color-steel);
+    background: var(--color-cream-dark);
+    border-radius: 0 6px 6px 0;
+  }
+</style>

@@ -1,19 +1,19 @@
 ---
 import { FAILURE_MODES } from '../data/leadership';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('failure-diagnostics', Astro.props.id);
 
 const modes = FAILURE_MODES;
 ---
 
-<div class="fd-wrap" id="failure-diagnostics">
+<div class="fd-wrap" id={ids.root} data-interactive>
   <div class="fd-scan-bar" aria-label="Quick navigation to failure modes">
     {modes.map((m) => (
-      <button
-        class="fd-pill"
-        type="button"
-        data-target={m.id}
-      >
+      <button class="fd-pill" type="button" data-target={ids.record(m.id)}>
         <span class="fd-pill-num">{m.number}</span>
         {m.name}
       </button>
@@ -22,23 +22,34 @@ const modes = FAILURE_MODES;
 
   <div class="fd-cards">
     {modes.map((m, i) => (
-      <div class="fd-card" id={m.id} style={`--i:${i}`}>
+      <div class="fd-card" id={ids.record(m.id)} style={`--i:${i}`}>
         <button
           class="fd-card-header"
           type="button"
-          aria-expanded="false"
-          aria-controls={`fd-content-${m.number}`}
+          aria-expanded="true"
+          aria-controls={ids.record(`fd-content-${m.number}`)}
         >
           <span class="fd-card-num">{m.number}</span>
           <div class="fd-card-title-area">
             <span class="fd-card-name">{m.name}</span>
             <p class="fd-card-symptom">{m.symptom}</p>
           </div>
-          <svg class="fd-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg
+            class="fd-chevron"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
             <path d="M6 9l6 6 6-6" />
           </svg>
         </button>
-        <div class="fd-content-wrap" id={`fd-content-${m.number}`}>
+        <div class="fd-content-wrap" id={ids.record(`fd-content-${m.number}`)}>
           <div class="fd-content">
             <div class="fd-cause">
               <h5 class="helm-label fd-content-label">Root Cause</h5>
@@ -47,7 +58,9 @@ const modes = FAILURE_MODES;
             <div class="fd-mitigations">
               <h5 class="helm-label fd-content-label">Mitigation</h5>
               <ul>
-                {m.mitigations.map((mit) => <li>{mit}</li>)}
+                {m.mitigations.map((mit) => (
+                  <li>{mit}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -61,16 +74,20 @@ const modes = FAILURE_MODES;
   import { observeEntrance } from '../lib/observeEntrance';
   import { syncFragmentSelection } from '../lib/syncFragmentSelection';
 
-  const wrap = document.getElementById('failure-diagnostics');
-  if (wrap) {
+  document.querySelectorAll<HTMLElement>('.fd-wrap').forEach((wrap) => {
     const headers = wrap.querySelectorAll<HTMLButtonElement>('.fd-card-header');
     const pills = wrap.querySelectorAll<HTMLButtonElement>('.fd-pill');
     const cards = wrap.querySelectorAll<HTMLElement>('.fd-card');
+    const details = wrap.querySelectorAll<HTMLElement>('.fd-content-wrap');
 
     function closeAll() {
       headers.forEach((h) => {
         h.setAttribute('aria-expanded', 'false');
         h.closest('.fd-card')?.classList.remove('fd-card-open');
+      });
+      details.forEach((detail) => {
+        detail.inert = true;
+        detail.setAttribute('aria-hidden', 'true');
       });
     }
 
@@ -78,6 +95,13 @@ const modes = FAILURE_MODES;
       closeAll();
       header.setAttribute('aria-expanded', 'true');
       header.closest('.fd-card')?.classList.add('fd-card-open');
+      const detail = [...details].find(
+        (item) => item.id === header.getAttribute('aria-controls'),
+      );
+      if (detail) {
+        detail.inert = false;
+        detail.removeAttribute('aria-hidden');
+      }
     }
 
     function toggleCard(header: HTMLButtonElement) {
@@ -89,7 +113,7 @@ const modes = FAILURE_MODES;
     headers.forEach((h, idx) => {
       h.addEventListener('click', () => toggleCard(h));
       h.addEventListener('keydown', (e: KeyboardEvent) => {
-        let next = idx;
+        let next: number;
         if (e.key === 'ArrowDown') next = Math.min(idx + 1, headers.length - 1);
         else if (e.key === 'ArrowUp') next = Math.max(idx - 1, 0);
         else return;
@@ -102,22 +126,23 @@ const modes = FAILURE_MODES;
       pill.addEventListener('click', () => {
         const targetId = pill.dataset.target;
         if (!targetId) return;
-        const card = document.getElementById(targetId);
+        const card = [...cards].find((candidate) => candidate.id === targetId);
         if (!card) return;
         const header = card.querySelector<HTMLButtonElement>('.fd-card-header');
         if (!header) return;
         if (header.getAttribute('aria-expanded') !== 'true') {
           openCard(header);
         }
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.scrollIntoView({ behavior: 'instant', block: 'center' });
         header.focus({ preventScroll: true });
       });
     });
 
+    closeAll();
+    wrap.dataset.enhanced = 'true';
     syncFragmentSelection(cards, (index) => openCard(headers[index]));
-  }
-
-  observeEntrance('failure-diagnostics', 'fd-visible', 0.1);
+    observeEntrance(wrap, 'fd-visible', 0.1);
+  });
 </script>
 
 <style>
@@ -135,7 +160,9 @@ const modes = FAILURE_MODES;
     padding-bottom: 2px;
   }
 
-  .fd-scan-bar::-webkit-scrollbar { display: none; }
+  .fd-scan-bar::-webkit-scrollbar {
+    display: none;
+  }
 
   .fd-pill {
     flex-shrink: 0;
@@ -292,7 +319,9 @@ const modes = FAILURE_MODES;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .fd-content-wrap { transition: none; }
+    .fd-content-wrap {
+      transition: none;
+    }
   }
 
   .fd-content {

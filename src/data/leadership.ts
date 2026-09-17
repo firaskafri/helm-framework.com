@@ -83,12 +83,13 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
       'Every team member runs at least one agent-assisted task',
       'Document what works, what fails, and what surprises',
     ],
-    productNote: 'PM participates in defining task types. Designer reviews agent-generated UI. Baseline product metrics recorded.',
+    productNote:
+      'PM participates in defining task types. Designer reviews agent-generated UI. Baseline product metrics recorded.',
     exitCriteria: [
       'Baseline metrics recorded for comparison',
       'At least 10 agent-assisted tasks completed and reviewed',
       'No critical quality incidents from agent output',
-      'Team can articulate which tasks agents handle well and which they don\'t',
+      "Team can articulate which tasks agents handle well and which they don't",
       'Basic rules file created and shared across the team',
     ],
     riskMitigations: [
@@ -112,7 +113,8 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
       'Start tracking adoption KPIs: % PRs agent-assisted, CI first-pass rate',
       'Expand rules file based on Phase 1 lessons',
     ],
-    productNote: 'PM creates acceptance criteria templates. Designer contributes design tokens and component specs. Begin tracking design compliance rate.',
+    productNote:
+      'PM creates acceptance criteria templates. Designer contributes design tokens and component specs. Begin tracking design compliance rate.',
     exitCriteria: [
       'Task templates exist for at least 3 common patterns',
       'Risk labeling applied to all agent tasks',
@@ -142,7 +144,8 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
       'Establish evaluation framework beyond CI',
       'Define roles and decision rights',
     ],
-    productNote: 'Product team trained on SOP alongside engineering. Product-specific KPIs added to dashboard. PM owns Plan phase. Designer owns design system compliance.',
+    productNote:
+      'Product team trained on SOP alongside engineering. Product-specific KPIs added to dashboard. PM owns Plan phase. Designer owns design system compliance.',
     exitCriteria: [
       'Internal SOP is published and accessible to all team members',
       'All team members have completed SOP training',
@@ -173,7 +176,8 @@ export const ADOPTION_PHASES: AdoptionPhase[] = [
       'Conduct cross-team retrospectives',
       'Evaluate dedicated role staffing',
     ],
-    productNote: 'Product outcome metrics in org dashboard. Evaluate dedicated QA Engineer staffing. PM templates shared across teams. Design system fully instrumented.',
+    productNote:
+      'Product outcome metrics in org dashboard. Evaluate dedicated QA Engineer staffing. PM templates shared across teams. Design system fully instrumented.',
     exitCriteria: [
       'Multiple teams operating under the same SOP',
       'Governance layer (Layer 5) operational (minimum: registry + cost tracking)',
@@ -211,13 +215,48 @@ export const KPI_CATEGORIES: KpiCategory[] = [
     order: 1,
     name: 'Core Delivery',
     metrics: [
-      { id: 'lead-time', name: 'Lead time', measures: 'Time from issue opened to code merged', direction: 'decrease' },
-      { id: 'pr-review-time', name: 'PR review time', measures: 'Time from PR opened to approved', direction: 'decrease' },
-      { id: 'change-failure-rate', name: 'Change failure rate', measures: '% of deployments causing incidents or rollbacks', direction: 'stable' },
-      { id: 'rollback-frequency', name: 'Rollback frequency', measures: 'Number of rollbacks per deployment period', direction: 'stable' },
-      { id: 'escaped-defects', name: 'Escaped defects', measures: 'Bugs found in production per sprint', direction: 'decrease' },
-      { id: 'test-coverage-delta', name: 'Test coverage delta', measures: 'Change in test coverage over time', direction: 'increase' },
-      { id: 'deployment-frequency', name: 'Deployment frequency', measures: 'How often the team deploys to production', direction: 'increase' },
+      {
+        id: 'lead-time',
+        name: 'Lead time',
+        measures: 'Time from issue opened to code merged',
+        direction: 'decrease',
+      },
+      {
+        id: 'pr-review-time',
+        name: 'PR review time',
+        measures: 'Time from PR opened to approved',
+        direction: 'decrease',
+      },
+      {
+        id: 'change-failure-rate',
+        name: 'Change failure rate',
+        measures: '% of deployments causing incidents or rollbacks',
+        direction: 'stable',
+      },
+      {
+        id: 'rollback-frequency',
+        name: 'Rollback frequency',
+        measures: 'Number of rollbacks per deployment period',
+        direction: 'stable',
+      },
+      {
+        id: 'escaped-defects',
+        name: 'Escaped defects',
+        measures: 'Bugs found in production per sprint',
+        direction: 'decrease',
+      },
+      {
+        id: 'test-coverage-delta',
+        name: 'Test coverage delta',
+        measures: 'Change in test coverage over time',
+        direction: 'increase',
+      },
+      {
+        id: 'deployment-frequency',
+        name: 'Deployment frequency',
+        measures: 'How often the team deploys to production',
+        direction: 'increase',
+      },
     ],
   },
   {
@@ -225,12 +264,42 @@ export const KPI_CATEGORIES: KpiCategory[] = [
     order: 2,
     name: 'Adoption',
     metrics: [
-      { id: 'agent-assisted-prs', name: '% PRs agent-assisted', measures: 'Proportion of PRs that involved agent execution', direction: 'monitor' },
-      { id: 'ci-first-pass-rate', name: '% PRs passing CI first run', measures: 'Quality of agent-generated code before human review', direction: 'increase' },
-      { id: 'tasks-within-sla', name: '% tasks within SLA', measures: 'Agent tasks completed within defined time/iteration bounds', direction: 'increase' },
-      { id: 'contribution-split', name: 'Contribution split', measures: 'Ratio of agent-assisted vs. fully manual work', direction: 'monitor' },
-      { id: 'rules-file-update-frequency', name: 'Rules file update frequency', measures: 'How often the team\'s rules and templates are refined', direction: 'increase' },
-      { id: 'cost-per-agent-task', name: 'Cost per agent task', measures: 'Average token/compute spend per completed task', direction: 'decrease' },
+      {
+        id: 'agent-assisted-prs',
+        name: '% PRs agent-assisted',
+        measures: 'Proportion of PRs that involved agent execution',
+        direction: 'monitor',
+      },
+      {
+        id: 'ci-first-pass-rate',
+        name: '% PRs passing CI first run',
+        measures: 'Quality of agent-generated code before human review',
+        direction: 'increase',
+      },
+      {
+        id: 'tasks-within-sla',
+        name: '% tasks within SLA',
+        measures: 'Agent tasks completed within defined time/iteration bounds',
+        direction: 'increase',
+      },
+      {
+        id: 'contribution-split',
+        name: 'Contribution split',
+        measures: 'Ratio of agent-assisted vs. fully manual work',
+        direction: 'monitor',
+      },
+      {
+        id: 'rules-file-update-frequency',
+        name: 'Rules file update frequency',
+        measures: "How often the team's rules and templates are refined",
+        direction: 'increase',
+      },
+      {
+        id: 'cost-per-agent-task',
+        name: 'Cost per agent task',
+        measures: 'Average token/compute spend per completed task',
+        direction: 'decrease',
+      },
     ],
   },
   {
@@ -238,10 +307,31 @@ export const KPI_CATEGORIES: KpiCategory[] = [
     order: 3,
     name: 'Product Outcome',
     metrics: [
-      { id: 'feature-adoption-rate', name: 'Feature adoption rate', measures: '% of users engaging with agent-built features', direction: 'increase' },
-      { id: 'user-satisfaction-delta', name: 'User satisfaction delta', measures: 'NPS/CSAT change for agent-assisted releases', direction: 'stable' },
-      { id: 'requirement-accuracy', name: 'Requirement accuracy', measures: '% of shipped features matching acceptance criteria on first pass', direction: 'increase' },
-      { id: 'design-compliance-rate', name: 'Design compliance rate', measures: '% of agent-generated UI matching design system', direction: 'increase' },
+      {
+        id: 'feature-adoption-rate',
+        name: 'Feature adoption rate',
+        measures: '% of users engaging with agent-built features',
+        direction: 'increase',
+      },
+      {
+        id: 'user-satisfaction-delta',
+        name: 'User satisfaction delta',
+        measures: 'NPS/CSAT change for agent-assisted releases',
+        direction: 'stable',
+      },
+      {
+        id: 'requirement-accuracy',
+        name: 'Requirement accuracy',
+        measures:
+          '% of shipped features matching acceptance criteria on first pass',
+        direction: 'increase',
+      },
+      {
+        id: 'design-compliance-rate',
+        name: 'Design compliance rate',
+        measures: '% of agent-generated UI matching design system',
+        direction: 'increase',
+      },
     ],
   },
   {
@@ -249,10 +339,30 @@ export const KPI_CATEGORIES: KpiCategory[] = [
     order: 4,
     name: 'Quality',
     metrics: [
-      { id: 'review-rejection-rate', name: 'Review rejection rate', measures: '% of agent PRs rejected in code review', direction: 'decrease' },
-      { id: 'post-merge-defect-rate', name: 'Post-merge defect rate', measures: 'Bugs introduced by agent-generated code found after merge', direction: 'decrease' },
-      { id: 'evaluation-coverage', name: 'Evaluation coverage', measures: '% of agent output types covered by automated evaluation', direction: 'increase' },
-      { id: 'guardrail-trigger-rate', name: 'Guardrail trigger rate', measures: 'How often guardrails catch issues before merge', direction: 'monitor' },
+      {
+        id: 'review-rejection-rate',
+        name: 'Review rejection rate',
+        measures: '% of agent PRs rejected in code review',
+        direction: 'decrease',
+      },
+      {
+        id: 'post-merge-defect-rate',
+        name: 'Post-merge defect rate',
+        measures: 'Bugs introduced by agent-generated code found after merge',
+        direction: 'decrease',
+      },
+      {
+        id: 'evaluation-coverage',
+        name: 'Evaluation coverage',
+        measures: '% of agent output types covered by automated evaluation',
+        direction: 'increase',
+      },
+      {
+        id: 'guardrail-trigger-rate',
+        name: 'Guardrail trigger rate',
+        measures: 'How often guardrails catch issues before merge',
+        direction: 'monitor',
+      },
     ],
   },
 ];
@@ -278,8 +388,10 @@ export const FAILURE_MODES: FailureMode[] = [
     id: 'failure-mode-1-automation-theater',
     number: 1,
     name: 'Automation Theater',
-    symptom: 'High volume of agent activity with minimal measurable business or delivery impact. Dashboards show "AI adoption" but nothing ships faster or better.',
-    rootCause: 'Tasks selected for agents are easy-to-automate busywork rather than genuine bottlenecks. The team optimizes for agent-friendly tasks rather than high-impact tasks.',
+    symptom:
+      'High volume of agent activity with minimal measurable business or delivery impact. Dashboards show "AI adoption" but nothing ships faster or better.',
+    rootCause:
+      'Tasks selected for agents are easy-to-automate busywork rather than genuine bottlenecks. The team optimizes for agent-friendly tasks rather than high-impact tasks.',
     mitigations: [
       'Tie every agent workflow to a measurable delivery KPI',
       'Require a "so what?" test: if automated, what bottleneck does it remove?',
@@ -290,8 +402,10 @@ export const FAILURE_MODES: FailureMode[] = [
     id: 'failure-mode-2-review-bottlenecks',
     number: 2,
     name: 'Review Bottlenecks',
-    symptom: 'Agents generate PRs faster than the team can review them. PR queue grows. Merge latency increases.',
-    rootCause: 'Agent output velocity exceeds the team\'s review capacity. Often caused by large, unfocused agent PRs.',
+    symptom:
+      'Agents generate PRs faster than the team can review them. PR queue grows. Merge latency increases.',
+    rootCause:
+      "Agent output velocity exceeds the team's review capacity. Often caused by large, unfocused agent PRs.",
     mitigations: [
       'Enforce smaller PR scope (one concern per PR, bounded by task template)',
       'Tighten acceptance criteria so PRs are more focused',
@@ -304,8 +418,10 @@ export const FAILURE_MODES: FailureMode[] = [
     id: 'failure-mode-3-silent-quality-drift',
     number: 3,
     name: 'Silent Quality Drift',
-    symptom: 'Code merges quickly. Sprint velocity looks good. But incident rate, bug reports, or customer complaints gradually climb.',
-    rootCause: 'Verification gates are incomplete. Agent-generated code passes CI but introduces subtle issues not covered by tests.',
+    symptom:
+      'Code merges quickly. Sprint velocity looks good. But incident rate, bug reports, or customer complaints gradually climb.',
+    rootCause:
+      'Verification gates are incomplete. Agent-generated code passes CI but introduces subtle issues not covered by tests.',
     mitigations: [
       'Expand evaluation coverage beyond unit tests (integration tests, performance benchmarks, architecture fitness functions)',
       'Track post-release defect rate specifically for agent-generated code',
@@ -317,8 +433,10 @@ export const FAILURE_MODES: FailureMode[] = [
     id: 'failure-mode-4-prompt-tribal-knowledge',
     number: 4,
     name: 'Prompt Tribal Knowledge',
-    symptom: 'One or two engineers get consistently better results from agents. The rest struggle with poor output and lose confidence.',
-    rootCause: 'Effective agent interaction patterns are not captured and shared. Knowledge stays in individual heads.',
+    symptom:
+      'One or two engineers get consistently better results from agents. The rest struggle with poor output and lose confidence.',
+    rootCause:
+      'Effective agent interaction patterns are not captured and shared. Knowledge stays in individual heads.',
     mitigations: [
       'Convert individual prompts into shared task templates',
       'Maintain team-level rules files (not personal ones)',
@@ -331,8 +449,10 @@ export const FAILURE_MODES: FailureMode[] = [
     id: 'failure-mode-5-governance-gap',
     number: 5,
     name: 'Governance Gap',
-    symptom: 'Agent usage scales across teams, but nobody has a clear view of which agents exist, what they access, or what they cost.',
-    rootCause: 'Governance infrastructure (Layer 5) was not built before scaling. Organizations skipped standardization.',
+    symptom:
+      'Agent usage scales across teams, but nobody has a clear view of which agents exist, what they access, or what they cost.',
+    rootCause:
+      'Governance infrastructure (Layer 5) was not built before scaling. Organizations skipped standardization.',
     mitigations: [
       'Implement governance layer before cross-team scaling',
       'Start with minimum viable governance: agent registry + cost tracking',
@@ -345,8 +465,10 @@ export const FAILURE_MODES: FailureMode[] = [
     id: 'failure-mode-6-velocity-without-direction',
     number: 6,
     name: 'Velocity Without Direction',
-    symptom: 'Team ships 3x faster but product metrics (adoption, retention, satisfaction) don\'t improve or decline.',
-    rootCause: 'Agent adoption accelerated delivery without improving problem selection. The team is building the wrong things faster.',
+    symptom:
+      "Team ships 3x faster but product metrics (adoption, retention, satisfaction) don't improve or decline.",
+    rootCause:
+      'Agent adoption accelerated delivery without improving problem selection. The team is building the wrong things faster.',
     mitigations: [
       'Tie agent task selection to product outcome metrics',
       'Require PM sign-off on every task plan',
@@ -368,10 +490,22 @@ for (const [label, records] of leadershipCollections) {
   assertUniqueIds(label, records);
 }
 
-assertConsecutiveOrder('Organizational shifts', ORG_SHIFTS.map(({ number }) => number));
-assertConsecutiveOrder('Adoption phases', ADOPTION_PHASES.map(({ number }) => number));
-assertConsecutiveOrder('KPI categories', KPI_CATEGORIES.map(({ order }) => order));
-assertConsecutiveOrder('Failure modes', FAILURE_MODES.map(({ number }) => number));
+assertConsecutiveOrder(
+  'Organizational shifts',
+  ORG_SHIFTS.map(({ number }) => number),
+);
+assertConsecutiveOrder(
+  'Adoption phases',
+  ADOPTION_PHASES.map(({ number }) => number),
+);
+assertConsecutiveOrder(
+  'KPI categories',
+  KPI_CATEGORIES.map(({ order }) => order),
+);
+assertConsecutiveOrder(
+  'Failure modes',
+  FAILURE_MODES.map(({ number }) => number),
+);
 
 const kpiMetrics = KPI_CATEGORIES.flatMap(({ metrics }) => metrics);
 assertNonEmpty('KPI metrics', kpiMetrics);
@@ -380,6 +514,8 @@ assertUniqueIds('KPI metrics', kpiMetrics);
 const kpiMetricIds = new Set(kpiMetrics.map(({ id }) => id));
 for (const metricId of KPI_SUCCESS_FORMULA) {
   if (!kpiMetricIds.has(metricId)) {
-    throw new Error(`KPI success formula references unknown metric "${metricId}"`);
+    throw new Error(
+      `KPI success formula references unknown metric "${metricId}"`,
+    );
   }
 }

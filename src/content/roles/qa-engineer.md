@@ -1,64 +1,64 @@
 ---
-id: "qa-engineer"
-title: "QA Engineer / SDET"
-subtitle: "The role that splits in two — one judges the agent, the other judges the product"
-description: "Traditional QA owned all quality. In the AI era, there are two distinct quality surfaces: agent output correctness and product correctness. These require different skills, tools, and perspectives."
+id: 'qa-engineer'
+title: 'QA Engineer / SDET'
+subtitle: 'The role that splits in two — one judges the agent, the other judges the product'
+description: 'Traditional QA owned all quality. In the AI era, there are two distinct quality surfaces: agent output correctness and product correctness. These require different skills, tools, and perspectives.'
 order: 5
-publicationStatus: "published"
-frameworkVersion: "1.0.0"
-createdAt: "2026-04-01"
-lastModified: "2026-04-01"
+publicationStatus: 'published'
+frameworkVersion: '1.0.1'
+createdAt: '2026-04-01'
+lastModified: '2026-09-17'
 evidenceReferences: []
-category: "product"
-evolved_from: ["QA Engineer", "SDET", "QA Lead", "Test Engineer"]
-maps_to: "QA Engineer + Evaluation Lead"
+category: 'product'
+evolved_from: ['QA Engineer', 'SDET', 'QA Lead', 'Test Engineer']
+maps_to: 'QA Engineer + Evaluation Lead'
 core_mission: "Own quality across two surfaces — agent output correctness (Evaluation Lead) and product correctness from the user's perspective (QA Engineer) — ensuring both are covered without gaps or duplication."
 key_responsibilities:
-  - "Evaluation Lead: Design evaluation suites for agent behavior that go beyond conventional unit and integration tests"
-  - "Evaluation Lead: Define passing thresholds and quality bars per agent workflow so \"green\" means something operational"
-  - "Evaluation Lead: Track quality metrics over time to catch drift early — before it shows up as customer pain or rework"
-  - "Evaluation Lead: Enforce evaluation as a precondition to ship: no green eval, no merge"
-  - "Evaluation Lead: Build automated evaluation that can validate agent output without defaulting to human-in-the-loop"
-  - "Evaluation Lead: Partner with the AI Architect on what \"correct\" means per task type"
-  - "QA Engineer: Translate acceptance criteria into testable assertions that reflect real user outcomes"
-  - "QA Engineer: Build or curate suites that stress UX regressions, accessibility, copy, and interaction quality"
-  - "QA Engineer: Monitor product-side drift: issues that clear agent evaluation but still violate user expectations"
-  - "QA Engineer: Coordinate with the Evaluation Lead so coverage spans both agent output and end-to-end product behavior"
-  - "QA Engineer: Review agent-generated UI for design-system fit, accessibility, and interaction quality"
-  - "QA Engineer: Own \"does it work for the user?\" at every Verify phase of the operating loop"
+  - 'Evaluation Lead: Design evaluation suites for agent behavior that go beyond conventional unit and integration tests'
+  - 'Evaluation Lead: Define passing thresholds and quality bars per agent workflow so "green" means something operational'
+  - 'Evaluation Lead: Track quality metrics over time to catch drift early — before it shows up as customer pain or rework'
+  - 'Evaluation Lead: Enforce evaluation as a precondition to ship: no green eval, no merge'
+  - 'Evaluation Lead: Build automated evaluation that can validate agent output without defaulting to human-in-the-loop'
+  - 'Evaluation Lead: Partner with the AI Architect on what "correct" means per task type'
+  - 'QA Engineer: Translate acceptance criteria into testable assertions that reflect real user outcomes'
+  - 'QA Engineer: Build or curate suites that stress UX regressions, accessibility, copy, and interaction quality'
+  - 'QA Engineer: Monitor product-side drift: issues that clear agent evaluation but still violate user expectations'
+  - 'QA Engineer: Coordinate with the Evaluation Lead so coverage spans both agent output and end-to-end product behavior'
+  - 'QA Engineer: Review agent-generated UI for design-system fit, accessibility, and interaction quality'
+  - 'QA Engineer: Own "does it work for the user?" at every Verify phase of the operating loop'
 competencies:
-  - title: "Evaluation design"
-    description: "Defining eval suites for non-deterministic or open-ended output — where \"correct\" is graded, not always unique."
-  - title: "Drift detection"
-    description: "Spotting gradual degradation that no single PR or green build exposes."
-  - title: "Product judgment"
-    description: "Assessing experience quality beyond functional pass/fail."
-    evolved_from: "Test plans and test cases"
-  - title: "Statistical thinking"
-    description: "Setting thresholds, confidence, and sampling when binary gates mislead."
-  - title: "Automation at scale"
-    description: "Infrastructure that keeps up with high-volume agent output without drowning the team in manual review."
-    evolved_from: "Automation frameworks (Selenium, Cypress, Jest)"
-  - title: "Cross-functional communication"
-    description: "Turning quality signals into concrete, prioritized feedback for engineering and product."
-    evolved_from: "Bug tracking and regression discipline"
+  - title: 'Evaluation design'
+    description: 'Defining eval suites for non-deterministic or open-ended output — where "correct" is graded, not always unique.'
+  - title: 'Drift detection'
+    description: 'Spotting gradual degradation that no single PR or green build exposes.'
+  - title: 'Product judgment'
+    description: 'Assessing experience quality beyond functional pass/fail.'
+    evolved_from: 'Test plans and test cases'
+  - title: 'Statistical thinking'
+    description: 'Setting thresholds, confidence, and sampling when binary gates mislead.'
+  - title: 'Automation at scale'
+    description: 'Infrastructure that keeps up with high-volume agent output without drowning the team in manual review.'
+    evolved_from: 'Automation frameworks (Selenium, Cypress, Jest)'
+  - title: 'Cross-functional communication'
+    description: 'Turning quality signals into concrete, prioritized feedback for engineering and product.'
+    evolved_from: 'Bug tracking and regression discipline'
 no_longer_screen_for:
-  - "Manual test execution as the primary value proposition"
-  - "Depth in a single framework without judgment about what to automate and why"
-  - "Quality defined only as absence of defects, ignoring intent and experience"
-  - "Assumptions that all code is human-written, reviewed at human cadence, and stable between releases"
-  - "QA as a final gate after development, disconnected from the continuous Build-Verify rhythm"
+  - 'Manual test execution as the primary value proposition'
+  - 'Depth in a single framework without judgment about what to automate and why'
+  - 'Quality defined only as absence of defects, ignoring intent and experience'
+  - 'Assumptions that all code is human-written, reviewed at human cadence, and stable between releases'
+  - 'QA as a final gate after development, disconnected from the continuous Build-Verify rhythm'
 interview_methods:
-  - title: "Evaluation design"
-    description: "An agent generates API endpoints. Design an evaluation suite that decides whether the output is production-ready. What do you measure beyond tests passing?"
-  - title: "Drift detection"
-    description: "CI is green on agent PRs, but customer bug reports are up ~15% month over month. How do you investigate?"
-  - title: "Product quality"
-    description: "An agent-built checkout passes all functional tests. What do you still verify? (Probe UX, accessibility, copy, edge cases, trust.)"
-  - title: "Threshold setting"
-    description: "For a task with no single right answer, how do you define \"good enough\"? Walk through your framework."
-  - title: "Process design"
-    description: "For a team at Maturity Level 3, design the quality workflow. Where does evaluation run? Where does product QA run? How do they hand off and escalate?"
+  - title: 'Evaluation design'
+    description: 'An agent generates API endpoints. Design an evaluation suite that decides whether the output is production-ready. What do you measure beyond tests passing?'
+  - title: 'Drift detection'
+    description: 'CI is green on agent PRs, but customer bug reports are up ~15% month over month. How do you investigate?'
+  - title: 'Product quality'
+    description: 'An agent-built checkout passes all functional tests. What do you still verify? (Probe UX, accessibility, copy, edge cases, trust.)'
+  - title: 'Threshold setting'
+    description: 'For a task with no single right answer, how do you define "good enough"? Walk through your framework.'
+  - title: 'Process design'
+    description: 'For a team at Maturity Level 3, design the quality workflow. Where does evaluation run? Where does product QA run? How do they hand off and escalate?'
 day_in_life: |
   **Evaluation Lead:** Overnight metrics show pass rates holding, but you notice something. A class of edge cases never appears in eval data at all. Coverage looks fine because nobody's testing for the thing that hasn't happened yet. You tighten scenarios and thresholds with the AI Architect. Later, you block a merge where eval green-lighted structurally valid code that violates architectural rules for that service. Agent correctness alone doesn't make something product-ready.
 

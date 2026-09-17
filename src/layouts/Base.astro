@@ -1,6 +1,8 @@
 ---
-import { SITE_NAME, SITE_AUTHOR } from '../data/site';
+import { SITE_NAME, SITE_AUTHOR, SITE_UPDATED_AT } from '../data/site';
+import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
 import type { PublicationStatus } from '../data/framework';
+import { serializeJsonLd } from '../lib/jsonLd';
 import { resolveSiteOrigin, resolveOgImage } from '../lib/resolveSiteOrigin';
 
 interface Props {
@@ -27,10 +29,10 @@ const {
   ogType = 'website',
   noindex = false,
   jsonLd = [],
-  frameworkVersion,
+  frameworkVersion = FRAMEWORK_VERSION,
   publicationStatus,
   createdAt,
-  lastModified,
+  lastModified = new Date(SITE_UPDATED_AT),
 } = Astro.props;
 
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
@@ -38,7 +40,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
 const ogImageAbsolute = resolveOgImage(ogImage, siteOrigin);
 
 const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
-const ldJsonBlocks = jsonLd.map((obj) => JSON.stringify(obj));
+const ldJsonBlocks = jsonLd.map(serializeJsonLd);
 ---
 
 <!doctype html>
@@ -49,10 +51,26 @@ const ldJsonBlocks = jsonLd.map((obj) => JSON.stringify(obj));
     <meta name="description" content={description} />
     <meta name="author" content={SITE_AUTHOR} />
     <meta name="robots" content={robotsContent} />
-    {frameworkVersion && <meta name="helm:framework-version" content={frameworkVersion} />}
-    {publicationStatus && <meta name="helm:publication-status" content={publicationStatus} />}
-    {createdAt && <meta property="article:published_time" content={createdAt.toISOString()} />}
-    {lastModified && <meta property="article:modified_time" content={lastModified.toISOString()} />}
+    {frameworkVersion && (
+      <meta name="helm:framework-version" content={frameworkVersion} />
+    )}
+    <meta name="helm:release-state" content={FRAMEWORK_RELEASE_STATE} />
+    <meta name="helm:evidence-state" content="provisional-synthesis" />
+    {publicationStatus && (
+      <meta name="helm:publication-status" content={publicationStatus} />
+    )}
+    {createdAt && (
+      <meta
+        property="article:published_time"
+        content={createdAt.toISOString()}
+      />
+    )}
+    {lastModified && (
+      <meta
+        property="article:modified_time"
+        content={lastModified.toISOString()}
+      />
+    )}
     <!-- Matches @theme --color-cream in global.css (meta theme-color cannot use CSS variables) -->
     <meta name="theme-color" content="#FDFBF7" />
     <title>{fullTitle}</title>
@@ -72,6 +90,10 @@ const ldJsonBlocks = jsonLd.map((obj) => JSON.stringify(obj));
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:type" content={ogType} />
     <meta property="og:image" content={ogImageAbsolute} />
+    <meta
+      property="og:image:alt"
+      content="HELM — Human-first Execution and Leadership Model"
+    />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -87,11 +109,13 @@ const ldJsonBlocks = jsonLd.map((obj) => JSON.stringify(obj));
     />
 
     {ldJsonBlocks.map((raw) => (
-      <script type="application/ld+json" set:html={raw} />
+      <script type="application/ld+json" set:html={raw}></script>
     ))}
   </head>
   <body class="min-h-screen flex flex-col">
-    <a href="#main-content" class="helm-skip-link">Skip to content</a>
+    <a href="#main-content" class="helm-skip-link">
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>

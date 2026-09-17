@@ -1,8 +1,10 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
+import { gzipSync } from 'node:zlib';
+import sharp from 'sharp';
 
-const DIST_DIR = path.resolve('dist/client');
+const DIST_DIR = path.resolve('dist');
 
 async function listFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -16,7 +18,10 @@ async function listFiles(directory) {
 }
 
 function outputPaths(filePath) {
-  const relativePath = path.relative(DIST_DIR, filePath).split(path.sep).join('/');
+  const relativePath = path
+    .relative(DIST_DIR, filePath)
+    .split(path.sep)
+    .join('/');
   const publicPath = `/${relativePath}`;
 
   if (relativePath === 'index.html') return ['/'];
@@ -53,19 +58,69 @@ for (const filePath of files) {
     ids.add(id);
   });
 
-  const pageRecord = { publicPath: filePublicPaths[0], $, ids, duplicateIds };
+  const pageRecord = {
+    publicPath: filePublicPaths[0],
+    $,
+    ids,
+    duplicateIds,
+    bytes: Buffer.byteLength(html),
+  };
   pageRecords.push(pageRecord);
-  for (const publicPath of filePublicPaths) pagesByPublicPath.set(publicPath, pageRecord);
+  for (const publicPath of filePublicPaths)
+    pagesByPublicPath.set(publicPath, pageRecord);
 }
 
 const failures = [];
-const rootCanonicalUrl = pagesByPublicPath.get('/')?.$('link[rel="canonical"]').attr('href');
+const rootCanonicalUrl = pagesByPublicPath
+  .get('/')
+  ?.$('link[rel="canonical"]')
+  .attr('href');
 if (!rootCanonicalUrl) {
   throw new Error('Built home page must declare a canonical URL');
 }
 const siteOrigin = new URL(rootCanonicalUrl).origin;
 
 for (const page of pageRecords) {
+  if (page.$('main#main-content').length !== 1 || page.$('h1').length !== 1)
+    failures.push(`${page.publicPath} needs exactly one main landmark and h1`);
+  if (page.bytes > 400_000)
+    failures.push(`${page.publicPath} exceeds the 400 KB HTML budget`);
+  if (!page.$('meta[name="helm:framework-version"]').attr('content'))
+    failures.push(`${page.publicPath} lacks a framework version`);
+  if (!page.$('meta[name="helm:evidence-state"]').attr('content'))
+    failures.push(`${page.publicPath} lacks an evidence state`);
+  page.$('script[type="application/ld+json"]').each((_, element) => {
+    try {
+      JSON.parse(page.$(element).text());
+    } catch {
+      failures.push(`${page.publicPath} has malformed JSON-LD`);
+    }
+  });
+  page.$('[aria-controls], [aria-labelledby]').each((_, element) => {
+    for (const attribute of ['aria-controls', 'aria-labelledby']) {
+      for (const id of (page.$(element).attr(attribute) ?? '')
+        .split(/\s+/)
+        .filter(Boolean)) {
+        if (!page.ids.has(id))
+          failures.push(
+            `${page.publicPath} has broken ${attribute} reference ${id}`,
+          );
+      }
+    }
+  });
+  page
+    .$(
+      'script[src], link[rel="stylesheet"], meta[property="og:image"], meta[name="twitter:image"]',
+    )
+    .each((_, element) => {
+      const node = page.$(element);
+      const value =
+        node.attr('src') ?? node.attr('href') ?? node.attr('content');
+      if (!value) return;
+      const url = new URL(value, siteOrigin);
+      if (url.origin === siteOrigin && !publicPaths.has(url.pathname))
+        failures.push(`${page.publicPath} references missing asset ${value}`);
+    });
   for (const duplicateId of page.duplicateIds) {
     failures.push(`${page.publicPath} contains duplicate id "#${duplicateId}"`);
   }
@@ -77,7 +132,8 @@ for (const page of pageRecords) {
     let url;
     try {
       const canonicalUrl =
-        page.$('link[rel="canonical"]').attr('href') ?? new URL(page.publicPath, siteOrigin).href;
+        page.$('link[rel="canonical"]').attr('href') ??
+        new URL(page.publicPath, siteOrigin).href;
       url = new URL(href, canonicalUrl);
     } catch {
       failures.push(`${page.publicPath} contains malformed link "${href}"`);
@@ -89,16 +145,22 @@ for (const page of pageRecords) {
     const isSameDocumentFragment = href.startsWith('#');
     const targetPath = url.pathname;
     if (!isSameDocumentFragment && !publicPaths.has(targetPath)) {
-      failures.push(`${page.publicPath} links to missing route "${targetPath}"`);
+      failures.push(
+        `${page.publicPath} links to missing route "${targetPath}"`,
+      );
       return;
     }
 
     if (!url.hash) return;
 
-    const targetPage = isSameDocumentFragment ? page : pagesByPublicPath.get(targetPath);
+    const targetPage = isSameDocumentFragment
+      ? page
+      : pagesByPublicPath.get(targetPath);
     const fragment = decodeURIComponent(url.hash.slice(1));
     if (!targetPage) {
-      failures.push(`${page.publicPath} links to fragment on non-HTML route "${href}"`);
+      failures.push(
+        `${page.publicPath} links to fragment on non-HTML route "${href}"`,
+      );
       return;
     }
     if (!targetPage.ids.has(fragment)) {
@@ -107,10 +169,77 @@ for (const page of pageRecords) {
   });
 }
 
+const sitemap = cheerio.load(
+  await readFile(path.join(DIST_DIR, 'sitemap.xml'), 'utf8'),
+  { xmlMode: true },
+);
+const sitemapPaths = new Set();
+sitemap('url').each((_, element) => {
+  const node = sitemap(element);
+  const url = new URL(node.find('loc').text());
+  const page = pagesByPublicPath.get(url.pathname);
+  sitemapPaths.add(url.pathname.replace(/\/$/, '') || '/');
+  if (url.origin !== siteOrigin || !page) {
+    failures.push(`Sitemap has invalid route ${url.href}`);
+    return;
+  }
+  const modified = page
+    .$('meta[property="article:modified_time"]')
+    .attr('content')
+    ?.slice(0, 10);
+  if (node.find('lastmod').text() !== modified)
+    failures.push(`Sitemap modification date disagrees with ${url.pathname}`);
+});
+for (const page of pageRecords) {
+  if (page.$('meta[name="robots"]').attr('content')?.includes('noindex'))
+    continue;
+  if (!sitemapPaths.has(page.publicPath.replace(/\/$/, '') || '/'))
+    failures.push(`Sitemap omits ${page.publicPath}`);
+}
+const feed = cheerio.load(
+  await readFile(path.join(DIST_DIR, 'rss.xml'), 'utf8'),
+  { xmlMode: true },
+);
+feed('item').each((_, element) => {
+  const item = feed(element);
+  const route = new URL(item.find('link').text()).pathname;
+  const page = pagesByPublicPath.get(route);
+  if (!page) {
+    failures.push(`RSS links to missing route ${route}`);
+    return;
+  }
+  if (
+    item.find('dcterms\\:modified').text() !==
+    page.$('meta[property="article:modified_time"]').attr('content')
+  )
+    failures.push(`RSS modification date disagrees with ${route}`);
+  if (
+    new Date(item.find('pubDate').text()).toISOString() !==
+    page.$('meta[property="article:published_time"]').attr('content')
+  )
+    failures.push(`RSS publication date disagrees with ${route}`);
+});
+const image = await sharp(path.join(DIST_DIR, 'og-default.png')).metadata();
+if (image.format !== 'png' || image.width < 1200 || image.height < 630)
+  failures.push('Default OG image must be a real PNG of at least 1200×630');
+let javascriptBytes = 0;
+let cssBytes = 0;
+for (const file of files) {
+  if (file.endsWith('.js'))
+    javascriptBytes += gzipSync(await readFile(file)).length;
+  if (file.endsWith('.css')) cssBytes += gzipSync(await readFile(file)).length;
+}
+if (javascriptBytes > 75_000 || cssBytes > 100_000)
+  failures.push(
+    `Static asset budget exceeded: JS ${javascriptBytes}, CSS ${cssBytes} gzip bytes`,
+  );
+
 if (failures.length > 0) {
-  throw new Error(`Built content integrity failed:\n${formatFailures(failures)}`);
+  throw new Error(
+    `Built content integrity failed:\n${formatFailures(failures)}`,
+  );
 }
 
 console.log(
-  `Built content integrity passed for ${pageRecords.length} HTML pages and ${files.length} generated files.`,
+  `Built content integrity passed for ${pageRecords.length} HTML pages and ${files.length} generated files. JS: ${javascriptBytes} B gzip; CSS: ${cssBytes} B gzip.`,
 );

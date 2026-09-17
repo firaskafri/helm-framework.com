@@ -1,61 +1,61 @@
 ---
-id: "product-manager"
-title: "Product Manager"
-subtitle: "From directing execution to orchestrating intent through precision requirements"
+id: 'product-manager'
+title: 'Product Manager'
+subtitle: 'From directing execution to orchestrating intent through precision requirements'
 description: "Product managers wrote detailed PRDs and directed engineering execution. When agents execute against well-defined criteria at 10x speed, vague requirements produce vague results at 10x speed. The PM's value is now in orchestrating intent, not directing execution."
 order: 7
-publicationStatus: "published"
-frameworkVersion: "1.0.0"
-createdAt: "2026-04-01"
-lastModified: "2026-04-01"
+publicationStatus: 'published'
+frameworkVersion: '1.0.1'
+createdAt: '2026-04-01'
+lastModified: '2026-09-17'
 evidenceReferences: []
-category: "product"
-evolved_from: ["Product Manager", "Product Owner", "Business Analyst"]
-maps_to: "Product Manager"
+category: 'product'
+evolved_from: ['Product Manager', 'Product Owner', 'Business Analyst']
+maps_to: 'Product Manager'
 core_mission: "Define problems with precision, write acceptance criteria that agents can execute against, and verify that shipped work solves the user's actual problem, not just that it matches the written spec."
 key_responsibilities:
-  - "Define what to build and why—own the Plan phase of the operating loop"
-  - "Write acceptance criteria with enough precision that agents execute correctly on the first pass"
+  - 'Define what to build and why—own the Plan phase of the operating loop'
+  - 'Write acceptance criteria with enough precision that agents execute correctly on the first pass'
   - "Review agent output for product correctness: does the feature solve the user's problem?"
-  - "Shift from step-by-step specifications to constraints, quality bars, and success criteria"
-  - "Track product outcome metrics (adoption, retention, satisfaction) alongside delivery metrics"
-  - "Own the \"velocity without direction\" check: ensure agents build the right things, not only build fast"
-  - "Collaborate with the AI Architect on prioritization—the architect frames feasibility and cost; the PM decides what matters"
-  - "Participate in the Verify phase, validating that agent output meets product acceptance criteria before release"
+  - 'Shift from step-by-step specifications to constraints, quality bars, and success criteria'
+  - 'Track product outcome metrics (adoption, retention, satisfaction) alongside delivery metrics'
+  - 'Own the "velocity without direction" check: ensure agents build the right things, not only build fast'
+  - 'Collaborate with the AI Architect on prioritization—the architect frames feasibility and cost; the PM decides what matters'
+  - 'Participate in the Verify phase, validating that agent output meets product acceptance criteria before release'
 competencies:
-  - title: "Precision requirements writing"
-    description: "Craft acceptance criteria that are agent-executable—specific enough to act on, verifiable enough for human judgment."
-    evolved_from: "Writing detailed PRDs and user stories"
-  - title: "Product judgment at speed"
-    description: "Decide quality and direction when agent output arrives far faster than traditional engineering cycles."
-    evolved_from: "Product strategy and roadmap ownership"
-  - title: "Outcome orientation"
-    description: "Anchor success in product metrics (adoption, satisfaction, retention), not only delivery metrics (stories closed, features shipped)."
-    evolved_from: "Backlog prioritization by business value"
-  - title: "Agent capability awareness"
-    description: "Know what agents do well and where human judgment must intervene, and shape requirements accordingly."
-  - title: "Constraint-based thinking"
-    description: "Prefer boundaries—\"never violate this,\" \"always uphold that\"—over brittle procedural scripts."
-  - title: "Data-informed iteration"
-    description: "Use the Learn phase to improve requirement templates and criteria based on what actually shipped and how users responded."
-    evolved_from: "Managing stakeholder expectations"
+  - title: 'Precision requirements writing'
+    description: 'Craft acceptance criteria that are agent-executable—specific enough to act on, verifiable enough for human judgment.'
+    evolved_from: 'Writing detailed PRDs and user stories'
+  - title: 'Product judgment at speed'
+    description: 'Decide quality and direction when agent output arrives far faster than traditional engineering cycles.'
+    evolved_from: 'Product strategy and roadmap ownership'
+  - title: 'Outcome orientation'
+    description: 'Anchor success in product metrics (adoption, satisfaction, retention), not only delivery metrics (stories closed, features shipped).'
+    evolved_from: 'Backlog prioritization by business value'
+  - title: 'Agent capability awareness'
+    description: 'Know what agents do well and where human judgment must intervene, and shape requirements accordingly.'
+  - title: 'Constraint-based thinking'
+    description: 'Prefer boundaries—"never violate this," "always uphold that"—over brittle procedural scripts.'
+  - title: 'Data-informed iteration'
+    description: 'Use the Learn phase to improve requirement templates and criteria based on what actually shipped and how users responded.'
+    evolved_from: 'Managing stakeholder expectations'
 no_longer_screen_for:
-  - "PRD writing as the primary deliverable"
-  - "Deep expertise in managing Jira boards and sprint ceremonies as core PM craft"
-  - "Stakeholder management reduced to status updates and narrative control"
-  - "Backlog grooming as a dominant use of PM time"
-  - "\"Experience with Agile/Scrum\" as a differentiating qualification on its own"
+  - 'PRD writing as the primary deliverable'
+  - 'Deep expertise in managing Jira boards and sprint ceremonies as core PM craft'
+  - 'Stakeholder management reduced to status updates and narrative control'
+  - 'Backlog grooming as a dominant use of PM time'
+  - '"Experience with Agile/Scrum" as a differentiating qualification on its own'
 interview_methods:
-  - title: "Requirements precision"
-    description: "\"Write acceptance criteria for a 'forgot password' flow that an agent would execute against. What makes your criteria agent-executable versus vague?\""
-  - title: "Product judgment"
-    description: "\"An agent built a feature in two hours that satisfies every acceptance criterion. Adoption is flat. What do you investigate first?\""
-  - title: "Constraint definition"
-    description: "\"Define constraints—not a spec—for an agent building a pricing page. What must it never do? What quality bars are non-negotiable?\""
-  - title: "Velocity vs. direction"
-    description: "\"Your team shipped three times more features this quarter; NPS fell five points. Diagnose and propose a correction.\""
-  - title: "Collaboration"
-    description: "\"The AI Architect says a feature is feasible but triples the token budget. The designer says the UX depends on it. Walk through your decision process.\""
+  - title: 'Requirements precision'
+    description: '"Write acceptance criteria for a ''forgot password'' flow that an agent would execute against. What makes your criteria agent-executable versus vague?"'
+  - title: 'Product judgment'
+    description: '"An agent built a feature in two hours that satisfies every acceptance criterion. Adoption is flat. What do you investigate first?"'
+  - title: 'Constraint definition'
+    description: '"Define constraints—not a spec—for an agent building a pricing page. What must it never do? What quality bars are non-negotiable?"'
+  - title: 'Velocity vs. direction'
+    description: '"Your team shipped three times more features this quarter; NPS fell five points. Diagnose and propose a correction."'
+  - title: 'Collaboration'
+    description: '"The AI Architect says a feature is feasible but triples the token budget. The designer says the UX depends on it. Walk through your decision process."'
 day_in_life: |
   A support ticket catches your eye: users are abandoning a flow the team shipped two sprints ago. The acceptance criteria were met. The agent built it to spec. But users are confused by the second step. Spec-perfect, problem-poor. You flag it for redesign and update the criteria template so the next version encodes the user's mental model, not just functional steps.
 

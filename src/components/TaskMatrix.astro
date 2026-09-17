@@ -2,19 +2,31 @@
 import { TASK_MATRIX } from '../data/practitioners';
 import type { TaskMatrixCell } from '../data/practitioners';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('task-matrix', Astro.props.id);
 
 type Boundedness = TaskMatrixCell['boundedness'];
 type Risk = TaskMatrixCell['risk'];
 
-const boundednessLabels: Boundedness[] = ['well-bounded', 'semi-bounded', 'open-ended'];
+const boundednessLabels: Boundedness[] = [
+  'well-bounded',
+  'semi-bounded',
+  'open-ended',
+];
 const riskLabels: Risk[] = ['low', 'medium', 'high'];
 const boundednessDisplay: Record<Boundedness, string> = {
   'well-bounded': 'Well-bounded',
   'semi-bounded': 'Semi-bounded',
   'open-ended': 'Open-ended',
 };
-const riskDisplay: Record<Risk, string> = { low: 'Low', medium: 'Medium', high: 'High' };
+const riskDisplay: Record<Risk, string> = {
+  low: 'Low',
+  medium: 'Medium',
+  high: 'High',
+};
 
 function cellColor(b: Boundedness, r: Risk): string {
   const bIdx = boundednessLabels.indexOf(b);
@@ -33,30 +45,34 @@ function getCell(b: string, r: string) {
 }
 ---
 
-<div class="tm-wrap" id="task-matrix">
+<div class="tm-wrap" id={ids.root} data-interactive>
   <div class="tm-grid-container">
     <div class="tm-axis-y" aria-hidden="true">
       <span class="tm-axis-title">Boundedness</span>
     </div>
-    <div class="tm-grid" role="grid" aria-label="Task classification matrix">
+    <div class="tm-grid" role="group" aria-label="Task classification matrix">
       <div class="tm-corner" aria-hidden="true" />
       {riskLabels.map((r) => (
-        <div class="tm-col-header" role="columnheader">{riskDisplay[r]} Risk</div>
+        <div class="tm-col-header">{riskDisplay[r]} Risk</div>
       ))}
       {boundednessLabels.map((b, bIdx) => (
         <>
-          <div class="tm-row-header" role="rowheader">{boundednessDisplay[b]}</div>
+          <div class="tm-row-header">{boundednessDisplay[b]}</div>
           {riskLabels.map((r, rIdx) => {
             const cell = getCell(b, r);
             const isDefault = bIdx === 0 && rIdx === 0;
             return (
               <button
-                class:list={['tm-cell', cellColor(b, r), isDefault && 'tm-cell-active']}
+                class:list={[
+                  'tm-cell',
+                  cellColor(b, r),
+                  isDefault && 'tm-cell-active',
+                ]}
                 type="button"
-                role="gridcell"
                 data-b={b}
                 data-r={r}
-                aria-controls={cell.id}
+                aria-controls={ids.record(cell.id)}
+                aria-pressed={isDefault ? 'true' : 'false'}
                 aria-label={`${boundednessDisplay[b]}, ${riskDisplay[r]} risk: ${cell.agentRole}`}
                 tabindex={isDefault ? 0 : -1}
               >
@@ -73,11 +89,12 @@ function getCell(b: string, r: string) {
   </div>
 
   {TASK_MATRIX.map((cell) => {
-    const isDefault = cell.boundedness === 'well-bounded' && cell.risk === 'low';
+    const isDefault =
+      cell.boundedness === 'well-bounded' && cell.risk === 'low';
     return (
       <div
         class="tm-detail"
-        id={cell.id}
+        id={ids.record(cell.id)}
         data-b={cell.boundedness}
         data-r={cell.risk}
         aria-live="polite"
@@ -86,7 +103,8 @@ function getCell(b: string, r: string) {
         <div class="tm-detail-header">
           <span class="helm-badge">{cell.agentRole}</span>
           <span class="tm-detail-coords">
-            {boundednessDisplay[cell.boundedness]} / {riskDisplay[cell.risk]} Risk
+            {boundednessDisplay[cell.boundedness]} / {riskDisplay[cell.risk]}{' '}
+            Risk
           </span>
         </div>
         <p class="tm-detail-desc">{cell.description}</p>
@@ -94,13 +112,17 @@ function getCell(b: string, r: string) {
           <div class="tm-example-col">
             <h5 class="helm-label tm-example-title">Engineering</h5>
             <ul>
-              {cell.engineeringExamples.map((ex) => <li>{ex}</li>)}
+              {cell.engineeringExamples.map((ex) => (
+                <li>{ex}</li>
+              ))}
             </ul>
           </div>
           <div class="tm-example-col">
             <h5 class="helm-label tm-example-title">Product</h5>
             <ul>
-              {cell.productExamples.map((ex) => <li>{ex}</li>)}
+              {cell.productExamples.map((ex) => (
+                <li>{ex}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -110,49 +132,13 @@ function getCell(b: string, r: string) {
 </div>
 
 <script>
-  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
-
-  const wrap = document.getElementById('task-matrix');
-  if (wrap) {
-    const cells = wrap.querySelectorAll<HTMLButtonElement>('.tm-cell');
-    const details = wrap.querySelectorAll<HTMLElement>('.tm-detail');
-    const cols = 3;
-    let activeIdx = 0;
-
-    function activate(idx: number) {
-      activeIdx = idx;
-      const btn = cells[idx];
-      const b = btn.dataset.b!;
-      const r = btn.dataset.r!;
-      cells.forEach((c, i) => {
-        c.classList.toggle('tm-cell-active', i === idx);
-        c.tabIndex = i === idx ? 0 : -1;
-      });
-      details.forEach((d) => {
-        d.hidden = !(d.dataset.b === b && d.dataset.r === r);
-      });
-    }
-
-    cells.forEach((c, i) => {
-      c.addEventListener('click', () => {
-        activate(i);
-        c.focus();
-      });
-      c.addEventListener('keydown', (e: KeyboardEvent) => {
-        let next = activeIdx;
-        if (e.key === 'ArrowRight') next = activeIdx + 1 < cells.length ? activeIdx + 1 : activeIdx;
-        else if (e.key === 'ArrowLeft') next = activeIdx - 1 >= 0 ? activeIdx - 1 : activeIdx;
-        else if (e.key === 'ArrowDown') next = activeIdx + cols < cells.length ? activeIdx + cols : activeIdx;
-        else if (e.key === 'ArrowUp') next = activeIdx - cols >= 0 ? activeIdx - cols : activeIdx;
-        else return;
-        e.preventDefault();
-        activate(next);
-        cells[next].focus();
-      });
+  import { enhanceTabs } from '../lib/enhanceTabs';
+  document.querySelectorAll<HTMLElement>('.tm-wrap').forEach((wrap) => {
+    enhanceTabs(wrap, '.tm-cell', '.tm-detail', {
+      activeClass: 'tm-cell-active',
+      columns: 3,
     });
-
-    syncFragmentSelection(details, activate);
-  }
+  });
 </script>
 
 <style>
@@ -265,17 +251,33 @@ function getCell(b: string, r: string) {
     line-height: 1.3;
   }
 
-  .tm-cell-green  { background: color-mix(in srgb, var(--color-steel) 10%, white); }
-  .tm-cell-green .tm-cell-role { color: var(--color-steel); }
+  .tm-cell-green {
+    background: color-mix(in srgb, var(--color-steel) 10%, white);
+  }
+  .tm-cell-green .tm-cell-role {
+    color: var(--color-steel);
+  }
 
-  .tm-cell-teal   { background: color-mix(in srgb, var(--color-steel) 18%, white); }
-  .tm-cell-teal .tm-cell-role { color: var(--color-steel); }
+  .tm-cell-teal {
+    background: color-mix(in srgb, var(--color-steel) 18%, white);
+  }
+  .tm-cell-teal .tm-cell-role {
+    color: var(--color-steel);
+  }
 
-  .tm-cell-amber  { background: color-mix(in srgb, var(--color-terracotta) 10%, white); }
-  .tm-cell-amber .tm-cell-role { color: var(--color-terracotta); }
+  .tm-cell-amber {
+    background: color-mix(in srgb, var(--color-terracotta) 10%, white);
+  }
+  .tm-cell-amber .tm-cell-role {
+    color: var(--color-terracotta);
+  }
 
-  .tm-cell-red    { background: color-mix(in srgb, var(--color-terracotta) 18%, white); }
-  .tm-cell-red .tm-cell-role { color: var(--color-terracotta); }
+  .tm-cell-red {
+    background: color-mix(in srgb, var(--color-terracotta) 18%, white);
+  }
+  .tm-cell-red .tm-cell-role {
+    color: var(--color-terracotta);
+  }
 
   /* Detail panel */
   .tm-detail {
@@ -287,10 +289,14 @@ function getCell(b: string, r: string) {
     animation: helm-panelIn 0.25s ease both;
   }
 
-  .tm-detail[hidden] { display: none; }
+  .tm-detail[hidden] {
+    display: none;
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .tm-detail { animation: none; }
+    .tm-detail {
+      animation: none;
+    }
   }
 
   .tm-detail-header {

@@ -47,11 +47,25 @@ The eight files in `src/content/roles/` own role metadata, responsibilities, com
 
 ## Evidence References
 
-Each guide and role record has an `evidenceReferences` field. It contains external URLs already cited by that entry and may be empty when no source is currently attached. Claim-level linkage, evidence labels, access dates, and replacement history belong to the Evidence baseline workstream.
+Each guide and role record has an `evidenceReferences` field containing external URLs cited by that entry. It may be empty when no external source is attached.
+
+- `src/data/evidence.ts` owns evidence labels, major-claim records, source inspection findings, access attempts/dates, applicability and source history.
+- `src/lib/sourceRegister.ts` derives stable source IDs and bibliography titles from canonical content; registration does not imply verification.
+- `/evidence` renders this register; `PublicationInfo.astro` and `EvidenceNote.astro` expose the same records at the point of use.
+- `docs/corrections.md` owns semantic issues, canonical correction targets, acceptance checks and prospective version impacts; `/corrections` renders it.
+
+## Reference pages and release material
+
+- `CHANGELOG.md` owns `/changelog`; `ROADMAP.md` owns `/roadmap`; `LICENSE-CONTENT.md` owns `/licensing`.
+- `src/data/site.ts` owns navigation, reference links, canonical origin and editorial date for static/reference pages.
+- Content entry dates remain canonical for guides/roles. RSS and sitemap read those dates; build time never substitutes for an editorial date.
+- `docs/releases/1.0.1.md` records verification and publication readiness; `docs/deployment.md` owns the static deployment/runbook.
+- Repeated interactive components accept an explicit unique `id`. Primary instances preserve canonical record anchors; repeated instances namespace their IDs through `componentIds`.
+- `src/pages/checks/[fixture].astro` is emitted only during browser testing and excluded from production. `scripts/test-browser.mjs` restores the normal build after testing, including on failure.
 
 ## Publication Metadata
 
-`src/data/framework.ts` owns the framework version and publication-state vocabulary. `src/content.config.ts` enforces the metadata contract for every guide and role entry:
+`src/data/framework.ts` owns the framework version, release state and content publication-state vocabulary. Release state is distinct from content availability. `src/content.config.ts` enforces the metadata contract for every guide and role entry:
 
 - stable entry ID
 - publication status

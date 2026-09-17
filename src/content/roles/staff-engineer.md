@@ -1,61 +1,61 @@
 ---
-id: "staff-engineer"
-title: "Staff / Principal Engineer"
-subtitle: "From the best individual coder to the architect of systems agents build within"
-description: "Staff engineers solved the hardest implementation problems. In the AI era, the hardest problems are structural: system design, model selection, orchestration patterns, and failure modes that agents cannot reason about."
+id: 'staff-engineer'
+title: 'Staff / Principal Engineer'
+subtitle: 'From the best individual coder to the architect of systems agents build within'
+description: 'Staff engineers solved the hardest implementation problems. In the AI era, the hardest problems are structural: system design, model selection, orchestration patterns, and failure modes that agents cannot reason about.'
 order: 2
-publicationStatus: "published"
-frameworkVersion: "1.0.0"
-createdAt: "2026-04-01"
-lastModified: "2026-04-01"
+publicationStatus: 'published'
+frameworkVersion: '1.0.1'
+createdAt: '2026-04-01'
+lastModified: '2026-09-17'
 evidenceReferences: []
-category: "engineering"
-evolved_from: ["Staff Engineer", "Principal Engineer", "Solutions Architect"]
-maps_to: "AI Architect"
-core_mission: "Define the technical architecture, orchestration patterns, and system boundaries within which both agents and engineers operate. Own the structural decisions that determine whether an agentic system compounds capability or compounds risk."
+category: 'engineering'
+evolved_from: ['Staff Engineer', 'Principal Engineer', 'Solutions Architect']
+maps_to: 'AI Architect'
+core_mission: 'Define the technical architecture, orchestration patterns, and system boundaries within which both agents and engineers operate. Own the structural decisions that determine whether an agentic system compounds capability or compounds risk.'
 key_responsibilities:
-  - "Select models and assign responsibility by task class, weighing capability, cost, latency, and failure sensitivity"
-  - "Design end-to-end data flow from inputs through processing, persistence, and outputs—including what agents may read, write, or infer"
-  - "Choose orchestration patterns (single agent, multi-agent, deterministic workflow, or hybrid) based on task structure, reversibility, and oversight requirements"
-  - "Define failure modes, recovery paths, and escalation triggers before agents encounter them in production"
-  - "Establish architectural guardrails so agents cannot silently reshape structure, ownership, or trust boundaries"
-  - "Review and approve system-design decisions across engineering pods; hold the line on consistency and composability"
-  - "Own the evaluation architecture: what can be measured, how evaluation data flows through the system, and how system-level health is assessed"
-  - "Drive compounding engineering by documenting decisions in durable form—rules, ADRs, boundaries—so the next agent and the next human build on the same foundation"
+  - 'Select models and assign responsibility by task class, weighing capability, cost, latency, and failure sensitivity'
+  - 'Design end-to-end data flow from inputs through processing, persistence, and outputs—including what agents may read, write, or infer'
+  - 'Choose orchestration patterns (single agent, multi-agent, deterministic workflow, or hybrid) based on task structure, reversibility, and oversight requirements'
+  - 'Define failure modes, recovery paths, and escalation triggers before agents encounter them in production'
+  - 'Establish architectural guardrails so agents cannot silently reshape structure, ownership, or trust boundaries'
+  - 'Review and approve system-design decisions across engineering pods; hold the line on consistency and composability'
+  - 'Own the evaluation architecture: what can be measured, how evaluation data flows through the system, and how system-level health is assessed'
+  - 'Drive compounding engineering by documenting decisions in durable form—rules, ADRs, boundaries—so the next agent and the next human build on the same foundation'
 competencies:
-  - title: "System design mastery"
-    description: "Architect systems that treat AI agents as execution components inside explicit contracts, not as magic that replaces design."
-    evolved_from: "Deep distributed systems expertise"
-  - title: "Orchestration pattern expertise"
-    description: "Discriminate when workflows, single-agent loops, or multi-agent compositions fit the problem—aligned with established composition patterns for structuring reliable agentic systems."
-  - title: "Failure mode thinking"
-    description: "Anticipate hallucination, scope drift, cost spirals, stale instructions, and ambiguous ownership; design detection and recovery into the architecture."
-    evolved_from: "Designing and shipping systems at scale"
-  - title: "Cost-performance reasoning"
-    description: "Tie model and routing choices to measurable quality, latency, and spend—not to model hype."
-  - title: "Technical communication"
-    description: "Translate architecture into rules files, task boundaries, and instructions that both people and agents can execute without improvising structure."
-    evolved_from: "Track record of mentorship"
-  - title: "Cross-domain judgment"
-    description: "Assess output quality and design risk across domains (backend, data, security, UX) when agents span them."
-    evolved_from: "Leading complex technical initiatives"
+  - title: 'System design mastery'
+    description: 'Architect systems that treat AI agents as execution components inside explicit contracts, not as magic that replaces design.'
+    evolved_from: 'Deep distributed systems expertise'
+  - title: 'Orchestration pattern expertise'
+    description: 'Discriminate when workflows, single-agent loops, or multi-agent compositions fit the problem—aligned with established composition patterns for structuring reliable agentic systems.'
+  - title: 'Failure mode thinking'
+    description: 'Anticipate hallucination, scope drift, cost spirals, stale instructions, and ambiguous ownership; design detection and recovery into the architecture.'
+    evolved_from: 'Designing and shipping systems at scale'
+  - title: 'Cost-performance reasoning'
+    description: 'Tie model and routing choices to measurable quality, latency, and spend—not to model hype.'
+  - title: 'Technical communication'
+    description: 'Translate architecture into rules files, task boundaries, and instructions that both people and agents can execute without improvising structure.'
+    evolved_from: 'Track record of mentorship'
+  - title: 'Cross-domain judgment'
+    description: 'Assess output quality and design risk across domains (backend, data, security, UX) when agents span them.'
+    evolved_from: 'Leading complex technical initiatives'
 no_longer_screen_for:
-  - "Personal code output volume or vanity metrics such as lines of code"
-  - "Narrow supremacy in a single language or framework when agents cover breadth"
-  - "Expectation that you personally implement every subsystem you design"
-  - "\"Hero\" narratives where one person rescues a program through brute-force implementation"
-  - "LeetCode-style algorithm screens disconnected from system and agentic design"
+  - 'Personal code output volume or vanity metrics such as lines of code'
+  - 'Narrow supremacy in a single language or framework when agents cover breadth'
+  - 'Expectation that you personally implement every subsystem you design'
+  - '"Hero" narratives where one person rescues a program through brute-force implementation'
+  - 'LeetCode-style algorithm screens disconnected from system and agentic design'
 interview_methods:
-  - title: "System design"
-    description: "Design an agentic system for a realistic product scenario—model selection, orchestration, data flow, and failure handling."
-  - title: "Architecture review"
-    description: "Critique an existing agent architecture for failure modes, cost risks, scalability limits, and boundary violations."
-  - title: "Decision-making"
-    description: "Given a working agent-generated solution that introduces structural risk, decide what to ship, what to block, and what to change."
-  - title: "Trade-off analysis"
-    description: "Compare two orchestration approaches for the same problem; defend a recommendation with explicit trade-offs."
-  - title: "Guardrail design"
-    description: "Specify scope, quality, and policy guardrails for a concrete agent workflow, including escalation."
+  - title: 'System design'
+    description: 'Design an agentic system for a realistic product scenario—model selection, orchestration, data flow, and failure handling.'
+  - title: 'Architecture review'
+    description: 'Critique an existing agent architecture for failure modes, cost risks, scalability limits, and boundary violations.'
+  - title: 'Decision-making'
+    description: 'Given a working agent-generated solution that introduces structural risk, decide what to ship, what to block, and what to change.'
+  - title: 'Trade-off analysis'
+    description: 'Compare two orchestration approaches for the same problem; defend a recommendation with explicit trade-offs.'
+  - title: 'Guardrail design'
+    description: 'Specify scope, quality, and policy guardrails for a concrete agent workflow, including escalation.'
 day_in_life: |
   Architecture review first: execution metrics, cost per run, failure rates, guardrail triggers. Where are agents spending tokens without moving outcomes? A working session follows on a new feature, debating prompt chaining versus a constrained agent loop, locking the pattern that fits the risk profile.
 

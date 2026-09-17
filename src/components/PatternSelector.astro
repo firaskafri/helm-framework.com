@@ -5,13 +5,17 @@ import {
   PATTERN_DECISION_TREE,
 } from '../data/practitioners';
 
-interface Props {}
+import { componentIds } from '../lib/componentIds';
+interface Props {
+  id?: string;
+}
+const ids = componentIds('pattern-selector', Astro.props.id);
 
 const patterns = COMPOSITION_PATTERNS;
 const decisionTree = PATTERN_DECISION_TREE;
 ---
 
-<div class="ps-wrap" id="pattern-selector">
+<div class="ps-wrap" id={ids.root} data-interactive>
   <div class="ps-tabs-rail">
     <div class="ps-tabs" role="tablist" aria-label="Composition patterns">
       {patterns.map((p, i) => (
@@ -19,8 +23,8 @@ const decisionTree = PATTERN_DECISION_TREE;
           class:list={['ps-tab', i === 0 && 'ps-tab-active']}
           type="button"
           role="tab"
-          id={`ps-tab-${p.number}`}
-          aria-controls={p.id}
+          id={ids.record(`ps-tab-${p.number}`)}
+          aria-controls={ids.record(p.id)}
           aria-selected={i === 0 ? 'true' : 'false'}
           tabindex={i === 0 ? 0 : -1}
           data-num={p.number}
@@ -35,9 +39,9 @@ const decisionTree = PATTERN_DECISION_TREE;
   {patterns.map((p, i) => (
     <div
       class="ps-panel"
-      id={p.id}
+      id={ids.record(p.id)}
       role="tabpanel"
-      aria-labelledby={`ps-tab-${p.number}`}
+      aria-labelledby={ids.record(`ps-tab-${p.number}`)}
       data-num={p.number}
       hidden={i !== 0}
     >
@@ -61,7 +65,10 @@ const decisionTree = PATTERN_DECISION_TREE;
 
   <div class="ps-decision">
     <h4 class="ps-decision-title">Pattern Selection Guide</h4>
-    <p class="ps-decision-subtitle">Always start at the top. Move down only when the simpler pattern demonstrably fails.</p>
+    <p class="ps-decision-subtitle">
+      Always start at the top. Move down only when the simpler pattern
+      demonstrably fails.
+    </p>
     <div class="ps-flow">
       {decisionTree.map((node, i) => (
         <div class="ps-flow-row" style={`--i:${i}`}>
@@ -71,8 +78,21 @@ const decisionTree = PATTERN_DECISION_TREE;
           </div>
           <div class="ps-flow-connector">
             <span class="ps-flow-condition">{node.ifFails}</span>
-            <svg class="ps-flow-arrow" width="32" height="16" viewBox="0 0 32 16" aria-hidden="true">
-              <path d="M0,8 L28,8 M24,3 L29,8 L24,13" fill="none" stroke="var(--color-terracotta)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <svg
+              class="ps-flow-arrow"
+              width="32"
+              height="16"
+              viewBox="0 0 32 16"
+              aria-hidden="true"
+            >
+              <path
+                d="M0,8 L28,8 M24,3 L29,8 L24,13"
+                fill="none"
+                stroke="var(--color-terracotta)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </div>
           <div class="ps-flow-node ps-flow-end">
@@ -89,53 +109,10 @@ const decisionTree = PATTERN_DECISION_TREE;
 </div>
 
 <script>
-  import { syncFragmentSelection } from '../lib/syncFragmentSelection';
-
-  const wrap = document.getElementById('pattern-selector');
-  if (wrap) {
-    const tabs = wrap.querySelectorAll<HTMLButtonElement>('.ps-tab');
-    const panels = wrap.querySelectorAll<HTMLElement>('.ps-panel');
-    let activeNum = '1';
-
-    function activate(num: string) {
-      activeNum = num;
-      tabs.forEach((t) => {
-        const on = t.dataset.num === num;
-        t.classList.toggle('ps-tab-active', on);
-        t.setAttribute('aria-selected', String(on));
-        t.tabIndex = on ? 0 : -1;
-      });
-      panels.forEach((p) => {
-        p.hidden = p.dataset.num !== num;
-      });
-    }
-
-    tabs.forEach((t, idx) => {
-      t.addEventListener('click', () => {
-        const number = t.dataset.num;
-        if (!number) return;
-        activate(number);
-        t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-      });
-      t.addEventListener('keydown', (e: KeyboardEvent) => {
-        let next = idx;
-        if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
-        else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
-        else return;
-        e.preventDefault();
-        const number = tabs[next].dataset.num;
-        if (!number) return;
-        activate(number);
-        tabs[next].focus();
-        tabs[next].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-      });
-    });
-
-    syncFragmentSelection(panels, (index) => {
-      const number = panels[index].dataset.num;
-      if (number) activate(number);
-    });
-  }
+  import { enhanceTabs } from '../lib/enhanceTabs';
+  document.querySelectorAll<HTMLElement>('.ps-wrap').forEach((wrap) => {
+    enhanceTabs(wrap, '.ps-tab', '.ps-panel', { activeClass: 'ps-tab-active' });
+  });
 </script>
 
 <style>
@@ -156,7 +133,9 @@ const decisionTree = PATTERN_DECISION_TREE;
     padding-bottom: 2px;
   }
 
-  .ps-tabs::-webkit-scrollbar { display: none; }
+  .ps-tabs::-webkit-scrollbar {
+    display: none;
+  }
 
   .ps-tab {
     flex-shrink: 0;
@@ -206,6 +185,10 @@ const decisionTree = PATTERN_DECISION_TREE;
     color: white;
   }
 
+  .ps-tab-active:hover {
+    color: white;
+  }
+
   .ps-tab-active .ps-tab-num {
     background: rgba(255, 255, 255, 0.25);
     color: white;
@@ -222,10 +205,14 @@ const decisionTree = PATTERN_DECISION_TREE;
     margin-bottom: 2rem;
   }
 
-  .ps-panel[hidden] { display: none; }
+  .ps-panel[hidden] {
+    display: none;
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .ps-panel { animation: none; }
+    .ps-panel {
+      animation: none;
+    }
   }
 
   .ps-panel-head {

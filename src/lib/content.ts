@@ -49,30 +49,47 @@ function validateEntries(
     `${label} metadata`,
     entries.map((entry) => ({ id: entry.data.id })),
   );
-  assertRequiredIds(label, entries.map((entry) => entry.id), requiredIds);
-  assertConsecutiveOrder(label, entries.map((entry) => entry.data.order));
+  assertRequiredIds(
+    label,
+    entries.map((entry) => entry.id),
+    requiredIds,
+  );
+  assertConsecutiveOrder(
+    label,
+    entries.map((entry) => entry.data.order),
+  );
 
   for (const entry of entries) {
     if (entry.id !== entry.data.id) {
-      throw new Error(`${label} entry "${entry.id}" must declare matching frontmatter id`);
+      throw new Error(
+        `${label} entry "${entry.id}" must declare matching frontmatter id`,
+      );
     }
     if (entry.data.lastModified < entry.data.createdAt) {
-      throw new Error(`${label} entry "${entry.id}" has lastModified before createdAt`);
+      throw new Error(
+        `${label} entry "${entry.id}" has lastModified before createdAt`,
+      );
     }
 
     const citedUrls = new Set(
-      [...(entry.body ?? '').matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)].map((match) => match[1]),
+      [...(entry.body ?? '').matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)].map(
+        (match) => match[1],
+      ),
     );
     const evidenceReferences = new Set(entry.data.evidenceReferences);
 
     for (const citedUrl of citedUrls) {
       if (!evidenceReferences.has(citedUrl)) {
-        throw new Error(`${label} entry "${entry.id}" is missing evidence reference "${citedUrl}"`);
+        throw new Error(
+          `${label} entry "${entry.id}" is missing evidence reference "${citedUrl}"`,
+        );
       }
     }
     for (const evidenceReference of evidenceReferences) {
       if (!citedUrls.has(evidenceReference)) {
-        throw new Error(`${label} entry "${entry.id}" has uncited evidence reference "${evidenceReference}"`);
+        throw new Error(
+          `${label} entry "${entry.id}" has uncited evidence reference "${evidenceReference}"`,
+        );
       }
     }
   }
@@ -85,7 +102,9 @@ export async function loadDocs(): Promise<CollectionEntry<'docs'>[]> {
   const foundation = docs.find(({ id }) => id === 'foundation');
   const principles = foundation?.data.principles;
   if (!principles || principles.length !== REQUIRED_PRINCIPLE_IDS.length) {
-    throw new Error(`Foundation must define exactly ${REQUIRED_PRINCIPLE_IDS.length} principles`);
+    throw new Error(
+      `Foundation must define exactly ${REQUIRED_PRINCIPLE_IDS.length} principles`,
+    );
   }
   assertUniqueIds('Foundation principles', principles);
   assertRequiredIds(
@@ -93,7 +112,10 @@ export async function loadDocs(): Promise<CollectionEntry<'docs'>[]> {
     principles.map(({ id }) => id),
     REQUIRED_PRINCIPLE_IDS,
   );
-  assertConsecutiveOrder('Foundation principles', principles.map(({ number }) => number));
+  assertConsecutiveOrder(
+    'Foundation principles',
+    principles.map(({ number }) => number),
+  );
 
   return docs;
 }

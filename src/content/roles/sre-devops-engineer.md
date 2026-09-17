@@ -1,59 +1,60 @@
 ---
-id: "sre-devops-engineer"
-title: "SRE / DevOps Engineer"
-subtitle: "From monitoring infrastructure to monitoring the machines that monitor the machines"
-description: "SREs monitored uptime, managed infrastructure, and responded to incidents. These responsibilities remain, but expand to an entirely new failure surface: agent operations — hallucinations, cost spirals, scope drift, and silent quality degradation."
+id: 'sre-devops-engineer'
+title: 'SRE / DevOps Engineer'
+subtitle: 'From monitoring infrastructure to monitoring the machines that monitor the machines'
+description: 'SREs monitored uptime, managed infrastructure, and responded to incidents. These responsibilities remain, but expand to an entirely new failure surface: agent operations — hallucinations, cost spirals, scope drift, and silent quality degradation.'
 order: 4
-publicationStatus: "published"
-frameworkVersion: "1.0.0"
-createdAt: "2026-04-01"
-lastModified: "2026-04-01"
+publicationStatus: 'published'
+frameworkVersion: '1.0.1'
+createdAt: '2026-04-01'
+lastModified: '2026-09-17'
 evidenceReferences: []
-category: "engineering"
-evolved_from: ["Site Reliability Engineer", "DevOps Engineer", "Infrastructure Engineer"]
-maps_to: "AI Reliability Engineer"
-core_mission: "Own observability, cost measurement, failure recovery, and guardrail enforcement across both traditional infrastructure and agent operations."
+category: 'engineering'
+evolved_from:
+  ['Site Reliability Engineer', 'DevOps Engineer', 'Infrastructure Engineer']
+maps_to: 'AI Reliability Engineer'
+core_mission: 'Own observability, cost measurement, failure recovery, and guardrail enforcement across both traditional infrastructure and agent operations.'
 key_responsibilities:
-  - "Define and implement the Guardrail Stack (all five layers) in collaboration with the AI Architect"
-  - "Monitor cost per agent execution and flag unsustainable patterns before they become budget crises"
-  - "Build observability for agent operations: execution traces, token usage, failure rates, and latency per agent workflow"
-  - "Manage failure detection and recovery for agent-specific failure modes—hallucination, scope drift, retry spirals, and cost overruns"
-  - "Run incident response for agent-related failures, including postmortems that improve guardrails, not only runbooks"
-  - "Implement and enforce policy guardrails: secret scanning, PII filtering, safety classification, and dependency policies"
-  - "Define SLOs for agent operations—cost per task, success rate, latency bounds—alongside traditional infrastructure SLOs"
-  - "Enforce governance policies at runtime (Layer 5): monitor agent compliance with registry rules, access boundaries, and cost budgets; escalate violations"
+  - 'Define and implement the Guardrail Stack (all five layers) in collaboration with the AI Architect'
+  - 'Monitor cost per agent execution and flag unsustainable patterns before they become budget crises'
+  - 'Build observability for agent operations: execution traces, token usage, failure rates, and latency per agent workflow'
+  - 'Manage failure detection and recovery for agent-specific failure modes—hallucination, scope drift, retry spirals, and cost overruns'
+  - 'Run incident response for agent-related failures, including postmortems that improve guardrails, not only runbooks'
+  - 'Implement and enforce policy guardrails: secret scanning, PII filtering, safety classification, and dependency policies'
+  - 'Define SLOs for agent operations—cost per task, success rate, latency bounds—alongside traditional infrastructure SLOs'
+  - 'Enforce governance policies at runtime (Layer 5): monitor agent compliance with registry rules, access boundaries, and cost budgets; escalate violations'
 competencies:
-  - title: "Agent failure mode expertise"
-    description: "Understanding how agents fail differently from deterministic software: stochastic outputs, plausible mistakes, cost multiplication, and scope drift that bypasses conventional tests."
-  - title: "Observability design"
-    description: "Building monitoring for non-deterministic operations where identical inputs do not guarantee identical outputs, and where \"green\" infra can mask behavioral failure."
-    evolved_from: "SLA/SLO definition (availability and latency)"
-  - title: "Cost engineering"
-    description: "Token-level cost tracking, budget alerting, chargeback or showback discipline, and optimization for AI workloads without starving legitimate use."
-  - title: "Guardrail implementation"
-    description: "Translating policy into automated enforcement, from secret scanning and PII detection to safety classification and dependency rules."
-  - title: "Incident response for AI systems"
-    description: "Adapting detection, communication, and postmortem practice when the trigger is an agent workflow rather than a failed deploy."
-    evolved_from: "Incident response and blameless postmortems"
-  - title: "Governance enforcement"
-    description: "Runtime monitoring and enforcement of governance policies (registry compliance, access boundaries, cost budgets) across agent operations. Distinct from the Platform Engineer who builds the governance infrastructure itself."
+  - title: 'Agent failure mode expertise'
+    description: 'Understanding how agents fail differently from deterministic software: stochastic outputs, plausible mistakes, cost multiplication, and scope drift that bypasses conventional tests.'
+  - title: 'Observability design'
+    description: 'Building monitoring for non-deterministic operations where identical inputs do not guarantee identical outputs, and where "green" infra can mask behavioral failure.'
+    evolved_from: 'SLA/SLO definition (availability and latency)'
+  - title: 'Cost engineering'
+    description: 'Token-level cost tracking, budget alerting, chargeback or showback discipline, and optimization for AI workloads without starving legitimate use.'
+  - title: 'Guardrail implementation'
+    description: 'Translating policy into automated enforcement, from secret scanning and PII detection to safety classification and dependency rules.'
+  - title: 'Incident response for AI systems'
+    description: 'Adapting detection, communication, and postmortem practice when the trigger is an agent workflow rather than a failed deploy.'
+    evolved_from: 'Incident response and blameless postmortems'
+  - title: 'Governance enforcement'
+    description: 'Runtime monitoring and enforcement of governance policies (registry compliance, access boundaries, cost budgets) across agent operations. Distinct from the Platform Engineer who builds the governance infrastructure itself.'
 no_longer_screen_for:
-  - "Purely infrastructure-focused experience with no application-layer or data-flow awareness"
-  - "Expertise limited to container orchestration and CI/CD pipelines without ownership of behavioral or economic SLOs"
-  - "Incident response habits that assume deterministic failure modes and static blast-radius models"
-  - "Cost management confined to compute, storage, and network with no fluency in token economics and agent run patterns"
-  - "Monitoring strategies that stop at binary up/down checks and miss drift, abuse, and quality erosion"
+  - 'Purely infrastructure-focused experience with no application-layer or data-flow awareness'
+  - 'Expertise limited to container orchestration and CI/CD pipelines without ownership of behavioral or economic SLOs'
+  - 'Incident response habits that assume deterministic failure modes and static blast-radius models'
+  - 'Cost management confined to compute, storage, and network with no fluency in token economics and agent run patterns'
+  - 'Monitoring strategies that stop at binary up/down checks and miss drift, abuse, and quality erosion'
 interview_methods:
-  - title: "Incident scenario"
-    description: "\"An agent generated and merged a pull request overnight that passes all tests but introduced a subtle security vulnerability. Walk through your detection and response process.\""
-  - title: "Observability design"
-    description: "\"Design the monitoring dashboard for a team running five different agent workflows. What metrics do you track? What alerts do you set?\""
-  - title: "Cost analysis"
-    description: "\"Agent costs increased three hundred percent this month. Walk through your investigation and mitigation approach.\""
-  - title: "Guardrail design"
-    description: "\"Define the guardrail stack for an agent with access to a production database. Which layers do you implement, and in what order?\""
-  - title: "Failure mode analysis"
-    description: "\"List five ways an autonomous coding agent can fail that a traditional CI/CD pipeline would not catch.\""
+  - title: 'Incident scenario'
+    description: '"An agent generated and merged a pull request overnight that passes all tests but introduced a subtle security vulnerability. Walk through your detection and response process."'
+  - title: 'Observability design'
+    description: '"Design the monitoring dashboard for a team running five different agent workflows. What metrics do you track? What alerts do you set?"'
+  - title: 'Cost analysis'
+    description: '"Agent costs increased three hundred percent this month. Walk through your investigation and mitigation approach."'
+  - title: 'Guardrail design'
+    description: '"Define the guardrail stack for an agent with access to a production database. Which layers do you implement, and in what order?"'
+  - title: 'Failure mode analysis'
+    description: '"List five ways an autonomous coding agent can fail that a traditional CI/CD pipeline would not catch."'
 day_in_life: |
   Everything looks green. That's the problem. An agent workflow passed all health checks over the weekend, but the cost curve tells a different story: one workflow burned through 3x its normal token budget. No alert fired because the threshold was set per-run, and the agent just ran more often. You dig into traces and find a retry loop — brittle prompt, downstream timeout, not a broken cluster. You tighten timeouts, adjust guardrails, and file a follow-up so the prompt owner sees the signal before the next budget surprise.
 

@@ -7,6 +7,8 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import CompetencyRolePanel from '../../components/CompetencyRolePanel.astro';
 import Footer from '../../components/Footer.astro';
+import PublicationInfo from '../../components/PublicationInfo.astro';
+import { SITE_UPDATED_AT } from '../../data/site';
 
 const allRoles = await loadRoles();
 const roles = [...allRoles].sort((a, b) => a.data.order - b.data.order);
@@ -27,64 +29,72 @@ const jsonLd = [
     { name: 'Roles', url: rolesIndexUrl },
     { name: pageTitle, url: pageUrl },
   ]),
-  buildWebPageJsonLd({ headline: pageTitle, description: pageDescription, url: pageUrl, homeUrl }),
+  buildWebPageJsonLd({
+    headline: pageTitle,
+    description: pageDescription,
+    url: pageUrl,
+    homeUrl,
+  }),
 ];
 ---
 
-<Base
-  title={pageTitle}
-  description={pageDescription}
-  jsonLd={jsonLd}
->
+<Base title={pageTitle} description={pageDescription} jsonLd={jsonLd}>
   <Nav />
 
-  <main id="main-content">
-  <section class="pt-32 pb-14 md:pt-40 md:pb-16 px-6">
-    <div class="max-w-5xl mx-auto">
-      <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-6">
-        Interactive Tool
-      </p>
-      <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-5">
-        {pageTitle}
-      </h1>
-      <p class="text-lg md:text-xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
-        See how each role's competencies transform in the AI era — what carries over, what's entirely new, and what's no longer relevant.
-      </p>
-    </div>
-  </section>
+  <main id="main-content" data-interactive>
+    <section class="pt-32 pb-14 md:pt-40 md:pb-16 px-6">
+      <div class="max-w-5xl mx-auto">
+        <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-6">
+          Interactive Tool
+        </p>
+        <h1 class="font-[var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight text-[var(--color-ink)] mb-5">
+          {pageTitle}
+        </h1>
+        <p class="text-lg md:text-xl text-[var(--color-ink-light)] leading-relaxed max-w-2xl font-light">
+          See how each role's competencies transform in the AI era — what
+          carries over, what's entirely new, and what's no longer relevant.
+        </p>
+        <PublicationInfo lastModified={new Date(SITE_UPDATED_AT)} />
+      </div>
+    </section>
 
-  <div class="ce-tabs-rail">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="ce-tabs-scroll" id="ce-tabs" role="tablist" aria-label="Select a role">
-        {rolesView.map((r, i) => (
-          <button
-            type="button"
-            role="tab"
-            id={`ce-tab-${r.id}`}
-            aria-controls={r.id}
-            aria-selected={i === 0 ? 'true' : 'false'}
-            tabindex={i === 0 ? 0 : -1}
-            class:list={[
-              'ce-tab',
-              r.category === 'engineering' ? 'ce-tab-eng' : 'ce-tab-prod',
-              i === 0 && 'ce-tab-active',
-            ]}
-            data-id={r.id}
-          >
-            {r.fromTitle}
-          </button>
-        ))}
+    <div class="ce-tabs-rail">
+      <div class="max-w-5xl mx-auto px-6">
+        <div
+          class="ce-tabs-scroll"
+          id="ce-tabs"
+          role="tablist"
+          aria-label="Select a role"
+        >
+          {rolesView.map((r, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`ce-tab-${r.id}`}
+              aria-controls={r.id}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              class:list={[
+                'ce-tab',
+                r.category === 'engineering' ? 'ce-tab-eng' : 'ce-tab-prod',
+                i === 0 && 'ce-tab-active',
+              ]}
+              data-id={r.id}
+            >
+              {r.fromTitle}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
 
-  <section class="px-6 pt-10 pb-20">
-    <div class="max-w-5xl mx-auto" id="ce-content">
-      {rolesView.map((role, i) => (
-        <CompetencyRolePanel role={role} index={i} />
-      ))}
-    </div>
-  </section>
+    <section class="px-6 pt-10 pb-20">
+      <div class="max-w-5xl mx-auto" id="ce-content">
+        {rolesView.map((role, i) => (
+          <CompetencyRolePanel role={role} index={i} />
+        ))}
+      </div>
+    </section>
   </main>
 
   <Footer />
@@ -115,28 +125,38 @@ const jsonLd = [
     }
 
     activate(activeId);
+    document
+      .getElementById('main-content')
+      ?.setAttribute('data-enhanced', 'true');
     syncFragmentSelection(panels, (index) => {
       const id = panels[index].dataset.role;
       if (id) activate(id);
     });
 
     tabs.addEventListener('click', (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.ce-tab');
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
+        '.ce-tab',
+      );
       if (!btn || btn.dataset.id === activeId) return;
       const id = btn.dataset.id;
       if (!id) return;
       activate(id);
       window.location.hash = id;
-      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      btn.scrollIntoView({
+        behavior: 'instant',
+        inline: 'center',
+        block: 'nearest',
+      });
     });
 
     tabs.addEventListener('keydown', (e) => {
       const key = (e as KeyboardEvent).key;
       const current = buttons.findIndex((b) => b.dataset.id === activeId);
-      let next = -1;
+      let next: number;
 
       if (key === 'ArrowRight') next = (current + 1) % buttons.length;
-      else if (key === 'ArrowLeft') next = (current - 1 + buttons.length) % buttons.length;
+      else if (key === 'ArrowLeft')
+        next = (current - 1 + buttons.length) % buttons.length;
       else if (key === 'Home') next = 0;
       else if (key === 'End') next = buttons.length - 1;
       else return;
@@ -148,7 +168,11 @@ const jsonLd = [
       activate(id);
       window.location.hash = id;
       btn.focus();
-      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      btn.scrollIntoView({
+        behavior: 'instant',
+        inline: 'center',
+        block: 'nearest',
+      });
     });
   }
 </script>
@@ -172,7 +196,9 @@ const jsonLd = [
     -ms-overflow-style: none;
     padding-bottom: 2px;
   }
-  .ce-tabs-scroll::-webkit-scrollbar { display: none; }
+  .ce-tabs-scroll::-webkit-scrollbar {
+    display: none;
+  }
 
   .ce-tab {
     flex-shrink: 0;
@@ -202,6 +228,9 @@ const jsonLd = [
     border-color: var(--color-steel);
     color: white;
   }
+  .ce-tab-active:hover {
+    color: white;
+  }
 
   .ce-header {
     background: white;
@@ -209,7 +238,9 @@ const jsonLd = [
     border-radius: 16px;
     padding: 2rem 2rem 1.5rem;
     margin-bottom: 2.5rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 24px rgba(0,0,0,0.03);
+    box-shadow:
+      0 1px 4px rgba(0, 0, 0, 0.04),
+      0 4px 24px rgba(0, 0, 0, 0.03);
   }
   h2.ce-header-top {
     margin: 0 0 1rem;
@@ -224,9 +255,17 @@ const jsonLd = [
     margin-bottom: 1rem;
     flex-wrap: wrap;
   }
-  .ce-header-from, .ce-header-to { flex: 1; min-width: 140px; }
-  .ce-header-to { text-align: right; }
-  .ce-header-arrow { flex-shrink: 0; }
+  .ce-header-from,
+  .ce-header-to {
+    flex: 1;
+    min-width: 140px;
+  }
+  .ce-header-to {
+    text-align: right;
+  }
+  .ce-header-arrow {
+    flex-shrink: 0;
+  }
   .ce-label {
     display: block;
     font-size: 0.68rem;
@@ -279,9 +318,15 @@ const jsonLd = [
     line-height: 1;
     margin-bottom: 0.25rem;
   }
-  .ce-stat-evolved { color: var(--color-terracotta); }
-  .ce-stat-gap { color: var(--color-steel); }
-  .ce-stat-dep { color: var(--color-muted); }
+  .ce-stat-evolved {
+    color: var(--color-terracotta);
+  }
+  .ce-stat-gap {
+    color: var(--color-steel);
+  }
+  .ce-stat-dep {
+    color: var(--color-muted);
+  }
   .ce-stat-label {
     font-size: 0.72rem;
     font-weight: 600;
@@ -290,7 +335,9 @@ const jsonLd = [
     color: var(--color-muted);
   }
 
-  .ce-gap-wrap { margin-bottom: 1.25rem; }
+  .ce-gap-wrap {
+    margin-bottom: 1.25rem;
+  }
   .ce-gap-labels {
     display: flex;
     justify-content: space-between;
@@ -304,8 +351,12 @@ const jsonLd = [
     margin-top: 0.35rem;
     font-weight: 600;
   }
-  .ce-gap-labels-pct span:first-child { color: var(--color-terracotta); }
-  .ce-gap-labels-pct span:last-child { color: var(--color-steel); }
+  .ce-gap-labels-pct span:first-child {
+    color: var(--color-terracotta);
+  }
+  .ce-gap-labels-pct span:last-child {
+    color: var(--color-steel);
+  }
   .ce-gap-bar {
     display: flex;
     height: 10px;
@@ -319,8 +370,12 @@ const jsonLd = [
     border-radius: 99px;
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .ce-gap-bar-evolved { background: var(--color-terracotta); }
-  .ce-gap-bar-new { background: var(--color-steel); }
+  .ce-gap-bar-evolved {
+    background: var(--color-terracotta);
+  }
+  .ce-gap-bar-new {
+    background: var(--color-steel);
+  }
 
   .ce-jd-link {
     display: inline-flex;
@@ -332,10 +387,16 @@ const jsonLd = [
     text-decoration: none;
     transition: color 0.15s;
   }
-  .ce-jd-link:hover { color: var(--color-terracotta-light); }
+  .ce-jd-link:hover {
+    color: var(--color-terracotta-light);
+  }
 
-  .ce-section { margin-bottom: 2.5rem; }
-  .ce-section-head { margin-bottom: 1.25rem; }
+  .ce-section {
+    margin-bottom: 2.5rem;
+  }
+  .ce-section-head {
+    margin-bottom: 1.25rem;
+  }
   .ce-section-badge {
     display: inline-block;
     font-size: 0.68rem;
@@ -346,9 +407,18 @@ const jsonLd = [
     border-radius: 6px;
     margin-bottom: 0.5rem;
   }
-  .ce-badge-evolved { background: color-mix(in srgb, var(--color-terracotta) 12%, transparent); color: var(--color-terracotta); }
-  .ce-badge-gap { background: color-mix(in srgb, var(--color-steel) 12%, transparent); color: var(--color-steel); }
-  .ce-badge-dep { background: color-mix(in srgb, var(--color-muted) 15%, transparent); color: var(--color-muted); }
+  .ce-badge-evolved {
+    background: color-mix(in srgb, var(--color-terracotta) 12%, transparent);
+    color: var(--color-terracotta);
+  }
+  .ce-badge-gap {
+    background: color-mix(in srgb, var(--color-steel) 12%, transparent);
+    color: var(--color-steel);
+  }
+  .ce-badge-dep {
+    background: color-mix(in srgb, var(--color-muted) 15%, transparent);
+    color: var(--color-muted);
+  }
   .ce-section-title {
     font-family: var(--font-serif);
     font-size: 1.25rem;
@@ -374,14 +444,19 @@ const jsonLd = [
     border: 1px solid var(--color-border);
     border-radius: 12px;
     padding: 1.25rem 1.35rem;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
     animation: ce-slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .ce-card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transform: translateY(-2px);
   }
-  .ce-card-gap { border-left: 3px solid var(--color-steel); }
+  .ce-card-gap {
+    border-left: 3px solid var(--color-steel);
+  }
 
   .ce-evo-list {
     display: flex;
@@ -394,13 +469,19 @@ const jsonLd = [
     border-left: 3px solid var(--color-terracotta);
     border-radius: 12px;
     padding: 1.25rem 1.35rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
     animation: ce-slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .ce-evo-item:hover {
-    border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-terracotta));
+    border-color: color-mix(
+      in srgb,
+      var(--color-border) 50%,
+      var(--color-terracotta)
+    );
     border-left-color: var(--color-terracotta);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
   .ce-evo-comparison {
     display: flex;
@@ -501,7 +582,11 @@ const jsonLd = [
     flex-shrink: 0;
   }
   .ce-card-gap:hover {
-    border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-steel));
+    border-color: color-mix(
+      in srgb,
+      var(--color-border) 50%,
+      var(--color-steel)
+    );
   }
 
   .ce-dep-list {
@@ -523,7 +608,9 @@ const jsonLd = [
     animation: ce-slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
     transition: background-color 0.15s;
   }
-  .ce-dep-item:hover { background: var(--color-cream-dark); }
+  .ce-dep-item:hover {
+    background: var(--color-cream-dark);
+  }
   .ce-dep-x {
     flex-shrink: 0;
     margin-top: 0.15rem;
@@ -531,24 +618,60 @@ const jsonLd = [
   }
 
   @keyframes ce-slideUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 640px) {
-    .ce-header { padding: 1.25rem; }
-    .ce-header-top { gap: 0.75rem; }
-    .ce-header-title { font-size: 1.1rem; }
-    .ce-header-to { text-align: left; }
-    .ce-header-arrow { transform: rotate(90deg); }
-    .ce-stats { gap: 0.5rem; }
-    .ce-stat { padding: 0.6rem 0.35rem; }
-    .ce-stat-num { font-size: 1.3rem; }
-    .ce-cards { grid-template-columns: 1fr; }
-    .ce-card { padding: 1rem; }
-    .ce-evo-comparison { flex-direction: column; }
-    .ce-evo-arrow { padding: 0.4rem 0; transform: rotate(90deg); }
-    .ce-evo-item { padding: 1rem; }
-    .ce-tab { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+    .ce-header {
+      padding: 1.25rem;
+    }
+    .ce-header-top {
+      gap: 0.75rem;
+    }
+    .ce-header-title {
+      font-size: 1.1rem;
+    }
+    .ce-header-to {
+      text-align: left;
+    }
+    .ce-header-arrow {
+      transform: rotate(90deg);
+    }
+    .ce-stats {
+      gap: 0.5rem;
+    }
+    .ce-stat {
+      padding: 0.6rem 0.35rem;
+    }
+    .ce-stat-num {
+      font-size: 1.3rem;
+    }
+    .ce-cards {
+      grid-template-columns: 1fr;
+    }
+    .ce-card {
+      padding: 1rem;
+    }
+    .ce-evo-comparison {
+      flex-direction: column;
+    }
+    .ce-evo-arrow {
+      padding: 0.4rem 0;
+      transform: rotate(90deg);
+    }
+    .ce-evo-item {
+      padding: 1rem;
+    }
+    .ce-tab {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+    }
   }
 </style>

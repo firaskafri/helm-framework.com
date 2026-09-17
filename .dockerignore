@@ -4,3 +4,7 @@ dist
 .git
 .github
 .cursor
+.env
+.env.*
+playwright-report
+test-results

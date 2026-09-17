@@ -13,6 +13,8 @@ HELM separates narrative, structured framework records, and rendering:
 - `src/content/docs/leadership.mdx` owns Leadership Guide narrative, leadership authority definitions, and the Decision Rights Matrix; `src/data/leadership.ts` owns organizational shifts, adoption phases, KPIs, and failure modes.
 - `src/content/roles/*.md` owns the eight role-transformation and hiring guides.
 - `src/data/universal-competencies.ts` owns the shared competency set shown on the roles index.
+- `src/data/evidence.ts` owns claim labels and source-review history; `/evidence` renders the bibliography-derived register.
+- `docs/corrections.md`, `CHANGELOG.md`, `ROADMAP.md`, and `LICENSE-CONTENT.md` own their public reference pages.
 
 See [`docs/content-architecture.md`](docs/content-architecture.md) for the complete ownership map, stable identifiers, routes, and reference rules.
 
@@ -20,17 +22,19 @@ See [`docs/content-architecture.md`](docs/content-architecture.md) for the compl
 
 The published framework and application package are versioned independently:
 
-- **Framework:** HELM 1.0.0, recorded in content metadata and the `framework-v1.0.0` repository tag.
+- **Framework:** HELM 1.0.1 release candidate. The published baseline remains recorded by `framework-v1.0.0`; see `CHANGELOG.md` and `docs/releases/1.0.1.md` for verification and publication status.
 - **Application package:** `0.0.1`, used only for the Astro application package.
 
 Changing one version does not imply a change to the other.
 
 ## Tech Stack
 
-- [Astro](https://astro.build) v6 (static output with Node adapter for server hosting)
+- [Astro](https://astro.build) v7 (fully static output; unprivileged nginx container for production)
 - [Tailwind CSS](https://tailwindcss.com) v4 via `@tailwindcss/vite`
 - [Fraunces](https://fonts.google.com/specimen/Fraunces) (serif) + [Inter](https://fonts.google.com/specimen/Inter) (sans) via Google Fonts
 - Design tokens defined in `src/styles/global.css` under `@theme`
+- Node version pinned in `.nvmrc`; dependency lockfile and container digests committed for reproducible builds
+- ESLint, Prettier, Astro/TypeScript checks, Node tests, Playwright and axe accessibility checks
 
 ## Project Structure
 
@@ -77,13 +81,21 @@ docs/
 
 ## Commands
 
-| Command | Action |
-|---|---|
-| `npm install` | Install dependencies |
-| `npm run dev` | Start dev server at `localhost:4321` |
-| `npm run build` | Build to `./dist/` (zero errors, zero warnings expected) |
-| `npm run check:content` | Build and validate content, routes, links, anchors, and DOM IDs |
-| `npm run preview` | Preview the build locally |
+| Command                  | Action                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| `npm install`            | Install dependencies                                                           |
+| `npm run dev`            | Start dev server at `localhost:4321`                                           |
+| `npm run build`          | Build static release files to `./dist/` (zero errors, zero warnings expected)  |
+| `npm run check:content`  | Build and validate content, routes, links, anchors, and DOM IDs                |
+| `npm run check:types`    | Astro and TypeScript diagnostics                                               |
+| `npm run lint`           | ESLint checks                                                                  |
+| `npm run format`         | Format source and documentation                                                |
+| `npm run check:format`   | Check formatting                                                               |
+| `npm test`               | Content-transform, evidence, URL and rendering-safety tests                    |
+| `npm run test:browser`   | Three-engine browser checks and Chromium axe audits; restores production build |
+| `npm run check:security` | High-confidence source-safety signatures and dependency audit                  |
+| `npm run check`          | Full local quality gate                                                        |
+| `npm run preview`        | Preview the build locally                                                      |
 
 ## Content Editing Rules
 
@@ -91,4 +103,13 @@ docs/
 - Role data in Astro pages must come from the `loadRoles()` content helper, never hardcoded arrays.
 - Terminology must match canonical names (e.g., "Plan-Execute-Verify-Ship-Learn", "Human Decision" for Layer 4).
 - Every guide and role requires stable publication metadata defined by `src/content.config.ts`.
-- Run `npm run check:content` and `npm run build` before submitting.
+- Run `npm run check` before submitting. Install browser binaries first with `npx playwright install chromium firefox webkit`.
+- Record source provenance and label proposals, illustrations, unverified claims and external evidence distinctly. Update editorial dates when guidance or structured records change.
+
+## Release operations and contributions
+
+- [`docs/quality-baseline.md`](docs/quality-baseline.md) records the pre-hardening state and reproducible checks.
+- [`docs/deployment.md`](docs/deployment.md) documents static serving, port **8080**, required GitHub checks and rollback.
+- [`docs/releases/1.0.1.md`](docs/releases/1.0.1.md) records completed verification and remaining release steps.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) defines contribution, evidence and review expectations.
+- Framework content: **CC BY 4.0**; website code: **MIT**. See [`LICENSE-CONTENT.md`](LICENSE-CONTENT.md) and [`LICENSE`](LICENSE).

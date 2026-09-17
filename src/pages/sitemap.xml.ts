@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { SITE_ORIGIN } from '../data/site';
+import { SITE_ORIGIN, SITE_UPDATED_AT, REFERENCE_LINKS } from '../data/site';
 import { loadDocs, loadRoles } from '../lib/content';
 
 export const GET: APIRoute = async ({ site }) => {
@@ -7,13 +7,27 @@ export const GET: APIRoute = async ({ site }) => {
   const docs = await loadDocs();
   const roles = await loadRoles();
 
-  const staticPaths = ['/', '/roles/', '/roles/competency-map/'];
-  const docPaths = docs.map((d) => `/${d.id}/`);
-  const rolePaths = roles.map((r) => `/roles/${r.id}/`);
+  const staticPaths = [
+    '/',
+    '/roles',
+    '/roles/competency-map',
+    ...REFERENCE_LINKS.map(({ href }) => href),
+  ].map((path) => ({ path, modified: SITE_UPDATED_AT }));
+  const docPaths = docs.map((d) => ({
+    path: `/${d.id}`,
+    modified: d.data.lastModified.toISOString().slice(0, 10),
+  }));
+  const rolePaths = roles.map((r) => ({
+    path: `/roles/${r.id}`,
+    modified: r.data.lastModified.toISOString().slice(0, 10),
+  }));
 
   const urls = [...staticPaths, ...docPaths, ...rolePaths]
-    .sort()
-    .map((path) => `  <url><loc>${origin}${path}</loc></url>`)
+    .sort((a, b) => a.path.localeCompare(b.path))
+    .map(
+      ({ path, modified }) =>
+        `  <url><loc>${origin}${path}</loc><lastmod>${modified}</lastmod></url>`,
+    )
     .join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

@@ -1,21 +1,21 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --color-cream: #FDFBF7;
-  --color-cream-dark: #F5F0E8;
-  --color-ink: #2D2D2D;
-  --color-ink-light: #4A4A4A;
-  --color-terracotta: #C4432B;
-  --color-terracotta-light: #D4654F;
-  --color-steel: #3D5A80;
-  --color-steel-light: #5A7DA3;
-  --color-muted: #8B8680;
-  --color-muted-light: #B5B0A8;
-  --color-border: #E2DDD5;
+  --color-cream: #fdfbf7;
+  --color-cream-dark: #f5f0e8;
+  --color-ink: #2d2d2d;
+  --color-ink-light: #4a4a4a;
+  --color-terracotta: #ad3824;
+  --color-terracotta-light: #aa3925;
+  --color-steel: #3d5a80;
+  --color-steel-light: #5a7da3;
+  --color-muted: #6b655e;
+  --color-muted-light: #767069;
+  --color-border: #e2ddd5;
   --color-stripe: rgba(0, 0, 0, 0.015);
   --color-row-hover: rgba(0, 0, 0, 0.03);
 
-  --font-serif: 'Literata', Georgia, 'Times New Roman', serif;
+  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
   --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
@@ -25,9 +25,117 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+}
+.toc a[aria-current='location'] {
+  color: var(--color-terracotta);
+  font-weight: 600;
+}
+
+/* Content is the default. Scripts opt each component into interactive behavior. */
+[data-interactive]:not([data-enhanced])
+  :is([role='tablist'], .tm-grid-container, .fd-scan-bar) {
+  display: none;
+}
+@layer base {
+  /* Preflight's important [hidden] rule is in this layer; keep fallbacks here too. */
+  [data-interactive]:not([data-enhanced]) [hidden] {
+    display: block !important;
+  }
+  @media print {
+    [data-interactive] [hidden] {
+      display: block !important;
+    }
+  }
+}
+[data-interactive]:not([data-enhanced]) :is(.gs-detail-wrap, .fd-content-wrap) {
+  grid-template-rows: 1fr !important;
+}
+[data-interactive]:not([data-enhanced]) :is(.gs-chevron, .fd-chevron) {
+  display: none;
+}
+:is(
+  .gs-layer,
+  .fd-card,
+  .at-node,
+  .ms-node,
+  .ol-node,
+  .ol-arrow,
+  .os-panel-before,
+  .os-panel-after,
+  .os-pod,
+  .os-shift-card
+) {
+  opacity: 1 !important;
+}
+[data-interactive]:not([data-enhanced])
+  :is(
+    .ps-panel,
+    .ms-panel,
+    .ol-panel,
+    .tm-detail,
+    .at-panel,
+    .kd-panel,
+    .ce-role
+  ) {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 767px) {
+  [data-site-nav]:not([data-enhanced]) {
+    position: static;
+  }
+  [data-site-nav]:not([data-enhanced]) #mobile-menu {
+    display: block;
+  }
+  [data-site-nav]:not([data-enhanced]) #mobile-menu-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  article.prose table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media print {
+  [data-site-nav],
+  footer,
+  .toc,
+  [role='tablist'],
+  .tm-grid-container,
+  .fd-scan-bar {
+    display: none !important;
+  }
+  [data-interactive] [hidden] {
+    display: block !important;
+  }
+  :is(.gs-detail-wrap, .fd-content-wrap) {
+    grid-template-rows: 1fr !important;
+  }
+  main {
+    padding: 0 !important;
+  }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
   html {
     scroll-behavior: auto;
   }
@@ -42,6 +150,10 @@ body {
 }
 
 /* --- Editorial Typography --- */
+
+.prose {
+  overflow-wrap: anywhere;
+}
 
 .prose h1,
 .prose h2,
@@ -91,7 +203,9 @@ body {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
 }
 
 .prose a:hover {
@@ -188,13 +302,11 @@ body {
 }
 
 .prose li.task-list-item {
-  display: flex;
-  align-items: baseline;
-  gap: 0;
+  display: block;
 }
 
 /* Checklist-style items: style the [ ] / [x] text markers */
-.prose li input[type="checkbox"] {
+.prose li input[type='checkbox'] {
   appearance: none;
   width: 1.1em;
   height: 1.1em;
@@ -204,10 +316,12 @@ body {
   margin-right: 0.5em;
   cursor: default;
   background-color: white;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
 }
 
-.prose li input[type="checkbox"]:checked {
+.prose li input[type='checkbox']:checked {
   border-color: var(--color-terracotta);
   background-color: var(--color-terracotta);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
@@ -246,7 +360,9 @@ body {
   border-spacing: 0;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04);
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.06),
+    0 2px 12px rgba(0, 0, 0, 0.04);
   font-size: 0.92rem;
   line-height: 1.5;
   overflow: hidden;
@@ -400,13 +516,25 @@ body {
 /* --- Shared Interactive Component Primitives --- */
 
 @keyframes helm-panelIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes helm-slideUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .helm-badge {

@@ -16,6 +16,7 @@ export const GET: APIRoute = async (context) => {
     description: doc.data.description,
     link: `/${doc.id}`,
     pubDate: doc.data.createdAt,
+    customData: `<dcterms:modified>${doc.data.lastModified.toISOString()}</dcterms:modified>`,
   }));
 
   const roleItems = roles.map((role) => ({
@@ -23,6 +24,7 @@ export const GET: APIRoute = async (context) => {
     description: role.data.description,
     link: `/roles/${role.id}`,
     pubDate: role.data.createdAt,
+    customData: `<dcterms:modified>${role.data.lastModified.toISOString()}</dcterms:modified>`,
   }));
 
   const items = [...docItems, ...roleItems].sort(
@@ -34,6 +36,8 @@ export const GET: APIRoute = async (context) => {
     description: RSS_DESCRIPTION,
     site,
     items,
+    trailingSlash: false,
+    xmlns: { dcterms: 'http://purl.org/dc/terms/' },
     customData: '<language>en-us</language>',
   });
 };
