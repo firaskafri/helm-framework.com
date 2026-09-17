@@ -6,11 +6,11 @@ What has changed in HELM’s guidance and resources, why it matters for your tea
 
 Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
 
-## 1.0.1 — Release candidate
+## 1.0.1 — 2026-09-17
 
-[Clearer evidence, easier reading](https://helmframework.com/updates#helm-1-0-1) · Prepared 2026-09-17.
+[Clearer evidence, easier reading](https://helmframework.com/updates#helm-1-0-1) · Published 2026-09-17.
 
-A preview of the next HELM update: understand what supports the guidance, explore the resources more easily, and see what is being developed to help your team.
+HELM 1.0.1 makes the guidance easier to evaluate, navigate, and apply while showing what is being developed next.
 
 ### Understand the guidance
 

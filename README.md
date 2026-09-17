@@ -23,7 +23,7 @@ See [`docs/content-architecture.md`](docs/content-architecture.md) for the compl
 
 The published framework and application package are versioned independently:
 
-- **Framework:** HELM 1.0.1 release candidate. The published baseline remains recorded by `framework-v1.0.0`; see `CHANGELOG.md` and `docs/releases/1.0.1.md` for verification and publication status.
+- **Framework:** HELM 1.0.1, published as `framework-v1.0.1`; see `CHANGELOG.md` and `docs/releases/1.0.1.md` for verification and publication details.
 - **Application package:** `0.0.1`, used only for the Astro application package.
 
 Changing one version does not imply a change to the other.

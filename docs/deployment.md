@@ -12,7 +12,7 @@ The Node and nginx image digests were checked against Docker Hub on 2026-09-17. 
 npm ci
 npx playwright install chromium firefox webkit
 npm run check
-docker build --pull -t helm-framework:1.0.1 .
+docker build --pull --build-arg RELEASE_ID=local-verification -t helm-framework:1.0.1 .
 docker run --rm -p 8080:8080 helm-framework:1.0.1
 ```
 
@@ -29,7 +29,11 @@ Browser tests build `/checks/components` only when `HELM_TEST_FIXTURES=1`, exerc
 
 The workflow uploads browser diagnostics and a production `dist/` artifact named with the source commit. Action references and image bases are pinned. The artifact is suitable for deployment only after both checks pass.
 
-The existing `.github/workflows/docker-publish.yml` now waits for a successful `Quality` push run on `main`, checks out that exact commit, and publishes only when `FRAMEWORK_RELEASE_STATE` is `published`. Candidate commits run checks without replacing the Docker Hub release image. Publication retains `firaskafri/helm-framework.com:latest` and the commit tag, and adds `framework-{version}`. Docker Hub authentication uses the existing `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secrets.
+GitHub Actions verifies source and container behavior but does not publish or
+deploy production images. Production releases are built from a clean, exact
+Git revision by the self-hosted VM release tooling, which records the source
+revision, immutable local image ID, public route contract, and rollback
+pointers. Docker Hub credentials are no longer part of the release path.
 
 The required-check configuration is `docs/branch-protection.json`. Apply it with repository-administrator authority:
 
@@ -47,15 +51,22 @@ This configuration was applied and confirmed by API readback on 2026-09-17. It w
 1. Review the candidate diff and evidence report in `docs/releases/1.0.1.md`.
 2. Confirm the required GitHub checks passed for the exact release commit and verify the nginx image.
 3. Set `FRAMEWORK_RELEASE_STATE` and the matching release entry in `src/data/updates.json` to `published`, set its publication/update dates, run `npm run updates:sync`, and record approval/completion evidence. Re-run checks for this release change. See `docs/updates.md`.
-4. Publish only the approved artifact/image. Tags and repository releases are created explicitly by the maintainer as `framework-v1.0.1`.
-5. Change the hosting target port from the previous **80** to **8080** when adopting this Dockerfile. Confirm TLS, health checks and routing at the hosting platform.
-6. Smoke-test the public routes and metadata. Record the deployed image digest and source commit in the release report.
+4. Merge the approved revision and create the explicit `framework-v1.0.1` tag and repository release.
+5. Deploy that clean revision through the self-hosted VM component release tooling. The component builds the repository Dockerfile on the VM, serves port **8080** privately, and is exposed only through the shared TLS gateway.
+6. Smoke-test the public routes and metadata. Record the deployed local image ID, source commit, and rollback release in the release report.
 
 ## Ownership and rollback
 
-Release owner: Firas Kafri. The current host, domain/DNS account, TLS termination and deployment credentials are not represented in this repository; the owner records these in the private operations inventory. Do not place credentials in public documentation.
+Release owner: Firas Kafri. The host, domain/DNS account, TLS termination and
+deployment credentials are not represented in this repository; the owner
+records these in the private operations inventory. Do not place credentials in
+public documentation.
 
-To roll back, redeploy the previous approved artifact/image with its matching port configuration. Keep the 1.0.0 content tag and previous deployment available. For a content correction, preserve source history, update the claim record and assign the appropriate framework version. For a failed publication, revert the deployment rather than silently changing the recorded release.
+To roll back, reactivate the previous successful VM component release without
+rebuilding it. Keep the 1.0.0 content tag and previous deployment available.
+For a content correction, preserve source history, update the claim record and
+assign the appropriate framework version. For a failed publication, revert the
+deployment rather than silently changing the recorded release.
 
 ## Privacy and external resources
 

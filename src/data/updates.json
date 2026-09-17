@@ -3,11 +3,11 @@
     "id": "helm-1-0-1",
     "kind": "release",
     "version": "1.0.1",
-    "status": "release-candidate",
+    "status": "published",
     "date": "2026-09-17",
     "updatedAt": "2026-09-17",
     "title": "Clearer evidence, easier reading",
-    "summary": "A preview of the next HELM update: understand what supports the guidance, explore the resources more easily, and see what is being developed to help your team.",
+    "summary": "HELM 1.0.1 makes the guidance easier to evaluate, navigate, and apply while showing what is being developed next.",
     "sections": [
       {
         "heading": "Understand the guidance",
