@@ -69,7 +69,7 @@
   },
   "/updates": {
     "audience": "People using HELM",
-    "purpose": "See what changed, why it helps, and where to read it."
+    "purpose": "Understand when HELM began and first launched, see what changed, why it helps, and where to read it."
   },
   "/changelog": {
     "audience": "People comparing HELM releases",

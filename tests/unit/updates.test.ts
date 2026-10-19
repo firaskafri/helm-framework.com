@@ -11,6 +11,7 @@ import {
   latestUpdateDate,
   publicUpdates,
   publishedUpdates,
+  updateDateLabel,
   validateUpdates,
 } from '../../src/lib/updates';
 import { renderUpdateChangelog } from '../../src/lib/updateChangelog';
@@ -143,6 +144,56 @@ test('timeline is newest-first; drafts and candidates never become RSS announcem
   );
   assert.equal(latestUpdateDate(publicUpdates(updates)), '2026-09-17');
   assert.equal(data[0].id, 'helm-1-0-0');
+});
+
+test('historical milestones preserve month precision without inventing a version or RSS announcement', () => {
+  const milestone = {
+    id: 'initial-draft',
+    kind: 'milestone',
+    status: 'published',
+    date: '2025-10',
+    updatedAt: '2026-10-19',
+    title: 'Initial draft',
+    summary: 'Work began in October 2025.',
+    sections: [],
+  };
+  const updates = validateUpdates(
+    [
+      ...records,
+      milestone,
+      { ...milestone, id: 'first-launch', date: '2026-04-01' },
+    ],
+    '1.0.1',
+    'release-candidate',
+  );
+  assert.deepEqual(
+    publicUpdates(updates).map(({ id }) => id),
+    ['helm-1-0-1', 'helm-1-0-0', 'first-launch', 'initial-draft'],
+  );
+  assert.deepEqual(
+    publishedUpdates(updates).map(({ id }) => id),
+    ['helm-1-0-0'],
+  );
+  assert.equal(updateDateLabel(updates[2]), '1 April 2026');
+  assert.equal(updateDateLabel(updates[3]), 'October 2025');
+  const markdown = renderUpdateChangelog(updates, 'https://helmframework.com');
+  assert.match(markdown, /## October 2025 — Initial draft/);
+  assert.doesNotMatch(markdown, /Published 2025-10|HELM undefined/);
+  for (const invalid of [
+    { ...milestone, version: '1.0.0' },
+    { ...milestone, date: '2025-13' },
+    { ...record, date: '2026-09' },
+    { ...record, version: undefined },
+    { ...record, sections: [] },
+  ]) {
+    assert.throws(() =>
+      validateUpdates(
+        [...records, { ...invalid, id: 'invalid' }],
+        '1.0.1',
+        'release-candidate',
+      ),
+    );
+  }
 });
 
 /**

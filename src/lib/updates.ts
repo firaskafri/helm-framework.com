@@ -16,6 +16,7 @@ const date = z
       parsed.toISOString().slice(0, 10) === value
     );
   }, 'Use a real calendar date');
+const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/);
 const link = z
   .object({
     label: text,
@@ -35,27 +36,37 @@ const link = z
 export const updateSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-    kind: z.enum(['release', 'update']),
-    version: z.string().regex(/^\d+\.\d+\.\d+$/),
+    kind: z.enum(['release', 'update', 'milestone']),
+    version: z
+      .string()
+      .regex(/^\d+\.\d+\.\d+$/)
+      .optional(),
     status: z.enum(PUBLICATION_STATUSES),
-    date,
+    date: z.union([date, month]),
     updatedAt: date,
     title: text,
     summary: text,
-    sections: z
-      .array(
-        z
-          .object({
-            heading: text,
-            items: z
-              .array(z.object({ text, links: z.array(link).min(1) }).strict())
-              .min(1),
-          })
-          .strict(),
-      )
-      .min(1),
+    sections: z.array(
+      z
+        .object({
+          heading: text,
+          items: z
+            .array(z.object({ text, links: z.array(link).min(1) }).strict())
+            .min(1),
+        })
+        .strict(),
+    ),
   })
   .strict()
+  .refine(
+    (entry) =>
+      entry.kind === 'milestone'
+        ? !entry.version
+        : Boolean(entry.version) &&
+          entry.date.length === 10 &&
+          entry.sections.length > 0,
+    'Releases and updates need a version, full date and details; milestones have no version',
+  )
   .refine(
     (entry) => entry.updatedAt >= entry.date,
     'updatedAt must be on or after date',
@@ -93,7 +104,23 @@ export function publicUpdates(updates: Update[]): Update[] {
 }
 
 export function publishedUpdates(updates: Update[]): Update[] {
-  return updates.filter(({ status }) => status === 'published');
+  return updates.filter(
+    ({ status, kind }) => status === 'published' && kind !== 'milestone',
+  );
+}
+
+export function updateDateLabel(update: Pick<Update, 'kind' | 'date'>): string {
+  if (update.kind !== 'milestone') return update.date;
+  return new Intl.DateTimeFormat('en-GB', {
+    ...(update.date.length === 10 ? { day: 'numeric' } : {}),
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(
+    new Date(
+      `${update.date.length === 7 ? `${update.date}-01` : update.date}T00:00:00Z`,
+    ),
+  );
 }
 
 export function latestUpdateDate(updates: Update[]): string {

@@ -231,7 +231,11 @@ updatesPage.$('[data-update-id]').each((_, element) => {
     date: item.attr('data-update-date'),
     modified: item.attr('data-update-modified'),
   });
-  if (item.attr('data-update-status') === 'published') announcementIds.push(id);
+  if (
+    item.attr('data-update-status') === 'published' &&
+    item.attr('data-update-kind') !== 'milestone'
+  )
+    announcementIds.push(id);
 });
 if (!updateRecords.size) failures.push('Updates page has no entries');
 const updateFeed = cheerio.load(
@@ -265,7 +269,7 @@ updateFeed('item').each((_, element) => {
 });
 if (JSON.stringify(feedIds) !== JSON.stringify(announcementIds))
   failures.push(
-    'Updates RSS must contain every published entry in timeline order, and no candidates or drafts',
+    'Updates RSS must contain every published announcement in timeline order, and no historical milestones, candidates or drafts',
   );
 for (const page of pageRecords) {
   if (page.$('meta[name="robots"]').attr('content')?.includes('noindex'))

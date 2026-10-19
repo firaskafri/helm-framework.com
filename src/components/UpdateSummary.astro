@@ -1,6 +1,6 @@
 ---
 import type { Update } from '../lib/updates';
-import { statusLabel, updateUrl } from '../lib/updates';
+import { statusLabel, updateDateLabel, updateUrl } from '../lib/updates';
 interface Props {
   update: Update;
 }
@@ -9,11 +9,13 @@ const { update } = Astro.props;
 
 <article class="rounded-xl border border-[var(--color-border)] bg-white/60 p-6 md:p-8">
   <p class="text-sm text-[var(--color-muted)] mb-3 flex flex-wrap gap-x-3 gap-y-1">
-    <time datetime={update.date}>{update.date}</time>
-    <span>HELM {update.version}</span>
-    <span class="font-semibold text-[var(--color-steel)]">
-      {statusLabel(update.status)}
-    </span>
+    <time datetime={update.date}>{updateDateLabel(update)}</time>
+    {update.version && <span>HELM {update.version}</span>}
+    {update.kind !== 'milestone' && (
+      <span class="font-semibold text-[var(--color-steel)]">
+        {statusLabel(update.status)}
+      </span>
+    )}
   </p>
   <h3 class="font-serif text-xl font-semibold mb-3">
     <a href={updateUrl(update)} class="hover:text-[var(--color-terracotta)]">

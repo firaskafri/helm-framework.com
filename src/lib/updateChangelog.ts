@@ -1,4 +1,10 @@
-import { publicUpdates, statusLabel, updateUrl, type Update } from './updates';
+import {
+  publicUpdates,
+  statusLabel,
+  updateDateLabel,
+  updateUrl,
+  type Update,
+} from './updates';
 
 function escapeText(text: string): string {
   return text.replace(/[\\`*_[\]<>#]/g, '\\$&');
@@ -25,8 +31,10 @@ export function renderUpdateChangelog(
                   .toLowerCase()
                   .replace(/^./, (letter) => letter.toUpperCase())
           }`
-        : `## ${update.date} — ${escapeText(update.title)}`,
-      `${link(update.title, updateUrl(update))} · ${update.status === 'published' ? 'Published' : 'Prepared'} ${update.date}.${update.updatedAt !== update.date ? ` Updated ${update.updatedAt}.` : ''}`,
+        : `## ${updateDateLabel(update)} — ${escapeText(update.title)}`,
+      update.kind === 'milestone'
+        ? link(update.title, updateUrl(update))
+        : `${link(update.title, updateUrl(update))} · ${update.status === 'published' ? 'Published' : 'Prepared'} ${update.date}.${update.updatedAt !== update.date ? ` Updated ${update.updatedAt}.` : ''}`,
       escapeText(update.summary),
       ...update.sections.flatMap((section) => [
         `### ${escapeText(section.heading)}`,

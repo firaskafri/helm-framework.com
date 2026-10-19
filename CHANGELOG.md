@@ -20,13 +20,13 @@ The homepage now connects HELM’s principles to everyday questions about delega
 
 ## 2026-10-18 — HELM’s start and first launch
 
-[HELM’s start and first launch](https://helmframework.com/updates#helm-start-and-first-launch) · Published 2026-10-18.
+[HELM’s start and first launch](https://helmframework.com/updates#helm-start-and-first-launch) · Published 2026-10-18. Updated 2026-10-19.
 
 HELM started in October 2025 and first launched on 1 April 2026.
 
 ### From launch to numbered releases
 
-- The first numbered release, HELM 1.0.0, followed on 5 September 2026. The release history now makes the earlier start and launch dates clear. [Read the release history](https://helmframework.com/changelog) · [Read the HELM 1.0.0 release notes](https://helmframework.com/updates#helm-1-0-0)
+- The Updates page now includes dated entries for HELM’s initial draft in October 2025 and first public launch on 1 April 2026, before the first numbered release on 5 September 2026. [See the initial draft date](https://helmframework.com/updates#helm-initial-draft) · [See the first public launch](https://helmframework.com/updates#helm-first-public-launch) · [Read the HELM 1.0.0 release notes](https://helmframework.com/updates#helm-1-0-0)
 
 ## 1.0.1 — 2026-09-17
 
@@ -65,3 +65,15 @@ The first numbered release brings HELM’s principles, practical guides, and rol
 ### Putting HELM to use
 
 - This release established a common reference for discussion and local testing. Teams still needed to try the guidance against their own work, and several recommendations were scheduled for review. [Follow HELM’s development](https://helmframework.com/roadmap)
+
+## 1 April 2026 — First public launch
+
+[First public launch](https://helmframework.com/updates#helm-first-public-launch)
+
+HELM first launched publicly on 1 April 2026. The first numbered release, HELM 1.0.0, followed in September 2026.
+
+## October 2025 — Initial draft
+
+[Initial draft](https://helmframework.com/updates#helm-initial-draft)
+
+Work on HELM began in October 2025, ahead of its first public launch in April 2026.

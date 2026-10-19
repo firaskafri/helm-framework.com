@@ -3,13 +3,13 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { PUBLIC_UPDATES, UPDATES_LAST_MODIFIED } from '../../data/updates';
-import { statusLabel, updateUrl } from '../../lib/updates';
+import { statusLabel, updateDateLabel, updateUrl } from '../../lib/updates';
 import { resolveSiteOrigin } from '../../lib/resolveSiteOrigin';
 import { buildBreadcrumbList, buildWebPageJsonLd } from '../../lib/jsonLd';
 
 const title = 'HELM Updates';
 const description =
-  'See what is new in HELM, what it means for your team, and where to find updated guidance and resources.';
+  'See when HELM began and first launched, what has changed, and where to find updated guidance and resources.';
 const origin = resolveSiteOrigin(Astro.site, Astro.url);
 const modified = new Date(UPDATES_LAST_MODIFIED);
 const jsonLd = [
@@ -78,11 +78,16 @@ const jsonLd = [
           >
             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm mb-4">
               <span class="text-[var(--color-muted)]">
-                {update.status === 'published' ? 'Published' : 'Prepared'}{' '}
-                <time datetime={update.date}>{update.date}</time>
+                {update.kind !== 'milestone' &&
+                  (update.status === 'published' ? 'Published ' : 'Prepared ')}
+                <time datetime={update.date}>{updateDateLabel(update)}</time>
               </span>
-              <span class="font-medium">HELM {update.version}</span>
-              <span class="helm-badge">{statusLabel(update.status)}</span>
+              {update.version && (
+                <span class="font-medium">HELM {update.version}</span>
+              )}
+              {update.kind !== 'milestone' && (
+                <span class="helm-badge">{statusLabel(update.status)}</span>
+              )}
             </div>
             <h2
               id={`${update.id}-title`}
@@ -95,15 +100,21 @@ const jsonLd = [
                 {update.title}
               </a>
             </h2>
-            <p class="text-lg text-[var(--color-ink-light)] mb-6">
+            <p
+              class:list={[
+                'text-lg text-[var(--color-ink-light)]',
+                { 'mb-6': update.sections.length > 0 },
+              ]}
+            >
               {update.summary}
             </p>
-            {update.updatedAt !== update.date && (
-              <p class="text-sm text-[var(--color-muted)] mb-6">
-                Updated{' '}
-                <time datetime={update.updatedAt}>{update.updatedAt}</time>
-              </p>
-            )}
+            {update.kind !== 'milestone' &&
+              update.updatedAt !== update.date && (
+                <p class="text-sm text-[var(--color-muted)] mb-6">
+                  Updated{' '}
+                  <time datetime={update.updatedAt}>{update.updatedAt}</time>
+                </p>
+              )}
             <div class="prose">
               {update.sections.map((section) => (
                 <section>

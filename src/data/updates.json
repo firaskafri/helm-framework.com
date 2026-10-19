@@ -42,7 +42,7 @@
     "version": "1.0.1",
     "status": "published",
     "date": "2026-10-18",
-    "updatedAt": "2026-10-18",
+    "updatedAt": "2026-10-19",
     "title": "HELM’s start and first launch",
     "summary": "HELM started in October 2025 and first launched on 1 April 2026.",
     "sections": [
@@ -50,9 +50,16 @@
         "heading": "From launch to numbered releases",
         "items": [
           {
-            "text": "The first numbered release, HELM 1.0.0, followed on 5 September 2026. The release history now makes the earlier start and launch dates clear.",
+            "text": "The Updates page now includes dated entries for HELM’s initial draft in October 2025 and first public launch on 1 April 2026, before the first numbered release on 5 September 2026.",
             "links": [
-              { "label": "Read the release history", "href": "/changelog" },
+              {
+                "label": "See the initial draft date",
+                "href": "/updates#helm-initial-draft"
+              },
+              {
+                "label": "See the first public launch",
+                "href": "/updates#helm-first-public-launch"
+              },
               {
                 "label": "Read the HELM 1.0.0 release notes",
                 "href": "/updates#helm-1-0-0"
@@ -185,5 +192,25 @@
         ]
       }
     ]
+  },
+  {
+    "id": "helm-first-public-launch",
+    "kind": "milestone",
+    "status": "published",
+    "date": "2026-04-01",
+    "updatedAt": "2026-10-19",
+    "title": "First public launch",
+    "summary": "HELM first launched publicly on 1 April 2026. The first numbered release, HELM 1.0.0, followed in September 2026.",
+    "sections": []
+  },
+  {
+    "id": "helm-initial-draft",
+    "kind": "milestone",
+    "status": "published",
+    "date": "2025-10",
+    "updatedAt": "2026-10-19",
+    "title": "Initial draft",
+    "summary": "Work on HELM began in October 2025, ahead of its first public launch in April 2026.",
+    "sections": []
   }
 ]
