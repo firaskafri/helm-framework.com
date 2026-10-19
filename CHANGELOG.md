@@ -18,6 +18,26 @@ The homepage now connects HELM’s principles to everyday questions about delega
 - Find the six principles, practitioner and leadership paths, and roles and shared-skills resources in a new page layout. The role guides remain focused on engineering and product; shared-skills examples also include content, sales, and account management. [Find your starting point](https://helmframework.com/#guides) · [Explore shared skills](https://helmframework.com/competencies)
 - A consistent visual style connects the homepage and guides, with clearer headings and navigation. The proposal example also remains readable without JavaScript. [Read the principles](https://helmframework.com/foundation) · [Read the Leadership Guide](https://helmframework.com/leadership)
 
+## 2026-10-19 — Clearer site navigation
+
+[Clearer site navigation](https://helmframework.com/updates#clearer-site-navigation) · Published 2026-10-19.
+
+A more compact header highlights your current section, with larger navigation targets and a simpler mobile menu.
+
+### Move between guides
+
+- The header now highlights the section you are reading. On smaller screens, guides appear in a single list, and the menu closes with Escape or a tap outside it. Navigation remains available without JavaScript. [Explore the guides](https://helmframework.com/#guides) · [Read the principles](https://helmframework.com/foundation)
+
+## 2026-10-19 — A new HELM wordmark
+
+[A new HELM wordmark](https://helmframework.com/updates#helm-compact-wordmark) · Published 2026-10-19.
+
+HELM has a compact new wordmark, with matching browser and link-preview images to help you recognize the site and shared guides.
+
+### Recognize HELM when reading and sharing
+
+- The new lettering appears in the header and footer across the site. A matching H identifies browser tabs, and shared links use the same wordmark. [Explore HELM](https://helmframework.com/) · [Read the principles](https://helmframework.com/foundation)
+
 ## 2026-10-18 — HELM’s start and first launch
 
 [HELM’s start and first launch](https://helmframework.com/updates#helm-start-and-first-launch) · Published 2026-10-18. Updated 2026-10-19.

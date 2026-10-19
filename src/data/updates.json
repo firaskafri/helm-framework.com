@@ -1,5 +1,53 @@
 [
   {
+    "id": "clearer-site-navigation",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-19",
+    "updatedAt": "2026-10-19",
+    "title": "Clearer site navigation",
+    "summary": "A more compact header highlights your current section, with larger navigation targets and a simpler mobile menu.",
+    "sections": [
+      {
+        "heading": "Move between guides",
+        "items": [
+          {
+            "text": "The header now highlights the section you are reading. On smaller screens, guides appear in a single list, and the menu closes with Escape or a tap outside it. Navigation remains available without JavaScript.",
+            "links": [
+              { "label": "Explore the guides", "href": "/#guides" },
+              { "label": "Read the principles", "href": "/foundation" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "helm-compact-wordmark",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-19",
+    "updatedAt": "2026-10-19",
+    "title": "A new HELM wordmark",
+    "summary": "HELM has a compact new wordmark, with matching browser and link-preview images to help you recognize the site and shared guides.",
+    "sections": [
+      {
+        "heading": "Recognize HELM when reading and sharing",
+        "items": [
+          {
+            "text": "The new lettering appears in the header and footer across the site. A matching H identifies browser tabs, and shared links use the same wordmark.",
+            "links": [
+              { "label": "Explore HELM", "href": "/" },
+              { "label": "Read the principles", "href": "/foundation" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "a-clearer-start-for-changing-work",
     "kind": "update",
     "version": "1.0.1",

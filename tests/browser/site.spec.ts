@@ -105,6 +105,7 @@ test('mobile menu supports Escape and ordinary keyboard navigation', async ({
   const button = page.getByRole('button', { name: 'Toggle menu' });
   await button.click();
   await expect(button).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#mobile-menu a').first()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(button).toHaveAttribute('aria-expanded', 'false');
   await expect(button).toBeFocused();
@@ -114,6 +115,10 @@ test('mobile menu supports Escape and ordinary keyboard navigation', async ({
   expect(await page.evaluate(() => document.activeElement?.outerHTML)).toBe(
     focused,
   );
+  await button.click();
+  await page.locator('main h1').click();
+  await expect(button).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('#mobile-menu')).toBeHidden();
 });
 
 test('no JavaScript: mobile navigation and all substantive panels remain available', async ({

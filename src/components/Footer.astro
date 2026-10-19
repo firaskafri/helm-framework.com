@@ -1,6 +1,5 @@
 ---
 import {
-  SITE_NAME,
   SITE_AUTHOR,
   SITE_AUTHOR_URL,
   NAV_LINKS,
@@ -8,13 +7,14 @@ import {
 } from '../data/site';
 import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
 import { statusLabel } from '../lib/updates';
+import HelmWordmark from './HelmWordmark.astro';
 ---
 
 <footer class="site-footer">
   <div class="footer-top">
     <div>
-      <a class="wordmark" href="/">
-        {SITE_NAME}
+      <a class="footer-brand" href="/" aria-label="HELM home">
+        <HelmWordmark class="wordmark" />
       </a>
       <p>
         Human-first Execution
@@ -67,12 +67,13 @@ import { statusLabel } from '../lib/updates';
     justify-content: space-between;
     gap: 40px;
   }
-  .wordmark {
-    font-size: 30px;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.055em;
-    text-decoration: none;
+  .footer-brand {
+    display: inline-block;
+  }
+  .footer-brand :global(.wordmark) {
+    display: block;
+    width: 116px;
+    height: auto;
   }
   p {
     font-size: 12px;
