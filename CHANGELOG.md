@@ -6,6 +6,28 @@ What has changed in HELM’s guidance and resources, why it matters for your tea
 
 Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
 
+## 2026-10-19 — A clearer starting point for changing work
+
+[A clearer starting point for changing work](https://helmframework.com/updates#a-clearer-start-for-changing-work) · Published 2026-10-19.
+
+The homepage now connects HELM’s principles to everyday questions about delegation, review, and responsibility across teams.
+
+### Explore how responsibilities fit together
+
+- Follow an illustrative customer proposal from a shared brief through agent drafting, cross-team review, and a human decision. Each handoff explains what the person owns and what the agent does. [Explore the proposal example](https://helmframework.com/#work)
+- Find the six principles, practitioner and leadership paths, and roles and shared-skills resources in a new page layout. The role guides remain focused on engineering and product; shared-skills examples also include content, sales, and account management. [Find your starting point](https://helmframework.com/#guides) · [Explore shared skills](https://helmframework.com/competencies)
+- A consistent visual style connects the homepage and guides, with clearer headings and navigation. The proposal example also remains readable without JavaScript. [Read the principles](https://helmframework.com/foundation) · [Read the Leadership Guide](https://helmframework.com/leadership)
+
+## 2026-10-18 — HELM’s start and first launch
+
+[HELM’s start and first launch](https://helmframework.com/updates#helm-start-and-first-launch) · Published 2026-10-18.
+
+HELM started in October 2025 and first launched on 1 April 2026.
+
+### From launch to numbered releases
+
+- The first numbered release, HELM 1.0.0, followed on 5 September 2026. The release history now makes the earlier start and launch dates clear. [Read the release history](https://helmframework.com/changelog) · [Read the HELM 1.0.0 release notes](https://helmframework.com/updates#helm-1-0-0)
+
 ## 1.0.1 — 2026-09-17
 
 [Keeping HELM simple](https://helmframework.com/updates#helm-1-0-1) · Published 2026-09-17.

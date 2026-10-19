@@ -3,7 +3,6 @@ import { SITE_NAME, NAV_LINKS } from '../data/site';
 import HelmMark from './HelmMark.astro';
 
 const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
-
 const links = NAV_LINKS.map((link) => ({
   ...link,
   isActive:
@@ -14,78 +13,40 @@ const links = NAV_LINKS.map((link) => ({
 }));
 ---
 
-<nav
-  data-site-nav
-  aria-label="Main navigation"
-  class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-cream)]/95 backdrop-blur-sm border-b border-[var(--color-border)]"
->
-  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a
-      href="/"
-      class="flex items-center gap-2 font-[var(--font-serif)] text-lg font-semibold tracking-tight text-[var(--color-ink)] hover:text-[var(--color-terracotta)] transition-colors no-underline"
-    >
-      <HelmMark class="w-6 h-6 shrink-0" />
-      {SITE_NAME}
+<nav data-site-nav aria-label="Main navigation" class="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="site-brand" aria-label="HELM home">
+      <HelmMark class="brand-mark" />
+      <span class="wordmark">{SITE_NAME}</span>
+      <span class="brand-note">
+        Human-first Execution
+        <br />
+        and Leadership Model
+      </span>
     </a>
-
-    <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
+    <ul class="desktop-links">
       {links.map((link) => (
-        <li class="m-0 p-0">
-          <a
-            href={link.href}
-            class:list={[
-              'text-sm font-medium no-underline transition-colors',
-              link.isActive
-                ? 'text-[var(--color-terracotta)]'
-                : 'text-[var(--color-muted)] hover:text-[var(--color-ink)]',
-            ]}
-            aria-current={link.isActive ? 'page' : undefined}
-          >
+        <li>
+          <a href={link.href} aria-current={link.isActive ? 'page' : undefined}>
             {link.label}
           </a>
         </li>
       ))}
     </ul>
-
     <button
       id="mobile-menu-btn"
-      class="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer bg-transparent border-none"
       aria-label="Toggle menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
-      <span
-        class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center"
-        id="bar1"
-      ></span>
-      <span
-        class="block w-5 h-0.5 bg-[var(--color-ink)] transition-opacity"
-        id="bar2"
-      ></span>
-      <span
-        class="block w-5 h-0.5 bg-[var(--color-ink)] transition-transform origin-center"
-        id="bar3"
-      ></span>
+      Menu <span aria-hidden="true">+</span>
     </button>
   </div>
-
-  <div
-    id="mobile-menu"
-    class="md:hidden hidden border-t border-[var(--color-border)] bg-[var(--color-cream)]"
-  >
-    <ul class="list-none m-0 p-4 flex flex-col gap-1">
+  <div id="mobile-menu" class="hidden">
+    <ul>
       {links.map((link) => (
-        <li class="m-0 p-0">
-          <a
-            href={link.href}
-            class:list={[
-              'block py-3 px-4 rounded-lg text-sm font-medium no-underline transition-colors',
-              link.isActive
-                ? 'text-[var(--color-terracotta)] bg-[var(--color-cream-dark)]'
-                : 'text-[var(--color-ink)] hover:bg-[var(--color-cream-dark)]',
-            ]}
-            aria-current={link.isActive ? 'page' : undefined}
-          >
+        <li>
+          <a href={link.href} aria-current={link.isActive ? 'page' : undefined}>
             {link.label}
           </a>
         </li>
@@ -95,63 +56,162 @@ const links = NAV_LINKS.map((link) => ({
 </nav>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const bar1 = document.getElementById('bar1');
-  const bar2 = document.getElementById('bar2');
-  const bar3 = document.getElementById('bar3');
-  document
-    .querySelector('[data-site-nav]')
-    ?.setAttribute('data-enhanced', 'true');
+  const nav = document.querySelector<HTMLElement>('[data-site-nav]');
+  const button = document.querySelector<HTMLButtonElement>('#mobile-menu-btn');
+  const menu = document.querySelector<HTMLElement>('#mobile-menu');
+  function setMenu(open: boolean, returnFocus = false) {
+    menu?.classList.toggle('hidden', !open);
+    button?.setAttribute('aria-expanded', String(open));
+    const symbol = button?.querySelector('span');
+    if (symbol) symbol.textContent = open ? '−' : '+';
+    if (open) menu?.querySelector<HTMLAnchorElement>('a')?.focus();
+    else if (returnFocus) button?.focus();
+  }
+  button?.addEventListener('click', () =>
+    setMenu(button.getAttribute('aria-expanded') !== 'true', true),
+  );
+  document.addEventListener('keydown', (event) => {
+    if (
+      event.key === 'Escape' &&
+      button?.getAttribute('aria-expanded') === 'true'
+    )
+      setMenu(false, true);
+  });
+  nav?.addEventListener('focusout', (event) => {
+    if (
+      event.relatedTarget instanceof Node &&
+      !nav.contains(event.relatedTarget)
+    )
+      setMenu(false);
+  });
+  matchMedia('(min-width: 1024px)').addEventListener('change', () =>
+    setMenu(false),
+  );
+  nav?.setAttribute('data-enhanced', 'true');
+</script>
 
-  function setMenuOpen(open: boolean) {
-    if (!menu || !btn) return;
-    menu.classList.toggle('hidden', !open);
-    btn.setAttribute('aria-expanded', String(open));
-    bar1?.style.setProperty(
-      'transform',
-      open ? 'rotate(45deg) translate(2px, 4px)' : '',
-    );
-    bar2?.style.setProperty('opacity', open ? '0' : '1');
-    bar3?.style.setProperty(
-      'transform',
-      open ? 'rotate(-45deg) translate(2px, -4px)' : '',
-    );
-
-    if (open) {
-      const firstLink = menu.querySelector<HTMLAnchorElement>('a');
-      firstLink?.focus();
-    } else {
-      btn.focus();
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-cream);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .nav-inner {
+    max-width: 1440px;
+    padding: 0 64px;
+    margin: auto;
+    min-height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .site-brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-ink);
+    flex-shrink: 0;
+  }
+  .site-brand :global(.brand-mark) {
+    width: 36px;
+    height: 36px;
+  }
+  .wordmark {
+    font-size: 33px;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 1;
+  }
+  .brand-note {
+    font-size: 10px;
+    line-height: 1.35;
+    border-left: 1px solid var(--color-border);
+    padding-left: 20px;
+    margin-left: 10px;
+  }
+  .desktop-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .desktop-links a {
+    font-size: 13px;
+    text-decoration: none;
+    padding-block: 12px;
+  }
+  a:hover,
+  a[aria-current='page'] {
+    text-decoration: underline;
+    text-underline-offset: 7px;
+  }
+  #mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--color-ink);
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  #mobile-menu-btn span {
+    margin-left: 12px;
+  }
+  #mobile-menu {
+    display: none;
+  }
+  @media (max-width: 1200px) {
+    .brand-note {
+      display: none;
+    }
+    .nav-inner {
+      padding-inline: 36px;
     }
   }
-
-  btn?.addEventListener('click', () => {
-    const isOpen = menu?.classList.contains('hidden') !== false;
-    setMenuOpen(isOpen);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    if (btn?.getAttribute('aria-expanded') === 'true') {
-      setMenuOpen(false);
+  @media (max-width: 1023px) {
+    .nav-inner {
+      min-height: 80px;
+      padding-inline: 24px;
     }
-  });
-
-  // This is a disclosure, not a modal: Tab may leave the navigation.
-  document
-    .querySelector('[data-site-nav]')
-    ?.addEventListener('focusout', (event) => {
-      const next = (event as FocusEvent).relatedTarget;
-      if (
-        next instanceof Node &&
-        !document.querySelector('[data-site-nav]')?.contains(next)
-      ) {
-        menu?.classList.add('hidden');
-        btn?.setAttribute('aria-expanded', 'false');
-        bar1?.style.removeProperty('transform');
-        bar2?.style.removeProperty('opacity');
-        bar3?.style.removeProperty('transform');
-      }
-    });
-</script>
+    .desktop-links {
+      display: none;
+    }
+    .site-nav[data-enhanced] #mobile-menu-btn {
+      display: block;
+    }
+    #mobile-menu:not(.hidden) {
+      display: block;
+    }
+    #mobile-menu {
+      border-top: 1px solid var(--color-border);
+    }
+    #mobile-menu ul {
+      padding: 12px 24px 20px;
+      margin: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 20px;
+    }
+    #mobile-menu a {
+      display: block;
+      padding-block: 10px;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    #mobile-menu a:hover,
+    #mobile-menu a[aria-current='page'] {
+      text-decoration: underline;
+    }
+  }
+  @media print {
+    .site-nav {
+      display: none;
+    }
+  }
+</style>

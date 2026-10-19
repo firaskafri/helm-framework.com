@@ -217,7 +217,7 @@ feed('item').each((_, element) => {
   )
     failures.push(`RSS publication date disagrees with ${route}`);
 });
-const image = await sharp(path.join(DIST_DIR, 'og-default.png')).metadata();
+const image = await sharp(path.join(DIST_DIR, 'og-editorial.png')).metadata();
 
 const updatesPage = pagesByPublicPath.get('/updates');
 if (!updatesPage) throw new Error('The public updates page is required');

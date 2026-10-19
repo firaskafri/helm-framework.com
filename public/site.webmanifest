@@ -1,11 +1,11 @@
 {
   "name": "HELM — Human-first Execution and Leadership Model",
   "short_name": "HELM",
-  "description": "A framework for tech teams operating with AI agents.",
+  "description": "Practical guidance for teams deciding how people and AI agents work together.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#FDFBF7",
-  "theme_color": "#FDFBF7",
+  "background_color": "#F7F5EF",
+  "theme_color": "#F7F5EF",
   "icons": [
     {
       "src": "/favicon.svg",

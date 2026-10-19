@@ -1,22 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-cream: #fdfbf7;
-  --color-cream-dark: #f5f0e8;
-  --color-ink: #2d2d2d;
-  --color-ink-light: #4a4a4a;
-  --color-terracotta: #ad3824;
-  --color-terracotta-light: #aa3925;
-  --color-steel: #3d5a80;
-  --color-steel-light: #5a7da3;
-  --color-muted: #6b655e;
-  --color-muted-light: #767069;
-  --color-border: #e2ddd5;
+  --color-cream: #f7f5ef;
+  --color-cream-dark: #eee9f4;
+  --color-ink: #2c2031;
+  --color-ink-light: #514557;
+  --color-terracotta: #b62f1e;
+  --color-terracotta-light: #972617;
+  --color-steel: #604482;
+  --color-steel-light: #65498a;
+  --color-muted: #675e69;
+  --color-muted-light: #726676;
+  --color-border: #d4cdd1;
+  --color-vermilion: #f36649;
+  --color-lilac: #c5b4ed;
+  --color-lime: #e0ef89;
   --color-stripe: rgba(0, 0, 0, 0.015);
   --color-row-hover: rgba(0, 0, 0, 0.03);
 
-  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
   --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.06);
@@ -86,7 +89,7 @@ html {
   margin-bottom: 1.5rem;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   [data-site-nav]:not([data-enhanced]) {
     position: static;
   }
@@ -149,6 +152,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+::selection {
+  background: var(--color-lilac);
+  color: var(--color-ink);
+}
+
+main:not(.helm-home) {
+  padding-top: 3.5rem;
+}
+
+main :is(h1, h2, h3, h4) {
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 767px) {
+  main:not(.helm-home) {
+    padding-top: 2.5rem;
+  }
+}
+
 /* --- Editorial Typography --- */
 
 .prose {
@@ -159,7 +181,7 @@ body {
 .prose h2,
 .prose h3,
 .prose h4 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   line-height: 1.2;
   color: var(--color-ink);
@@ -359,10 +381,8 @@ body {
   border-collapse: separate;
   border-spacing: 0;
   background: white;
-  border-radius: 12px;
-  box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.06),
-    0 2px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
   font-size: 0.92rem;
   line-height: 1.5;
   overflow: hidden;
@@ -375,12 +395,12 @@ body {
 
 .prose table thead tr th:first-child,
 .table-editorial thead tr th:first-child {
-  border-top-left-radius: 12px;
+  border-top-left-radius: 2px;
 }
 
 .prose table thead tr th:last-child,
 .table-editorial thead tr th:last-child {
-  border-top-right-radius: 12px;
+  border-top-right-radius: 2px;
 }
 
 .prose table th,
@@ -411,12 +431,12 @@ body {
 
 .prose table tbody tr:last-child td:first-child,
 .table-editorial tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 12px;
+  border-bottom-left-radius: 2px;
 }
 
 .prose table tbody tr:last-child td:last-child,
 .table-editorial tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 12px;
+  border-bottom-right-radius: 2px;
 }
 
 .prose table tbody tr:nth-child(even),

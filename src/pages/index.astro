@@ -1,208 +1,305 @@
 ---
-import { SITE_FULL_NAME, SITE_NAME } from '../data/site';
-import { loadDocs, loadRoles } from '../lib/content';
+import { SITE_FULL_NAME, SITE_NAME, SITE_UPDATED_AT } from '../data/site';
+import { PUBLIC_UPDATES, UPDATES_LAST_MODIFIED } from '../data/updates';
+import { loadDocs } from '../lib/content';
 import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import PrincipleCard from '../components/PrincipleCard.astro';
-import ArrowIcon from '../components/ArrowIcon.astro';
 import Footer from '../components/Footer.astro';
+import HomeWorkMap from '../components/HomeWorkMap.astro';
+import HomePrinciples from '../components/HomePrinciples.astro';
+import ProposalExplorer from '../components/ProposalExplorer.astro';
 import UpdateSummary from '../components/UpdateSummary.astro';
-import { PUBLIC_UPDATES, UPDATES_LAST_MODIFIED } from '../data/updates';
-import { SITE_UPDATED_AT } from '../data/site';
+import '../styles/home.css';
 
-const docs = await loadDocs();
-const foundation = docs.find((d) => d.id === 'foundation');
-if (!foundation?.data.principles) {
+const foundation = (await loadDocs()).find((doc) => doc.id === 'foundation');
+if (!foundation?.data.principles)
   throw new Error('Foundation principles are required');
-}
-const principles = foundation.data.principles;
-
-const roles = await loadRoles();
-const sortedRoles = [...roles].sort((a, b) => a.data.order - b.data.order);
-
-const homeDescription =
-  'HELM helps teams work with AI agents: choose what to delegate, check the results, agree responsibilities and build shared skills.';
-
+const description =
+  'HELM helps teams rethink delegation, review, and decision ownership as AI changes how work gets done. Explore principles, practical guides, and shared skills.';
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
-const homeUrl = new URL('/', siteOrigin).href;
-
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: SITE_NAME,
   alternateName: SITE_FULL_NAME,
-  url: homeUrl,
-  description: `${SITE_FULL_NAME}: practical guidance for teams working with AI agents.`,
+  url: new URL('/', siteOrigin).href,
+  description,
 };
-const homeModified = new Date(
+const lastModified = new Date(
   UPDATES_LAST_MODIFIED > SITE_UPDATED_AT
     ? UPDATES_LAST_MODIFIED
     : SITE_UPDATED_AT,
 );
+const tensions = [
+  {
+    title: 'Different teams. Different working agreements.',
+    text: 'Departments are adopting agents under different expectations. When work moves between them, the limits and checks may not be clear.',
+  },
+  {
+    title: 'Drafts arrive faster. Specialist review takes time.',
+    text: 'Sales, delivery, and other specialists still need to check the commitments. Who has the context, capacity, and authority to decide?',
+  },
+  {
+    title: 'Work crosses teams. Ownership needs to follow.',
+    text: 'As tasks shift toward briefing and review, roles and expectations need attention. Agree who owns the result and what support people need.',
+  },
+];
 ---
 
 <Base
   title="Home"
-  fullTitle={`${SITE_NAME} — ${SITE_FULL_NAME}`}
-  description={homeDescription}
+  fullTitle="HELM — Bring clarity to how people and AI agents work."
+  description={description}
   jsonLd={[websiteJsonLd]}
-  lastModified={homeModified}
+  lastModified={lastModified}
 >
   <Nav />
-
-  <main id="main-content">
-    <Hero
-      lastModified={homeModified}
-      title={SITE_NAME}
-      subtitle="Practical guidance for working with AI agents. Choose what to delegate, check the results, and agree which decisions people own."
-    />
-
-    <section class="px-6 pb-20">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex items-baseline justify-between mb-10">
-          <div>
-            <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-2">
-              Principles
+  <main id="main-content" class="helm-home">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-inner">
+        <div class="hero-topline eyebrow">
+          <span>A field guide to AI-assisted work</span>
+          <span class="edition">Direction / delegation / accountability</span>
+        </div>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1 id="hero-title">
+              Bring clarity to
+              <br />
+              how people and
+              <br />
+              <span>AI agents work.</span>
+            </h1>
+            <p>
+              As AI changes how work gets done, HELM helps teams rethink
+              delegation, review, and decision ownership. Agree how people and
+              agents work together, within teams and across them.
             </p>
-            <h2 class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold text-[var(--color-ink)]">
-              Six principles for working with agents
-            </h2>
-          </div>
-          <a
-            href="/foundation"
-            class="hidden md:inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-light)] no-underline transition-colors"
-          >
-            Read all
-            <ArrowIcon class="ml-1 w-4 h-4" />
-          </a>
-        </div>
-        <div class="flex flex-wrap -m-4">
-          {principles.map((p) => (
-            <div class="p-4 w-full md:w-1/3 flex">
-              <PrincipleCard {...p} />
-            </div>
-          ))}
-        </div>
-        <div class="mt-6 md:hidden">
-          <a
-            href="/foundation"
-            class="inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] no-underline"
-          >
-            Read all principles
-            <ArrowIcon class="ml-1 w-4 h-4" />
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="px-6 pb-20">
-      <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <a href="/practitioners" class="group block no-underline">
-            <article class="h-full p-8 md:p-10 border border-[var(--color-border)] rounded-xl hover:border-[var(--color-terracotta)] transition-all bg-white/50">
-              <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
-                For Practitioners
-              </p>
-              <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-4 group-hover:text-[var(--color-terracotta)] transition-colors">
-                How we work with agents
-              </h3>
-              <ul class="text-[var(--color-ink-light)] text-sm space-y-2 mb-6 list-none p-0">
-                <li>Choose which tasks to give agents</li>
-                <li>Set clear limits before work starts</li>
-                <li>Check results before they are shared</li>
-                <li>Keep people responsible for important decisions</li>
-                <li>Learn from each piece of work</li>
-              </ul>
-              <span class="inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] group-hover:text-[var(--color-terracotta-light)] transition-colors">
-                Read the guide
-                <ArrowIcon class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </span>
-            </article>
-          </a>
-
-          <a href="/leadership" class="group block no-underline">
-            <article class="h-full p-8 md:p-10 border border-[var(--color-border)] rounded-xl hover:border-[var(--color-steel)] transition-all bg-white/50">
-              <p class="text-[var(--color-steel)] font-medium text-sm tracking-widest uppercase mb-4">
-                For Leaders
-              </p>
-              <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-4 group-hover:text-[var(--color-steel)] transition-colors">
-                How we lead and support the team
-              </h3>
-              <ul class="text-[var(--color-ink-light)] text-sm space-y-2 mb-6 list-none p-0">
-                <li>Agree who owns goals, decisions, and review</li>
-                <li>Introduce new ways of working in small steps</li>
-                <li>Support people as their responsibilities change</li>
-                <li>Review quality, outcomes, and effort together</li>
-                <li>Spot common problems before they spread</li>
-              </ul>
-              <span class="inline-flex items-center text-sm font-medium text-[var(--color-steel)] group-hover:text-[var(--color-steel-light)] transition-colors">
-                Read the guide
-                <ArrowIcon class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </span>
-            </article>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="px-6 pb-20">
-      <div class="max-w-6xl mx-auto">
-        <a href="/roles" class="group block no-underline">
-          <article class="p-8 md:p-10 border border-[var(--color-border)] rounded-xl hover:border-[var(--color-terracotta)] transition-all bg-white/50">
-            <p class="text-[var(--color-terracotta)] font-medium text-sm tracking-widest uppercase mb-4">
-              Roles &amp; Skills
-            </p>
-            <h3 class="font-[var(--font-serif)] text-xl md:text-2xl font-semibold text-[var(--color-ink)] mb-4 group-hover:text-[var(--color-terracotta)] transition-colors">
-              How responsibilities and skills change
-            </h3>
-            <p class="text-[var(--color-ink-light)] text-sm leading-relaxed mb-6 max-w-2xl">
-              Explore what AI-assisted work means for each role, what people
-              remain responsible for, and which skills help the team work well.
-            </p>
-            <div class="flex flex-wrap items-center gap-1.5 mb-6">
-              {sortedRoles.map((role) => (
-                <span class="px-2.5 py-1 rounded text-xs bg-[var(--color-cream-dark)] text-[var(--color-ink-light)] border border-[var(--color-border)]">
-                  {role.data.title}
+            <div class="hero-actions">
+              <a class="button" href="#approach">
+                Explore HELM <span aria-hidden="true">↓</span>
+              </a>
+              <a class="text-link" href="#guides">
+                Put it into practice{' '}
+                <span class="arrow" aria-hidden="true">
+                  ↗
                 </span>
-              ))}
-              <span class="text-xs font-medium text-[var(--color-muted)] uppercase tracking-wider ml-2">
-                {sortedRoles.length} roles
-              </span>
+              </a>
             </div>
-            <span class="inline-flex items-center text-sm font-medium text-[var(--color-terracotta)] group-hover:text-[var(--color-terracotta-light)] transition-colors">
-              Explore roles
-              <ArrowIcon class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </span>
+          </div>
+          <HomeWorkMap />
+        </div>
+        <div class="hero-foot">
+          <span>A shared starting point for teams working with AI.</span>
+          <a href="#work">
+            See how it fits together <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section class="tensions wrap" aria-labelledby="tensions-title">
+      <div class="section-heading">
+        <p class="eyebrow section-label">Across the organization</p>
+        <h2 id="tensions-title">
+          When AI changes the work,
+          <br />
+          responsibilities need attention.
+        </h2>
+      </div>
+      <div class="tension-list">
+        {tensions.map((tension, i) => (
+          <article class="tension">
+            <span class="tension-number">0{i + 1}</span>
+            <div>
+              <h3>{tension.title}</h3>
+              <p>{tension.text}</p>
+            </div>
           </article>
+        ))}
+      </div>
+    </section>
+    <section class="intro" id="approach" aria-labelledby="intro-title">
+      <div class="wrap intro-inner">
+        <div class="intro-label">
+          <h2 id="intro-title" class="eyebrow section-label">
+            This is where HELM helps
+          </h2>
+          <p>
+            Human-first Execution
+            <br />
+            and Leadership Model
+          </p>
+        </div>
+        <div>
+          <p class="intro-statement">
+            A simple framework for deciding <em>how the work happens</em> when
+            people and agents work together.
+          </p>
+          <p class="intro-note">
+            Start with the result you need. Rethink the steps, agree what agents
+            can do, and give people clear responsibility for direction, review,
+            and decisions.
+          </p>
+        </div>
+      </div>
+    </section>
+    <ProposalExplorer />
+    <HomePrinciples principles={foundation.data.principles} />
+    <section class="guides" id="guides" aria-labelledby="guides-title">
+      <div class="wrap">
+        <p class="eyebrow section-label">Put it into practice</p>
+        <div class="guides-heading">
+          <h2 id="guides-title">
+            Guidance for the work
+            <br />
+            and the people leading it.
+          </h2>
+          <p>
+            Choose the guidance closest to your next task or team conversation.
+            Start small, then learn from what happens.
+          </p>
+        </div>
+        <div class="guide-paths">
+          <a class="guide-path" href="/practitioners#the-operating-loop">
+            <span class="eyebrow">For people doing the work</span>
+            <svg class="path-icon" viewBox="0 0 70 70" aria-hidden="true">
+              <path d="M13 15h34v42H13Z" fill="none" stroke="currentColor" />
+              <path
+                d="M23 5h34v42M21 28h18M21 37h18M21 46h10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+            </svg>
+            <h3>
+              Make your next
+              <br />
+              task clearer.
+            </h3>
+            <p>
+              Choose what to delegate, set useful limits, check the result, and
+              learn from the work.
+            </p>
+            <span class="path-link">
+              Explore the Practitioner Guide <span aria-hidden="true">↗</span>
+            </span>
+          </a>
+          <a class="guide-path leadership" href="/leadership">
+            <span class="eyebrow">For people leading the team</span>
+            <svg class="path-icon" viewBox="0 0 70 70" aria-hidden="true">
+              <circle cx="35" cy="17" r="9" fill="none" stroke="currentColor" />
+              <path
+                d="M35 26v13M13 51V39h44v12"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <circle cx="13" cy="58" r="7" fill="none" stroke="currentColor" />
+              <circle cx="57" cy="58" r="7" fill="none" stroke="currentColor" />
+            </svg>
+            <h3>
+              Help the team
+              <br />
+              work together.
+            </h3>
+            <p>
+              Clarify decisions, support changing responsibilities, and make
+              room for shared learning.
+            </p>
+            <span class="path-link">
+              Explore the Leadership Guide <span aria-hidden="true">↗</span>
+            </span>
+          </a>
+        </div>
+        <div class="skills" id="skills">
+          <div>
+            <h3>
+              Build the skills
+              <br />
+              behind the work.
+            </h3>
+            <ul class="skills-list" aria-label="HELM’s five shared skills">
+              <li>Judgment</li>
+              <li>Communication</li>
+              <li>Evaluation</li>
+              <li>Ownership</li>
+              <li>Learning</li>
+            </ul>
+            <p>
+              Practice guides include content, engineering, sales, and account
+              management examples.
+            </p>
+            <a class="text-link" href="/competencies">
+              Explore shared skills{' '}
+              <span class="arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </div>
+          <div class="roles-resource">
+            <h3>
+              As tasks change,
+              <br />
+              revisit responsibilities.
+            </h3>
+            <p>
+              Use the role guides to discuss who provides context, where
+              expertise is needed, and who checks the work.
+            </p>
+            <p>
+              The current role guides focus on engineering and product. Leaders,
+              operations, and HR teams can use them to inform conversations
+              about responsibilities and learning, adapting them to their own
+              work.
+            </p>
+            <a class="text-link" href="/roles">
+              Explore the current role guides{' '}
+              <span class="arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="close" aria-labelledby="close-title">
+      <div class="wrap close-inner">
+        <div>
+          <p class="eyebrow section-label">A practical place to begin</p>
+          <h2 id="close-title">
+            One piece of work.
+            <br />
+            <span class="serif">A clearer way forward.</span>
+          </h2>
+        </div>
+        <div class="close-copy">
+          <p>
+            Bring a real task to your next team conversation. Agree what an
+            agent can do, who will review it, and who owns the decision.
+          </p>
+          <a class="button" href="/practitioners#the-operating-loop">
+            Try it with the practical guide <span aria-hidden="true">↗</span>
+          </a>
+          <div class="closing-question">
+            “What do we need to agree before we start?”
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="home-updates wrap" aria-labelledby="latest-updates">
+      <div class="updates-heading">
+        <h2 id="latest-updates">Latest updates</h2>
+        <a class="text-link" href="/updates">
+          View all updates <span aria-hidden="true">↗</span>
         </a>
       </div>
-    </section>
-    <section class="px-6 pb-20" aria-labelledby="latest-updates">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-wrap items-baseline justify-between gap-4 mb-8">
-          <h2
-            id="latest-updates"
-            class="font-[var(--font-serif)] text-2xl md:text-3xl font-semibold"
-          >
-            Latest updates
-          </h2>
-          <a
-            href="/updates"
-            class="text-sm font-medium text-[var(--color-terracotta)] underline underline-offset-4"
-          >
-            View all updates
-          </a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {PUBLIC_UPDATES.slice(0, 2).map((update) => (
-            <UpdateSummary update={update} />
-          ))}
-        </div>
+      <div class="updates-list">
+        {PUBLIC_UPDATES.slice(0, 2).map((update) => (
+          <UpdateSummary update={update} />
+        ))}
       </div>
     </section>
   </main>
-
   <Footer />
 </Base>

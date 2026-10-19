@@ -1,5 +1,69 @@
 [
   {
+    "id": "a-clearer-start-for-changing-work",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-19",
+    "updatedAt": "2026-10-19",
+    "title": "A clearer starting point for changing work",
+    "summary": "The homepage now connects HELM’s principles to everyday questions about delegation, review, and responsibility across teams.",
+    "sections": [
+      {
+        "heading": "Explore how responsibilities fit together",
+        "items": [
+          {
+            "text": "Follow an illustrative customer proposal from a shared brief through agent drafting, cross-team review, and a human decision. Each handoff explains what the person owns and what the agent does.",
+            "links": [
+              { "label": "Explore the proposal example", "href": "/#work" }
+            ]
+          },
+          {
+            "text": "Find the six principles, practitioner and leadership paths, and roles and shared-skills resources in a new page layout. The role guides remain focused on engineering and product; shared-skills examples also include content, sales, and account management.",
+            "links": [
+              { "label": "Find your starting point", "href": "/#guides" },
+              { "label": "Explore shared skills", "href": "/competencies" }
+            ]
+          },
+          {
+            "text": "A consistent visual style connects the homepage and guides, with clearer headings and navigation. The proposal example also remains readable without JavaScript.",
+            "links": [
+              { "label": "Read the principles", "href": "/foundation" },
+              { "label": "Read the Leadership Guide", "href": "/leadership" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "helm-start-and-first-launch",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-18",
+    "updatedAt": "2026-10-18",
+    "title": "HELM’s start and first launch",
+    "summary": "HELM started in October 2025 and first launched on 1 April 2026.",
+    "sections": [
+      {
+        "heading": "From launch to numbered releases",
+        "items": [
+          {
+            "text": "The first numbered release, HELM 1.0.0, followed on 5 September 2026. The release history now makes the earlier start and launch dates clear.",
+            "links": [
+              { "label": "Read the release history", "href": "/changelog" },
+              {
+                "label": "Read the HELM 1.0.0 release notes",
+                "href": "/updates#helm-1-0-0"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "helm-1-0-1",
     "kind": "release",
     "version": "1.0.1",
