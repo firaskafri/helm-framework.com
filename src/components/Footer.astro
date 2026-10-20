@@ -4,22 +4,23 @@ import {
   SITE_AUTHOR_URL,
   NAV_LINKS,
   REFERENCE_LINKS,
+  SITE_NAME,
 } from '../data/site';
 import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
 import { statusLabel } from '../lib/updates';
-import HelmWordmark from './HelmWordmark.astro';
+import HelmMark from './HelmMark.astro';
 ---
 
 <footer class="site-footer">
   <div class="footer-top">
     <div>
       <a class="footer-brand" href="/" aria-label="HELM home">
-        <HelmWordmark class="wordmark" />
+        <HelmMark class="brand-mark" />
+        {SITE_NAME}
       </a>
       <p>
-        Human-first Execution
-        <br />
-        and Leadership Model
+        &copy; {new Date().getFullYear()}{' '}
+        <a href={SITE_AUTHOR_URL}>{SITE_AUTHOR}</a>
       </p>
     </div>
     <div class="footer-navigation">
@@ -47,20 +48,15 @@ import HelmWordmark from './HelmWordmark.astro';
         ` · ${statusLabel(FRAMEWORK_RELEASE_STATE)}`}
     </a>
     <span>Practical guidance for people and teams working with AI.</span>
-    <span>
-      &copy; {new Date().getFullYear()}{' '}
-      <a href={SITE_AUTHOR_URL}>{SITE_AUTHOR}</a>
-    </span>
   </div>
 </footer>
 
 <style>
   .site-footer {
     margin-top: auto;
-    padding: 38px 64px 28px;
+    padding: 40px max(24px, calc((100% - 1152px) / 2)) 28px;
     width: 100%;
-    max-width: 1440px;
-    margin-inline: auto;
+    border-top: 1px solid var(--color-border);
   }
   .footer-top {
     display: flex;
@@ -68,16 +64,22 @@ import HelmWordmark from './HelmWordmark.astro';
     gap: 40px;
   }
   .footer-brand {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
   }
-  .footer-brand :global(.wordmark) {
+  .footer-brand :global(.brand-mark) {
     display: block;
-    width: 116px;
-    height: auto;
+    width: 24px;
+    height: 24px;
   }
   p {
     font-size: 12px;
-    margin: 15px 0 0;
+    margin: 8px 0 0;
+    color: var(--color-muted);
   }
   .footer-navigation {
     display: flex;
@@ -106,11 +108,6 @@ import HelmWordmark from './HelmWordmark.astro';
     gap: 20px;
     font-size: 11px;
     color: var(--color-muted);
-  }
-  @media (max-width: 1100px) {
-    .site-footer {
-      padding-inline: 36px;
-    }
   }
   @media (max-width: 760px) {
     .site-footer {

@@ -1,6 +1,6 @@
 ---
-import { NAV_LINKS } from '../data/site';
-import HelmWordmark from './HelmWordmark.astro';
+import { NAV_LINKS, SITE_NAME } from '../data/site';
+import HelmMark from './HelmMark.astro';
 
 const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const links = NAV_LINKS.map((link) => ({
@@ -17,13 +17,9 @@ const links = NAV_LINKS.map((link) => ({
   <div class="nav-inner">
     <div class="brand-group">
       <a href="/" class="site-brand" aria-label="HELM home">
-        <HelmWordmark class="wordmark" />
+        <HelmMark class="brand-mark" />
+        {SITE_NAME}
       </a>
-      <span class="brand-note">
-        Human-first Execution
-        <br />
-        and Leadership Model
-      </span>
     </div>
     <ul class="desktop-links">
       {links.map((link) => (
@@ -108,17 +104,19 @@ const links = NAV_LINKS.map((link) => ({
 
 <style>
   .site-nav {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
     background: var(--color-cream);
     border-bottom: 1px solid var(--color-border);
   }
   .nav-inner {
-    max-width: 1440px;
-    padding: 0 64px;
+    max-width: 1152px;
+    padding: 0 24px;
     margin: auto;
-    min-height: 80px;
+    min-height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -133,6 +131,10 @@ const links = NAV_LINKS.map((link) => ({
   .site-brand {
     display: inline-flex;
     align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
     min-height: 44px;
     border-radius: 4px;
     text-decoration: none;
@@ -143,21 +145,14 @@ const links = NAV_LINKS.map((link) => ({
   .site-brand:focus-visible {
     text-decoration: none;
   }
-  .site-brand :global(.wordmark) {
+  .site-brand :global(.brand-mark) {
     display: block;
-    width: 116px;
-    height: auto;
-  }
-  .brand-note {
-    font-size: 11px;
-    line-height: 1.45;
-    color: var(--color-ink-light);
-    border-left: 1px solid var(--color-border);
-    padding-left: 24px;
+    width: 24px;
+    height: 24px;
   }
   .desktop-links {
     display: flex;
-    gap: 4px;
+    gap: 22px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -167,34 +162,28 @@ const links = NAV_LINKS.map((link) => ({
     align-items: center;
     justify-content: center;
     min-height: 44px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 1.3;
-    color: var(--color-ink-light);
+    color: var(--color-muted);
     text-decoration: none;
-    padding: 10px 13px;
-    border-radius: 8px;
-    transition:
-      color 150ms ease,
-      background-color 150ms ease;
+    padding: 10px 0;
+    transition: color 150ms ease;
   }
   .desktop-links a:hover {
     color: var(--color-ink);
-    background: var(--color-cream-dark);
   }
   .desktop-links a[aria-current='page'] {
-    color: var(--color-ink);
-    background: var(--color-cream-dark);
-    box-shadow: inset 0 0 0 1px var(--color-border);
+    color: var(--color-terracotta);
   }
   #mobile-menu-btn {
     display: none;
     background: transparent;
     color: var(--color-ink);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border: 0;
+    border-radius: 4px;
     min-height: 44px;
-    min-width: 96px;
+    min-width: 44px;
     align-items: center;
     justify-content: center;
     gap: 12px;
@@ -217,6 +206,13 @@ const links = NAV_LINKS.map((link) => ({
     stroke-width: 1.5;
     stroke-linecap: round;
   }
+  .menu-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
   .menu-icon path {
     transform-origin: center;
     transition: transform 150ms ease;
@@ -229,14 +225,6 @@ const links = NAV_LINKS.map((link) => ({
   }
   #mobile-menu {
     display: none;
-  }
-  @media (max-width: 1279px) {
-    .brand-note {
-      display: none;
-    }
-    .nav-inner {
-      padding-inline: 36px;
-    }
   }
   @media (max-width: 1023px) {
     .nav-inner {

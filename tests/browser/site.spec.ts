@@ -35,6 +35,12 @@ for (const route of routes) {
       await page.locator('footer').scrollIntoViewIfNeeded();
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(400);
+      const heading = await page.locator('main h1').boundingBox();
+      const navigation = await page.locator('[data-site-nav]').boundingBox();
+      expect(
+        heading!.y,
+        'The fixed header must not obscure the page title',
+      ).toBeGreaterThanOrEqual(navigation!.y + navigation!.height);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
         .analyze();
@@ -116,7 +122,8 @@ test('mobile menu supports Escape and ordinary keyboard navigation', async ({
     focused,
   );
   await button.click();
-  await page.locator('main h1').click();
+  // The fixed menu overlays the title; click the visible page margin below it.
+  await page.mouse.click(5, 800);
   await expect(button).toHaveAttribute('aria-expanded', 'false');
   await expect(page.locator('#mobile-menu')).toBeHidden();
 });

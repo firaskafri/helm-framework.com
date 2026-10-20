@@ -1,5 +1,39 @@
 [
   {
+    "id": "original-helm-design-restored",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-20",
+    "updatedAt": "2026-10-20",
+    "title": "A return to HELM’s original design",
+    "summary": "The original helm emblem, warm neutral colors, and simpler homepage return, with the current guidance and shared skills easy to find.",
+    "sections": [
+      {
+        "heading": "A familiar starting point",
+        "items": [
+          {
+            "text": "The homepage brings back the compact HELM introduction, six principle cards, and direct practitioner and leadership paths. A short proposal example explains how delegation, review, and human responsibility fit together.",
+            "links": [
+              { "label": "Explore HELM", "href": "/" },
+              { "label": "Choose a guide", "href": "/#guides" }
+            ]
+          },
+          {
+            "text": "The helm emblem, cream background, and terracotta accents carry through the navigation, guides, browser icon, and shared-link previews. Current content, source notes, roles, and shared-skill practice guides remain available.",
+            "links": [
+              {
+                "label": "Read the Practitioner Guide",
+                "href": "/practitioners"
+              },
+              { "label": "Explore shared skills", "href": "/competencies" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "clearer-site-navigation",
     "kind": "update",
     "version": "1.0.1",

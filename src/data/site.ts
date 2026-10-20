@@ -6,7 +6,7 @@ export const SITE_FULL_NAME = 'Human-first Execution and Leadership Model';
 export const SITE_AUTHOR = 'Firas Kafri';
 export const SITE_AUTHOR_URL = 'https://www.linkedin.com/in/alkafri/';
 /** Editorial date for site/reference pages; never derived from build time. */
-export const SITE_UPDATED_AT = '2026-10-19';
+export const SITE_UPDATED_AT = '2026-10-20';
 export const REFERENCE_LINKS = [
   { href: '/updates', label: 'Updates' },
   { href: '/evidence', label: 'Further reading' },

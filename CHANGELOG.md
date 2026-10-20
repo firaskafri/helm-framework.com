@@ -6,6 +6,17 @@ What has changed in HELM’s guidance and resources, why it matters for your tea
 
 Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
 
+## 2026-10-20 — A return to HELM’s original design
+
+[A return to HELM’s original design](https://helmframework.com/updates#original-helm-design-restored) · Published 2026-10-20.
+
+The original helm emblem, warm neutral colors, and simpler homepage return, with the current guidance and shared skills easy to find.
+
+### A familiar starting point
+
+- The homepage brings back the compact HELM introduction, six principle cards, and direct practitioner and leadership paths. A short proposal example explains how delegation, review, and human responsibility fit together. [Explore HELM](https://helmframework.com/) · [Choose a guide](https://helmframework.com/#guides)
+- The helm emblem, cream background, and terracotta accents carry through the navigation, guides, browser icon, and shared-link previews. Current content, source notes, roles, and shared-skill practice guides remain available. [Read the Practitioner Guide](https://helmframework.com/practitioners) · [Explore shared skills](https://helmframework.com/competencies)
+
 ## 2026-10-19 — A clearer starting point for changing work
 
 [A clearer starting point for changing work](https://helmframework.com/updates#a-clearer-start-for-changing-work) · Published 2026-10-19.

@@ -4,8 +4,8 @@
   "description": "Practical guidance for teams deciding how people and AI agents work together.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#F7F5EF",
-  "theme_color": "#F7F5EF",
+  "background_color": "#FDFBF7",
+  "theme_color": "#FDFBF7",
   "icons": [
     {
       "src": "/favicon.svg",

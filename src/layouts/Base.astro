@@ -71,7 +71,7 @@ const ldJsonBlocks = jsonLd.map(serializeJsonLd);
       />
     )}
     <!-- Matches @theme --color-cream in global.css (meta theme-color cannot use CSS variables) -->
-    <meta name="theme-color" content="#F7F5EF" />
+    <meta name="theme-color" content="#FDFBF7" />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -105,6 +105,13 @@ const ldJsonBlocks = jsonLd.map(serializeJsonLd);
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageAbsolute} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap"
+      rel="stylesheet"
+    />
 
     {ldJsonBlocks.map((raw) => (
       <script type="application/ld+json" set:html={raw}></script>

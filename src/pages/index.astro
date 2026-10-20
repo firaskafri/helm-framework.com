@@ -1,22 +1,23 @@
 ---
 import { SITE_FULL_NAME, SITE_NAME, SITE_UPDATED_AT } from '../data/site';
 import { PUBLIC_UPDATES, UPDATES_LAST_MODIFIED } from '../data/updates';
-import { loadDocs } from '../lib/content';
+import { loadDocs, loadRoles } from '../lib/content';
 import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import PrincipleCard from '../components/PrincipleCard.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
 import Footer from '../components/Footer.astro';
-import HomeWorkMap from '../components/HomeWorkMap.astro';
-import HomePrinciples from '../components/HomePrinciples.astro';
-import ProposalExplorer from '../components/ProposalExplorer.astro';
 import UpdateSummary from '../components/UpdateSummary.astro';
 import '../styles/home.css';
 
 const foundation = (await loadDocs()).find((doc) => doc.id === 'foundation');
 if (!foundation?.data.principles)
   throw new Error('Foundation principles are required');
+const roles = (await loadRoles()).sort((a, b) => a.data.order - b.data.order);
 const description =
-  'HELM helps teams rethink delegation, review, and decision ownership as AI changes how work gets done. Explore principles, practical guides, and shared skills.';
+  'HELM helps teams decide how people and AI agents work together: who does the work, who makes decisions, and who remains responsible.';
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
 const websiteJsonLd = {
   '@context': 'https://schema.org',
@@ -31,270 +32,141 @@ const lastModified = new Date(
     ? UPDATES_LAST_MODIFIED
     : SITE_UPDATED_AT,
 );
-const tensions = [
-  {
-    title: 'Different teams. Different working agreements.',
-    text: 'Departments are adopting agents under different expectations. When work moves between them, the limits and checks may not be clear.',
-  },
-  {
-    title: 'Drafts arrive faster. Specialist review takes time.',
-    text: 'Sales, delivery, and other specialists still need to check the commitments. Who has the context, capacity, and authority to decide?',
-  },
-  {
-    title: 'Work crosses teams. Ownership needs to follow.',
-    text: 'As tasks shift toward briefing and review, roles and expectations need attention. Agree who owns the result and what support people need.',
-  },
-];
 ---
 
 <Base
   title="Home"
-  fullTitle="HELM — Bring clarity to how people and AI agents work."
+  fullTitle={`${SITE_NAME} — ${SITE_FULL_NAME}`}
   description={description}
   jsonLd={[websiteJsonLd]}
   lastModified={lastModified}
 >
   <Nav />
   <main id="main-content" class="helm-home">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero-inner">
-        <div class="hero-topline eyebrow">
-          <span>A field guide to AI-assisted work</span>
-          <span class="edition">Direction / delegation / accountability</span>
+    <div id="approach">
+      <Hero
+        title={SITE_NAME}
+        subtitle="A practical framework for deciding how people and AI agents work together. Agree who does the work, who makes decisions, and who remains responsible."
+        lastModified={lastModified}
+      />
+    </div>
+
+    <section class="home-section" aria-labelledby="principles-title">
+      <div class="home-heading">
+        <div>
+          <p class="home-label">Principles</p>
+          <h2 id="principles-title">Six principles for working with agents</h2>
         </div>
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <h1 id="hero-title">
-              Bring clarity to
-              <br />
-              how people and
-              <br />
-              <span>AI agents work.</span>
-            </h1>
-            <p>
-              As AI changes how work gets done, HELM helps teams rethink
-              delegation, review, and decision ownership. Agree how people and
-              agents work together, within teams and across them.
-            </p>
-            <div class="hero-actions">
-              <a class="button" href="#approach">
-                Explore HELM <span aria-hidden="true">↓</span>
-              </a>
-              <a class="text-link" href="#guides">
-                Put it into practice{' '}
-                <span class="arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            </div>
-          </div>
-          <HomeWorkMap />
-        </div>
-        <div class="hero-foot">
-          <span>A shared starting point for teams working with AI.</span>
-          <a href="#work">
-            See how it fits together <span aria-hidden="true">↓</span>
-          </a>
-        </div>
+        <a class="home-link" href="/foundation">
+          Read all principles <ArrowIcon class="w-4 h-4" />
+        </a>
       </div>
-    </section>
-    <section class="tensions wrap" aria-labelledby="tensions-title">
-      <div class="section-heading">
-        <p class="eyebrow section-label">Across the organization</p>
-        <h2 id="tensions-title">
-          When AI changes the work,
-          <br />
-          responsibilities need attention.
-        </h2>
-      </div>
-      <div class="tension-list">
-        {tensions.map((tension, i) => (
-          <article class="tension">
-            <span class="tension-number">0{i + 1}</span>
-            <div>
-              <h3>{tension.title}</h3>
-              <p>{tension.text}</p>
-            </div>
-          </article>
+      <div class="principles-grid">
+        {foundation.data.principles.map((principle) => (
+          <PrincipleCard {...principle} />
         ))}
       </div>
     </section>
-    <section class="intro" id="approach" aria-labelledby="intro-title">
-      <div class="wrap intro-inner">
-        <div class="intro-label">
-          <h2 id="intro-title" class="eyebrow section-label">
-            This is where HELM helps
-          </h2>
-          <p>
-            Human-first Execution
-            <br />
-            and Leadership Model
-          </p>
-        </div>
-        <div>
-          <p class="intro-statement">
-            A simple framework for deciding <em>how the work happens</em> when
-            people and agents work together.
-          </p>
-          <p class="intro-note">
-            Start with the result you need. Rethink the steps, agree what agents
-            can do, and give people clear responsibility for direction, review,
-            and decisions.
-          </p>
-        </div>
-      </div>
-    </section>
-    <ProposalExplorer />
-    <HomePrinciples principles={foundation.data.principles} />
-    <section class="guides" id="guides" aria-labelledby="guides-title">
-      <div class="wrap">
-        <p class="eyebrow section-label">Put it into practice</p>
-        <div class="guides-heading">
-          <h2 id="guides-title">
-            Guidance for the work
-            <br />
-            and the people leading it.
-          </h2>
-          <p>
-            Choose the guidance closest to your next task or team conversation.
-            Start small, then learn from what happens.
-          </p>
-        </div>
-        <div class="guide-paths">
-          <a class="guide-path" href="/practitioners#the-operating-loop">
-            <span class="eyebrow">For people doing the work</span>
-            <svg class="path-icon" viewBox="0 0 70 70" aria-hidden="true">
-              <path d="M13 15h34v42H13Z" fill="none" stroke="currentColor" />
-              <path
-                d="M23 5h34v42M21 28h18M21 37h18M21 46h10"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-            </svg>
-            <h3>
-              Make your next
-              <br />
-              task clearer.
-            </h3>
-            <p>
-              Choose what to delegate, set useful limits, check the result, and
-              learn from the work.
-            </p>
-            <span class="path-link">
-              Explore the Practitioner Guide <span aria-hidden="true">↗</span>
-            </span>
-          </a>
-          <a class="guide-path leadership" href="/leadership">
-            <span class="eyebrow">For people leading the team</span>
-            <svg class="path-icon" viewBox="0 0 70 70" aria-hidden="true">
-              <circle cx="35" cy="17" r="9" fill="none" stroke="currentColor" />
-              <path
-                d="M35 26v13M13 51V39h44v12"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-              <circle cx="13" cy="58" r="7" fill="none" stroke="currentColor" />
-              <circle cx="57" cy="58" r="7" fill="none" stroke="currentColor" />
-            </svg>
-            <h3>
-              Help the team
-              <br />
-              work together.
-            </h3>
-            <p>
-              Clarify decisions, support changing responsibilities, and make
-              room for shared learning.
-            </p>
-            <span class="path-link">
-              Explore the Leadership Guide <span aria-hidden="true">↗</span>
-            </span>
-          </a>
-        </div>
-        <div class="skills" id="skills">
-          <div>
-            <h3>
-              Build the skills
-              <br />
-              behind the work.
-            </h3>
-            <ul class="skills-list" aria-label="HELM’s five shared skills">
-              <li>Judgment</li>
-              <li>Communication</li>
-              <li>Evaluation</li>
-              <li>Ownership</li>
-              <li>Learning</li>
-            </ul>
-            <p>
-              Practice guides include content, engineering, sales, and account
-              management examples.
-            </p>
-            <a class="text-link" href="/competencies">
-              Explore shared skills{' '}
-              <span class="arrow" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          </div>
-          <div class="roles-resource">
-            <h3>
-              As tasks change,
-              <br />
-              revisit responsibilities.
-            </h3>
-            <p>
-              Use the role guides to discuss who provides context, where
-              expertise is needed, and who checks the work.
-            </p>
-            <p>
-              The current role guides focus on engineering and product. Leaders,
-              operations, and HR teams can use them to inform conversations
-              about responsibilities and learning, adapting them to their own
-              work.
-            </p>
-            <a class="text-link" href="/roles">
-              Explore the current role guides{' '}
-              <span class="arrow" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="close" aria-labelledby="close-title">
-      <div class="wrap close-inner">
-        <div>
-          <p class="eyebrow section-label">A practical place to begin</p>
-          <h2 id="close-title">
-            One piece of work.
-            <br />
-            <span class="serif">A clearer way forward.</span>
-          </h2>
-        </div>
-        <div class="close-copy">
-          <p>
-            Bring a real task to your next team conversation. Agree what an
-            agent can do, who will review it, and who owns the decision.
-          </p>
-          <a class="button" href="/practitioners#the-operating-loop">
-            Try it with the practical guide <span aria-hidden="true">↗</span>
-          </a>
-          <div class="closing-question">
-            “What do we need to agree before we start?”
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="home-updates wrap" aria-labelledby="latest-updates">
-      <div class="updates-heading">
-        <h2 id="latest-updates">Latest updates</h2>
-        <a class="text-link" href="/updates">
-          View all updates <span aria-hidden="true">↗</span>
+
+    <section
+      class="home-section"
+      id="guides"
+      aria-label="Practitioner and leadership guidance"
+    >
+      <div class="guide-grid">
+        <a class="guide-card" href="/practitioners#the-operating-loop">
+          <p class="home-label">For practitioners</p>
+          <h2>How we work with agents</h2>
+          <ul>
+            <li>Choose which tasks to give agents</li>
+            <li>Set clear limits before work starts</li>
+            <li>Plan, execute, verify, ship, and learn</li>
+            <li>Check results before they are shared</li>
+            <li>Keep people responsible for decisions</li>
+          </ul>
+          <span class="home-link">
+            Read the Practitioner Guide <ArrowIcon class="w-4 h-4" />
+          </span>
+        </a>
+        <a class="guide-card leadership-card" href="/leadership">
+          <p class="home-label">For leaders</p>
+          <h2>How we lead and support the team</h2>
+          <ul>
+            <li>Agree who owns goals, decisions, and review</li>
+            <li>Make handoffs between teams clear</li>
+            <li>Support people as responsibilities change</li>
+            <li>Review quality, outcomes, and effort together</li>
+            <li>Introduce new ways of working in small steps</li>
+          </ul>
+          <span class="home-link">
+            Read the Leadership Guide <ArrowIcon class="w-4 h-4" />
+          </span>
         </a>
       </div>
-      <div class="updates-list">
+      <details class="work-example" id="work">
+        <summary>In practice: who owns an agent-drafted proposal?</summary>
+        <div class="example-content">
+          <p class="home-label">Illustrative example</p>
+          <p>
+            The sales lead agrees the customer need, approved sources, and task
+            limits. An agent drafts the proposal without permission to send it.
+            Sales and delivery review pricing, dates, and commitments. The sales
+            lead decides what to send and owns the follow-through.
+          </p>
+          <p>
+            <strong>Accountable throughout: the sales lead.</strong> Delegating
+            the draft does not delegate responsibility for the proposal.
+            Feedback informs the next brief.
+          </p>
+          <a class="home-link" href="/practitioners#the-human-agent-boundary">
+            Discuss the human-agent boundary <ArrowIcon class="w-4 h-4" />
+          </a>
+        </div>
+      </details>
+    </section>
+
+    <section class="home-section" aria-label="Roles and shared skills">
+      <div class="resource-card">
+        <p class="home-label">Roles &amp; responsibilities</p>
+        <h2>How responsibilities and skills change</h2>
+        <p>
+          Explore what people remain responsible for, where expertise is needed,
+          and who checks the work. The current role guides focus on engineering
+          and product. Leaders, operations, and HR teams can adapt them for
+          conversations about responsibilities and learning.
+        </p>
+        <ul class="role-links" aria-label="Current role guides">
+          {roles.map((role) => (
+            <li>
+              <a href={`/roles/${role.id}`}>{role.data.title}</a>
+            </li>
+          ))}
+        </ul>
+        <a class="home-link" href="/roles">
+          Explore the role guides <ArrowIcon class="w-4 h-4" />
+        </a>
+        <div class="shared-skills" id="skills">
+          <h3>Build shared skills across the team</h3>
+          <p>
+            Judgment, Communication, Evaluation, Ownership, and Learning.
+            Practice guides include content, engineering, sales, and account
+            management examples.
+          </p>
+          <a class="home-link" href="/competencies">
+            Explore shared skills <ArrowIcon class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section" aria-labelledby="latest-updates">
+      <div class="home-heading">
+        <h2 id="latest-updates">Latest updates</h2>
+        <a class="home-link" href="/updates">
+          View all updates <ArrowIcon class="w-4 h-4" />
+        </a>
+      </div>
+      <div class="guide-grid">
         {PUBLIC_UPDATES.slice(0, 2).map((update) => (
           <UpdateSummary update={update} />
         ))}
