@@ -6,6 +6,16 @@ What has changed in HELM’s guidance and resources, why it matters for your tea
 
 Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
 
+## 2026-10-21 — A simpler homepage introduction
+
+[A simpler homepage introduction](https://helmframework.com/updates#simpler-homepage-introduction) · Published 2026-10-21.
+
+The homepage introduction leads directly to the practitioner and leadership guides.
+
+### Start with the guides
+
+- The homepage introduction shows the framework name and a short description, then the Practitioner Guide and Leadership Guide. Release history stays on the Updates page and in the footer. [Explore HELM](https://helmframework.com/) · [Read the release history](https://helmframework.com/changelog)
+
 ## 2026-10-20 — A return to HELM’s original design
 
 [A return to HELM’s original design](https://helmframework.com/updates#original-helm-design-restored) · Published 2026-10-20.

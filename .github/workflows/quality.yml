@@ -55,7 +55,15 @@ jobs:
       - run: docker run -d --name helm-check -p 8080:8080 helm-check
       - name: Check static serving and real 404 responses
         run: |
-          curl --retry 10 --retry-connrefused --retry-delay 1 --fail http://localhost:8080/ -o /dev/null
+          ready=0
+          for _ in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+            if curl --fail --silent --show-error http://localhost:8080/ -o /dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" = 1
           curl --fail http://localhost:8080/practitioners -o /dev/null
           curl --fail http://localhost:8080/sitemap.xml -o /dev/null
           test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/missing-page)" = "404"

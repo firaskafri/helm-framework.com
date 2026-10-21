@@ -1,5 +1,29 @@
 [
   {
+    "id": "simpler-homepage-introduction",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-21",
+    "updatedAt": "2026-10-21",
+    "title": "A simpler homepage introduction",
+    "summary": "The homepage introduction leads directly to the practitioner and leadership guides.",
+    "sections": [
+      {
+        "heading": "Start with the guides",
+        "items": [
+          {
+            "text": "The homepage introduction shows the framework name and a short description, then the Practitioner Guide and Leadership Guide. Release history stays on the Updates page and in the footer.",
+            "links": [
+              { "label": "Explore HELM", "href": "/" },
+              { "label": "Read the release history", "href": "/changelog" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "original-helm-design-restored",
     "kind": "update",
     "version": "1.0.1",
