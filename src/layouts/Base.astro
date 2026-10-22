@@ -25,7 +25,7 @@ import '@fontsource/inter/latin-800.css';
 interface Props {
   title: string;
   description?: string;
-  /** Override the computed `<title>`. Falls back to `${title} — ${SITE_NAME}`. */
+  /** Override the computed `<title>`. Falls back to `${title} | ${SITE_NAME}`. */
   fullTitle?: string;
   /** Absolute URL or path under `public/` (e.g. `/og-default.png`). */
   ogImage?: string;
@@ -44,7 +44,7 @@ interface Props {
 const {
   title,
   description = 'Practical guidance for teams deciding how people and AI agents work together.',
-  fullTitle = `${title} — ${SITE_NAME}`,
+  fullTitle = `${title} | ${SITE_NAME}`,
   ogImage = SOCIAL_IMAGE_PATH,
   ogImageAlt = SOCIAL_IMAGE_ALT,
   ogImageWidth = SOCIAL_IMAGE_WIDTH,
@@ -129,7 +129,7 @@ const ldJsonBlocks = noindex
         rel="alternate"
         href={markdownUrl}
         type="text/markdown"
-        title={`${title} — Markdown`}
+        title={`${title} | Markdown`}
       />
     )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -137,13 +137,13 @@ const ldJsonBlocks = noindex
     <link
       rel="alternate"
       type="application/rss+xml"
-      title={`${SITE_NAME} — guides and roles`}
+      title={`${SITE_NAME}: guides and roles`}
       href="/rss.xml"
     />
     <link
       rel="alternate"
       type="application/rss+xml"
-      title={`${SITE_NAME} — updates`}
+      title={`${SITE_NAME}: updates`}
       href="/updates/rss.xml"
     />
 

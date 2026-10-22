@@ -108,3 +108,30 @@ looser lettering, and the full name is 20px on desktop and 18px on mobile.
 Reviewed 1440px, 390px, and 320px renders without JavaScript; the two-line name
 is readable and has no horizontal overflow. `npm run check` passed after the
 change. Hero screenshots are `outputs/updated-design-hero-{1440,390}.png`.
+
+## Homepage promotion
+
+The reviewed layout now lives at `/`. The temporary `/updated-design` page and
+its audience entry were removed. Its Updates entry is published as “A clearer
+HELM homepage” and links to `/`; the update ID remains stable for existing links.
+
+The homepage retains the shared navigation's keyboard, Escape, outside-click,
+and no-JavaScript behavior. Existing `approach`, `guides`, `work`, `skills`, and
+`latest-updates` anchors remain available. Reviewed the full desktop and mobile
+no-JavaScript renders, including principles, guide links, role groups, shared
+skills, the example disclosure, latest updates, and footer. Screenshots are
+`outputs/promoted-home-{desktop,mobile-nojs}.png`.
+
+Canonical and social URLs point to `https://helmframework.com/`. The homepage is
+indexable, declares linked website and page entities, and exposes `/index.md`
+and `/llms.txt`. The generated Markdown retains the revised copy, all principles,
+and the proposal example. Machine-readable license URLs and the index now agree
+with the published CC BY 4.0 content license. Shared metadata titles use ordinary
+separators without em dashes.
+
+`npm run check` passed after promotion: 23 unit tests, 62 browser tests, full
+format/lint/type checks, publishing guardrails, generated-content integrity, and
+security checks. There are 46 intentional cross-engine audit skips. Regression
+coverage confirms indexability, the Markdown alternative and license, and HTTP
+404 responses for both temporary route spellings. Production output was restored
+after the browser fixture checks. No deployment was performed.

@@ -38,13 +38,13 @@ test('the proposal example remains keyboard accessible without JavaScript', asyn
   await page.keyboard.press('Enter');
   await expect(example).toHaveAttribute('open', '');
   await expect(
-    example.getByText('Accountable throughout: the sales lead.'),
+    example.getByText('The sales lead remains responsible for the proposal.'),
   ).toBeVisible();
-  await expect(example.getByText(/without permission to send/)).toBeVisible();
+  await expect(example.getByText(/cannot send it/)).toBeVisible();
   // WebKit's default macOS preference uses Option-Tab to include links.
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
   await expect(
-    example.getByRole('link', { name: /Discuss the human-agent boundary/ }),
+    example.getByRole('link', { name: /Read about delegation and review/ }),
   ).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('#the-human-agent-boundary')).toBeVisible();

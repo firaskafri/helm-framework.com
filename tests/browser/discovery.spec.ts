@@ -1,5 +1,35 @@
 import { test, expect } from '@playwright/test';
 
+test('homepage design remains indexable and the temporary preview is removed', async ({
+  page,
+  request,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://helmframework.com/',
+  );
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    'index, follow, max-image-preview:large',
+  );
+  await expect(
+    page.locator('link[rel="alternate"][type="text/markdown"]'),
+  ).toHaveAttribute('href', '/index.md');
+  await expect(page.locator('.hero .full-name')).toContainText(
+    'Human-first Execution',
+  );
+  const markdown = await request.get('/index.md');
+  expect(await markdown.text()).toContain(
+    'License: https://creativecommons.org/licenses/by/4.0/',
+  );
+  expect(await markdown.text()).toContain(
+    'The sales lead remains responsible for the proposal.',
+  );
+  expect((await request.get('/updated-design')).status()).toBe(404);
+  expect((await request.get('/updated-design/')).status()).toBe(404);
+});
+
 test('published pages expose readable guidance and local fonts without JavaScript', async ({
   browser,
 }, testInfo) => {

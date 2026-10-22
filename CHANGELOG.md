@@ -17,15 +17,15 @@ Shared links have a readable HELM preview, and the guides are easier for search 
 - Shared-link images show HELM’s name and a short explanation of responsibilities when people work with AI agents. [Explore HELM](https://helmframework.com/)
 - A plain-text index points to readable copies of the published guidance. These include the same examples and limitations, with links to the original pages for citation. [Read the guidance index](https://helmframework.com/llms.txt) · [Read the Practitioner Guide](https://helmframework.com/practitioners)
 
-## 2026-10-22 — A new page layout to try
+## 2026-10-22 — A clearer HELM homepage
 
-[A new page layout to try](https://helmframework.com/updates#updated-design-preview) · Prepared 2026-10-22.
+[A clearer HELM homepage](https://helmframework.com/updates#updated-design-preview) · Published 2026-10-22.
 
-Preview a new layout for HELM’s introduction, principles, guides, roles, and shared skills.
+The homepage has a clearer framework name, six numbered principles, and direct links to guides, roles, and shared skills.
 
 ### Explore the layout
 
-- The design preview keeps HELM’s helm emblem and familiar colors, with a clearer framework name, balanced headings, and links to the current guides. [View the design preview](https://helmframework.com/updated-design)
+- The new homepage keeps HELM’s helm emblem and familiar colors, with a clearer framework name, balanced headings, and links to the current guides. The proposal example remains available without JavaScript. [Explore HELM](https://helmframework.com/)
 
 ## 2026-10-21 — A simpler homepage introduction
 

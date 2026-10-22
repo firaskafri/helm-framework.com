@@ -81,7 +81,7 @@ test('updates are discoverable and link to changed content without JavaScript', 
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4322/');
   const latest = page.locator('section[aria-labelledby="latest-updates"]');
-  const link = latest.getByRole('link', { name: /See what changed/ }).first();
+  const link = latest.locator('.update-row').first();
   const destination = await link.getAttribute('href');
   await link.click();
   await page.waitForLoadState('load');

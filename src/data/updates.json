@@ -3,20 +3,18 @@
     "id": "updated-design-preview",
     "kind": "update",
     "version": "1.0.1",
-    "status": "release-candidate",
+    "status": "published",
     "date": "2026-10-22",
     "updatedAt": "2026-10-22",
-    "title": "A new page layout to try",
-    "summary": "Preview a new layout for HELM’s introduction, principles, guides, roles, and shared skills.",
+    "title": "A clearer HELM homepage",
+    "summary": "The homepage has a clearer framework name, six numbered principles, and direct links to guides, roles, and shared skills.",
     "sections": [
       {
         "heading": "Explore the layout",
         "items": [
           {
-            "text": "The design preview keeps HELM’s helm emblem and familiar colors, with a clearer framework name, balanced headings, and links to the current guides.",
-            "links": [
-              { "label": "View the design preview", "href": "/updated-design" }
-            ]
+            "text": "The new homepage keeps HELM’s helm emblem and familiar colors, with a clearer framework name, balanced headings, and links to the current guides. The proposal example remains available without JavaScript.",
+            "links": [{ "label": "Explore HELM", "href": "/" }]
           }
         ]
       }
