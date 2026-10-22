@@ -132,14 +132,14 @@ summary {
   border-bottom: 1px solid var(--line);
 }
 .hero h1 {
-  font: 500 124px/1.02 var(--sans);
-  letter-spacing: -9px;
-  margin: 0 0 22px;
+  font: 500 112px/1.02 var(--sans);
+  letter-spacing: -5px;
+  margin: 0 0 20px;
 }
 .full-name {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 1.65;
+  line-height: 1.5;
   color: #4a4a4a;
   letter-spacing: 0.1px;
 }
@@ -817,12 +817,12 @@ details[open] .expand {
     padding-block: 52px 44px;
   }
   .hero h1 {
-    font-size: 92px;
-    letter-spacing: -6px;
+    font-size: 84px;
+    letter-spacing: -3px;
     margin-block: 0 18px;
   }
   .full-name {
-    font-size: 16px;
+    font-size: 18px;
   }
   .hero-intro > p:first-child {
     font-size: 26px;

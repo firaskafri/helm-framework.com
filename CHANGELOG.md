@@ -25,7 +25,7 @@ Preview a new layout for HELM’s introduction, principles, guides, roles, and s
 
 ### Explore the layout
 
-- The design preview keeps HELM’s helm emblem and familiar colors, with clearer headings and links to the current guides. [View the design preview](https://helmframework.com/updated-design)
+- The design preview keeps HELM’s helm emblem and familiar colors, with a clearer framework name, balanced headings, and links to the current guides. [View the design preview](https://helmframework.com/updated-design)
 
 ## 2026-10-21 — A simpler homepage introduction
 

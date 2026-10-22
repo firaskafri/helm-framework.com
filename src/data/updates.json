@@ -13,7 +13,7 @@
         "heading": "Explore the layout",
         "items": [
           {
-            "text": "The design preview keeps HELM’s helm emblem and familiar colors, with clearer headings and links to the current guides.",
+            "text": "The design preview keeps HELM’s helm emblem and familiar colors, with a clearer framework name, balanced headings, and links to the current guides.",
             "links": [
               { "label": "View the design preview", "href": "/updated-design" }
             ]

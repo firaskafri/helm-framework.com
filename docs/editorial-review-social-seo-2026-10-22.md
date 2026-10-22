@@ -102,3 +102,9 @@ the full framework name remain readable. The page contains no em dashes.
 The preview is ready for readers to explore the current guidance in this layout.
 `npm run check` passed, including the new route's accessibility and responsive
 audit. Screenshots are in `outputs/updated-design-{desktop,mobile}.png`.
+
+The hero name block was refined after review: HELM is slightly smaller with
+looser lettering, and the full name is 20px on desktop and 18px on mobile.
+Reviewed 1440px, 390px, and 320px renders without JavaScript; the two-line name
+is readable and has no horizontal overflow. `npm run check` passed after the
+change. Hero screenshots are `outputs/updated-design-hero-{1440,390}.png`.
