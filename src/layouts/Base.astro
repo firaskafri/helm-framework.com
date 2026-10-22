@@ -8,6 +8,7 @@ import {
   buildWebPageJsonLd,
 } from '../lib/jsonLd';
 import { resolveSiteOrigin, resolveOgImage } from '../lib/resolveSiteOrigin';
+import { markdownPath } from '../lib/markdownPath';
 import {
   SOCIAL_IMAGE_PATH,
   SOCIAL_IMAGE_WIDTH,
@@ -62,8 +63,7 @@ const canonicalPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const canonicalUrl = new URL(canonicalPath, siteOrigin).href;
 const ogImageAbsolute = resolveOgImage(ogImage, siteOrigin);
 const homeUrl = new URL('/', siteOrigin).href;
-const markdownUrl =
-  canonicalPath === '/' ? '/index.md' : `${canonicalPath}/index.md`;
+const markdownUrl = markdownPath(canonicalPath);
 
 const robotsContent = noindex
   ? 'noindex, nofollow'

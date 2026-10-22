@@ -2,11 +2,14 @@ import type { APIRoute } from 'astro';
 import { SITE_ORIGIN, SITE_FULL_NAME, SITE_DESCRIPTION } from '../data/site';
 import { FRAMEWORK_VERSION } from '../data/framework';
 import { loadDocs, loadRoles } from '../lib/content';
+import { markdownPath } from '../lib/markdownPath';
 
 export const GET: APIRoute = async ({ site }) => {
   const origin = site?.origin ?? SITE_ORIGIN;
   const link = (title: string, path: string, description: string) =>
     `- [${title}](${origin}${path}): ${description}`;
+  const guideLink = (title: string, path: string, description: string) =>
+    link(title, markdownPath(path), description);
   const docs = (await loadDocs()).sort((a, b) => a.data.order - b.data.order);
   const roles = (await loadRoles()).sort((a, b) => a.data.order - b.data.order);
   const body = `# HELM — ${SITE_FULL_NAME}
@@ -19,23 +22,23 @@ The Markdown resources below contain the same guidance as the public pages, incl
 
 ## Start here
 
-${link('HELM overview', '/index.md', 'Six principles, a proposal example, and paths into the guides.')}
-${docs.map((doc) => link(doc.data.title, `/${doc.id}/index.md`, doc.data.description)).join('\n')}
-${link('Shared skills', '/competencies/index.md', 'Practice Judgment, Communication, Evaluation, Ownership, and Learning across roles.')}
+${guideLink('HELM overview', '/', 'Six principles, a proposal example, and paths into the guides.')}
+${docs.map((doc) => guideLink(doc.data.title, `/${doc.id}`, doc.data.description)).join('\n')}
+${guideLink('Shared skills', '/competencies', 'Practice Judgment, Communication, Evaluation, Ownership, and Learning across roles.')}
 
 ## Roles and responsibilities
 
-${link('Role guide overview', '/roles/index.md', 'Choose a guide for discussing responsibilities and skills.')}
-${roles.map((role) => link(role.data.title, `/roles/${role.id}/index.md`, role.data.description)).join('\n')}
-${link('Role competency map', '/roles/competency-map/index.md', 'Compare the skills described in the role guides.')}
+${guideLink('Role guide overview', '/roles', 'Choose a guide for discussing responsibilities and skills.')}
+${roles.map((role) => guideLink(role.data.title, `/roles/${role.id}`, role.data.description)).join('\n')}
+${guideLink('Role competency map', '/roles/competency-map', 'Compare the skills described in the role guides.')}
 
 ## Optional
 
-${link('Further reading', '/evidence/index.md', 'Sources and practical limits to consider when adapting the guidance.')}
-${link('Updates', '/updates/index.md', 'Dated changes and links to the guidance they affect.')}
-${link('Roadmap', '/roadmap/index.md', 'Planned improvements and resources.')}
-${link('Release history', '/changelog/index.md', 'Reader-facing changes across releases.')}
-${link('Licensing', '/licensing/index.md', 'How to share, adapt, and credit HELM.')}
+${guideLink('Further reading', '/evidence', 'Sources and practical limits to consider when adapting the guidance.')}
+${guideLink('Updates', '/updates', 'Dated changes and links to the guidance they affect.')}
+${guideLink('Roadmap', '/roadmap', 'Planned improvements and resources.')}
+${guideLink('Release history', '/changelog', 'Reader-facing changes across releases.')}
+${guideLink('Licensing', '/licensing', 'How to share, adapt, and credit HELM.')}
 ${link('Updates RSS', '/updates/rss.xml', 'Published announcements.')}
 ${link('Guides and roles RSS', '/rss.xml', 'Guide and role publication dates.')}
 `;

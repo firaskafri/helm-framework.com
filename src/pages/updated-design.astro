@@ -1,0 +1,311 @@
+---
+import Base from '../layouts/Base.astro';
+import HelmMark from '../components/HelmMark.astro';
+import {
+  SITE_NAME,
+  SITE_AUTHOR,
+  NAV_LINKS,
+  REFERENCE_LINKS,
+} from '../data/site';
+import { FRAMEWORK_VERSION } from '../data/framework';
+import { PUBLIC_UPDATES } from '../data/updates';
+import { loadDocs, loadRoles } from '../lib/content';
+import { SHARED_COMPETENCIES } from '../data/shared-competencies';
+import { updateUrl } from '../lib/updates';
+import '../styles/updated-design.css';
+
+const foundation = (await loadDocs()).find((doc) => doc.id === 'foundation');
+if (!foundation?.data.principles)
+  throw new Error('Foundation principles are required');
+const roles = (await loadRoles()).sort((a, b) => a.data.order - b.data.order);
+const navigation = NAV_LINKS.map((link) => ({
+  ...link,
+  href: link.href === '/' ? '/updated-design' : link.href,
+}));
+const dateLabel = (date: string) =>
+  new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(date));
+---
+
+<Base
+  title="HELM design preview"
+  fullTitle="HELM design preview"
+  description="Explore HELM’s principles, practitioner and leadership guides, roles, and shared skills in a new page layout."
+  noindex
+>
+  <header class="site-header" data-site-nav>
+    <div class="shell header-inner">
+      <a class="brand" href="/updated-design" aria-label="HELM home">
+        <HelmMark />
+        {SITE_NAME}
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        {navigation.map((link) => (
+          <a
+            href={link.href}
+            class:list={{ active: link.href === '/updated-design' }}
+            aria-current={link.href === '/updated-design' ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+      <details class="mobile-menu">
+        <summary>
+          Menu <span aria-hidden="true">☰</span>
+        </summary>
+        <nav aria-label="Mobile navigation">
+          {navigation.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="main-content">
+    <section class="hero shell">
+      <div class="hero-name">
+        <h1>{SITE_NAME}</h1>
+        <p class="full-name">
+          Human-first Execution <br />
+          and Leadership Model
+        </p>
+      </div>
+      <div class="hero-intro">
+        <p>
+          A practical framework for deciding how people and AI agents work
+          together.
+        </p>
+        <p class="hero-detail">
+          Agree who does the work, who makes decisions, and who remains
+          responsible.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="/practitioners">
+            Practitioner Guide <span aria-hidden="true">↗</span>
+          </a>
+          <a class="button secondary" href="/leadership">
+            Leadership Guide <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section class="principles shell" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">The foundation</p>
+          <h2 id="principles-title">Six principles for working with agents</h2>
+        </div>
+        <a class="text-link" href="/foundation">
+          Read the principles <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="principle-grid">
+        {foundation.data.principles.map((principle) => (
+          <a class="principle" href={`/foundation#${principle.id}`}>
+            <span class="number">
+              {String(principle.number).padStart(2, '0')}
+            </span>
+            <div>
+              <h3>{principle.title}</h3>
+              <p>
+                {principle.number === 1
+                  ? 'Start with the simplest approach that could work. Add complexity only when you can show it improves the result.'
+                  : principle.quote}
+              </p>
+            </div>
+            <span class="card-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+    <section class="practice shell" aria-labelledby="practice-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Guides</p>
+          <h2 id="practice-title">Choose a guide</h2>
+        </div>
+      </div>
+      <div class="guide-grid">
+        <a class="guide-card practitioner" href="/practitioners">
+          <div class="guide-top">
+            <p class="eyebrow">For practitioners</p>
+            <span class="guide-icon" aria-hidden="true">
+              ↗
+            </span>
+          </div>
+          <h3>
+            How we work
+            <br />
+            with agents
+          </h3>
+          <p>
+            Choose tasks, set limits, check results,
+            <br class="desktop-break" /> and learn from the work.
+          </p>
+          <ul>
+            <li>Plan, execute, verify, ship, and learn</li>
+            <li>Keep people responsible for decisions</li>
+          </ul>
+          <span class="guide-link">
+            Read the Practitioner Guide <span aria-hidden="true">→</span>
+          </span>
+        </a>
+        <a class="guide-card leadership" href="/leadership">
+          <div class="guide-top">
+            <p class="eyebrow">For leaders</p>
+            <span class="guide-icon" aria-hidden="true">
+              ↗
+            </span>
+          </div>
+          <h3>
+            How we lead
+            <br />
+            and support the team
+          </h3>
+          <p>
+            Agree responsibilities, support learning,
+            <br class="desktop-break" /> and review team results.
+          </p>
+          <ul>
+            <li>Make handoffs between teams clear</li>
+            <li>Introduce new ways of working in small steps</li>
+          </ul>
+          <span class="guide-link">
+            Read the Leadership Guide <span aria-hidden="true">→</span>
+          </span>
+        </a>
+      </div>
+      <details class="work-example">
+        <summary>
+          <span class="eyebrow">In practice</span>
+          <span class="example-title">Who owns an agent-drafted proposal?</span>
+          <span class="expand" aria-hidden="true">
+            +
+          </span>
+        </summary>
+        <div class="example-body">
+          <p class="eyebrow">Illustrative example</p>
+          <p>
+            The sales lead sets the brief, chooses approved sources, and agrees
+            what the agent may do. The agent drafts the proposal but cannot send
+            it. Sales and delivery check the pricing, dates, and commitments.
+            The sales lead decides what to send and follows up with the
+            customer.
+          </p>
+          <p>
+            <strong>
+              The sales lead remains responsible for the proposal.
+            </strong>
+          </p>
+          <a class="text-link" href="/practitioners#the-human-agent-boundary">
+            Read about delegation and review <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </details>
+    </section>
+    <section class="resources shell" aria-label="Roles and shared skills">
+      <div class="role-resource" id="roles">
+        <p class="eyebrow">Roles &amp; responsibilities</p>
+        <h2>Find your role</h2>
+        <p class="resource-intro">
+          Discuss who owns the work, where expertise is needed, and who checks
+          the result.
+        </p>
+        <div class="role-columns">
+          {(['engineering', 'product'] as const).map((category) => (
+            <div>
+              <h3>{category === 'engineering' ? 'Engineering' : 'Product'}</h3>
+              {roles
+                .filter((role) =>
+                  category === 'product'
+                    ? ['product-manager', 'product-designer'].includes(role.id)
+                    : role.data.category === category,
+                )
+                .slice(0, category === 'engineering' ? 3 : 2)
+                .map((role) => (
+                  <a href={`/roles/${role.id}`}>
+                    {role.data.title} <span aria-hidden="true">↗</span>
+                  </a>
+                ))}
+              {category === 'engineering' && (
+                <a class="muted-link" href="/roles">
+                  All engineering roles <span aria-hidden="true">→</span>
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="skill-resource" id="skills">
+        <p class="eyebrow">Shared skills</p>
+        <h2>
+          Choose a skill <br />
+          to practice
+        </h2>
+        <p class="resource-intro">
+          Each guide has practical steps, an example, and an exercise. Examples
+          cover content, engineering, sales, and account management.
+        </p>
+        <div class="skill-list">
+          {SHARED_COMPETENCIES.map((skill, index) => (
+            <a href={`/competencies#${skill.id}`}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              {skill.title}
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+    <section class="updates shell" id="updates" aria-labelledby="updates-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="updates-title">Latest updates</h2>
+        </div>
+        <a class="text-link" href="/updates">
+          All updates <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      {PUBLIC_UPDATES.slice(0, 2).map((update) => (
+        <a class="update-row" href={updateUrl(update)}>
+          <time datetime={update.date}>{dateLabel(update.date)}</time>
+          <div>
+            <h3>{update.title}</h3>
+            {update.status === 'release-candidate' && <p>Preview</p>}
+            <p>{update.summary}</p>
+          </div>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </section>
+  </main>
+  <footer class="shell footer">
+    <div class="footer-top">
+      <a class="brand" href="/updated-design" aria-label="HELM home">
+        <HelmMark />
+        {SITE_NAME}
+      </a>
+      <nav aria-label="Framework information">
+        {REFERENCE_LINKS.filter((link) => link.href !== '/updates').map(
+          (link) => (
+            <a href={link.href}>{link.label}</a>
+          ),
+        )}
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>
+        © 2026 {SITE_AUTHOR} <span class="footer-dot">·</span> HELM{' '}
+        {FRAMEWORK_VERSION}
+      </span>
+      <span>Practical guidance for people and teams working with AI.</span>
+    </div>
+  </footer>
+</Base>

@@ -6,6 +6,7 @@ import {
   SITE_DESCRIPTION,
 } from '../data/site';
 import { SOCIAL_IMAGE_PATH } from '../data/social';
+import { CONTENT_LICENSE_URL } from '../data/content-license.mjs';
 
 /** JSON embedded in HTML must not be able to terminate its script element. */
 export function serializeJsonLd(value: Record<string, unknown>): string {
@@ -88,7 +89,7 @@ export function buildWebPageJsonLd({
     isPartOf: { '@id': `${homeUrl}#website` },
     author: { '@id': `${homeUrl}#author` },
     image: new URL(SOCIAL_IMAGE_PATH, homeUrl).href,
-    license: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    license: CONTENT_LICENSE_URL,
     ...(version && { version }),
     ...(datePublished && { datePublished: datePublished.toISOString() }),
     ...(dateModified && { dateModified: dateModified.toISOString() }),

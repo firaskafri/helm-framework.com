@@ -1,22 +1,12 @@
-import { readdir, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { gzipSync } from 'node:zlib';
 import sharp from 'sharp';
 import { pageMarkdown } from './agent-markdown.mjs';
+import { filesIn } from './files.mjs';
 
 const DIST_DIR = path.resolve('dist');
-
-async function listFiles(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const nestedFiles = await Promise.all(
-    entries.map((entry) => {
-      const entryPath = path.join(directory, entry.name);
-      return entry.isDirectory() ? listFiles(entryPath) : [entryPath];
-    }),
-  );
-  return nestedFiles.flat();
-}
 
 function outputPaths(filePath) {
   const relativePath = path
@@ -36,7 +26,7 @@ function formatFailures(failures) {
   return failures.map((failure) => `- ${failure}`).join('\n');
 }
 
-const files = await listFiles(DIST_DIR);
+const files = await filesIn(DIST_DIR);
 const publicPaths = new Set();
 const pagesByPublicPath = new Map();
 const pageRecords = [];

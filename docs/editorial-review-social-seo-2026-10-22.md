@@ -87,3 +87,18 @@ This review does not establish that a deployment or external reindexing happened
   is claimed; llms.txt is a discovery proposal, not a Google requirement.
 
 No commit, push, or deployment was performed during this review.
+
+## Updated design preview
+
+The reviewed homepage design is available in the source at `/updated-design`.
+The current homepage remains at `/`. The preview uses local fonts, existing
+framework principles, role and skill data, and links to published guides.
+It is excluded from search indexing and the sitemap. The Updates note labels
+the layout as a preview and remains outside the published Updates RSS feed.
+
+Reviewed desktop and mobile renders, the header and footer, the proposal
+disclosure, and mobile navigation without JavaScript. All six principles and
+the full framework name remain readable. The page contains no em dashes.
+The preview is ready for readers to explore the current guidance in this layout.
+`npm run check` passed, including the new route's accessibility and responsive
+audit. Screenshots are in `outputs/updated-design-{desktop,mobile}.png`.

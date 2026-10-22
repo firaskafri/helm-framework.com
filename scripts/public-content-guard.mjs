@@ -1,7 +1,8 @@
-import { readdir, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import * as cheerio from 'cheerio';
+import { filesIn } from './files.mjs';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const INTERNAL_WORDING = [
@@ -196,18 +197,6 @@ export function inspectPublicSource(file, source, root = ROOT) {
       );
   }
   return failures;
-}
-
-async function filesIn(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  return (
-    await Promise.all(
-      entries.map(async (entry) => {
-        const file = path.join(directory, entry.name);
-        return entry.isDirectory() ? filesIn(file) : [file];
-      }),
-    )
-  ).flat();
 }
 
 function assertReady(failures) {

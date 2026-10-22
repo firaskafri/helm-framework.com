@@ -1,9 +1,11 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as cheerio from 'cheerio';
 import TurndownService from 'turndown';
 import { gfm } from 'turndown-plugin-gfm';
+import { filesIn } from './files.mjs';
+import { CONTENT_LICENSE_URL } from '../src/data/content-license.mjs';
 
 /** Derive clean text from the published page, including rendered guide components. */
 export function pageMarkdown(html) {
@@ -42,23 +44,7 @@ export function pageMarkdown(html) {
     codeBlockStyle: 'fenced',
   });
   markdown.use(gfm);
-  return `# ${title}\n\n> ${description}\n\nSource: ${canonical}\nUpdated: ${modified}\nLicense: https://creativecommons.org/licenses/by-sa/4.0/\n\n${markdown.turndown(main.html())}\n`;
-}
-
-async function htmlFiles(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  return (
-    await Promise.all(
-      entries.map((entry) => {
-        const file = path.join(directory, entry.name);
-        return entry.isDirectory()
-          ? htmlFiles(file)
-          : file.endsWith('.html')
-            ? [file]
-            : [];
-      }),
-    )
-  ).flat();
+  return `# ${title}\n\n> ${description}\n\nSource: ${canonical}\nUpdated: ${modified}\nLicense: ${CONTENT_LICENSE_URL}\n\n${markdown.turndown(main.html())}\n`;
 }
 
 export function agentMarkdown() {
@@ -67,7 +53,10 @@ export function agentMarkdown() {
     hooks: {
       'astro:build:done': async ({ dir }) => {
         const root = fileURLToPath(dir);
-        for (const file of await htmlFiles(root)) {
+        const files = (await filesIn(root)).filter((file) =>
+          file.endsWith('.html'),
+        );
+        for (const file of files) {
           const markdown = pageMarkdown(await readFile(file, 'utf8'));
           if (!markdown) continue;
           const relative = path.relative(root, file);

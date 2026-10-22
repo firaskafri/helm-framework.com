@@ -7,6 +7,16 @@ import {
   renderSocialImage,
 } from '../../src/lib/socialImage';
 import { pageMarkdown } from '../../scripts/agent-markdown.mjs';
+import { markdownPath } from '../../src/lib/markdownPath';
+
+test('Markdown paths preserve root and nested public alternatives', () => {
+  assert.equal(markdownPath('/'), '/index.md');
+  assert.equal(markdownPath('/practitioners'), '/practitioners/index.md');
+  assert.equal(
+    markdownPath('/roles/software-engineer'),
+    '/roles/software-engineer/index.md',
+  );
+});
 
 test('social artwork outlines bundled glyphs before PNG rendering', async () => {
   const artwork = await readFile(

@@ -1,5 +1,28 @@
 [
   {
+    "id": "updated-design-preview",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "release-candidate",
+    "date": "2026-10-22",
+    "updatedAt": "2026-10-22",
+    "title": "A new page layout to try",
+    "summary": "Preview a new layout for HELM’s introduction, principles, guides, roles, and shared skills.",
+    "sections": [
+      {
+        "heading": "Explore the layout",
+        "items": [
+          {
+            "text": "The design preview keeps HELM’s helm emblem and familiar colors, with clearer headings and links to the current guides.",
+            "links": [
+              { "label": "View the design preview", "href": "/updated-design" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "clearer-shared-links",
     "kind": "update",
     "version": "1.0.1",
