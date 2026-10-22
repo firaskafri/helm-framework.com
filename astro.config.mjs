@@ -6,11 +6,12 @@ import { SITE_ORIGIN } from './src/data/site.ts';
 import { unified } from '@astrojs/markdown-remark';
 import { rehypeAccessibleContent } from './src/lib/rehypeAccessibleContent.ts';
 import { publicContentGuard } from './scripts/public-content-guard.mjs';
+import { agentMarkdown } from './scripts/agent-markdown.mjs';
 
 export default defineConfig({
   site: SITE_ORIGIN,
   output: 'static',
-  integrations: [mdx(), publicContentGuard()],
+  integrations: [mdx(), agentMarkdown(), publicContentGuard()],
   markdown: {
     processor: unified({ rehypePlugins: [rehypeAccessibleContent] }),
   },

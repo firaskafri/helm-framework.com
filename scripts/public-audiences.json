@@ -1,4 +1,8 @@
 {
+  "/llms.txt": {
+    "audience": "People and AI assistants looking for HELM guidance to use or cite",
+    "purpose": "Find published guidance in readable Markdown, understand its scope and limitations, and cite the original page. Markdown alternatives inherit the reader and purpose of their source page."
+  },
   "/": {
     "audience": "Business leaders, founders, operations and HR teams, and practitioners new to HELM",
     "purpose": "Understand who does the work, who decides, and who remains responsible when using agents; explore the six principles and a short proposal example; choose practitioner, leadership, role, or shared-skill guidance."

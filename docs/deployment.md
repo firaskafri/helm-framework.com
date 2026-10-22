@@ -70,4 +70,13 @@ deployment rather than silently changing the recorded release.
 
 ## Privacy and external resources
 
-The application has no analytics, tracking cookies, account system or answer collection. Font CSS and files are requested from Google Fonts; those requests disclose normal network metadata to that provider. Hosting access logs are outside the application and must be configured by the host owner. Browser tests do not submit employee or company assessments.
+The application has no analytics, tracking cookies, account system or answer collection. Inter font CSS and files are bundled locally from `@fontsource/inter`; pages do not request Google Fonts. Hosting access logs are outside the application and must be configured by the host owner. Browser tests do not submit employee or company assessments.
+
+## Search, sharing, and agent discovery
+
+- Shared metadata uses the versioned PNG path in `src/data/social.ts`. Its SVG lettering is outlined with bundled Inter fonts before Sharp renders it; no system fonts or network font download is required. Change the filename when changing artwork so social image caches fetch the new asset. The old `/og-editorial.png` route also renders the corrected artwork.
+- Every indexable HTML page has a Markdown alternative derived from its published `main` content. The `agentMarkdown()` build integration runs before the public-content guard, so the same release gate inspects these downloads. Do not generate them from raw MDX or repository documentation.
+- `/llms.txt` is a concise discovery index following the llms.txt proposal. It is an aid for assistants that use it, not a search ranking signal or a promise of AI citations. HTML content, crawlable links, truthful structured data, canonical URLs, and the sitemap remain the main search surfaces.
+- After deployment, verify `/llms.txt`, `/index.md`, `/practitioners/index.md`, and the new social image with real GET requests. Markdown must use `text/markdown; charset=utf-8`, the index `text/plain`, and the image `image/png`. Check the homepage and a guide with Twitterbot, Googlebot, and OAI-SearchBot user agents; CDN rules must allow the public resources. User-agent smoke checks do not prove access from those services' actual crawler IPs.
+- Confirm the HTTPS apex domain is the final destination for HTTP and `www` variants at the TLS gateway/CDN. Submit `/sitemap.xml` in the verified Google Search Console and Bing Webmaster Tools properties, and use their inspection tools to confirm indexing. These accounts and gateway settings are outside this repository.
+- Existing social cards may retain cached page metadata after deployment. Request a refresh through the platform's sharing inspector where available (for example LinkedIn Post Inspector or Meta Sharing Debugger). A new image URL refreshes the asset once the platform fetches the updated page; it does not guarantee old posts will be refreshed.

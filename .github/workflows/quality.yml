@@ -70,5 +70,26 @@ jobs:
           test "$(curl -fsSI http://localhost:8080/ | awk -F ': ' 'tolower($1) == "x-montra-release" { sub(/\r$/, "", $2); print $2 }')" = "ci-verification"
           test "$(docker inspect --format '{{ index .Config.Labels "com.montra2.release-id" }}' helm-check)" = "ci-verification"
           test "$(docker exec helm-check id -u)" != "0"
+      - name: Check social artwork and agent-readable content in the container
+        run: |
+          python3 - <<'PY'
+          import struct
+          from urllib.request import urlopen
+          origin = 'http://localhost:8080'
+          with urlopen(origin + '/og/helm-2026-10-22.png') as response:
+              image = response.read()
+              assert response.headers.get_content_type() == 'image/png'
+              assert image[:8] == b'\x89PNG\r\n\x1a\n'
+              assert struct.unpack('>II', image[16:24]) == (1200, 630)
+          with urlopen(origin + '/llms.txt') as response:
+              assert response.headers.get_content_type() == 'text/plain'
+              assert 'https://helmframework.com/practitioners/index.md' in response.read().decode()
+          with urlopen(origin + '/practitioners/index.md') as response:
+              assert response.headers.get_content_type() == 'text/markdown'
+              assert response.headers.get_content_charset() == 'utf-8'
+              text = response.read().decode()
+              assert 'Source: https://helmframework.com/practitioners' in text
+              assert 'Decentralized Handoff' in text
+          PY
       - if: always()
         run: docker logs helm-check

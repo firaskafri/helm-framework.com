@@ -1,5 +1,36 @@
 [
   {
+    "id": "clearer-shared-links",
+    "kind": "update",
+    "version": "1.0.1",
+    "status": "published",
+    "date": "2026-10-22",
+    "updatedAt": "2026-10-22",
+    "title": "Clearer shared links and readable guidance",
+    "summary": "Shared links have a readable HELM preview, and the guides are easier for search tools and AI assistants to read and cite.",
+    "sections": [
+      {
+        "heading": "Share and refer to HELM",
+        "items": [
+          {
+            "text": "Shared-link images show HELM’s name and a short explanation of responsibilities when people work with AI agents.",
+            "links": [{ "label": "Explore HELM", "href": "/" }]
+          },
+          {
+            "text": "A plain-text index points to readable copies of the published guidance. These include the same examples and limitations, with links to the original pages for citation.",
+            "links": [
+              { "label": "Read the guidance index", "href": "/llms.txt" },
+              {
+                "label": "Read the Practitioner Guide",
+                "href": "/practitioners"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "simpler-homepage-introduction",
     "kind": "update",
     "version": "1.0.1",

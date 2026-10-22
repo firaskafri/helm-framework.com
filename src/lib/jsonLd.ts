@@ -1,4 +1,11 @@
-import { SITE_NAME } from '../data/site';
+import {
+  SITE_NAME,
+  SITE_FULL_NAME,
+  SITE_AUTHOR,
+  SITE_AUTHOR_URL,
+  SITE_DESCRIPTION,
+} from '../data/site';
+import { SOCIAL_IMAGE_PATH } from '../data/social';
 
 /** JSON embedded in HTML must not be able to terminate its script element. */
 export function serializeJsonLd(value: Record<string, unknown>): string {
@@ -40,6 +47,25 @@ export interface WebPageOptions {
   dateModified?: Date;
 }
 
+export function buildWebsiteJsonLd(homeUrl: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${homeUrl}#website`,
+    name: SITE_NAME,
+    alternateName: SITE_FULL_NAME,
+    url: homeUrl,
+    description: SITE_DESCRIPTION,
+    inLanguage: 'en',
+    author: {
+      '@type': 'Person',
+      '@id': `${homeUrl}#author`,
+      name: SITE_AUTHOR,
+      url: SITE_AUTHOR_URL,
+    },
+  };
+}
+
 export function buildWebPageJsonLd({
   headline,
   description,
@@ -53,11 +79,16 @@ export function buildWebPageJsonLd({
   return {
     '@context': 'https://schema.org',
     '@type': type,
+    '@id': `${url}#webpage`,
     name: headline,
     headline,
     description,
     url,
-    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: homeUrl },
+    inLanguage: 'en',
+    isPartOf: { '@id': `${homeUrl}#website` },
+    author: { '@id': `${homeUrl}#author` },
+    image: new URL(SOCIAL_IMAGE_PATH, homeUrl).href,
+    license: 'https://creativecommons.org/licenses/by-sa/4.0/',
     ...(version && { version }),
     ...(datePublished && { datePublished: datePublished.toISOString() }),
     ...(dateModified && { dateModified: dateModified.toISOString() }),

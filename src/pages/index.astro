@@ -1,8 +1,12 @@
 ---
-import { SITE_FULL_NAME, SITE_NAME, SITE_UPDATED_AT } from '../data/site';
+import {
+  SITE_FULL_NAME,
+  SITE_NAME,
+  SITE_UPDATED_AT,
+  SITE_DESCRIPTION,
+} from '../data/site';
 import { PUBLIC_UPDATES, UPDATES_LAST_MODIFIED } from '../data/updates';
 import { loadDocs, loadRoles } from '../lib/content';
-import { resolveSiteOrigin } from '../lib/resolveSiteOrigin';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
@@ -16,17 +20,6 @@ const foundation = (await loadDocs()).find((doc) => doc.id === 'foundation');
 if (!foundation?.data.principles)
   throw new Error('Foundation principles are required');
 const roles = (await loadRoles()).sort((a, b) => a.data.order - b.data.order);
-const description =
-  'HELM helps teams decide how people and AI agents work together: who does the work, who makes decisions, and who remains responsible.';
-const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: SITE_NAME,
-  alternateName: SITE_FULL_NAME,
-  url: new URL('/', siteOrigin).href,
-  description,
-};
 const lastModified = new Date(
   UPDATES_LAST_MODIFIED > SITE_UPDATED_AT
     ? UPDATES_LAST_MODIFIED
@@ -37,8 +30,7 @@ const lastModified = new Date(
 <Base
   title="Home"
   fullTitle={`${SITE_NAME} — ${SITE_FULL_NAME}`}
-  description={description}
-  jsonLd={[websiteJsonLd]}
+  description={SITE_DESCRIPTION}
   lastModified={lastModified}
 >
   <Nav />

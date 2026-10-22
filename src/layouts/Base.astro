@@ -2,8 +2,24 @@
 import { SITE_NAME, SITE_AUTHOR, SITE_UPDATED_AT } from '../data/site';
 import { FRAMEWORK_VERSION, FRAMEWORK_RELEASE_STATE } from '../data/framework';
 import type { PublicationStatus } from '../data/framework';
-import { serializeJsonLd } from '../lib/jsonLd';
+import {
+  serializeJsonLd,
+  buildWebsiteJsonLd,
+  buildWebPageJsonLd,
+} from '../lib/jsonLd';
 import { resolveSiteOrigin, resolveOgImage } from '../lib/resolveSiteOrigin';
+import {
+  SOCIAL_IMAGE_PATH,
+  SOCIAL_IMAGE_WIDTH,
+  SOCIAL_IMAGE_HEIGHT,
+  SOCIAL_IMAGE_ALT,
+} from '../data/social';
+import '@fontsource/inter/latin-300.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-700.css';
+import '@fontsource/inter/latin-800.css';
 
 interface Props {
   title: string;
@@ -12,6 +28,9 @@ interface Props {
   fullTitle?: string;
   /** Absolute URL or path under `public/` (e.g. `/og-default.png`). */
   ogImage?: string;
+  ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   ogType?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
@@ -25,7 +44,10 @@ const {
   title,
   description = 'Practical guidance for teams deciding how people and AI agents work together.',
   fullTitle = `${title} — ${SITE_NAME}`,
-  ogImage = '/og-editorial.png',
+  ogImage = SOCIAL_IMAGE_PATH,
+  ogImageAlt = SOCIAL_IMAGE_ALT,
+  ogImageWidth = SOCIAL_IMAGE_WIDTH,
+  ogImageHeight = SOCIAL_IMAGE_HEIGHT,
   ogType = 'website',
   noindex = false,
   jsonLd = [],
@@ -36,11 +58,38 @@ const {
 } = Astro.props;
 
 const siteOrigin = resolveSiteOrigin(Astro.site, Astro.url);
-const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
+const canonicalPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonicalUrl = new URL(canonicalPath, siteOrigin).href;
 const ogImageAbsolute = resolveOgImage(ogImage, siteOrigin);
+const homeUrl = new URL('/', siteOrigin).href;
+const markdownUrl =
+  canonicalPath === '/' ? '/index.md' : `${canonicalPath}/index.md`;
 
-const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
-const ldJsonBlocks = jsonLd.map(serializeJsonLd);
+const robotsContent = noindex
+  ? 'noindex, nofollow'
+  : 'index, follow, max-image-preview:large';
+const hasWebPage = jsonLd.some(
+  (item) => item['@id'] === `${canonicalUrl}#webpage`,
+);
+const ldJsonBlocks = noindex
+  ? []
+  : [
+      buildWebsiteJsonLd(homeUrl),
+      ...(!hasWebPage
+        ? [
+            buildWebPageJsonLd({
+              headline: title,
+              description,
+              url: canonicalUrl,
+              homeUrl,
+              version: frameworkVersion,
+              datePublished: createdAt,
+              dateModified: lastModified,
+            }),
+          ]
+        : []),
+      ...jsonLd,
+    ].map(serializeJsonLd);
 ---
 
 <!doctype html>
@@ -74,6 +123,15 @@ const ldJsonBlocks = jsonLd.map(serializeJsonLd);
     <meta name="theme-color" content="#FDFBF7" />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonicalUrl} />
+    {!noindex && <link rel="describedby" href="/llms.txt" type="text/plain" />}
+    {!noindex && (
+      <link
+        rel="alternate"
+        href={markdownUrl}
+        type="text/markdown"
+        title={`${title} — Markdown`}
+      />
+    )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
     <link
@@ -95,23 +153,17 @@ const ldJsonBlocks = jsonLd.map(serializeJsonLd);
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:type" content={ogType} />
     <meta property="og:image" content={ogImageAbsolute} />
-    <meta
-      property="og:image:alt"
-      content="HELM — Human-first Execution and Leadership Model"
-    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(ogImageWidth)} />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageAbsolute} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     {ldJsonBlocks.map((raw) => (
       <script type="application/ld+json" set:html={raw}></script>

@@ -82,7 +82,7 @@ test('canonical URLs prefer production configuration and resolve OG defaults', (
   );
   assert.equal(
     resolveOgImage(undefined, site),
-    'https://helmframework.com/og-default.png',
+    'https://helmframework.com/og/helm-2026-10-22.png',
   );
   assert.equal(
     resolveOgImage('custom.png', site),

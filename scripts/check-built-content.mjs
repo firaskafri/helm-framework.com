@@ -3,6 +3,7 @@ import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { gzipSync } from 'node:zlib';
 import sharp from 'sharp';
+import { pageMarkdown } from './agent-markdown.mjs';
 
 const DIST_DIR = path.resolve('dist');
 
@@ -79,8 +80,121 @@ if (!rootCanonicalUrl) {
   throw new Error('Built home page must declare a canonical URL');
 }
 const siteOrigin = new URL(rootCanonicalUrl).origin;
+const indexedTitles = new Set();
+const indexedDescriptions = new Set();
+const socialImages = new Map();
 
 for (const page of pageRecords) {
+  const canonical = new URL(page.$('link[rel="canonical"]').attr('href'));
+  const indexed = !page
+    .$('meta[name="robots"]')
+    .attr('content')
+    ?.includes('noindex');
+  const title = page.$('title').text().trim();
+  const description = page.$('meta[name="description"]').attr('content');
+  if (
+    canonical.origin !== siteOrigin ||
+    canonical.search ||
+    canonical.hash ||
+    canonical.pathname !==
+      (page.publicPath === '/404.html' ? '/404' : page.publicPath)
+  )
+    failures.push(`${page.publicPath} has an inconsistent canonical URL`);
+  if (indexed) {
+    if (!title || indexedTitles.has(title))
+      failures.push(`${page.publicPath} needs a unique title`);
+    if (!description || indexedDescriptions.has(description))
+      failures.push(`${page.publicPath} needs a unique description`);
+    indexedTitles.add(title);
+    indexedDescriptions.add(description);
+    const markdownPath = page
+      .$('link[rel="alternate"][type="text/markdown"]')
+      .attr('href');
+    if (!markdownPath || !publicPaths.has(markdownPath)) {
+      failures.push(`${page.publicPath} is missing its Markdown alternative`);
+    } else {
+      const markdown = await readFile(
+        path.join(DIST_DIR, markdownPath),
+        'utf8',
+      );
+      const htmlFile =
+        page.publicPath === '/'
+          ? 'index.html'
+          : `${page.publicPath}/index.html`;
+      if (
+        markdown !==
+        pageMarkdown(await readFile(path.join(DIST_DIR, htmlFile), 'utf8'))
+      )
+        failures.push(
+          `${page.publicPath} Markdown disagrees with its public page`,
+        );
+    }
+    if (page.$('link[rel="describedby"]').attr('href') !== '/llms.txt')
+      failures.push(`${page.publicPath} lacks agent index discovery`);
+    const blocks = page
+      .$('script[type="application/ld+json"]')
+      .toArray()
+      .map((element) => JSON.parse(page.$(element).text()));
+    if (
+      blocks.filter(
+        (item) =>
+          item['@type'] === 'WebSite' &&
+          item['@id'] === `${siteOrigin}/#website`,
+      ).length !== 1 ||
+      blocks.filter((item) => item['@id'] === `${canonical.href}#webpage`)
+        .length !== 1
+    )
+      failures.push(
+        `${page.publicPath} needs one linked WebSite and WebPage entity`,
+      );
+  }
+  for (const [selector, expected] of [
+    ['meta[property="og:title"]', title],
+    ['meta[name="twitter:title"]', title],
+    ['meta[property="og:description"]', description],
+    ['meta[name="twitter:description"]', description],
+    ['meta[property="og:url"]', canonical.href],
+    ['meta[name="twitter:card"]', 'summary_large_image'],
+    ['meta[property="og:image:type"]', 'image/png'],
+  ]) {
+    if (page.$(selector).attr('content') !== expected)
+      failures.push(`${page.publicPath} has inconsistent ${selector}`);
+  }
+  const socialImage = page.$('meta[property="og:image"]').attr('content');
+  if (
+    !socialImage ||
+    page.$('meta[name="twitter:image"]').attr('content') !== socialImage
+  )
+    failures.push(`${page.publicPath} has inconsistent social images`);
+  const imageAlt = page.$('meta[property="og:image:alt"]').attr('content');
+  if (
+    !imageAlt ||
+    page.$('meta[name="twitter:image:alt"]').attr('content') !== imageAlt
+  )
+    failures.push(`${page.publicPath} needs matching image descriptions`);
+  if (socialImage) {
+    const imageUrl = new URL(socialImage);
+    if (imageUrl.protocol !== 'https:' || imageUrl.origin !== siteOrigin)
+      failures.push(
+        `${page.publicPath} social image must use the canonical HTTPS origin`,
+      );
+    if (!socialImages.has(imageUrl.pathname))
+      socialImages.set(
+        imageUrl.pathname,
+        await sharp(path.join(DIST_DIR, imageUrl.pathname)).metadata(),
+      );
+    const metadata = socialImages.get(imageUrl.pathname);
+    if (
+      metadata.format !== 'png' ||
+      metadata.width !==
+        Number(page.$('meta[property="og:image:width"]').attr('content')) ||
+      metadata.height !==
+        Number(page.$('meta[property="og:image:height"]').attr('content'))
+    )
+      failures.push(
+        `${page.publicPath} social image dimensions or type disagree with metadata`,
+      );
+  }
   if (page.$('main#main-content').length !== 1 || page.$('h1').length !== 1)
     failures.push(`${page.publicPath} needs exactly one main landmark and h1`);
   if (page.bytes > 400_000)
@@ -218,6 +332,34 @@ feed('item').each((_, element) => {
     failures.push(`RSS publication date disagrees with ${route}`);
 });
 const image = await sharp(path.join(DIST_DIR, 'og-editorial.png')).metadata();
+const agentIndex = await readFile(path.join(DIST_DIR, 'llms.txt'), 'utf8');
+const agentPaths = new Set();
+for (const [, href] of agentIndex.matchAll(/\]\((https?:\/\/[^\s)]+)\)/g)) {
+  const url = new URL(href);
+  if (url.origin !== siteOrigin || !publicPaths.has(url.pathname))
+    failures.push(
+      `Agent index references a missing or noncanonical resource: ${href}`,
+    );
+  agentPaths.add(url.pathname);
+}
+for (const page of pageRecords) {
+  if (page.$('meta[name="robots"]').attr('content')?.includes('noindex'))
+    continue;
+  if (
+    !agentPaths.has(
+      page.$('link[rel="alternate"][type="text/markdown"]').attr('href'),
+    )
+  )
+    failures.push(`Agent index omits ${page.publicPath}`);
+}
+const robots = await readFile(path.join(DIST_DIR, 'robots.txt'), 'utf8');
+if (
+  !robots.includes('User-agent: *\nAllow: /') ||
+  !robots.includes(`Sitemap: ${siteOrigin}/sitemap.xml`)
+)
+  failures.push(
+    'Robots must allow public crawling and declare the canonical sitemap',
+  );
 
 const updatesPage = pagesByPublicPath.get('/updates');
 if (!updatesPage) throw new Error('The public updates page is required');

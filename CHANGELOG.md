@@ -6,6 +6,17 @@ What has changed in HELM’s guidance and resources, why it matters for your tea
 
 Browse [the latest updates](https://helmframework.com/updates) or [subscribe to published updates via RSS](https://helmframework.com/updates/rss.xml).
 
+## 2026-10-22 — Clearer shared links and readable guidance
+
+[Clearer shared links and readable guidance](https://helmframework.com/updates#clearer-shared-links) · Published 2026-10-22.
+
+Shared links have a readable HELM preview, and the guides are easier for search tools and AI assistants to read and cite.
+
+### Share and refer to HELM
+
+- Shared-link images show HELM’s name and a short explanation of responsibilities when people work with AI agents. [Explore HELM](https://helmframework.com/)
+- A plain-text index points to readable copies of the published guidance. These include the same examples and limitations, with links to the original pages for citation. [Read the guidance index](https://helmframework.com/llms.txt) · [Read the Practitioner Guide](https://helmframework.com/practitioners)
+
 ## 2026-10-21 — A simpler homepage introduction
 
 [A simpler homepage introduction](https://helmframework.com/updates#simpler-homepage-introduction) · Published 2026-10-21.
